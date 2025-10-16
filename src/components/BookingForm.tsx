@@ -21,7 +21,8 @@ const BookingForm: React.FC<BookingFormProps> = ({ car, onClose }) => {
   };
 
   const validate = () => {
-    let tempErrors = { name: '', mobile: '', email: '', city: '' };
+    const tempErrors = { name: '', mobile: '', email: '', city: '' };
+
     let isValid = true;
     if (!formData.name.trim()) { tempErrors.name = 'Name is required.'; isValid = false; }
     if (!/^\d{10}$/.test(formData.mobile)) { tempErrors.mobile = 'Please enter a valid 10-digit mobile number.'; isValid = false; }
