@@ -5,8 +5,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import CarGridCard from '@/components/CarGridCard';
-import BookingForm from '@/components/bookingForm';
-import Hero from '@/components/hero';
+import BookingForm from '@/components/BookingForm';
+import Hero from '@/components/Hero';
 import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal'; // Import Features Modal
 import { carsData, Car } from '@/data/cars'; // Import data and interface
