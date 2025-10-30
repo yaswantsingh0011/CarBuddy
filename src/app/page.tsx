@@ -5,18 +5,23 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import CarGridCard from '@/components/CarGridCard';
-import BookingForm from '@/components/bookingForm';
-import Hero from '@/components/hero';
+import BookingForm from '@/components/BookingForm'; // 1. 'bookingForm' को 'BookingForm' किया
+import Hero from '@/components/Hero';          // 2. 'hero' को 'Hero' किया
 import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal';
-import OffersModal from '@/components/OffersModal'; // 1. OffersModal को इम्पोर्ट करें
+import OffersModal from '@/components/OffersModal';
 import { carsData, Car } from '@/data/cars';
+// 3. AuthContext को इम्पोर्ट करें (यह TopBar में इस्तेमाल होता है, लेकिन पेज को भी चाहिए)
+import { useAuth } from '@/context/AuthContext'; 
 
 export default function HomePage() {
+  // 4. useAuth() को यहाँ कॉल करें (भले ही इस्तेमाल न हो, यह AuthProvider को काम करने देता है)
+  const auth = useAuth(); 
+
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<Car | null>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<Car | null>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<Car | null>(null);
-  const [selectedCarForOffers, setSelectedCarForOffers] = useState<Car | null>(null); // 2. Offers के लिए नया state
+  const [selectedCarForOffers, setSelectedCarForOffers] = useState<Car | null>(null);
   const [imageModalStartIndex, setImageModalStartIndex] = useState(0);
   const [compareList, setCompareList] = useState<string[]>([]);
 
@@ -28,7 +33,6 @@ export default function HomePage() {
   const handleShowFeaturesClick = (car: Car) => { setSelectedCarForFeatures(car); };
   const handleCloseFeaturesModal = () => { setSelectedCarForFeatures(null); };
 
-  // 3. OffersModal के Handlers
   const handleOffersClick = (car: Car) => { 
     setSelectedCarForOffers(car); 
   };
@@ -80,7 +84,7 @@ export default function HomePage() {
                   location={car.location}
                   imageUrls={car.imageUrls}
                   onBookNowClick={() => handleBookNowClick(car)}
-                  onGetOffersClick={() => handleOffersClick(car)} // यह पहले से ही सही पास हो रहा है
+                  onGetOffersClick={() => handleOffersClick(car)} 
                   onImageClick={(index) => handleImageClick(car, index)}
                   onShowFeaturesClick={() => handleShowFeaturesClick(car)}
                   onAddToCompare={() => handleToggleCompare(car.name)}
@@ -119,7 +123,7 @@ export default function HomePage() {
         car={selectedCarForFeatures}
       />
 
-      {/* 4. Offers Modal को रेंडर करें */}
+      {/* Offers Modal को रेंडर करें */}
       <OffersModal
         isOpen={!!selectedCarForOffers}
         onClose={handleCloseOffersModal}
