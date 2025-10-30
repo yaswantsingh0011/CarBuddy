@@ -6,7 +6,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link'; 
 import { FaStar, FaRegStar, FaShareAlt, FaRegHeart, FaHeart, FaPlus } from 'react-icons/fa'; 
-import { useAuth } from '@/context/AuthContext'; // <-- YEH LINE THEEK KI GAYI HAI
+// 1. इम्पोर्ट को यहाँ ठीक कर दिया गया है (AuthContext - Capital A, C)
+import { useAuth } from '@/context/AuthContext'; 
 
 interface CarGridCardProps {
   name: string;
@@ -80,7 +81,7 @@ const CarGridCard: React.FC<CarGridCardProps> = ({
       </div>
 
       {/* --- Details Section --- */}
-      <div className="w-7/1Course p-4 flex flex-col flex-grow border-l border-gray-100"> 
+      <div className="w-7/12 p-4 flex flex-col flex-grow border-l border-gray-100"> 
         <div className="flex justify-between items-start">
           
           <Link href={`/car/${carSlug}`} className="hover:text-blue-600">
