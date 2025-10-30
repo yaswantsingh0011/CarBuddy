@@ -11,11 +11,8 @@ import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal';
 import { carsData, Car } from '@/data/cars';
-import { useAuth } from '@/context/authContext';
 
 export default function HomePage() {
-  const auth = useAuth(); // Initialize auth context
-
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<Car | null>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<Car | null>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<Car | null>(null);
@@ -26,11 +23,12 @@ export default function HomePage() {
   // --- Handlers ---
   const handleBookNowClick = (car: Car) => { setSelectedCarForBooking(car); };
   const handleCloseBookingModal = () => { setSelectedCarForBooking(null); };
-  const handleImageClick = (car: Car, index: number) => { setSelectedCarForImages(car); setImageModalStartIndex(index); };
+  const handleImageClick = (car: Car, index: number) => { 
+    setSelectedCarForImages(car); 
+    setImageModalStartIndex(index); 
+  };
   const handleCloseImageModal = () => { setSelectedCarForImages(null); };
   const handleShowFeaturesClick = (car: Car) => { setSelectedCarForFeatures(car); };
-  
-  // This line is corrected (removed the '_')
   const handleCloseFeaturesModal = () => { setSelectedCarForFeatures(null); }; 
 
   const handleOffersClick = (car: Car) => {
@@ -59,11 +57,14 @@ export default function HomePage() {
 
       <div className="bg-gray-100 flex-grow" id="all-cars">
         <div className="container mx-auto px-4 py-12">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">All Cars</h2>
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+            All Cars
+          </h2>
 
           {compareList.length >= 2 && (
             <div className="text-center mb-8">
-              <Link href={compareUrl}
+              <Link
+                href={compareUrl}
                 className="bg-orange-500 text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-orange-600 transition-colors"
               >
                 Compare ({compareList.length}) Cars
@@ -116,8 +117,8 @@ export default function HomePage() {
         />
       )}
 
-       {/* Features Modal */}
-       <FeaturesModal
+      {/* Features Modal */}
+      <FeaturesModal
         isOpen={!!selectedCarForFeatures}
         onClose={handleCloseFeaturesModal}
         car={selectedCarForFeatures}
