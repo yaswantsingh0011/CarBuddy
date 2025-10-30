@@ -9,17 +9,17 @@ import BookingForm from '@/components/BookingForm';
 import Hero from '@/components/Hero';
 import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal';
-import OffersModal from '@/components/OffersModal'; 
+import OffersModal from '@/components/OffersModal';
 import { carsData, Car } from '@/data/cars';
-import { useAuth } from '@/context/authContext'; // <-- YEH LINE THEEK KI GAYI HAI (AuthContext -> authContext)
+import { useAuth } from '@/context/authContext';
 
 export default function HomePage() {
-  const auth = useAuth(); // Auth context ko initialize karein
+  const auth = useAuth(); // Initialize auth context
 
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<Car | null>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<Car | null>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<Car | null>(null);
-  const [selectedCarForOffers, setSelectedCarForOffers] = useState<Car | null>(null); 
+  const [selectedCarForOffers, setSelectedCarForOffers] = useState<Car | null>(null);
   const [imageModalStartIndex, setImageModalStartIndex] = useState(0);
   const [compareList, setCompareList] = useState<string[]>([]);
 
@@ -29,10 +29,12 @@ export default function HomePage() {
   const handleImageClick = (car: Car, index: number) => { setSelectedCarForImages(car); setImageModalStartIndex(index); };
   const handleCloseImageModal = () => { setSelectedCarForImages(null); };
   const handleShowFeaturesClick = (car: Car) => { setSelectedCarForFeatures(car); };
-  const handleCloseFeaturesModal = ()_ => { setSelectedCarForFeatures(null); };
+  
+  // This line is corrected (removed the '_')
+  const handleCloseFeaturesModal = () => { setSelectedCarForFeatures(null); }; 
 
-  const handleOffersClick = (car: Car) => { 
-    setSelectedCarForOffers(car); 
+  const handleOffersClick = (car: Car) => {
+    setSelectedCarForOffers(car);
   };
   const handleCloseOffersModal = () => {
     setSelectedCarForOffers(null);
@@ -82,7 +84,7 @@ export default function HomePage() {
                   location={car.location}
                   imageUrls={car.imageUrls}
                   onBookNowClick={() => handleBookNowClick(car)}
-                  onGetOffersClick={() => handleOffersClick(car)} 
+                  onGetOffersClick={() => handleOffersClick(car)}
                   onImageClick={(index) => handleImageClick(car, index)}
                   onShowFeaturesClick={() => handleShowFeaturesClick(car)}
                   onAddToCompare={() => handleToggleCompare(car.name)}
