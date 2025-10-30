@@ -4,7 +4,9 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { FaStar, FaRegStar, FaShareAlt, FaRegHeart, FaPlus } from 'react-icons/fa';
+import Link from 'next/link'; 
+import { FaStar, FaRegStar, FaShareAlt, FaRegHeart, FaHeart, FaPlus } from 'react-icons/fa'; 
+import { useAuth } from '@/context/AuthContext'; // <-- YEH LINE THEEK KI GAYI HAI
 
 interface CarGridCardProps {
   name: string;
@@ -16,7 +18,7 @@ interface CarGridCardProps {
   onBookNowClick: () => void;
   onGetOffersClick: () => void;
   onImageClick: (index: number) => void;
-  onShowFeaturesClick: () => void; // Prop for features button
+  onShowFeaturesClick: () => void;
   onAddToCompare: () => void;
   isSelectedForCompare: boolean;
   compareCount: number;
@@ -32,13 +34,30 @@ const CarGridCard: React.FC<CarGridCardProps> = ({
   onBookNowClick,
   onGetOffersClick,
   onImageClick,
-  onShowFeaturesClick, // Destructure the prop
+  onShowFeaturesClick,
   onAddToCompare,
   isSelectedForCompare,
   compareCount,
 }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const disableCompare = !isSelectedForCompare && compareCount >= 4;
+
+  const { user, isInWishlist, addToWishlist, removeFromWishlist } = useAuth(); 
+  const isWishlisted = isInWishlist(name);
+
+  const handleWishlistToggle = () => {
+    if (!user) {
+      alert("Please login to add items to your wishlist.");
+      return;
+    }
+    if (isWishlisted) {
+      removeFromWishlist(name);
+    } else {
+      addToWishlist(name);
+    }
+  };
+
+  const carSlug = encodeURIComponent(name.toLowerCase().replace(/ /g, '-'));
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden flex flex-row relative">
@@ -61,11 +80,17 @@ const CarGridCard: React.FC<CarGridCardProps> = ({
       </div>
 
       {/* --- Details Section --- */}
-      <div className="w-7/12 p-4 flex flex-col flex-grow border-l border-gray-100">
+      <div className="w-7/1Course p-4 flex flex-col flex-grow border-l border-gray-100"> 
         <div className="flex justify-between items-start">
-          <h2 className="text-xl font-bold text-gray-800">{name}</h2>
+          
+          <Link href={`/car/${carSlug}`} className="hover:text-blue-600">
+            <h2 className="text-xl font-bold text-gray-800">{name}</h2>
+          </Link>
+          
           <div className="flex space-x-3 text-gray-500">
-            <button className="hover:text-red-500"><FaRegHeart /></button>
+            <button onClick={handleWishlistToggle} className={isWishlisted ? "text-red-500" : "hover:text-red-500"}>
+              {isWishlisted ? <FaHeart /> : <FaRegHeart />}
+            </button>
             <button className="hover:text-blue-600"><FaShareAlt /></button>
           </div>
         </div>
@@ -76,14 +101,12 @@ const CarGridCard: React.FC<CarGridCardProps> = ({
           </div>
           <span className="text-gray-400">|</span>
           <span className="text-sm text-gray-600">{reviews} Reviews</span>
-        </div>
+         </div>
         <div className="mt-4">
           <p className="text-2xl font-bold text-gray-900">{priceRange}</p>
           <p className="text-xs text-gray-500 mt-1">*Ex-showroom Price in {location}</p>
         </div>
-        {/* --- Buttons (Updated) --- */}
         <div className="mt-auto pt-4 flex flex-col space-y-2">
-          {/* Replaced "Get On-Road Price" with "View Features" */}
           <button
             onClick={onShowFeaturesClick}
             className="bg-purple-600 text-white font-semibold py-2 px-4 rounded-md text-sm hover:bg-purple-700 transition-colors"
@@ -96,7 +119,6 @@ const CarGridCard: React.FC<CarGridCardProps> = ({
           <button onClick={onBookNowClick} className="bg-green-500 text-white font-semibold py-2 px-4 rounded-md text-sm hover:bg-green-600 transition-colors">
             Book Now
           </button>
-          {/* Add Compare Button */}
           <button
             onClick={onAddToCompare}
             disabled={disableCompare}
