@@ -5,23 +5,21 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import CarGridCard from '@/components/CarGridCard';
-import BookingForm from '@/components/BookingForm'; // 1. 'bookingForm' को 'BookingForm' किया
-import Hero from '@/components/Hero';          // 2. 'hero' को 'Hero' किया
+import BookingForm from '@/components/BookingForm';
+import Hero from '@/components/Hero';
 import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal';
-import OffersModal from '@/components/OffersModal';
+import OffersModal from '@/components/OffersModal'; 
 import { carsData, Car } from '@/data/cars';
-// 3. AuthContext को इम्पोर्ट करें (यह TopBar में इस्तेमाल होता है, लेकिन पेज को भी चाहिए)
-import { useAuth } from '@/context/AuthContext'; 
+import { useAuth } from '@/context/authContext'; // <-- YEH LINE THEEK KI GAYI HAI (AuthContext -> authContext)
 
 export default function HomePage() {
-  // 4. useAuth() को यहाँ कॉल करें (भले ही इस्तेमाल न हो, यह AuthProvider को काम करने देता है)
-  const auth = useAuth(); 
+  const auth = useAuth(); // Auth context ko initialize karein
 
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<Car | null>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<Car | null>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<Car | null>(null);
-  const [selectedCarForOffers, setSelectedCarForOffers] = useState<Car | null>(null);
+  const [selectedCarForOffers, setSelectedCarForOffers] = useState<Car | null>(null); 
   const [imageModalStartIndex, setImageModalStartIndex] = useState(0);
   const [compareList, setCompareList] = useState<string[]>([]);
 
@@ -31,7 +29,7 @@ export default function HomePage() {
   const handleImageClick = (car: Car, index: number) => { setSelectedCarForImages(car); setImageModalStartIndex(index); };
   const handleCloseImageModal = () => { setSelectedCarForImages(null); };
   const handleShowFeaturesClick = (car: Car) => { setSelectedCarForFeatures(car); };
-  const handleCloseFeaturesModal = () => { setSelectedCarForFeatures(null); };
+  const handleCloseFeaturesModal = ()_ => { setSelectedCarForFeatures(null); };
 
   const handleOffersClick = (car: Car) => { 
     setSelectedCarForOffers(car); 
@@ -123,7 +121,7 @@ export default function HomePage() {
         car={selectedCarForFeatures}
       />
 
-      {/* Offers Modal को रेंडर करें */}
+      {/* Offers Modal */}
       <OffersModal
         isOpen={!!selectedCarForOffers}
         onClose={handleCloseOffersModal}
