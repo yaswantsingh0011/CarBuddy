@@ -1,39 +1,123 @@
-import React from 'react';
-import TopBar from './TopBar';
-import { FaCar } from 'react-icons/fa';
-import Link from 'next/link'; // ✅ Added import
+// src/components/Header.tsx
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { FaCar, FaRegHeart, FaRegUser, FaChevronDown } from 'react-icons/fa';
+import AuthModal from './AuthModal';
+import AccountModal from './AccountModal';
+import { supabase } from '@/lib/supabaseClient';
+import { Session } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
 
 const Header: React.FC = () => {
+  // --- States for Modals and Session ---
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+  const router = useRouter();
+
+  // --- Logic to check user session ---
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // --- Logout Function ---
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsAccountModalOpen(false);
+    router.push('/');
+  };
+
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
-      <TopBar />
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center py-4">
+    <>
+      <header className="shadow-md bg-white">
+        <div className="container mx-auto px-4">
           
-          {/* Logo, Name & Tagline Section */}
-          <Link href="/" className="flex items-center"> {/* ✅ Changed to Link */}
-            <FaCar className="text-4xl mr-3 text-red-500" />
-            <div className="flex flex-col">
-              <span className="text-3xl font-extrabold text-blue-700">CarBuddy</span>
-              <p className="text-gray-800 text-sm italic">Aapke safar ka saathi...</p>
+          {/* Main container: Logo (Left), Nav (Center), User (Right) */}
+          <div className="flex justify-between items-center py-4">
+
+            {/* 1. Logo (Left) */}
+            <Link href="/" className="flex items-center space-x-3">
+              <FaCar className="text-5xl text-blue-600" />
+              <div>
+                <span className="text-4xl font-bold text-blue-600">CarBuddy</span>
+                <p className="text-sm font-normal text-gray-600 -mt-1">
+                  Your Travel Companion
+                </p>
+              </div>
+            </Link>
+
+            {/* 2. Navigation Links (Center) */}
+            {/* ✅ फिक्स: space-x-6 को space-x-10 कर दिया है */}
+            <nav className="hidden md:flex space-x-12"> 
+              <Link href="/" className="text-gray-700 hover:text-blue-600 font-medium">Home</Link>
+              <Link href="/new-cars" className="text-gray-700 hover:text-blue-600 font-medium">New Cars</Link>
+              <Link href="/used-cars" className="text-gray-700 hover:text-blue-600 font-medium">Used Cars</Link>
+              <Link href="/compare" className="text-gray-700 hover:text-blue-600 font-medium">Compare</Link>
+            </nav>
+
+            {/* 3. User Links (Right) */}
+            <div className="flex items-center space-x-8 text-sm text-gray-600">
+              <a href="#" className="flex items-center hover:text-blue-600">
+                <span>English</span>
+                <FaChevronDown className="ml-1 h-3 w-3" />
+              </a>
+              <a href="#" className="flex items-center hover:text-blue-600">
+                <FaRegHeart className="mr-1 h-4 w-4" />
+                <span>Wishlist</span>
+              </a>
+
+              {/* Login/Logout Logic */}
+              {session ? (
+                <>
+                  <button
+                    onClick={() => setIsAccountModalOpen(true)}
+                    className="flex items-center hover:text-blue-600"
+                  >
+                    <FaRegUser className="mr-1 h-4 w-4" />
+                    <span>My Account</span>
+                  </button>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center hover:text-blue-600"
+                  >
+                    <span>Logout</span>
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => setIsAuthModalOpen(true)}
+                  className="flex items-center hover:text-blue-600"
+                >
+                  <FaRegUser className="mr-1 h-4 w-4" />
+                  <span>Login / Register</span>
+                </button>
+              )}
             </div>
-          </Link>
-
-          {/* Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            <Link href="#" className="text-gray-700 hover:text-blue-600 font-bold text-base tracking-wide">NEW CARS</Link>
-            <Link href="#" className="text-gray-700 hover:text-blue-600 font-bold text-base tracking-wide">USED CARS</Link>
-            <Link href="#" className="text-gray-700 hover:text-blue-600 font-bold text-base tracking-wide">NEWS & REVIEWS</Link>
-            <Link href="#" className="text-gray-700 hover:text-blue-600 font-bold text-base tracking-wide">VIDEOS</Link>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            <div className="w-48 h-8 bg-gray-200 rounded-md"></div>
+            
           </div>
-
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* --- Modals (Rendered outside the header) --- */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+      />
+      <AccountModal
+        isOpen={isAccountModalOpen}
+        onClose={() => setIsAccountModalOpen(false)}
+      />
+    </>
   );
 };
 

@@ -1,9 +1,8 @@
 // src/app/layout.tsx
-
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Header from '@/components/Header'; // '@' src/ फोल्डर को दर्शाता है
+import Header from '@/components/Header'; // <-- बस यह एक लाइन सही है
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,10 +18,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Header />
+      <body className={inter.className} suppressHydrationWarning={true}>
+        <Header /> {/* <-- यह Header.tsx को कॉल कर रहा है */}
         <main>{children}</main>
-        {/* Footer yahan aayega */}
       </body>
     </html>
   );

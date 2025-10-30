@@ -5,16 +5,18 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import CarGridCard from '@/components/CarGridCard';
-import BookingForm from '@/components/BookingForm';
-import Hero from '@/components/Hero';
+import BookingForm from '@/components/bookingForm';
+import Hero from '@/components/hero';
 import ImageModal from '@/components/ImageModal';
-import FeaturesModal from '@/components/FeaturesModal'; // Import Features Modal
-import { carsData, Car } from '@/data/cars'; // Import data and interface
+import FeaturesModal from '@/components/FeaturesModal';
+import OffersModal from '@/components/OffersModal'; // 1. OffersModal को इम्पोर्ट करें
+import { carsData, Car } from '@/data/cars';
 
 export default function HomePage() {
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<Car | null>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<Car | null>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<Car | null>(null);
+  const [selectedCarForOffers, setSelectedCarForOffers] = useState<Car | null>(null); // 2. Offers के लिए नया state
   const [imageModalStartIndex, setImageModalStartIndex] = useState(0);
   const [compareList, setCompareList] = useState<string[]>([]);
 
@@ -23,9 +25,16 @@ export default function HomePage() {
   const handleCloseBookingModal = () => { setSelectedCarForBooking(null); };
   const handleImageClick = (car: Car, index: number) => { setSelectedCarForImages(car); setImageModalStartIndex(index); };
   const handleCloseImageModal = () => { setSelectedCarForImages(null); };
-  const handleOffersClick = (car: Car) => { alert(`Checking offers for ${car.name}...`); };
   const handleShowFeaturesClick = (car: Car) => { setSelectedCarForFeatures(car); };
   const handleCloseFeaturesModal = () => { setSelectedCarForFeatures(null); };
+
+  // 3. OffersModal के Handlers
+  const handleOffersClick = (car: Car) => { 
+    setSelectedCarForOffers(car); 
+  };
+  const handleCloseOffersModal = () => {
+    setSelectedCarForOffers(null);
+  };
 
   const handleToggleCompare = (carName: string) => {
     setCompareList((prevList) => {
@@ -44,22 +53,20 @@ export default function HomePage() {
     <>
       <Hero />
 
-      <div className="bg-gray-100 flex-grow" id="all-cars"> {/* flex-grow added */}
+      <div className="bg-gray-100 flex-grow" id="all-cars">
         <div className="container mx-auto px-4 py-12">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">All Cars</h2>
 
-          {/* Compare Button */}
           {compareList.length >= 2 && (
-            <div className="text-center mb-8"> {/* This div starts */}
+            <div className="text-center mb-8">
               <Link href={compareUrl}
                 className="bg-orange-500 text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-orange-600 transition-colors"
               >
                 Compare ({compareList.length}) Cars
               </Link>
-            </div> // <-- And closes here
-          )} {/* This is the closing brace for the condition */}
+            </div>
+          )}
 
-          {/* Car Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {carsData.map((car) => {
               const isSelected = compareList.includes(car.name);
@@ -73,7 +80,7 @@ export default function HomePage() {
                   location={car.location}
                   imageUrls={car.imageUrls}
                   onBookNowClick={() => handleBookNowClick(car)}
-                  onGetOffersClick={() => handleOffersClick(car)}
+                  onGetOffersClick={() => handleOffersClick(car)} // यह पहले से ही सही पास हो रहा है
                   onImageClick={(index) => handleImageClick(car, index)}
                   onShowFeaturesClick={() => handleShowFeaturesClick(car)}
                   onAddToCompare={() => handleToggleCompare(car.name)}
@@ -110,6 +117,13 @@ export default function HomePage() {
         isOpen={!!selectedCarForFeatures}
         onClose={handleCloseFeaturesModal}
         car={selectedCarForFeatures}
+      />
+
+      {/* 4. Offers Modal को रेंडर करें */}
+      <OffersModal
+        isOpen={!!selectedCarForOffers}
+        onClose={handleCloseOffersModal}
+        car={selectedCarForOffers}
       />
     </>
   );

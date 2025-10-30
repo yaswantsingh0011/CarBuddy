@@ -1,6 +1,5 @@
 // src/data/cars.ts
 
-// कार के डेटा का स्ट्रक्चर
 export interface Car {
   name: string;
   rating: number;
@@ -8,10 +7,10 @@ export interface Car {
   priceRange: string;
   location: string;
   imageUrls: string[];
-  features?: string[]; // फीचर्स का ऐरे (optional)
+  features?: string[];
+  offers?: string[]; // 1. Offers का ऐरे यहाँ जोड़ें
 }
 
-// सभी 12 कारों का डेटा फीचर्स के साथ
 export const carsData: Car[] = [
   { 
     name: 'Tata Punch', 
@@ -20,7 +19,12 @@ export const carsData: Car[] = [
     priceRange: '₹ 6.13 - 10.20 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/punch.jpg', '/punch-side.jpg', '/punch-rear.jpg', '/punch-interior.jpg'],
-    features: ['7-inch Touchscreen', 'Automatic Climate Control', 'Dual Airbags', 'ABS with EBD', 'Reverse Parking Camera'] 
+    features: ['7-inch Touchscreen', 'Automatic Climate Control', 'Dual Airbags', 'ABS with EBD'],
+    offers: [ // 2. ऑफर्स का डेटा
+      '₹ 10,000 Exchange Bonus',
+      '₹ 5,000 Corporate Discount',
+      'Free 1st Year Insurance'
+    ] 
   },
   { 
     name: 'Toyota Fortuner', 
@@ -29,7 +33,11 @@ export const carsData: Car[] = [
     priceRange: '₹ 33.43 - 51.44 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/fortuner.jpg', '/fortuner-side.jpg', '/fortuner-rear.jpg', '/fortuner-interior.jpg'],
-    features: ['Ventilated Front Seats', 'JBL 11-speaker Sound System', '7 Airbags', '4x4 Capability', 'Power Tailgate'] 
+    features: ['Ventilated Front Seats', 'JBL 11-speaker Sound System', '7 Airbags', '4x4 Capability'],
+    offers: [
+      'Special Low Interest Rate @ 7.99%',
+      '₹ 25,000 Accessories Free'
+    ] 
   },
   { 
     name: 'Hyundai Creta', 
@@ -38,7 +46,11 @@ export const carsData: Car[] = [
     priceRange: '₹ 11.00 - 20.15 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/creta.jpg', '/creta-side.jpg', '/creta-rear.jpg', '/creta-interior.jpg'],
-    features: ['Panoramic Sunroof', '10.25-inch Touchscreen', 'Ventilated Seats', 'Bose Sound System', '6 Airbags']
+    features: ['Panoramic Sunroof', '10.25-inch Touchscreen', 'Ventilated Seats', 'Bose Sound System'],
+    offers: [
+      '₹ 15,000 Cash Discount',
+      '₹ 20,000 Exchange Bonus'
+    ]
   },
   { 
     name: 'Mahindra Scorpio-N', 
@@ -47,7 +59,11 @@ export const carsData: Car[] = [
     priceRange: '₹ 13.60 - 24.54 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/scorpio.jpg', '/scorpio-side.jpg', '/scorpio-rear.jpg', '/scorpio-interior.jpg'],
-    features: ['AdrenoX Infotainment', 'Sunroof', '4XPLOR Terrain Mode', '6 Airbags', 'Sony Sound System']
+    features: ['AdrenoX Infotainment', 'Sunroof', '4XPLOR Terrain Mode', '6 Airbags'],
+    offers: [
+      'Complimentary 3rd Year Service Package',
+      '₹ 10,000 Accessories Voucher'
+    ]
   },
   { 
     name: 'Kia Seltos', 
@@ -56,7 +72,11 @@ export const carsData: Car[] = [
     priceRange: '₹ 10.90 - 20.35 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/seltos.jpg', '/seltos-side.jpg', '/seltos-rear.jpg', '/seltos-interior.jpg'],
-    features: ['Dual 10.25-inch Screens', 'Ventilated Seats', 'ADAS Level 2', 'Bose Audio', 'Smart Air Purifier']
+    features: ['Dual 10.25-inch Screens', 'Ventilated Seats', 'ADAS Level 2', 'Bose Audio'],
+    offers: [
+      '₹ 25,000 Exchange Bonus',
+      'Special Festive Discount'
+    ]
   },
   { 
     name: 'Mahindra XUV700', 
@@ -65,7 +85,11 @@ export const carsData: Car[] = [
     priceRange: '₹ 13.99 - 26.99 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/xuv700.jpg', '/xuv700-side.jpg', '/xuv700-rear.jpg', '/xuv700-interior.jpg'],
-    features: ['Dual HD Superscreen', 'ADAS Features', 'Panoramic Skyroof', 'Sony 3D Sound', '7 Airbags']
+    features: ['Dual HD Superscreen', 'ADAS Features', 'Panoramic Skyroof', 'Sony 3D Sound'],
+    offers: [
+      'Priority Delivery Available',
+      '₹ 15,000 Accessories Kit'
+    ]
   },
   { 
     name: 'Tata Harrier', 
@@ -74,16 +98,24 @@ export const carsData: Car[] = [
     priceRange: '₹ 15.49 - 26.44 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/harrier.jpg', '/harrier-side.jpg', '/harrier-rear.jpg', '/harrier-interior.jpg'],
-    features: ['12.3-inch Touchscreen', 'ADAS', 'Panoramic Sunroof', 'JBL Sound System', 'Ventilated Seats']
+    features: ['12.3-inch Touchscreen', 'ADAS', 'Panoramic Sunroof', 'JBL Sound System'],
+    offers: [
+      '₹ 30,000 Exchange Bonus',
+      'Free 3-Year Extended Warranty'
+    ]
   },
   { 
     name: 'Jeep Wrangler', 
-    rating: 4.7, 
-    reviews: 35, 
-    priceRange: '₹ 45.69 - 65.41 Lakh*', 
+    rating: 4.5, 
+    reviews: 60, 
+    priceRange: '₹ 67.14 - 78.35 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/wrangler.jpg', '/wrangler-side.jpg', '/wrangler-rear.jpg', '/wrangler-interior.jpg'],
-    features: ['Legendary 4x4 Capability','Removable Doors & Roof','Uconnect Infotainment with Off-road Pages','Washable Interiors','High Ground Clearance']
+    features: ['Legendary 4x4 Capability', 'Removable Doors & Roof', 'Uconnect Infotainment', 'Washable Interiors'],
+    offers: [
+      '₹ 50,000 Loyalty Bonus',
+      'Exclusive Off-road Kit'
+    ]
   },
   { 
     name: 'Volkswagen Virtus', 
@@ -92,7 +124,11 @@ export const carsData: Car[] = [
     priceRange: '₹ 11.56 - 19.41 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/virtus.jpg', '/virtus-side.jpg', '/virtus-rear.jpg', '/virtus-interior.jpg'],
-    features: ['10-inch Touchscreen', 'Ventilated Seats', 'Sunroof', 'Wireless Charging', '6 Airbags']
+    features: ['10-inch Touchscreen', 'Ventilated Seats', 'Sunroof', 'Wireless Charging'],
+    offers: [
+      '4-Year Service Package @ ₹20,000',
+      '₹ 10,000 Corporate Discount'
+    ]
   },
   { 
     name: 'Skoda Slavia', 
@@ -101,7 +137,11 @@ export const carsData: Car[] = [
     priceRange: '₹ 11.53 - 19.13 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/slavia.jpg', '/slavia-side.jpg', '/slavia-rear.jpg', '/slavia-interior.jpg'],
-    features: ['10-inch Infotainment', 'Sunroof', 'Ventilated Front Seats', '6 Airbags', 'Wireless Apple CarPlay/Android Auto']
+    features: ['10-inch Infotainment', 'Sunroof', 'Ventilated Front Seats', '6 Airbags'],
+    offers: [
+      'Complimentary 4-Year Service Package',
+      '₹ 15,000 Exchange Bonus'
+    ]
   },
   { 
     name: 'Hyundai Verna', 
@@ -110,7 +150,11 @@ export const carsData: Car[] = [
     priceRange: '₹ 11.00 - 17.42 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/verna.jpg', '/verna-side.jpg', '/verna-rear.jpg', '/verna-interior.jpg'],
-    features: ['Dual Integrated Screens', 'ADAS Level 2', 'Ventilated & Heated Seats', 'Bose Sound System', 'Sunroof']
+    features: ['Dual Integrated Screens', 'ADAS Level 2', 'Ventilated & Heated Seats', 'Bose Sound System'],
+    offers: [
+      '₹ 10,000 Cash Discount',
+      '₹ 15,000 Exchange Bonus'
+    ]
   },
   { 
     name: 'Renault Kiger', 
@@ -119,6 +163,10 @@ export const carsData: Car[] = [
     priceRange: '₹ 5.76 - 10.34 Lakh*', 
     location: 'Jaipur',
     imageUrls: ['/kiger.jpg', '/kiger-side.jpg', '/kiger-rear.jpg', '/kiger-interior.jpg'],
-    features: ['8-inch Touchscreen', 'Wireless Charging', 'Air Purifier', 'Digital Instrument Cluster', '4 Airbags']
+    features: ['8-inch Touchscreen', 'Wireless Charging', 'Air Purifier', 'Digital Instrument Cluster'],
+    offers: [
+      '₹ 10,000 Cash Discount',
+      '₹ 5,000 Loyalty Bonus'
+    ]
   },
 ];
