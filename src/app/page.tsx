@@ -10,7 +10,7 @@ import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal'; 
 import { carsData, Car } from '@/data/cars';
-import { useAuth } from '@/context/AuthContext'; // Casing theek ki gayi
+import { useAuth } from '@/context/AuthContext'; // <-- YEH SAHI HAI (Capital A, C) // Casing theek ki gayi
 
 export default function HomePage() {
   const auth = useAuth(); // Auth context ko initialize karein
