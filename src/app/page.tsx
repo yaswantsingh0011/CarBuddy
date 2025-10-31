@@ -10,7 +10,7 @@ import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal'; 
 import { carsData, Car } from '@/data/cars';
-import { useAuth } from '@/context/AuthContext'; 
+import { useAuth } from '@/context/authContext'; 
 
 export default function HomePage() {
   const auth = useAuth(); 

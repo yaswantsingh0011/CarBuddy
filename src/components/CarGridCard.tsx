@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Link from 'next/link'; 
 import { FaStar, FaRegStar, FaShareAlt, FaRegHeart, FaHeart, FaPlus } from 'react-icons/fa'; 
 // 1. इम्पोर्ट को यहाँ ठीक कर दिया गया है (AuthContext - Capital A, C)
-import { useAuth } from '@/context/AuthContext'; 
+import { useAuth } from '@/context/authContext'; 
 
 interface CarGridCardProps {
   name: string;
