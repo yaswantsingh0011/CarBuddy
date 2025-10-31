@@ -4,16 +4,16 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import CarGridCard from '@/components/CarGridCard';
-import BookingForm from '@/components/BookingForm'; // Casing theek ki gayi
-import Hero from '@/components/Hero';          // Casing theek ki gayi
+import BookingForm from '@/components/BookingForm'; 
+import Hero from '@/components/Hero';          
 import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal'; 
 import { carsData, Car } from '@/data/cars';
-import { useAuth } from '@/context/AuthContext'; // <-- YEH SAHI HAI (Capital A, C) // Casing theek ki gayi
+import { useAuth } from '@/context/AuthContext'; 
 
 export default function HomePage() {
-  const auth = useAuth(); // Auth context ko initialize karein
+  const auth = useAuth(); 
 
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<Car | null>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<Car | null>(null);
