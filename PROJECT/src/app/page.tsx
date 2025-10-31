@@ -4,16 +4,16 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import CarGridCard from '@/components/CarGridCard';
-import BookingForm from '@/components/BookingForm'; // <-- Sahi Casing
-import Hero from '@/components/Hero';          // <-- Sahi Casing
+import BookingForm from '@/components/BookingForm'; 
+import Hero from '@/components/Hero';          
 import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal'; 
 import { carsData, Car } from '@/data/cars';
-import { useAuth } from '@/context/AuthContext'; // <-- Sahi Casing
+import { useAuth } from '@/context/authContext'; 
 
 export default function HomePage() {
-  const auth = useAuth(); // Auth context ko initialize karein
+  const auth = useAuth(); 
 
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<Car | null>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<Car | null>(null);

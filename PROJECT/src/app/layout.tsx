@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
-import { AuthProvider } from '@/context/AuthContext'; // <-- Sahi Casing
+import { AuthProvider } from '@/context/authContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,7 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // 1. yahaan 'className="light"' joda gaya hai
+    <html lang="en" className="light"> 
       <body className={`${inter.className} flex flex-col min-h-screen`}>
         <AuthProvider>
           <Header />

@@ -1,19 +1,19 @@
-// src/app/page.tsx
+// src/app/new-cars/page.tsx
+
 "use client";
 
 import React, { useState } from 'react';
 import Link from 'next/link';
 import CarGridCard from '@/components/CarGridCard';
-import BookingForm from '@/components/BookingForm'; // <-- Sahi Casing
-import Hero from '@/components/Hero';          // <-- Sahi Casing
+import BookingForm from '@/components/BookingForm';
 import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal'; 
 import { carsData, Car } from '@/data/cars';
-import { useAuth } from '@/context/AuthContext'; // <-- Sahi Casing
+import { useAuth } from '@/context/AuthContext'; 
 
-export default function HomePage() {
-  const auth = useAuth(); // Auth context ko initialize karein
+export default function NewCarsPage() {
+  const auth = useAuth(); 
 
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<Car | null>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<Car | null>(null);
@@ -44,10 +44,11 @@ export default function HomePage() {
 
   return (
     <>
-      <Hero />
       <div className="bg-gray-100 flex-grow" id="all-cars">
-        <div className="container mx-auto px-4 py-12">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">All Cars</h2>
+        {/* pt-8 हेडर के नीचे स्पेस के लिए */}
+        <div className="container mx-auto px-4 py-12 pt-8"> 
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">New Cars</h2>
+
           {compareList.length >= 2 && (
             <div className="text-center mb-8">
               <Link href={compareUrl} className="bg-orange-500 text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-orange-600 transition-colors">
@@ -55,8 +56,10 @@ export default function HomePage() {
               </Link>
             </div>
           )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {carsData.map((car) => {
+            {/* === सिर्फ पहली 4 कारें दिखाने के लिए .slice(0, 4) का इस्तेमाल === */}
+            {carsData.slice(0, 4).map((car) => { 
               const isSelected = compareList.includes(car.name);
               return (
                 <CarGridCard
@@ -80,6 +83,8 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
       {selectedCarForBooking && (
         <BookingForm isOpen={!!selectedCarForBooking} onClose={handleCloseBookingModal} car={selectedCarForBooking} />
       )}

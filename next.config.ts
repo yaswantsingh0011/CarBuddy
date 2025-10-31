@@ -1,8 +1,10 @@
-// next.config.js
+// next.config.ts
+
+import { NextConfig } from 'next';
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   // The 'images' configuration can be removed
 };
 
-module.exports = nextConfig;
+export default nextConfig; // 'module.exports =' ki jagah 'export default'
