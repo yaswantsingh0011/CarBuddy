@@ -44,6 +44,8 @@ export default function NewCarsPage() {
 
   return (
     <>
+      {/* Hero सेक्शन यहाँ नहीं है */}
+
       <div className="bg-gray-100 flex-grow" id="all-cars">
         {/* pt-8 हेडर के नीचे स्पेस के लिए */}
         <div className="container mx-auto px-4 py-12 pt-8"> 
@@ -58,7 +60,7 @@ export default function NewCarsPage() {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* === सिर्फ पहली 4 कारें दिखाने के लिए .slice(0, 4) का इस्तेमाल === */}
+            {/* === सिर्फ पहली 4 कारें (नई वाली) दिखाने के लिए .slice(0, 4) === */}
             {carsData.slice(0, 4).map((car) => { 
               const isSelected = compareList.includes(car.name);
               return (
