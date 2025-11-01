@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link'; 
 import { FaStar, FaRegStar, FaShareAlt, FaRegHeart, FaHeart, FaPlus } from 'react-icons/fa'; 
-import { useAuth } from '@/context/authContext'; 
+import { useAuth } from '@/context/AuthContext'; 
 
 interface CarGridCardProps {
   name: string;
