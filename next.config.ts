@@ -1,10 +1,10 @@
 // next.config.ts
 
-import { NextConfig } from 'next';
+import type { NextConfig } from 'next'; // 'import' को 'import type' में बदलें
 
 /** @type {import('next').NextConfig} */
 const nextConfig: NextConfig = {
   // The 'images' configuration can be removed
 };
 
-export default nextConfig; // 'module.exports =' ki jagah 'export default'
+module.exports = nextConfig; // 'export default' की जगह 'module.exports' का प्रयोग करें

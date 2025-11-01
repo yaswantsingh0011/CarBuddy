@@ -17,7 +17,7 @@ const eslintConfig = [
       ".next/**",
       "out/**",
       "build/**",
-      "next-env.d.ts",
+      // "next-env.d.ts", // <-- इस लाइन को हटा दें या कमेंट कर दें
     ],
   },
 ];
