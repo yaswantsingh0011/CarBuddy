@@ -61,7 +61,7 @@ export default function NewCarsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* === सिर्फ पहली 4 कारें (नई वाली) दिखाने के लिए .slice(0, 4) === */}
-            {carsData.slice(0, 4).map((car) => { 
+            {carsData.slice(4, 8).map((car) => { 
               const isSelected = compareList.includes(car.name);
               return (
                 <CarGridCard
