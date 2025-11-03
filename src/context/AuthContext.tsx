@@ -5,12 +5,14 @@ import React, { createContext, useState, useEffect, useContext, ReactNode } from
 import { supabase } from '@/lib/supabaseClient';
 import { Session, User } from '@supabase/supabase-js';
 
-// --- BADLAAV 1: Wishlist ko interface se hata diya ---
 interface AuthContextType {
   session: Session | null;
   user: User | null;
+  wishlist: string[]; // कारों के नाम का ऐरे
   loading: boolean;
-  // Wishlist functions hata diye
+  addToWishlist: (carName: string) => Promise<void>;
+  removeFromWishlist: (carName: string) => Promise<void>;
+  isInWishlist: (carName: string) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,28 +20,48 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  // const [wishlist, setWishlist] = useState<string[]>([]); // Hata diya
+  const [wishlist, setWishlist] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // --- BADLAAV 2: Poora fetchWishlist function hata diya ---
-  // const fetchWishlist = async (userId: string) => { ... };
+  // Wishlist लाने का फंक्शन
+  const fetchWishlist = async (userId: string) => {
+    const { data, error } = await supabase
+      .from('wishlist_items')
+      .select('car_name')
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error fetching wishlist:', error);
+      setWishlist([]);
+    } else {
+      setWishlist(data.map(item => item.car_name));
+    }
+  };
 
   useEffect(() => {
-    // Session ko shuru mein laane ki koshish karein
+    // Session को शुरू में लाने की कोशिश करें
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      // --- BADLAAV 3: Yahan se fetchWishlist call hata diya ---
-      setLoading(false); 
+      if (session?.user) {
+        fetchWishlist(session.user.id).finally(() => setLoading(false));
+      } else {
+        setLoading(false);
+      }
     });
 
-    // Auth state badalne par sunein
+    // Auth state बदलने पर सुनें
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-        // --- BADLAAV 4: Yahan se bhi fetchWishlist logic hata diya ---
-        // if (session?.user) { ... } else { ... }
+        if (session?.user) {
+          setLoading(true);
+          await fetchWishlist(session.user.id);
+          setLoading(false);
+        } else {
+          setWishlist([]); // Logout होने पर Wishlist खाली करें
+        }
       }
     );
 
@@ -48,20 +70,51 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     };
   }, []);
 
-  // --- BADLAAV 5: Poore Wishlist functions (add, remove, check) hata diye ---
-  // const addToWishlist = async ...
-  // const removeFromWishlist = async ...
-  // const isInWishlist = ...
+  // Wishlist में जोड़ना
+  const addToWishlist = async (carName: string) => {
+    if (!user) return; 
+    if (wishlist.includes(carName)) return; 
 
-  // --- BADLAAV 6: Value object se wishlist hata diya ---
+    const { error } = await supabase
+      .from('wishlist_items')
+      .insert({ user_id: user.id, car_name: carName });
+
+    if (error) {
+      console.error('Error adding to wishlist:', error);
+    } else {
+      setWishlist([...wishlist, carName]); 
+    }
+  };
+
+  // Wishlist से हटाना
+  const removeFromWishlist = async (carName: string) => {
+    if (!user) return;
+
+    const { error } = await supabase
+      .from('wishlist_items')
+      .delete()
+      .match({ user_id: user.id, car_name: carName });
+
+    if (error) {
+      console.error('Error removing from wishlist:', error);
+    } else {
+      setWishlist(wishlist.filter(name => name !== carName)); 
+    }
+  };
+  
+  const isInWishlist = (carName: string): boolean => {
+    return wishlist.includes(carName);
+  };
+
+
   const value = {
     session,
     user,
-    // wishlist, // Hata diya
+    wishlist,
     loading,
-    // addToWishlist, // Hata diya
-    // removeFromWishlist, // Hata diya
-    // isInWishlist, // Hata diya
+    addToWishlist,
+    removeFromWishlist,
+    isInWishlist,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
