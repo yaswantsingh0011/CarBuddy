@@ -193,7 +193,7 @@ export const carsData: Car[] = [
       '/victoris.jpg',
       '/victoris-side.jpg',
       '/victoris-rear.jpg',
-      '/victoris-interior.jpg'
+      '/marutivictoris-interior.jpg'
     ],
     features: ['Panoramic Sunroof', 'ADAS Level 2', 'Ventilated Seats', '360 Camera'],
     offers: [
@@ -298,7 +298,7 @@ export const carsData: Car[] = [
     reviews: 45,
     priceRange: '₹ 11.53 - 19.13 Lakh*',
     location: 'Jaipur',
-    imageUrls: ['/slavia.jpg', '/slavia-side.jpg', '/slavia-rear.jpg', '/slavia-interior.jpg'],
+    imageUrls: ['/slavia.jpg', '/slavia-side.jpg', '/slavia-rear.jpg', '/skodaslavia-interior.jpg'],
     features: ['10-inch Infotainment', 'Sunroof', 'Ventilated Front Seats', '6 Airbags'],
     offers: ['Complimentary 4-Year Service Package', '₹ 15,000 Exchange Bonus']
   },
