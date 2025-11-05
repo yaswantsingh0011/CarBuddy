@@ -12,7 +12,7 @@ export const usedCars: UsedCar[] = [
     owner: "1st Owner",
     location: "Jaipur",
     imageUrls: [ 
-      "/cars/endeavour-1.jpg",
+      "/cars/fordendeavour-1.jpg",
       "/cars/endeavour-2.jpg",
       "/cars/endeavour-3.jpg",
       "/cars/endeavour-4.jpg",
@@ -63,7 +63,7 @@ export const usedCars: UsedCar[] = [
     owner: "1st Owner",
     location: "Jaipur",
     imageUrls: [ 
-      "/cars/creta-1.jpg",
+      "/cars/hyundaicreta-1.jpg",
       "/cars/creta-2.jpg",
       "/cars/creta-3.jpg",
       "/cars/creta-4.jpg",

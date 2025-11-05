@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // 1. yahaan 'className="light"' joda gaya hai
-    <html lang="en" className="light"> 
+    // --- YAHAN SE className="light" HATA DIYA HAI ---
+    <html lang="en"> 
       <body className={`${inter.className} flex flex-col min-h-screen`}>
         <AuthProvider>
           <Header />

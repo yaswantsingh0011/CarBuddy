@@ -1,7 +1,14 @@
+// src/components/Hero.tsx
 import React from "react";
 import { motion } from "framer-motion";
 
-const Hero: React.FC = () => {
+// Naya interface jismein onClick handler hoga
+interface HeroProps {
+  onExploreClick: () => void;
+}
+
+// Hero component ab prop lega
+const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   return (
     // Full-screen hero section
     <div className="relative w-full h-screen flex items-center justify-center text-white overflow-hidden">
@@ -29,13 +36,14 @@ const Hero: React.FC = () => {
           CarBuddy - Your Travel Companion
         </p>
 
-        {/* Button scrolls smoothly to #all-cars */}
-        <a
-          href="#all-cars"
+        {/* Button ab prop ka use karega aur smooth scroll hatayega */}
+        <button
+          // href="#all-cars" HATA DIYA
+          onClick={onExploreClick} // Naya handler yahan use hoga
           className="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-blue-700 transition-colors"
         >
           Explore Cars
-        </a>
+        </button>
       </motion.div>
     </div>
   );

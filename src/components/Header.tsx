@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FaCar, FaRegHeart, FaRegUser, FaChevronDown } from 'react-icons/fa';
+import { FaCar, FaRegUser, FaChevronDown } from 'react-icons/fa';
 import AuthModal from './AuthModal';
 import AccountModal from './AccountModal';
 import { supabase } from '@/lib/supabaseClient';
@@ -57,12 +57,12 @@ const Header: React.FC = () => {
             </Link>
 
             {/* 2. Navigation Links (Center) */}
-            {/* ✅ फिक्स: space-x-6 को space-x-10 कर दिया है */}
             <nav className="hidden md:flex space-x-12"> 
               <Link href="/" className="text-gray-700 hover:text-blue-600 font-medium">Home</Link>
               <Link href="/new-cars" className="text-gray-700 hover:text-blue-600 font-medium">New Cars</Link>
               <Link href="/used-cars" className="text-gray-700 hover:text-blue-600 font-medium">Used Cars</Link>
-              <Link href="/compare" className="text-gray-700 hover:text-blue-600 font-medium">Compare</Link>
+              
+              <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium">Blog</Link>
             </nav>
 
             {/* 3. User Links (Right) */}
@@ -70,10 +70,6 @@ const Header: React.FC = () => {
               <a href="#" className="flex items-center hover:text-blue-600">
                 <span>English</span>
                 <FaChevronDown className="ml-1 h-3 w-3" />
-              </a>
-              <a href="#" className="flex items-center hover:text-blue-600">
-                <FaRegHeart className="mr-1 h-4 w-4" />
-                <span>Wishlist</span>
               </a>
 
               {/* Login/Logout Logic */}
@@ -102,7 +98,7 @@ const Header: React.FC = () => {
                   <span>Login / Register</span>
                 </button>
               )}
-            </div>
+            </div> {/* <-- Saare typos (s, d, a, M) yahan se hata diye hain */}
             
           </div>
         </div>
