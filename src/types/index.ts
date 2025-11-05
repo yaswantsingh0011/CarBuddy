@@ -1,7 +1,5 @@
 // src/types/index.ts
 
-// --- NAYE TYPES YAHAN SHURU HOTE HAIN ---
-
 // Key Specifications (जैसे Engine, Power, Torque)
 export type KeySpec = {
   label: string; // e.g., "Engine", "Ground Clearance", "Safety Rating"
@@ -14,7 +12,27 @@ export type StandOutFeature = {
   imageUrl: string;  // e.g., "/cars/punch-ac.jpg"
 };
 
+// --- NEW CAR TYPE MEIN NAYE FIELDS ADD KIYE ---
+// Nayi Car (src/data/cars.ts se aayegi)
+export type Car = {
+    name: string;
+    rating: number;
+    reviews: number;
+    priceRange: string;
+    location: string;
+    imageUrls: string[];
+    features?: string[];
+    offers?: string[];
+    
+    // NAYE SPECIFICATION FIELDS FOR NEW CARS
+    keySpecifications?: KeySpec[]; 
+    utilitySpecs?: KeySpec[]; // <-- Dimensions & Utility Data ke liye
+    standOutFeatures?: StandOutFeature[];
+}
+
+
 // --- USED CAR TYPE MEIN NAYE FIELDS ADD KIYE ---
+// Used Car (UsedCarCard.tsx aur detail page ke liye)
 export type UsedCar = {
   id: number;
   name: string;
@@ -27,7 +45,7 @@ export type UsedCar = {
   imageUrls: string[];
   sellerPhone: string;
   
-  // NAYE SPECIFICATION FIELDS
+  // NAYE SPECIFICATION FIELDS (Aapke original code se)
   keySpecifications: KeySpec[];
   topFeatures: string[];          // e.g., ["Rear AC Vents", "Cruise Control"]
   standOutFeatures: StandOutFeature[];

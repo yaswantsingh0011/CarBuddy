@@ -58,7 +58,9 @@ const Header: React.FC = () => {
 
             {/* 2. Navigation Links (Center) */}
             <nav className="hidden md:flex space-x-12"> 
+              {/* --- Home Link is Primary Link (Restored) --- */}
               <Link href="/" className="text-gray-700 hover:text-blue-600 font-medium">Home</Link>
+              
               <Link href="/new-cars" className="text-gray-700 hover:text-blue-600 font-medium">New Cars</Link>
               <Link href="/used-cars" className="text-gray-700 hover:text-blue-600 font-medium">Used Cars</Link>
               
@@ -98,7 +100,7 @@ const Header: React.FC = () => {
                   <span>Login / Register</span>
                 </button>
               )}
-            </div> {/* <-- Saare typos (s, d, a, M) yahan se hata diye hain */}
+            </div>
             
           </div>
         </div>
