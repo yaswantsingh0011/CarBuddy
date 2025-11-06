@@ -13,11 +13,6 @@ import { carsData, Car } from '@/data/cars';
 
 export default function HomePage() {
   
-  // STATE: अब यह तय करता है कि All Cars सेक्शन दिखना चाहिए या नहीं।
-  // चूंकि हम चाहते हैं कि यह डिफ़ॉल्ट रूप से दिखे (जब तक स्क्रॉल न हो), हम इसे true नहीं रखेंगे।
-  // हम सीधे Scroll Logic का उपयोग करेंगे।
-  
-  // Modals के लिए पुरानी States बहाल
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<Car | null>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<Car | null>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<Car | null>(null);
@@ -25,25 +20,16 @@ export default function HomePage() {
   const [imageModalStartIndex, setImageModalStartIndex] = useState(0);
   const [compareList, setCompareList] = useState<string[]>([]);
   
-  // *** EXPLORE CLICK LOGIC (UPDATED) ***
+  // *** EXPLORE CLICK LOGIC (Scrolling only) ***
   const handleExploreClick = () => {
-    // 1. All Cars Grid पर Scroll करें
     const allCarsGrid = document.getElementById('all-cars-grid');
     if (allCarsGrid) {
+        // Scroll to the car grid section
         allCarsGrid.scrollIntoView({ behavior: 'smooth' });
     }
-    // Note: हम Hero Section को छुपा नहीं रहे हैं, बस नीचे स्क्रॉल कर रहे हैं।
   };
   
-  // --- Hook to manage initial scroll or persistent view ---
-  // Page लोड होने पर, All Cars Grid हमेशा visible रहेगा।
-  // useEffect(() => {
-  //   // If you want to force smooth scroll to All Cars only on a deep link or specific condition,
-  //   // you would put that logic here. For normal load, they should stack.
-  // }, []);
-
-
-  // --- Rest of the Handlers (Unchanged) ---
+  // --- Rest of the Handlers (Unchanged for brevity) ---
   const handleBookNowClick = (car: Car) => { setSelectedCarForBooking(car); };
   const handleCloseBookingModal = () => { setSelectedCarForBooking(null); };
   const handleImageClick = (car: Car, index: number) => { setSelectedCarForImages(car); setImageModalStartIndex(index); };
@@ -65,15 +51,16 @@ export default function HomePage() {
 
   return (
     <>
-      {/* 1. Hero Section (हम इसे हमेशा दिखाएंगे) */}
+      {/* 1. Hero Section */}
       <Hero onExploreClick={handleExploreClick} /> 
       
-      {/* 2. All Cars Section (हम इसे हमेशा दिखाएंगे, कोई conditional rendering नहीं) */}
-      <div className="bg-gray-100 flex-grow" id="all-cars-grid"> {/* ID for scrolling target */}
+      {/* 2. All Cars Section */}
+      <div className="bg-gray-100 flex-grow" id="all-cars-grid"> 
         <div className="container mx-auto px-4 py-12">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">All Cars</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* MOBILE OPTIMIZATION: Default is 1 column, md and up is 2 columns */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8"> 
             {carsData.map((car) => {
               const isSelected = compareList.includes(car.name);
               return (
