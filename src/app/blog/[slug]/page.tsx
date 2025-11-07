@@ -1,5 +1,4 @@
 // src/app/blog/[slug]/page.tsx
-// Data fetching functions ko component se pehle define karna zaroori hai
 
 import { supabase } from '@/lib/supabaseClient';
 import { Post, SidebarAuthor, SidebarCategory, SidebarLatestPost } from '@/types/index';
@@ -24,6 +23,7 @@ async function getSidebarData(): Promise<{
   tags: string[];
   authors: SidebarAuthor[];
 }> {
+  // ... (Aapka function bilkul theek hai, koi change nahi)
   const { data: posts, error } = await supabase.from('posts').select('title, date, slug, category, tags, author_name');
   if (error || !posts) { return { latestPosts: [], categories: [], tags: [], authors: [] }; }
   
@@ -53,13 +53,13 @@ async function getSidebarData(): Promise<{
 // --- Main Blog Post Detail Page (Component) ---
 export default async function PostDetailPage({ params }: { params: { slug: string } }) {
   
-  // === BADLAAV: params access ko safe kiya ===
-  // Seedha object property access karne ki jagah, ise ek promise mein wrap karte hain (Next.js ko satisfy karne ke liye)
+  // ✅ FIX: Aapki 'await' wali line ko waapas daal diya hai.
+  // Ye 'await params' error ko fix karne ke liye zaroori hai.
   const slug = await Promise.resolve(params.slug); 
-  // =====================
 
+  // Ab 'slug' ko safely use karenge.
   const [post, sidebarData] = await Promise.all([
-    getPostBySlug(slug), // Ab safely use kiya
+    getPostBySlug(slug),
     getSidebarData()            
   ]);
 
@@ -67,6 +67,27 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
     // Agar post Supabase mein nahi mila, ya slug galat hai, toh 404 dikhao.
     notFound();
   }
+
+  // --- 💡 RUNTIME ERROR FIX (Ye pehle se theek hai) ---
+  // Ye 'post.content' ko check karta hai
+  let contentBlocks = []; 
+  
+  if (typeof post.content === 'string') {
+    try {
+      contentBlocks = JSON.parse(post.content);
+    } catch (e) {
+      console.error("Failed to parse content JSON string:", e);
+      notFound();
+    }
+  } else if (Array.isArray(post.content)) {
+    contentBlocks = post.content;
+  } else {
+    // YAHAN PAR AAPKA SERVER ERROR AA RAHA THA
+    // Iska matlab 'post.content' null ya undefined hai.
+    console.error("Post content is not a string or array, or it is null.");
+    notFound(); 
+  }
+  // --- RUNTIME ERROR FIX END ---
 
   return (
     <div className="bg-white">
@@ -102,7 +123,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
             
             <p className="text-xl italic text-gray-700 mb-6">{post.excerpt}</p>
 
-            <ContentRenderer blocks={post.content} />
+            <ContentRenderer blocks={contentBlocks} />
             
             <div className="flex flex-wrap gap-2 mt-6 border-t border-gray-200 pt-6">
               {post.tags.map((tag) => (
