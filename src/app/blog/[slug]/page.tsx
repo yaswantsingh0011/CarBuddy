@@ -27,7 +27,7 @@ async function getSidebarData(): Promise<{
   const { data: posts, error } = await supabase.from('posts').select('title, date, slug, category, tags, author_name');
   if (error || !posts) { return { latestPosts: [], categories: [], tags: [], authors: [] }; }
   
-  const latestPosts = posts.slice(0, 5).map(post => ({ title: post.title, date: post.date, slug: post.slug }));
+  const latestPosts = posts.slice(0, 6).map(post => ({ title: post.title, date: post.date, slug: post.slug }));
   const categoryCounts = new Map<string, number>();
   posts.forEach(post => { categoryCounts.set(post.category, (categoryCounts.get(post.category) || 0) + 1); });
   const categories: SidebarCategory[] = Array.from(categoryCounts, ([name, count]) => ({ name, count }));
