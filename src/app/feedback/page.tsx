@@ -75,7 +75,7 @@ export default function FeedbackPage() {
           
           <form onSubmit={handleSubmit} className="space-y-6 pt-4 max-w-2xl">
             
-            {/* --- Name Field (Optional) --- */}
+           
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Name (Optional)
