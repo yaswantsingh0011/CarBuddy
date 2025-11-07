@@ -5,34 +5,26 @@
 
 @layer base {
   :root {
+    /* Existing Color Tokens */
     --background: 0 0% 98%;
     --foreground: 222 47% 11%;
-
     --card: 0 0% 100%;
     --card-foreground: 222 47% 11%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
-
     --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
-
     --secondary: 210 40% 96%;
     --secondary-foreground: 222 47% 11%;
-
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
-
     --accent: 217 91% 60%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
-
     --border: 214 32% 91%;
     --input: 214 32% 91%;
     --ring: 217 91% 60%;
-
     --radius: 0.5rem;
     
     /* Blog-specific tokens */
@@ -48,27 +40,74 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-  }
 
-  /* Dark mode hata diya gaya hai */
+    /* Custom Color for Search Button/Radio Dot (F8613E) */
+    --custom-orange: #f8613e; 
+  }
 }
 
 @layer base {
   * {
     @apply border-border;
   }
-
-  body {
-    @apply bg-background text-foreground;
-  }
 }
 
 
-/* Content Styling for Blog Detail Page */
+/* --- CarBuddy Search Form Custom Components --- */
+
+@layer components {
+    /* 1. Dropdown Arrow Styling for 'dropdown-select-tailwind' */
+    .dropdown-select-tailwind {
+        /* Tailwind Classes */
+        @apply w-full h-12 px-4 border border-gray-300 rounded-lg text-base;
+        
+        /* Remove default system arrow */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        
+        /* Custom Base64 SVG Arrow (Prevents Webpack 'Cannot find module' Error) */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%234a4a4a' d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 15px;
+        
+        /* Add focus ring based on custom orange color */
+        &:focus {
+            @apply ring-2 ring-offset-2;
+            /* Using direct variable for color access */
+            --tw-ring-color: var(--custom-orange); 
+        }
+    }
+    
+    /* 2. Custom Radio Button Styling for 'custom-radio' */
+    .custom-radio {
+        /* Reset and Base Styles */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        @apply w-4 h-4 border-2 border-gray-400 rounded-full cursor-pointer relative;
+        
+        /* Checked state - Orange ring and solid orange center */
+        &:checked {
+            border-color: var(--custom-orange); /* Outer ring color (Orange) */
+        }
+        
+        &:checked::before {
+            content: '';
+            display: block;
+            /* Inner dot size, position, and color */
+            @apply w-2 h-2 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2; 
+            background-color: var(--custom-orange); /* Inner dot (Orange) */
+        }
+    }
+}
+
+/* Content Styling for Blog Detail Page (Your Existing Code) */
 .blog-content-styles h2 {
     font-size: 1.875rem; /* text-3xl */
     font-weight: 700; /* font-bold */
-    margin-top: 2.5rem !important; /* !important lagaya */
+    margin-top: 2.5rem !important;
     margin-bottom: 1rem !important;
     color: #1f2937 !important; /* Dark color */
 }
@@ -87,7 +126,7 @@
     margin-bottom: 1.25rem !important;
     line-height: 1.75 !important;
     color: #1f2937 !important;
-    display: block !important; /* Ensure it is visible */
+    display: block !important;
 }
 
 /* Table of Contents links ko visible karna */
