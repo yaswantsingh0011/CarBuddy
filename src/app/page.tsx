@@ -12,17 +12,6 @@ import { carsData, Car } from '@/data/cars';
 import { useRouter } from 'next/navigation';
 
 
-// --- डमी/उदाहरण डेटा ---
-// यदि आप real carsData का उपयोग नहीं कर रहे हैं, तो यह सुनिश्चित करता है कि कुछ दिखे।
-const featuredCars = carsData.slice(0, 4) || [
-    { name: "Tesla Model 3", priceRange: "₹30L - ₹50L", location: "New Delhi", imageUrls: ["https://placehold.co/600x400/3498db/ffffff?text=Tesla+M3"], rating: 4.8, reviews: 210 },
-    { name: "Maruti Swift", priceRange: "₹6L - ₹10L", location: "Mumbai", imageUrls: ["https://placehold.co/600x400/2ecc71/ffffff?text=Swift"], rating: 4.5, reviews: 500 },
-    { name: "Tata Nexon", priceRange: "₹8L - ₹15L", location: "Bangalore", imageUrls: ["https://placehold.co/600x400/e67e22/ffffff?text=Nexon"], rating: 4.7, reviews: 320 },
-    { name: "Mahindra Thar", priceRange: "₹15L - ₹20L", location: "Jaipur", imageUrls: ["https://placehold.co/600x400/9b59b6/ffffff?text=Thar"], rating: 4.9, reviews: 450 },
-];
-// --- डमी डेटा एंड ---
-
-
 export default function HomePage() {
   
   const router = useRouter(); 
@@ -42,6 +31,8 @@ export default function HomePage() {
     const allCarsGrid = document.getElementById('all-cars-grid');
     if (allCarsGrid) {
         allCarsGrid.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        console.error("Target scroll ID 'all-cars-grid' not found.");
     }
   };
   
@@ -87,7 +78,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       
-      {/* 1. Hero Section (Assuming this handles the main search bar) */}
+      {/* 1. Hero Section */}
       <Hero 
         onExploreClick={handleExploreClick} 
         carsData={allCars} 
@@ -95,7 +86,7 @@ export default function HomePage() {
       /> 
 
       {/* 2. Featured/All Cars Section - Full Width */}
-      <section className="py-16">
+      <section className="py-16" id="all-cars-grid"> 
         {/* ✅ FIX: कंटेनर से max-w-7xl हटा दिया गया */}
         <div className="w-full mx-auto px-4 md:px-12"> 
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Featured Cars</h2>
