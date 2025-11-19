@@ -12,7 +12,7 @@ interface HeroProps {
 const heroImages = [
   "/cars/octaviars.jpg",       // Car 1
   "/cars/be6e.jpg",   // Car 2 (Apni file ka naam likhna)
-  "/cars/slavia-side.jpg"    // Car 3
+  "/cars/xuv700-side.jpg"    // Car 3
 ];
 
 const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {

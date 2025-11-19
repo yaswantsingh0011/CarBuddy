@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes } from 'react-icons/fa'; // FaBars/Times add kiya
+import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes } from 'react-icons/fa'; 
 import AuthModal from './AuthModal';
 import AccountModal from './AccountModal';
 import { supabase } from '@/lib/supabaseClient';
@@ -14,7 +14,7 @@ const Header: React.FC = () => {
   // --- States ---
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Mobile menu ke liye naya state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [session, setSession] = useState<Session | null>(null);
   const router = useRouter();
 
@@ -35,7 +35,7 @@ const Header: React.FC = () => {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setIsAccountModalOpen(false);
-    setIsMobileMenuOpen(false); // Mobile menu band kar do logout ke baad
+    setIsMobileMenuOpen(false); 
     router.push('/');
   };
 
@@ -61,6 +61,8 @@ const Header: React.FC = () => {
             {/* 2. Desktop Navigation (Hidden on Mobile) */}
             <nav className="hidden md:flex space-x-8 lg:space-x-12"> 
               <Link href="/" className="text-gray-700 hover:text-blue-600 font-medium">Home</Link>
+              {/* NEW LINK ADDED HERE */}
+              <Link href="/all-cars" className="text-gray-700 hover:text-blue-600 font-medium">All Cars</Link>
               <Link href="/new-cars" className="text-gray-700 hover:text-blue-600 font-medium">New Cars</Link>
               <Link href="/used-cars" className="text-gray-700 hover:text-blue-600 font-medium">Used Cars</Link>
               <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium">Blog</Link>
@@ -111,6 +113,8 @@ const Header: React.FC = () => {
           {isMobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-gray-100 space-y-4">
               <Link href="/" className="block text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+              {/* NEW LINK ADDED HERE TOO */}
+              <Link href="/all-cars" className="block text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>All Cars</Link>
               <Link href="/new-cars" className="block text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>New Cars</Link>
               <Link href="/used-cars" className="block text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Used Cars</Link>
               <Link href="/blog" className="block text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>

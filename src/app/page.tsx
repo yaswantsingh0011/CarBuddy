@@ -2,141 +2,92 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Hero from '@/components/Hero';
 import CarGridCard from '@/components/CarGridCard';
+import { newLaunchCars } from '@/data/newlaunchcars'; 
+
+// Modals imports
 import BookingForm from '@/components/BookingForm'; 
-import Hero from '@/components/Hero';  
-import ImageModal from '@/components/ImageModal';
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal'; 
-import { carsData, Car } from '@/data/cars'; 
-import { useRouter } from 'next/navigation';
+import ImageModal from '@/components/ImageModal';
 
+export default function Home() {
+  const [selectedCarForBooking, setSelectedCarForBooking] = useState<any>(null);
+  const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<any>(null);
+  const [selectedCarForOffers, setSelectedCarForOffers] = useState<any>(null);
+  const [selectedCarForImages, setSelectedCarForImages] = useState<any>(null);
+  const [imageStartIndex, setImageStartIndex] = useState(0);
+  const [compareList, setCompareList] = useState<number[]>([]);
 
-export default function HomePage() {
-  
-  const router = useRouter(); 
-  const allCars: Car[] = carsData;
-  const [filteredCars, setFilteredCars] = useState<Car[]>(allCars); 
-  
-  // Modals और Compare List के लिए States
-  const [selectedCarForBooking, setSelectedCarForBooking] = useState<Car | null>(null);
-  const [selectedCarForImages, setSelectedCarForImages] = useState<Car | null>(null);
-  const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<Car | null>(null);
-  const [selectedCarForOffers, setSelectedCarForOffers] = useState<Car | null>(null); 
-  const [imageModalStartIndex, setImageModalStartIndex] = useState(0);
-  const [compareList, setCompareList] = useState<string[]>([]);
-  
-  
-  const handleExploreClick = () => {
-    const allCarsGrid = document.getElementById('all-cars-grid');
-    if (allCarsGrid) {
-        allCarsGrid.scrollIntoView({ behavior: 'smooth' });
-    } else {
-        console.error("Target scroll ID 'all-cars-grid' not found.");
+  const scrollToCars = () => document.getElementById('car-listings')?.scrollIntoView({ behavior: 'smooth' });
+  const handleBookNow = (car: any) => setSelectedCarForBooking(car);
+  const handleShowFeatures = (car: any) => setSelectedCarForFeatures(car);
+  const handleGetOffers = (car: any) => setSelectedCarForOffers(car);
+  const handleImageClick = (car: any, index: number) => { setSelectedCarForImages(car); setImageStartIndex(index); };
+
+  const toggleCompare = (id: number) => {
+    if (compareList.includes(id)) setCompareList((prev) => prev.filter((carId) => carId !== id));
+    else {
+      if (compareList.length >= 4) { alert("You can only compare up to 4 cars."); return; }
+      setCompareList((prev) => [...prev, id]);
     }
   };
-  
-  // Used Cars के लिए नेविगेशन लॉजिक
-  const handleCarSearch = (filters: { type: 'new' | 'used', mode: 'budget' | 'brand', value: string }) => {
-    
-    if (filters.type === 'used') {
-        router.push('/used-cars'); 
-        return; 
-    }
-    
-    let results = allCars;
-    
-    if (filters.mode === 'brand' && filters.value !== 'Select Brand') {
-        results = allCars.filter(car => car.name.startsWith(filters.value));
-    }
-    
-    setFilteredCars(results);
-    handleExploreClick(); 
-  };
-
-
-  // --- Rest of the Handlers (unchanged) ---
-  const handleBookNowClick = (car: Car) => { setSelectedCarForBooking(car); };
-  const handleCloseBookingModal = () => { setSelectedCarForBooking(null); };
-  const handleImageClick = (car: Car, index: number) => { setSelectedCarForImages(car); setImageModalStartIndex(index); };
-  const handleCloseImageModal = () => { setSelectedCarForImages(null); };
-  const handleShowFeaturesClick = (car: Car) => { setSelectedCarForFeatures(car); };
-  const handleCloseFeaturesModal = () => { setSelectedCarForFeatures(null); };
-  const handleOffersClick = (car: Car) => { setSelectedCarForOffers(car); };
-  const handleCloseOffersModal = () => { setSelectedCarForOffers(null); };
-
-  const handleToggleCompare = (carName: string) => {
-    setCompareList((prevList) => {
-      if (prevList.includes(carName)) return prevList.filter((name) => name !== carName);
-      else if (prevList.length < 4) return [...prevList, carName];
-      return prevList;
-    });
-  };
-
-  const compareUrl = `/compare?cars=${compareList.join(',')}`;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      
-      {/* 1. Hero Section */}
-      <Hero 
-        onExploreClick={handleExploreClick} 
-        carsData={allCars} 
-        onSearch={handleCarSearch} 
-      /> 
+    // CHANGE 1: 'pb-24' ko kam karke 'pb-8' kar diya
+    <main className="bg-gray-50 min-h-screen pb-8">
+      <Hero onExploreClick={scrollToCars} />
 
-      {/* 2. Featured/All Cars Section - Full Width */}
-      <section className="py-16" id="all-cars-grid"> 
-        {/* ✅ FIX: कंटेनर से max-w-7xl हटा दिया गया */}
-        <div className="w-full mx-auto px-4 md:px-12"> 
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Featured Cars</h2>
-          
-          {/* ✅ FIX: 2 कॉलम ग्रिड सेट किया गया ताकि कार्ड्स पूरी चौड़ाई लें */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6"> 
-            {filteredCars.map((car) => { 
-              const isSelected = compareList.includes(car.name);
-              return (
-                <CarGridCard
-                  key={car.name}
-                  name={car.name}
-                  rating={car.rating || 0.0} 
-                  reviews={car.reviews || 0}
-                  priceRange={car.priceRange}
-                  location={car.location}
-                  imageUrls={car.imageUrls}
-                  onBookNowClick={() => handleBookNowClick(car)}
-                  onGetOffersClick={() => handleOffersClick(car)} 
-                  onImageClick={(index) => handleImageClick(car, index)}
-                  onShowFeaturesClick={() => handleShowFeaturesClick(car)}
-                  onAddToCompare={() => handleToggleCompare(car.name)}
-                  isSelectedForCompare={isSelected}
-                  compareCount={compareList.length}
-                />
-              );
-            })}
-          </div>
+      {/* CHANGE 2: 'pb-4' ko 'pb-0' kar diya taaki neeche space na bache */}
+      <section id="car-listings" className="container mx-auto px-4 pt-12 pb-0">
+        
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Upcoming Launches</h2>
+          <p className="text-gray-600">Be the first to drive the future.</p>
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {newLaunchCars.map((car, index) => (
+            <CarGridCard
+              key={car.id || index}
+              name={car.name}
+              rating={car.rating}
+              reviews={car.reviews}
+              priceRange={car.priceRange}
+              location={car.location}
+              imageUrls={car.imageUrls}
+              onBookNowClick={() => handleBookNow(car)}
+              onGetOffersClick={() => handleGetOffers(car)}
+              onImageClick={(idx) => handleImageClick(car, idx)}
+              onShowFeaturesClick={() => handleShowFeatures(car)}
+              onAddToCompare={() => toggleCompare(Number(car.id) || index)}
+              isSelectedForCompare={compareList.includes(Number(car.id) || index)}
+              compareCount={compareList.length}
+            />
+          ))}
+        </div>
+
       </section>
 
-      {/* 3. Floating Compare Button and Modals */}
-      {compareList.length >= 2 && (
-        <div className="fixed bottom-8 right-8 z-50"> 
-          <Link href={compareUrl} 
-            className="bg-orange-500 text-white font-bold py-3 px-6 rounded-lg text-lg hover:bg-orange-600 transition-colors shadow-2xl animate-pulse"
-          >
-            Compare ({compareList.length}) Cars
-          </Link>
+      {/* Modals */}
+      {selectedCarForBooking && <BookingForm isOpen={!!selectedCarForBooking} onClose={() => setSelectedCarForBooking(null)} car={selectedCarForBooking} />}
+      {selectedCarForFeatures && <FeaturesModal isOpen={!!selectedCarForFeatures} onClose={() => setSelectedCarForFeatures(null)} car={selectedCarForFeatures} />}
+      {selectedCarForOffers && <OffersModal isOpen={!!selectedCarForOffers} onClose={() => setSelectedCarForOffers(null)} car={selectedCarForOffers} />}
+      {selectedCarForImages && <ImageModal isOpen={!!selectedCarForImages} onClose={() => setSelectedCarForImages(null)} imageUrls={selectedCarForImages.imageUrls} startIndex={imageStartIndex} />}
+      
+      {/* Compare Bar */}
+      {compareList.length > 0 && (
+        <div className="fixed bottom-6 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-auto md:min-w-[400px] z-50">
+          <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl p-3 md:p-4 flex justify-between items-center">
+            <div className="flex items-center space-x-3 ml-1">
+              <div className="bg-gray-900 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-md">{compareList.length}</div>
+              <div className="flex flex-col"><span className="text-sm font-bold text-gray-800 leading-tight">Cars Added</span><button onClick={() => setCompareList([])} className="text-[11px] text-red-500 font-semibold uppercase tracking-wide text-left hover:underline">Clear List</button></div>
+            </div>
+            <Link href={`/compare?cars=${compareList.join(',')}`} className="ml-4 bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow-lg hover:bg-blue-700 flex items-center">Compare Now <span className="ml-2 text-lg">→</span></Link>
+          </div>
         </div>
       )}
-      
-      {selectedCarForBooking && (
-        <BookingForm isOpen={!!selectedCarForBooking} onClose={handleCloseBookingModal} car={selectedCarForBooking} />
-      )}
-      {selectedCarForImages && (
-        <ImageModal isOpen={!!selectedCarForImages} onClose={handleCloseImageModal} imageUrls={selectedCarForImages.imageUrls} startIndex={imageModalStartIndex} />
-      )}
-      <FeaturesModal isOpen={!!selectedCarForFeatures} onClose={handleCloseFeaturesModal} car={selectedCarForFeatures} />
-      <OffersModal isOpen={!!selectedCarForOffers} onClose={handleCloseOffersModal} car={selectedCarForOffers} />
-    </div>
+    </main>
   );
 }
