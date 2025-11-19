@@ -49,37 +49,36 @@ const CarGridCard: React.FC<CarGridCardProps> = ({
       } catch (err) { console.log(err); }
     } else {
       await navigator.clipboard.writeText(shareUrl);
-      alert("Link copied!");
+      alert("Link copied to clipboard!");
     }
   };
 
   return (
-    // CONTAINER FIX: 
-    // 'flex-col' (Mobile: Upar se niche) 
-    // 'md:flex-row' (PC: Left se Right)
+    // MAIN CONTAINER
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col md:flex-row relative mb-6 w-full">
 
       {/* --- 1. IMAGE SECTION --- */}
-      {/* Mobile: Height fixed (h-48) aur Width Full. PC: Height Full aur Width 40% */}
       <div className="w-full md:w-[40%] bg-white relative p-2 md:p-3 flex flex-col justify-between">
         
-        {/* Main Image */}
+        {/* Main Image Display */}
         <div
-          className="w-full h-48 md:h-full min-h-[180px] relative cursor-pointer rounded-lg overflow-hidden"
+          // CHANGE: 'bg-black' HATA DIYA. Ab ye simple white/transparent rahega.
+          className="w-full h-56 md:h-full md:min-h-[240px] relative cursor-pointer rounded-lg overflow-hidden"
           onClick={() => onImageClick(selectedImageIndex)}
         >
           <Image 
             src={imageUrls[selectedImageIndex]} 
             alt={name} 
             fill 
-            className="object-contain" 
+            // 'object-contain' taaki car poori dikhe bina kate
+            className="object-contain object-center" 
           />
         </div>
         
-        {/* Thumbnails (Mobile par hide, PC par show) */}
-        <div className="hidden md:flex space-x-2 justify-center mt-2 h-12">
-          {imageUrls.slice(0, 3).map((url, index) => (
-             <div key={index} className={`w-14 relative cursor-pointer border rounded-md ${selectedImageIndex === index ? 'border-blue-600' : 'border-gray-200'}`} onClick={() => setSelectedImageIndex(index)}>
+        {/* Thumbnails (Visible on PC - 4 items) */}
+        <div className="hidden md:flex space-x-2 justify-center mt-2 h-14">
+          {imageUrls.slice(0, 4).map((url, index) => (
+             <div key={index} className={`w-16 relative cursor-pointer border rounded-md ${selectedImageIndex === index ? 'border-blue-600' : 'border-gray-200'}`} onClick={() => setSelectedImageIndex(index)}>
                 <Image src={url} alt="thumb" fill className="object-cover rounded-md"/>
               </div>
           ))}
@@ -87,14 +86,13 @@ const CarGridCard: React.FC<CarGridCardProps> = ({
       </div>
 
       {/* --- 2. DETAILS SECTION --- */}
-      {/* Mobile: Width 100%. PC: Width 60% */}
       <div className="w-full md:w-[60%] p-4 flex flex-col border-t md:border-t-0 md:border-l border-gray-100"> 
         
-        {/* Header */}
+        {/* Header: Name & Share Icon */}
         <div className="flex justify-between items-start">
           <div>
             <Link href={`/car/${carSlug}`} className="hover:text-blue-700 transition-colors">
-              <h2 className="text-lg md:text-xl font-bold text-gray-900">{name}</h2>
+              <h2 className="text-lg md:text-2xl font-bold text-gray-900">{name}</h2>
             </Link>
              <div className="flex items-center mt-1 space-x-2">
               <div className="flex items-center bg-gray-100 px-1.5 py-0.5 rounded text-xs font-semibold text-gray-700 border border-gray-200">
@@ -104,25 +102,29 @@ const CarGridCard: React.FC<CarGridCardProps> = ({
               <span className="text-xs text-gray-500">{reviews} Reviews</span>
              </div>
           </div>
-          <button onClick={handleShare} className="text-gray-400 hover:text-blue-600 p-1">
+          
+          <button 
+            onClick={handleShare} 
+            className="text-gray-400 hover:text-blue-600 p-2 rounded-full hover:bg-gray-50 transition-colors"
+            title="Share"
+          >
             <FaShareAlt size={18} />
           </button>
         </div>
 
-        {/* Price */}
-        <div className="mt-3 md:mt-4">
+        {/* Price Info */}
+        <div className="mt-3 md:mt-5">
           <p className="text-xl md:text-2xl font-extrabold text-gray-900">{priceRange}</p>
           <p className="text-xs text-gray-500">*Ex-showroom Price in {location}</p>
         </div>
 
-        {/* --- 3. BUTTONS (Mobile Grid Fix) --- */}
+        {/* --- 3. BUTTONS & ACTIONS --- */}
         <div className="mt-6 md:mt-auto">
-            {/* MOBILE: Grid (Features upar, Offers+TestDrive niche)
-               PC: Flex Column (Sab ek ke neeche ek stacked) 
-            */}
+            
+            {/* MOBILE: Grid Layout (2 Cols) | PC: Flex Column (Stacked) */}
             <div className="grid grid-cols-2 gap-3 md:flex md:flex-col md:gap-2">
                 
-                {/* View Features: Mobile (Full Width), PC (Stacked) */}
+                {/* View Features */}
                 <button
                     onClick={onShowFeaturesClick}
                     className="col-span-2 w-full bg-purple-600 text-white font-bold py-2.5 px-4 rounded-md text-sm hover:bg-purple-700 transition-colors uppercase tracking-wide"
