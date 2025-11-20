@@ -1,20 +1,21 @@
 // src/types/index.ts
 
-// Key Specifications (जैसे Engine, Power, Torque)
+// Key Specifications (Jaise Engine, Power, Torque)
 export type KeySpec = {
-  label: string; // e.g., "Engine", "Ground Clearance", "Safety Rating"
-  value: string; // e.g., "1199 cc", "187 mm", "5 Star"
+  label: string;
+  value: string;
 };
 
-// Stand Out Features (Image Card वाले फीचर्स)
+// Stand Out Features (Image Card wale features)
 export type StandOutFeature = {
-  name: string;      // e.g., "Sunroof", "Automatic climate control"
-  imageUrl: string;  // e.g., "/cars/punch-ac.jpg"
+  name: string;
+  imageUrl: string;
 };
 
-// --- NEW CAR TYPE MEIN NAYE FIELDS ADD KIYE ---
-// Nayi Car (src/data/cars.ts se aayegi)
+// --- NEW CAR TYPE UPDATED ---
 export type Car = {
+    id: number;       // <--- 1. YE ADD KIYA (Kyuki hum data me ID use kar rahe hain)
+    slug: string;     // <--- 2. YE ADD KIYA (URL routing ke liye)
     name: string;
     rating: number;
     reviews: number;
@@ -24,15 +25,14 @@ export type Car = {
     features?: string[];
     offers?: string[];
     
-    // NAYE SPECIFICATION FIELDS FOR NEW CARS
+    // SPECIFICATION FIELDS
     keySpecifications?: KeySpec[]; 
-    utilitySpecs?: KeySpec[]; // <-- Dimensions & Utility Data ke liye
+    utilitySpecs?: KeySpec[];
     standOutFeatures?: StandOutFeature[];
 }
 
 
-// --- USED CAR TYPE MEIN NAYE FIELDS ADD KIYE ---
-// Used Car (UsedCarCard.tsx aur detail page ke liye)
+// --- USED CAR TYPE (No Change required yet) ---
 export type UsedCar = {
   id: number;
   name: string;
@@ -45,18 +45,17 @@ export type UsedCar = {
   imageUrls: string[];
   sellerPhone: string;
   
-  // NAYE SPECIFICATION FIELDS (Aapke original code se)
   keySpecifications: KeySpec[];
-  topFeatures: string[];          // e.g., ["Rear AC Vents", "Cruise Control"]
+  topFeatures: string[];
   standOutFeatures: StandOutFeature[];
 };
 
-// --- BLOG TYPES UPDATED (No Change) ---
+// --- BLOG TYPES (No Change) ---
 export type Post = {
   id: number;
   created_at: string;
   title: string;
-  content: string; // Full content
+  content: string;
   slug: string;
   featured_image_url: string; 
   excerpt: string; 

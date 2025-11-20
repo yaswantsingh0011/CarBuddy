@@ -7,7 +7,7 @@ import Hero from '@/components/Hero';
 // --- COMPONENTS ---
 import UpcomingCarCard from '@/components/UpcomingCarCard';
 import ElectricCarCard from '@/components/ElectricCarCard';
-import MostSearchedSection from '@/components/MostSearchedSection'; // Naya Tabs Wala Section
+import MostSearchedSection from '@/components/MostSearchedSection';
 
 // --- DATA IMPORTS ---
 import { newLaunchCars } from '@/data/newlaunchcars'; 
@@ -79,6 +79,8 @@ export default function Home() {
             {newLaunchCars.map((car, index) => (
               <div key={index} className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0">
                  <UpcomingCarCard 
+                    // 👇 IMPORTANT: SLUG PASS KIYA HAI YAHAN
+                    slug={car.slug}
                     name={car.name} 
                     priceRange={car.priceRange} 
                     launchDate={car.location || "Coming Soon"} 
@@ -98,7 +100,6 @@ export default function Home() {
 
 
       {/* 3. MOST SEARCHED CARS (Tabs Section) */}
-      {/* Ye wo naya component hai jo humne banaya */}
       <MostSearchedSection />
 
 

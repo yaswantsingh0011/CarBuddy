@@ -20,14 +20,11 @@ const ElectricCarCard: React.FC<ElectricCarCardProps> = ({
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col h-full p-3">
       
       {/* Image Section */}
-      {/* CHANGE: 'bg-gray-100' hata diya, ab zaroorat nahi */}
       <div className="relative w-full h-48 rounded-lg overflow-hidden mb-3">
         <Image 
           src={imageUrl} 
           alt={name} 
           fill 
-          // CHANGE: 'object-contain' hata kar 'object-cover' lagaya
-          // Ab image poori fail jayegi (Full Width/Height)
           className="object-cover hover:scale-105 transition-transform duration-500"
         />
       </div>
@@ -39,12 +36,15 @@ const ElectricCarCard: React.FC<ElectricCarCardProps> = ({
           <p className="text-sm text-gray-600 mt-1">{priceRange}</p>
         </div>
 
-        {/* Button */}
+        {/* Button Logic Updated */}
         <button 
-          onClick={onOfferClick}
+          onClick={(e) => {
+            e.stopPropagation(); // 🛑 IMPORTANT: Ye line page navigation ko rokegi
+            onOfferClick();      // Sirf offer wala action chalega
+          }}
           className="w-full border border-orange-500 text-orange-600 font-bold py-2.5 rounded-lg hover:bg-orange-50 transition-colors text-sm"
         >
-          View Details
+          View Current Offers
         </button>
       </div>
 
