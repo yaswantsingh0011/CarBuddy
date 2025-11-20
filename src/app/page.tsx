@@ -1,18 +1,29 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import Hero from '@/components/Hero';
-import CarGridCard from '@/components/CarGridCard';
-import { newLaunchCars } from '@/data/newlaunchcars'; 
 
-// Modals imports
+// --- COMPONENTS ---
+import UpcomingCarCard from '@/components/UpcomingCarCard';
+import ElectricCarCard from '@/components/ElectricCarCard';
+import MostSearchedSection from '@/components/MostSearchedSection'; // Naya Tabs Wala Section
+
+// --- DATA IMPORTS ---
+import { newLaunchCars } from '@/data/newlaunchcars'; 
+import { electricCars } from '@/data/electricCars'; 
+
+// --- ICONS ---
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+
+// --- MODALS ---
 import BookingForm from '@/components/BookingForm'; 
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal'; 
 import ImageModal from '@/components/ImageModal';
 
 export default function Home() {
+  // --- STATES FOR MODALS ---
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<any>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<any>(null);
   const [selectedCarForOffers, setSelectedCarForOffers] = useState<any>(null);
@@ -20,63 +31,115 @@ export default function Home() {
   const [imageStartIndex, setImageStartIndex] = useState(0);
   const [compareList, setCompareList] = useState<number[]>([]);
 
-  const scrollToCars = () => document.getElementById('car-listings')?.scrollIntoView({ behavior: 'smooth' });
+  // --- HANDLERS ---
+  const scrollToCars = () => document.getElementById('upcoming-cars')?.scrollIntoView({ behavior: 'smooth' });
+
   const handleBookNow = (car: any) => setSelectedCarForBooking(car);
   const handleShowFeatures = (car: any) => setSelectedCarForFeatures(car);
   const handleGetOffers = (car: any) => setSelectedCarForOffers(car);
   const handleImageClick = (car: any, index: number) => { setSelectedCarForImages(car); setImageStartIndex(index); };
-
-  const toggleCompare = (id: number) => {
-    if (compareList.includes(id)) setCompareList((prev) => prev.filter((carId) => carId !== id));
-    else {
-      if (compareList.length >= 4) { alert("You can only compare up to 4 cars."); return; }
-      setCompareList((prev) => [...prev, id]);
-    }
+  
+  const handleAlert = (carName: string) => {
+    alert(`Notification set for ${carName}! We will notify you when it launches.`);
   };
 
+  // --- SLIDER LOGIC (Refs) ---
+  const upcomingSliderRef = useRef<HTMLDivElement>(null);
+  const electricSliderRef = useRef<HTMLDivElement>(null);
+
+  // Upcoming Slider Functions
+  const slideUpcomingLeft = () => upcomingSliderRef.current?.scrollBy({ left: -300, behavior: 'smooth' });
+  const slideUpcomingRight = () => upcomingSliderRef.current?.scrollBy({ left: 300, behavior: 'smooth' });
+
+  // Electric Slider Functions
+  const slideElectricLeft = () => electricSliderRef.current?.scrollBy({ left: -300, behavior: 'smooth' });
+  const slideElectricRight = () => electricSliderRef.current?.scrollBy({ left: 300, behavior: 'smooth' });
+
+
   return (
-    // CHANGE 1: 'pb-24' ko kam karke 'pb-8' kar diya
-    <main className="bg-gray-50 min-h-screen pb-8">
+    <main className="bg-gray-50 min-h-screen pb-12">
+      
+      {/* 1. HERO SECTION */}
       <Hero onExploreClick={scrollToCars} />
 
-      {/* CHANGE 2: 'pb-4' ko 'pb-0' kar diya taaki neeche space na bache */}
-      <section id="car-listings" className="container mx-auto px-4 pt-12 pb-0">
-        
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">Upcoming Launches</h2>
-          <p className="text-gray-600">Be the first to drive the future.</p>
+      {/* 2. UPCOMING CARS SECTION */}
+      <section id="upcoming-cars" className="container mx-auto px-4 pt-12 pb-8 relative">
+        <div className="text-left mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Upcoming Cars</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {newLaunchCars.map((car, index) => (
-            <CarGridCard
-              key={car.id || index}
-              name={car.name}
-              rating={car.rating}
-              reviews={car.reviews}
-              priceRange={car.priceRange}
-              location={car.location}
-              imageUrls={car.imageUrls}
-              onBookNowClick={() => handleBookNow(car)}
-              onGetOffersClick={() => handleGetOffers(car)}
-              onImageClick={(idx) => handleImageClick(car, idx)}
-              onShowFeaturesClick={() => handleShowFeatures(car)}
-              onAddToCompare={() => toggleCompare(Number(car.id) || index)}
-              isSelectedForCompare={compareList.includes(Number(car.id) || index)}
-              compareCount={compareList.length}
-            />
-          ))}
-        </div>
+        <div className="relative group">
+          {/* Left Arrow */}
+          <button onClick={slideUpcomingLeft} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all hidden md:flex items-center justify-center">
+            <FaChevronLeft size={20} />
+          </button>
+          
+          {/* Slider Container */}
+          <div ref={upcomingSliderRef} className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            {newLaunchCars.map((car, index) => (
+              <div key={index} className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0">
+                 <UpcomingCarCard 
+                    name={car.name} 
+                    priceRange={car.priceRange} 
+                    launchDate={car.location || "Coming Soon"} 
+                    imageUrl={car.imageUrls[0]} 
+                    onAlertClick={() => handleAlert(car.name)} 
+                 />
+              </div>
+            ))}
+          </div>
 
+          {/* Right Arrow */}
+          <button onClick={slideUpcomingRight} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all flex items-center justify-center">
+            <FaChevronRight size={20} />
+          </button>
+        </div>
       </section>
 
-      {/* Modals */}
+
+      {/* 3. MOST SEARCHED CARS (Tabs Section) */}
+      {/* Ye wo naya component hai jo humne banaya */}
+      <MostSearchedSection />
+
+
+      {/* 4. ELECTRIC CARS SECTION */}
+      <section className="container mx-auto px-4 pb-12 relative">
+        <div className="text-left mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Electric Cars</h2>
+        </div>
+
+        <div className="relative group">
+          <button onClick={slideElectricLeft} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all hidden md:flex items-center justify-center">
+            <FaChevronLeft size={20} />
+          </button>
+
+          <div ref={electricSliderRef} className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            {electricCars.map((car, index) => (
+              <div key={index} className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0">
+                 <ElectricCarCard 
+                    name={car.name} 
+                    priceRange={car.priceRange} 
+                    imageUrl={car.image} 
+                    onOfferClick={() => alert(`Offers for ${car.name} coming soon!`)} 
+                 />
+              </div>
+            ))}
+          </div>
+
+          <button onClick={slideElectricRight} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all flex items-center justify-center">
+            <FaChevronRight size={20} />
+          </button>
+        </div>
+      </section>
+
+
+      {/* --- HIDDEN MODALS --- */}
       {selectedCarForBooking && <BookingForm isOpen={!!selectedCarForBooking} onClose={() => setSelectedCarForBooking(null)} car={selectedCarForBooking} />}
       {selectedCarForFeatures && <FeaturesModal isOpen={!!selectedCarForFeatures} onClose={() => setSelectedCarForFeatures(null)} car={selectedCarForFeatures} />}
       {selectedCarForOffers && <OffersModal isOpen={!!selectedCarForOffers} onClose={() => setSelectedCarForOffers(null)} car={selectedCarForOffers} />}
       {selectedCarForImages && <ImageModal isOpen={!!selectedCarForImages} onClose={() => setSelectedCarForImages(null)} imageUrls={selectedCarForImages.imageUrls} startIndex={imageStartIndex} />}
       
-      {/* Compare Bar */}
+      {/* FLOATING COMPARE BAR */}
       {compareList.length > 0 && (
         <div className="fixed bottom-6 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-auto md:min-w-[400px] z-50">
           <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl p-3 md:p-4 flex justify-between items-center">
@@ -88,6 +151,7 @@ export default function Home() {
           </div>
         </div>
       )}
+
     </main>
   );
 }
