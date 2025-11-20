@@ -2,7 +2,7 @@
 
 import { Car, KeySpec } from "@/types";
 
-// --- SPECS CONSTANTS (Taaki Features Modal khali na dikhe) ---
+// --- SPECS CONSTANTS ---
 
 const OCTAVIA_RS_SPECS: KeySpec[] = [
     { label: 'Engine', value: '2.0L TSI Petrol' }, { label: 'Power', value: '245 hp' },
@@ -45,16 +45,52 @@ const CARNIVAL_UTILITY: KeySpec[] = [
 ];
 
 
-// --- MAIN ARRAY ---
+// --- MAIN ARRAY (Reordered: Last 2 moved to Top) ---
 
 export const newLaunchCars: Car[] = [
+  {
+    id: 903,
+    name: "Tesla Model Y",
+    rating: 5.0,
+    reviews: 500,
+    priceRange: "₹ 60.00 - 70.00 Lakh*",
+    location: "Coming Soon",
+    imageUrls: [
+        "/cars/tesla.jpg", 
+        "/cars/tesla-side.jpg", 
+        "/cars/tesla-rear.jpg",
+        "/cars/tesla-interior.jpg"
+    ],
+    features: ['Autopilot', 'Minimalist Interior', '15-inch Touchscreen', 'Glass Roof'],
+    offers: ['Registration Open', 'Supercharger Access included'],
+    keySpecifications: TESLA_Y_SPECS,
+    utilitySpecs: TESLA_Y_UTILITY,
+  },
+  {
+    id: 904,
+    name: "Kia Carnival 2025",
+    rating: 4.8,
+    reviews: 80,
+    priceRange: "₹ 40.00 - 50.00 Lakh*",
+    location: "Coming 2025",
+    imageUrls: [
+        "/cars/carnival.jpg",  
+        "/cars/carnival-side.jpg", 
+        "/cars/carnival-rear.jpg",
+        "/cars/carnival-interior.jpg"
+    ],
+    features: ['VIP Lounge Seating', '12.3-inch Dual Screens', 'Digital Rear View Mirror', 'Fingerprint Auth'],
+    offers: ['Loyalty Bonus for existing Kia owners', 'Corporate Booking Benefits'],
+    keySpecifications: CARNIVAL_SPECS,
+    utilitySpecs: CARNIVAL_UTILITY,
+  },
   {
     id: 901,
     name: "Skoda Octavia RS",
     rating: 4.8,
     reviews: 120,
     priceRange: "₹ 35.00 - 40.00 Lakh*",
-    location: "Coming 2025", // Location ki jagah Launch status dikha rahe hain
+    location: "Coming 2025", 
     imageUrls: [
         "/cars/octaviars.jpg", 
         "/cars/octaviars-side.jpg", 
@@ -83,41 +119,5 @@ export const newLaunchCars: Car[] = [
     offers: ['Launch Offer Coming Soon', 'Early Bird EV Benefits'],
     keySpecifications: SIERRA_SPECS,
     utilitySpecs: SIERRA_UTILITY,
-  },
-  {
-    id: 903,
-    name: "Tesla Model Y",
-    rating: 5.0,
-    reviews: 500,
-    priceRange: "₹ 60.00 - 70.00 Lakh*",
-    location: "Coming Soon",
-    imageUrls: [
-        "/cars/tesla.jpg", // Is naam se image save kr lena public folder me
-        "/cars/tesla-side.jpg", 
-        "/cars/tesla-rear.jpg",
-        "/cars/tesla-interior.jpg"
-    ],
-    features: ['Autopilot', 'Minimalist Interior', '15-inch Touchscreen', 'Glass Roof'],
-    offers: ['Registration Open', 'Supercharger Access included'],
-    keySpecifications: TESLA_Y_SPECS,
-    utilitySpecs: TESLA_Y_UTILITY,
-  },
-  {
-    id: 904,
-    name: "Kia Carnival 2025",
-    rating: 4.8,
-    reviews: 80,
-    priceRange: "₹ 40.00 - 50.00 Lakh*",
-    location: "Coming 2025",
-    imageUrls: [
-        "/cars/carnival.jpg",  // Is naam se image save kr lena
-        "/cars/carnival-side.jpg", 
-        "/cars/carnival-rear.jpg",
-        "/cars/carnival-interior.jpg"
-    ],
-    features: ['VIP Lounge Seating', '12.3-inch Dual Screens', 'Digital Rear View Mirror', 'Fingerprint Auth'],
-    offers: ['Loyalty Bonus for existing Kia owners', 'Corporate Booking Benefits'],
-    keySpecifications: CARNIVAL_SPECS,
-    utilitySpecs: CARNIVAL_UTILITY,
   },
 ];

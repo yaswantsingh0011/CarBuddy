@@ -16,17 +16,8 @@ const G63_UTILITY: KeySpec[] = [{ label: 'Boot', value: '667 L' }, { label: 'G.C
 const RRS_SPECS: KeySpec[] = [{ label: 'Engine', value: '3.0L Diesel' }, { label: 'Power', value: '346 hp' }, { label: 'Suspension', value: 'Air' }, { label: 'Screen', value: '13.1"' }];
 const RRS_UTILITY: KeySpec[] = [{ label: 'Boot', value: '835 L' }, { label: 'G.Clearance', value: '274 mm' }];
 
-const BE6E_SPECS: KeySpec[] = [{ label: 'Power', value: 'EV' }, { label: 'Range', value: '450 km' }, { label: 'Charging', value: 'Fast' }, { label: 'Drive', value: 'AWD' }];
-const BE6E_UTILITY: KeySpec[] = [{ label: 'Boot', value: '450 L' }, { label: 'G.Clearance', value: '205 mm' }];
-
-const CRETA_EV_SPECS: KeySpec[] = [{ label: 'Power', value: 'EV' }, { label: 'Range', value: '400 km' }, { label: 'Battery', value: '45 kWh' }, { label: 'Motor', value: '138 hp' }];
-const CRETA_EV_UTILITY: KeySpec[] = [{ label: 'Boot', value: '400 L' }, { label: 'G.Clearance', value: '190 mm' }];
-
 const Q5_SPECS: KeySpec[] = [{ label: 'Engine', value: '2.0L Turbo' }, { label: 'Power', value: '265 hp' }, { label: 'Drive', value: 'Quattro' }, { label: 'Trans', value: 'DCT' }];
 const Q5_UTILITY: KeySpec[] = [{ label: 'Boot', value: '550 L' }, { label: 'G.Clearance', value: '200 mm' }];
-
-const VICTORIS_SPECS: KeySpec[] = [{ label: 'Engine', value: '1.5L Hybrid' }, { label: 'Mileage', value: '28 kmpl' }, { label: 'Seats', value: '7' }, { label: 'Tech', value: 'ADAS' }];
-const VICTORIS_UTILITY: KeySpec[] = [{ label: 'Boot', value: '300 L' }, { label: 'G.Clearance', value: '210 mm' }];
 
 const PUNCH_SPECS: KeySpec[] = [{ label: 'Engine', value: '1.2L Petrol' }, { label: 'Power', value: '88 hp' }, { label: 'Safety', value: '5 Star' }, { label: 'Trans', value: 'AMT' }];
 const PUNCH_UTILITY: KeySpec[] = [{ label: 'Boot', value: '366 L' }, { label: 'G.Clearance', value: '187 mm' }];
@@ -54,9 +45,6 @@ const WRANGLER_UTILITY: KeySpec[] = [{ label: 'Boot', value: '548 L' }, { label:
 
 const VIRTUS_SPECS: KeySpec[] = [{ label: 'Engine', value: '1.5L TSI' }, { label: 'Power', value: '148 hp' }, { label: 'Safety', value: '5 Star' }, { label: 'Trans', value: 'DSG' }];
 const VIRTUS_UTILITY: KeySpec[] = [{ label: 'Boot', value: '521 L' }, { label: 'G.Clearance', value: '179 mm' }];
-
-const VERNA_SPECS: KeySpec[] = [{ label: 'Engine', value: '1.5L Turbo' }, { label: 'Power', value: '158 hp' }, { label: 'Tech', value: 'ADAS 2' }, { label: 'Audio', value: 'Bose' }];
-const VERNA_UTILITY: KeySpec[] = [{ label: 'Boot', value: '528 L' }, { label: 'G.Clearance', value: '170 mm' }];
 
 const KIGER_SPECS: KeySpec[] = [{ label: 'Engine', value: '1.0L Turbo' }, { label: 'Power', value: '99 hp' }, { label: 'Safety', value: '4 Star' }, { label: 'Mode', value: 'Sport' }];
 const KIGER_UTILITY: KeySpec[] = [{ label: 'Boot', value: '405 L' }, { label: 'G.Clearance', value: '205 mm' }];
@@ -110,28 +98,6 @@ export const carsData: Car[] = [
     keySpecifications: RRS_SPECS, utilitySpecs: RRS_UTILITY,
   },
   {
-    name: 'Mahindra BE6E',
-    rating: 4.8, 
-    reviews: 5, 
-    priceRange: '₹ 28.00 - 35.00 Lakh*', 
-    location: 'Jaipur',
-    imageUrls: ['/cars/be6e.jpg', '/cars/be6e-side.jpg', '/cars/be6e-rear.jpg'],
-    features: ['Futuristic Design', 'Dual Screen', 'ADAS 2'], 
-    offers: ['Free Charger', 'Smartwatch Free'],
-    keySpecifications: BE6E_SPECS, utilitySpecs: BE6E_UTILITY,
-  },
-  {
-    name: 'Hyundai Creta Electric',
-    rating: 4.6, 
-    reviews: 8, 
-    priceRange: '₹ 22.00 - 25.00 Lakh*', 
-    location: 'Jaipur',
-    imageUrls: ['/cars/creta-electric.jpg', '/cars/creta-electric-side.jpg', '/cars/creta-electric-rear.jpg'],
-    features: ['400km Range', 'ADAS 2', 'Ventilated Seats'],
-    offers: ['Free Home Charger', 'Intro Price'],
-    keySpecifications: CRETA_EV_SPECS, utilitySpecs: CRETA_EV_UTILITY,
-  },
-  {
     name: 'Audi Q5', 
     rating: 4.7, 
     reviews: 20, 
@@ -141,17 +107,6 @@ export const carsData: Car[] = [
     features: ['Quattro', 'B&O Sound', 'Virtual Cockpit'], 
     offers: ['3 Year Service', 'Low EMI'],
     keySpecifications: Q5_SPECS, utilitySpecs: Q5_UTILITY,
-  },
-  {
-    name: 'Maruti Suzuki Victoris',
-    rating: 4.5, 
-    reviews: 10, 
-    priceRange: '₹ 12.00 - 18.00 Lakh*', 
-    location: 'Jaipur',
-    imageUrls: ['/cars/victoris.jpg', '/cars/victoris-side.jpg', '/cars/victoris-rear.jpg'],
-    features: ['Hybrid', '7 Seater', 'Pano Sunroof'],
-    offers: ['Exchange Bonus', '5 Year Warranty'],
-    keySpecifications: VICTORIS_SPECS, utilitySpecs: VICTORIS_UTILITY,
   },
   {
     name: 'Tata Punch',
@@ -251,17 +206,6 @@ export const carsData: Car[] = [
     features: ['5 Star Safety', 'Ventilated Seats', '1.5 TSI'],
     offers: ['Service Pack Offer', 'Corporate Discount'],
     keySpecifications: VIRTUS_SPECS, utilitySpecs: VIRTUS_UTILITY,
-  },
-  {
-    name: 'Hyundai Verna',
-    rating: 4.6, 
-    reviews: 65, 
-    priceRange: '₹ 11.00 - 17.42 Lakh*', 
-    location: 'Jaipur',
-    imageUrls: ['/cars/verna.jpg', '/cars/verna-side.jpg', '/cars/verna-rear.jpg'],
-    features: ['ADAS 2', 'Heated Seats', 'Turbo Petrol'],
-    offers: ['Cash Discount', 'Exchange Bonus'],
-    keySpecifications: VERNA_SPECS, utilitySpecs: VERNA_UTILITY,
   },
   {
     name: 'Renault Kiger',
