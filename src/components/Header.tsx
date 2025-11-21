@@ -58,17 +58,18 @@ const Header: React.FC = () => {
               </div>
             </Link>
 
-            {/* 2. Desktop Navigation (Hidden on Mobile) */}
+            {/* 2. Desktop Navigation */}
             <nav className="hidden md:flex space-x-8 lg:space-x-12"> 
               <Link href="/" className="text-gray-700 hover:text-blue-600 font-medium">Home</Link>
-              {/* NEW LINK ADDED HERE */}
-              <Link href="/all-cars" className="text-gray-700 hover:text-blue-600 font-medium">All Cars</Link>
+              
+              {/* ❌ Removed 'All Cars' from here */}
+              
               <Link href="/new-cars" className="text-gray-700 hover:text-blue-600 font-medium">New Cars</Link>
               <Link href="/used-cars" className="text-gray-700 hover:text-blue-600 font-medium">Used Cars</Link>
               <Link href="/blog" className="text-gray-700 hover:text-blue-600 font-medium">Blog</Link>
             </nav>
 
-            {/* 3. Desktop User Links (Hidden on Mobile) */}
+            {/* 3. Desktop User Links */}
             <div className="hidden md:flex items-center space-x-6 text-sm text-gray-600">
               <a href="#" className="flex items-center hover:text-blue-600">
                 <span>English</span>
@@ -93,7 +94,7 @@ const Header: React.FC = () => {
               )}
             </div>
 
-            {/* 4. Mobile Hamburger Button (Visible only on Mobile) */}
+            {/* 4. Mobile Hamburger Button */}
             <div className="md:hidden">
               <button 
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -109,12 +110,13 @@ const Header: React.FC = () => {
 
           </div>
 
-          {/* 5. Mobile Menu Dropdown (Visible when state is open) */}
+          {/* 5. Mobile Menu Dropdown */}
           {isMobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-gray-100 space-y-4">
               <Link href="/" className="block text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-              {/* NEW LINK ADDED HERE TOO */}
-              <Link href="/all-cars" className="block text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>All Cars</Link>
+              
+              {/* ❌ Removed 'All Cars' from here too */}
+              
               <Link href="/new-cars" className="block text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>New Cars</Link>
               <Link href="/used-cars" className="block text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Used Cars</Link>
               <Link href="/blog" className="block text-gray-700 hover:text-blue-600 font-medium" onClick={() => setIsMobileMenuOpen(false)}>Blog</Link>

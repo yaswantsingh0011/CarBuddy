@@ -11,8 +11,8 @@ interface HeroProps {
 // Yahan apni images ke naam daal dena
 const heroImages = [
   "/cars/octaviars.jpg",       // Car 1
-  "/cars/be6e.jpg",   // Car 2 (Apni file ka naam likhna)
-  "/cars/xuv700-side.jpg"    // Car 3
+  "/cars/bmw-ix-new.jpg",   // Car 2 (Apni file ka naam likhna)
+  "/cars/carnival.jpg"    // Car 3
 ];
 
 const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
