@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link'; // Link import kiya
+import Link from 'next/link'; 
 import { FaChevronLeft, FaChevronRight, FaArrowRight } from 'react-icons/fa';
 import { popularBrands } from '@/data/brands';
 
@@ -30,23 +30,24 @@ const BrandSection = () => {
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                     {popularBrands.map((brand) => (
-                        // ✅ FIX: Link Wrap kar diya
-                        // URL banega: /brand/tata ya /brand/maruti-suzuki
                         <Link 
                             key={brand.id} 
                             href={`/brand/${brand.name.toLowerCase().replace(/\s+/g, '-')}`}
-                            className="min-w-[140px] md:min-w-[180px] h-[140px] md:h-[160px] flex-shrink-0 border border-gray-200 rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer hover:shadow-md hover:border-blue-200 transition-all group/card block"
+                            // ✅ CARD SIZE INCREASED: Thoda chauda kiya taaki logo fit ho
+                            className="min-w-[150px] md:min-w-[200px] h-[150px] md:h-[180px] flex-shrink-0 border border-gray-200 rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer hover:shadow-md hover:border-blue-200 transition-all group/card block"
                         >
-                            <div className="relative w-16 h-16 md:w-20 md:h-20 mb-3 opacity-80 group-hover/card:opacity-100 transition-opacity">
+                            {/* ✅ LOGO SIZE INCREASED HERE */}
+                            {/* Pehle w-16 h-16 tha, ab w-24 h-16 (Mobile) aur w-32 h-20 (Desktop) kar diya */}
+                            <div className="relative w-24 h-16 md:w-32 md:h-20 mb-4 opacity-90 group-hover/card:opacity-100 transition-opacity flex items-center justify-center">
                                 <Image 
                                     src={brand.logo} 
                                     alt={brand.name} 
                                     fill 
-                                    className="object-contain"
+                                    className="object-contain" // object-contain logo ko katne nahi dega
                                     onError={(e: any) => { e.target.src = "https://placehold.co/100x100?text=Logo"; }}
                                 />
                             </div>
-                            <span className="text-gray-700 font-semibold group-hover/card:text-blue-600 transition-colors">
+                            <span className="text-gray-700 font-semibold group-hover/card:text-blue-600 transition-colors text-sm md:text-base">
                                 {brand.name}
                             </span>
                         </Link>
