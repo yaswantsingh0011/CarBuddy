@@ -3,57 +3,56 @@ import { supabase } from '@/lib/supabaseClient';
 import { Post, SidebarAuthor, SidebarCategory, SidebarLatestPost } from '@/types/index';
 import BlogLayout from './BlogLayout';
 
-// --- Data Fetching Functions ---
-
+// --- Data Fetching ---
 async function getPosts(): Promise<Post[]> {
   const { data, error } = await supabase
     .from('posts')
-    // === BADLAAV: Saare fields, including SLUG, fetch kiye gaye hain ===
-    .select('id, created_at, title, excerpt, slug, featured_image_url, category, date, author_name, tags, content') 
+    .select('*') // Saare columns lelo
     .order('created_at', { ascending: false });
 
   if (error) {
     console.error('Error fetching posts:', error.message);
     return [];
   }
+  
+  // Data ko Post type me map karna (Agar zaroorat ho)
+  // Yahan hum assume kar rahe hain ki Supabase columns aur Post type same hain
   return data || [];
 }
 
-async function getSidebarData(posts: Post[]): Promise<{
-  latestPosts: SidebarLatestPost[];
-  categories: SidebarCategory[];
-  tags: string[];
-  authors: SidebarAuthor[];
-}> {
-  // Logic to structure sidebar data from fetched posts
-  const latestPosts = posts
-    .slice(0, 5)
-    .map(post => ({
-      title: post.title,
-      date: post.date,
-      slug: post.slug, // <-- Ab yeh safe hai
-    }));
+async function getSidebarData(posts: Post[]) {
+  // Latest Posts (Title, Date, Slug)
+  const latestPosts = posts.slice(0, 5).map(p => ({
+    title: p.title,
+    date: new Date(p.created_at).toLocaleDateString(), // Date format fix
+    slug: p.slug,
+  }));
 
+  // Categories Count
   const categoryCounts = new Map<string, number>();
-  posts.forEach(post => {
-    categoryCounts.set(post.category, (categoryCounts.get(post.category) || 0) + 1);
+  posts.forEach(p => {
+    const cat = p.category || 'Uncategorized';
+    categoryCounts.set(cat, (categoryCounts.get(cat) || 0) + 1);
   });
-  const categories: SidebarCategory[] = Array.from(categoryCounts, ([name, count]) => ({ name, count }));
+  const categories = Array.from(categoryCounts, ([name, count]) => ({ name, count }));
 
+  // Tags (Unique)
   const allTags = new Set<string>();
-  posts.forEach(post => {
-    if(post.tags) {
-      post.tags.forEach(tag => allTags.add(tag));
+  posts.forEach(p => {
+    if (Array.isArray(p.tags)) { // Check if array
+        p.tags.forEach((tag: string) => allTags.add(tag));
     }
   });
   const tags = Array.from(allTags);
 
+  // Authors
   const authorCounts = new Map<string, number>();
-  posts.forEach(post => {
-    authorCounts.set(post.author_name, (authorCounts.get(post.author_name) || 0) + 1);
+  posts.forEach(p => {
+    const auth = p.author_name || 'Admin';
+    authorCounts.set(auth, (authorCounts.get(auth) || 0) + 1);
   });
-  const authors: SidebarAuthor[] = Array.from(authorCounts, ([name, posts]) => ({ 
-    name, 
+  const authors = Array.from(authorCounts, ([name, posts]) => ({
+    name,
     posts,
     initial: name.charAt(0).toUpperCase()
   }));
@@ -61,8 +60,6 @@ async function getSidebarData(posts: Post[]): Promise<{
   return { latestPosts, categories, tags, authors };
 }
 
-
-// --- Main Blog Page (Server Component) ---
 export default async function BlogPage() {
   const posts = await getPosts();
   const sidebarData = await getSidebarData(posts);
