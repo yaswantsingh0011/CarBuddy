@@ -1,3 +1,4 @@
+// src/app/page.tsx
 "use client";
 
 import React, { useState, useRef } from 'react';
@@ -10,7 +11,8 @@ import UpcomingCarCard from '@/components/UpcomingCarCard';
 import ElectricCarCard from '@/components/ElectricCarCard';
 import MostSearchedSection from '@/components/MostSearchedSection';
 import BlogSection from '@/components/BlogSection'; 
-import BrandSection from '@/components/BrandSection'; // ✅ ADDED: Brand Section
+import BrandSection from '@/components/BrandSection'; 
+import VisualStoriesSection from '@/components/VisualStoriesSection'; // ✅ ADDED
 
 // --- DATA IMPORTS ---
 import { newLaunchCars } from '@/data/newlaunchcars'; 
@@ -91,9 +93,10 @@ export default function Home() {
   return (
     <main className="bg-gray-50 min-h-screen pb-12">
       
+      {/* 1. HERO SECTION */}
       <Hero onExploreClick={scrollToCars} />
 
-      {/* 1. UPCOMING CARS SECTION */}
+      {/* 2. UPCOMING CARS SECTION */}
       <section id="upcoming-cars" className="container mx-auto px-4 pt-12 pb-8 relative">
         <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Upcoming Cars</h2>
@@ -125,13 +128,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. ✅ BRAND SECTION (New) */}
+      {/* 3. BRAND SECTION */}
       <BrandSection />
 
-      {/* 3. MOST SEARCHED CARS */}
+      {/* 4. MOST SEARCHED CARS */}
       <MostSearchedSection />
 
-      {/* 4. ELECTRIC CARS SECTION */}
+      {/* 5. ELECTRIC CARS SECTION */}
       <section className="container mx-auto px-4 pb-12 relative">
         <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Electric Cars</h2>
@@ -145,7 +148,7 @@ export default function Home() {
           <div ref={electricSliderRef} className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {electricCars.map((car, index) => {
               
-              // 🛠️ FIX: Handle Image Array properly
+              // FIX: Handle Image Array properly
               const displayImage = (car as any).images ? (car as any).images[0] : (car as any).image;
 
               return (
@@ -173,7 +176,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. BLOG SECTION */}
+      {/* ✅ 6. VISUAL STORIES SECTION (New) */}
+      <VisualStoriesSection />
+
+      {/* 7. BLOG SECTION */}
       <BlogSection />
 
 
