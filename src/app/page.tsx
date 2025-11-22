@@ -9,7 +9,8 @@ import Hero from '@/components/Hero';
 import UpcomingCarCard from '@/components/UpcomingCarCard';
 import ElectricCarCard from '@/components/ElectricCarCard';
 import MostSearchedSection from '@/components/MostSearchedSection';
-import BlogSection from '@/components/BlogSection'; // ✅ 1. Import Blog Section
+import BlogSection from '@/components/BlogSection'; 
+import BrandSection from '@/components/BrandSection'; // ✅ ADDED: Brand Section
 
 // --- DATA IMPORTS ---
 import { newLaunchCars } from '@/data/newlaunchcars'; 
@@ -92,7 +93,7 @@ export default function Home() {
       
       <Hero onExploreClick={scrollToCars} />
 
-      {/* UPCOMING CARS SECTION */}
+      {/* 1. UPCOMING CARS SECTION */}
       <section id="upcoming-cars" className="container mx-auto px-4 pt-12 pb-8 relative">
         <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Upcoming Cars</h2>
@@ -107,7 +108,7 @@ export default function Home() {
             {newLaunchCars.map((car, index) => (
               <div key={index} className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0">
                  <UpcomingCarCard 
-                    slug={car.slug} // Ensure this slug exists in newlaunchcars data
+                    slug={car.slug}
                     name={car.name} 
                     priceRange={car.priceRange} 
                     launchDate={car.location || "Coming Soon"} 
@@ -124,12 +125,13 @@ export default function Home() {
         </div>
       </section>
 
+      {/* 2. ✅ BRAND SECTION (New) */}
+      <BrandSection />
 
-      {/* MOST SEARCHED CARS */}
+      {/* 3. MOST SEARCHED CARS */}
       <MostSearchedSection />
 
-
-      {/* ELECTRIC CARS SECTION */}
+      {/* 4. ELECTRIC CARS SECTION */}
       <section className="container mx-auto px-4 pb-12 relative">
         <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Electric Cars</h2>
@@ -143,7 +145,7 @@ export default function Home() {
           <div ref={electricSliderRef} className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {electricCars.map((car, index) => {
               
-              // 🛠️ FIX: Agar 'images' array hai to pehli image lo
+              // 🛠️ FIX: Handle Image Array properly
               const displayImage = (car as any).images ? (car as any).images[0] : (car as any).image;
 
               return (
@@ -156,7 +158,6 @@ export default function Home() {
                      <ElectricCarCard 
                         name={car.name} 
                         priceRange={car.priceRange} 
-                        // Fixed Image URL Here
                         imageUrl={displayImage || "/cars/placeholder.jpg"} 
                         onOfferClick={() => handleGetOffers(car)} 
                      />
@@ -172,7 +173,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ✅ 2. BLOG SECTION ADDED HERE */}
+      {/* 5. BLOG SECTION */}
       <BlogSection />
 
 
