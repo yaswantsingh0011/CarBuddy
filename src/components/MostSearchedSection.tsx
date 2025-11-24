@@ -7,7 +7,7 @@ import { mostSearchedCars } from '@/data/mostSearchedCars';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import OffersModal from './OffersModal';
 
-const categories = ["SUV", "Hatchback", "Sedan", "Luxury"];
+const categories = ["SUV", "Luxury","Sedan","Hatchback"];
 
 const MostSearchedSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState("SUV");

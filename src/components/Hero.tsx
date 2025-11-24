@@ -11,7 +11,7 @@ interface HeroProps {
 // Yahan apni images ke naam daal dena
 const heroImages = [
   "/cars/octaviars.jpg",       // Car 1
-  "/cars/bmw-ix-new.jpg",   // Car 2 (Apni file ka naam likhna)
+  "/cars/sierra.jpg",   // Car 2 (Apni file ka naam likhna)
   "/cars/carnival.jpg"    // Car 3
 ];
 
