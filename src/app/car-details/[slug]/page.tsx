@@ -3,9 +3,10 @@
 import React, { useState, use } from 'react';
 import { notFound } from 'next/navigation';
 
-// ✅ 1. DONO DATA FILES IMPORT KARNA ZAROORI HAI
+// ✅ 1. IMPORT ALL 3 DATA FILES
 import { mostSearchedCars } from '@/data/mostSearchedCars';
 import { electricCars } from '@/data/electricCars'; 
+import { newLaunchCars } from '@/data/newlaunchcars'; // New Launch bhi yahi se handle hoga
 
 import BookingForm from '@/components/BookingForm';
 import OffersModal from '@/components/OffersModal'; 
@@ -13,8 +14,8 @@ import {
   FaStar, FaStarHalfAlt, FaGasPump, FaCogs, FaBolt, FaArrowRight, FaCheckCircle, FaCar, FaRoad 
 } from 'react-icons/fa';
 
-// Helper to generate slug
-const generateSlug = (name: string) => name.toLowerCase().split(" ").join("-");
+// Helper to clean slug
+const generateSlug = (name: string) => name.trim().toLowerCase().replace(/\s+/g, "-");
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -22,43 +23,50 @@ interface PageProps {
 
 const CarDetailPage = ({ params }: PageProps) => {
   const { slug } = use(params);
+  const decodedSlug = decodeURIComponent(slug);
 
-  // States
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isOffersOpen, setIsOffersOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'specs' | 'features'>('specs');
 
-  // ✅ 2. FIX: CAR FINDING LOGIC (Dono arrays check karega)
+  // ✅ 2. UNIVERSAL SEARCH LOGIC
+  // Ye teeno lists me check karega. Agar car kahin bhi mili, to dikha dega.
   const foundCar = 
-    mostSearchedCars.find((c) => generateSlug(c.name) === slug) || 
-    electricCars.find((c) => generateSlug(c.name) === slug);
+    mostSearchedCars.find((c) => generateSlug(c.name) === decodedSlug) || 
+    electricCars.find((c) => generateSlug(c.name) === decodedSlug) ||
+    newLaunchCars.find((c) => (c.slug === decodedSlug) || (generateSlug(c.name) === decodedSlug));
 
-  // Agar dono jagah nahi mili, tab 404 dena
-  if (!foundCar) return notFound();
+  // Agar teeno me se kahin nahi mili, to 404 error
+  if (!foundCar) {
+    return notFound();
+  }
 
-  // --- DATA PREPARATION (Handling Naya vs Purana Format) ---
+  // --- DATA NORMALIZATION (Sab data ko ek format me lana) ---
   
-  // 1. Images: Agar 'images' array hai to wo lo, nahi to purana single 'image'
-  const carImages = (foundCar as any).images || [(foundCar as any).image];
+  // Images: Agar 'images' array hai (Electric/MostSearch) ya 'imageUrls' (NewLaunch) ya single 'image'
+  const carImages = (foundCar as any).images || (foundCar as any).imageUrls || [(foundCar as any).image];
 
-  // 2. Price: Price ya PriceRange
+  // Price
   const displayPrice = (foundCar as any).price || (foundCar as any).priceRange;
 
-  // 3. Specs & Features: Fallback logic agar data missing ho
+  // Specs & Features Fallback
   const specs = (foundCar as any).specs || { 
     engine: "N/A", power: "N/A", torque: "N/A", transmission: "N/A", 
     bootSpace: "N/A", groundClearance: "N/A", mileage: "N/A"
   }; 
   const features = (foundCar as any).features || ["Standard Safety Features", "AC", "Power Windows", "Music System"];
 
-  // 4. Check if EV (Logic: ID 800+ ya Category 'EV' ya Name me 'EV')
+  // Check if EV
   const isEV = foundCar.id > 800 || (foundCar as any).category === "EV" || foundCar.name.includes("EV");
 
-  // 5. Offers Logic
+  // Offers Logic
   const getOffersList = () => {
     if(isEV) return ["Free Home Wall Box Charger", "3 Year Battery Health Checkup", "Zero Loan Processing Fee"];
     if(foundCar.name.includes("Mercedes") || foundCar.name.includes("BMW")) return ["5 Year Service Package", "Ceramic Coating Free"];
+    // New Launch Specific Offer
+    if((foundCar as any).launchDate) return ["Pre-Booking Open", "Priority Delivery", "Early Bird Price Protection"];
+    
     return ["Exchange Bonus up to ₹25,000", "Free Insurance for 1st Year", "Corporate Discount Available"];
   };
 
@@ -72,9 +80,8 @@ const CarDetailPage = ({ params }: PageProps) => {
         {/* --- TOP SECTION --- */}
         <div className="bg-white rounded-xl shadow-sm p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
             
-            {/* GALLERY SECTION */}
+            {/* GALLERY */}
             <div>
-                {/* Main Large Image */}
                 <div className="relative w-full h-[300px] md:h-[400px] rounded-xl overflow-hidden border border-gray-100 mb-4 bg-gray-50 flex items-center justify-center">
                     <img 
                         src={carImages[selectedImageIndex]} 
@@ -82,8 +89,6 @@ const CarDetailPage = ({ params }: PageProps) => {
                         className="w-full h-full object-contain transition-all duration-300 hover:scale-105" 
                     />
                 </div>
-                
-                {/* Thumbnail Strip */}
                 <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                     {carImages.map((img: string, idx: number) => (
                         <div 
@@ -99,21 +104,20 @@ const CarDetailPage = ({ params }: PageProps) => {
                 </div>
             </div>
 
-            {/* INFO SECTION */}
+            {/* INFO */}
             <div className="flex flex-col">
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{foundCar.name}</h1>
                 
                 <div className="flex items-center space-x-2 mb-4 text-sm border-b border-gray-100 pb-4">
                     <div className="flex text-yellow-400"><FaStar /><FaStar /><FaStar /><FaStar /><FaStarHalfAlt /></div>
                     <span className="text-gray-900 font-bold">4.9 / 5</span>
-                    <span className="text-gray-400">|</span>
-                    <span className="text-gray-500">45 Reviews</span>
+                    <span className="text-gray-500">| 45 Reviews</span>
                 </div>
 
                 <div className="mb-1"><h2 className="text-3xl font-bold text-gray-900">{displayPrice}</h2></div>
                 <p className="text-xs text-gray-500 mb-6">*Ex-showroom price</p>
 
-                {/* EMI & Why Choose Box */}
+                {/* Highlight Box */}
                 <div className="bg-green-50 rounded-lg p-4 border border-green-100 mb-6">
                     <div className="flex justify-between items-center mb-2">
                         <span className="text-gray-700 font-medium">Estimated EMI:</span>
@@ -125,7 +129,6 @@ const CarDetailPage = ({ params }: PageProps) => {
                     </div>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="mt-auto flex flex-col gap-3">
                     <button 
                         onClick={() => setIsOffersOpen(true)}
@@ -143,16 +146,14 @@ const CarDetailPage = ({ params }: PageProps) => {
             </div>
         </div>
 
-        {/* --- BOTTOM SECTION: TABS --- */}
+        {/* TABS SECTION */}
         <div className="bg-white rounded-xl shadow-sm p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">Detailed Key Specs & Features</h3>
-            
             <div className="flex border-b border-gray-200 mb-8">
                 <button onClick={() => setActiveTab('specs')} className={`pb-3 pr-8 text-sm md:text-base font-bold transition-all border-b-2 ${activeTab === 'specs' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Key Specifications</button>
                 <button onClick={() => setActiveTab('features')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 ${activeTab === 'features' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Top Features</button>
             </div>
 
-            {/* Specs Tab */}
             {activeTab === 'specs' && (
                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-8 gap-x-4 animate-fadeIn">
                     <SpecItem icon={isEV ? <FaBolt/> : <FaGasPump/>} label={isEV ? "Battery" : "Engine"} value={specs.engine} />
@@ -165,7 +166,6 @@ const CarDetailPage = ({ params }: PageProps) => {
                  </div>
             )}
 
-            {/* Features Tab */}
             {activeTab === 'features' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fadeIn">
                     {features.map((feat: string, index: number) => (
@@ -178,13 +178,11 @@ const CarDetailPage = ({ params }: PageProps) => {
             )}
             
             <div className="mt-8 pt-4 border-t border-gray-100">
-                <button className="text-red-600 text-sm font-bold flex items-center gap-1 hover:underline">
-                    View All Specs and Features <FaArrowRight size={12} />
-                </button>
+                <button className="text-red-600 text-sm font-bold flex items-center gap-1 hover:underline">View All Specs and Features <FaArrowRight size={12} /></button>
             </div>
         </div>
 
-        {/* --- MODALS --- */}
+        {/* MODALS */}
         {isBookingOpen && <BookingForm isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} car={foundCar} />}
         <OffersModal isOpen={isOffersOpen} onClose={() => setIsOffersOpen(false)} car={carForModal} />
 
@@ -193,13 +191,9 @@ const CarDetailPage = ({ params }: PageProps) => {
   );
 };
 
-// Sub-Component for cleaner code
 const SpecItem = ({ icon, label, value }: { icon: any, label: string, value: string }) => (
     <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2 text-gray-400 mb-1">
-            <span className="text-sm">{icon}</span> 
-            <span className="text-xs uppercase tracking-wide">{label}</span>
-        </div>
+        <div className="flex items-center gap-2 text-gray-400 mb-1"><span className="text-sm">{icon}</span> <span className="text-xs uppercase tracking-wide">{label}</span></div>
         <p className="font-bold text-gray-900 text-lg">{value || "N/A"}</p>
     </div>
 );

@@ -1,71 +1,79 @@
-// src/components/UpcomingCarCard.tsx
 "use client";
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link'; // 1. Link import kiya
+import Link from 'next/link'; // ✅ Link import kiya
 import { FaBell } from 'react-icons/fa';
 
 interface UpcomingCarCardProps {
-  slug: string; // 2. Slug add kiya prop mai
   name: string;
   priceRange: string;
   launchDate: string;
   imageUrl: string;
+  slug: string;
   onAlertClick: () => void;
 }
 
 const UpcomingCarCard: React.FC<UpcomingCarCardProps> = ({
-  slug, // 3. Slug destructure kiya
   name,
   priceRange,
   launchDate,
   imageUrl,
+  slug,
   onAlertClick,
 }) => {
+  
+  // ✅ Sahi URL bana rahe hain
+  const detailPageUrl = `/car-details/${slug}`;
+
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col h-full group">
+    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-all flex flex-col h-full relative group">
       
-      {/* Image Section ko Link bana diya */}
-      <Link href={`/upcoming/${slug}`} className="relative w-full h-48 block cursor-pointer">
-        <Image 
-          src={imageUrl} 
-          alt={name} 
-          fill 
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
+      {/* ✅ CLICKABLE IMAGE: Ab Image par click karne se Detail Page khulega */}
+      <Link href={detailPageUrl} className="relative w-full h-48 bg-gray-100 block cursor-pointer">
+        <Image
+          src={imageUrl}
+          alt={name}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        
-        {/* Expected Launch Badge */}
-        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold text-gray-700 shadow-sm border border-gray-200 uppercase tracking-wide">
-          Expected Launch : {launchDate}
+        {/* Launch Date Badge */}
+        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-[10px] font-bold text-gray-700 shadow-sm uppercase tracking-wider">
+            {launchDate}
         </div>
       </Link>
 
-      {/* Details Section */}
-      <div className="p-4 flex flex-col flex-grow justify-between">
-        
-        {/* Title aur Price ko Link bana diya */}
-        <Link href={`/upcoming/${slug}`} className="block cursor-pointer">
-          <h3 className="text-lg font-bold text-gray-900 mb-1 hover:text-orange-600 transition-colors">{name}</h3>
-          <div className="flex items-baseline space-x-1">
-            <p className="text-base font-semibold text-gray-800">{priceRange}</p>
-            <span className="text-xs text-gray-500">Estimated</span>
-          </div>
-        </Link>
-
-        {/* Alert Button (Isme Link nahi lagaya) */}
-        <button 
-          onClick={(e) => {
-             e.preventDefault(); // Link click hone se rokne ke liye
-             onAlertClick();
-          }}
-          className="mt-4 w-full flex items-center justify-center space-x-2 border border-red-500 text-red-600 font-bold py-2.5 rounded-lg hover:bg-red-50 transition-colors text-sm uppercase"
-        >
-          <FaBell size={14} />
-          <span>Alert Me When Launched</span>
-        </button>
+      {/* Wishlist Icon (Clickable area se bahar rakha hai taaki conflict na ho) */}
+      <div className="absolute top-3 right-3 bg-white/80 p-1.5 rounded-full cursor-pointer hover:bg-white shadow-sm z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
       </div>
 
+      {/* Content Section */}
+      <div className="p-4 flex flex-col flex-grow">
+        
+        {/* ✅ CLICKABLE NAME: Name par click karne se bhi Detail Page khulega */}
+        <div className="flex justify-between items-start mb-1">
+            <Link href={detailPageUrl} className="hover:text-blue-600 transition-colors">
+               <h3 className="text-lg font-bold text-gray-900 line-clamp-1">{name}</h3>
+            </Link>
+        </div>
+
+        {/* Price */}
+        <p className="text-lg font-bold text-gray-900 mb-1">{priceRange}</p>
+        <p className="text-xs text-gray-500 mb-4">Estimated Price</p>
+
+        {/* Alert Button (Ye waisa hi rahega, navigation nahi karega) */}
+        <div className="mt-auto">
+            <button 
+                onClick={onAlertClick} 
+                className="w-full flex items-center justify-center gap-2 border border-red-500 text-red-600 font-bold py-2.5 rounded-lg text-sm hover:bg-red-50 transition-colors uppercase tracking-wider"
+            >
+                <FaBell size={14} />
+                Alert Me When Launched
+            </button>
+        </div>
+
+      </div>
     </div>
   );
 };

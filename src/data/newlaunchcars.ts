@@ -1,123 +1,203 @@
 // src/data/newlaunchcars.ts
 
-import { Car, KeySpec } from "@/types";
-
-// --- 1. SPECS CONSTANTS ---
-
-// Tesla
-const TESLA_Y_SPECS: KeySpec[] = [{ label: 'Range', value: '530 km' }, { label: '0-100', value: '3.5s' }, { label: 'Launch', value: 'Dec 2025' }];
-const TESLA_Y_UTILITY: KeySpec[] = [{ label: 'Boot Space', value: '854 L' }];
-
-// Carnival
-const CARNIVAL_SPECS: KeySpec[] = [{ label: 'Seating', value: '7/9 VIP' }, { label: 'Engine', value: '2.2L Diesel' }, { label: 'Launch', value: 'Jan 2026' }];
-const CARNIVAL_UTILITY: KeySpec[] = [{ label: 'Boot Space', value: '627 L' }];
-
-// Octavia RS
-const OCTAVIA_RS_SPECS: KeySpec[] = [{ label: 'Engine', value: '2.0L TSI' }, { label: 'Power', value: '245 hp' }, { label: 'Launch', value: 'Nov 2025' }];
-const OCTAVIA_RS_UTILITY: KeySpec[] = [{ label: 'Boot Space', value: '600 L' }];
-
-// Sierra
-const SIERRA_SPECS: KeySpec[] = [{ label: 'Range', value: '500 km' }, { label: 'Roof', value: 'Glass' }, { label: 'Launch', value: 'Feb 2026' }];
-const SIERRA_UTILITY: KeySpec[] = [{ label: 'Boot Space', value: '450 L' }];
-
-// New Additions (Generic Specs for now)
-const EV_SPECS: KeySpec[] = [{ label: 'Powertrain', value: 'Electric' }, { label: 'Range', value: '450+ km' }, { label: 'Launch', value: 'Dec 2025' }];
-const SEDAN_SPECS: KeySpec[] = [{ label: 'Engine', value: '2.0L Turbo' }, { label: 'Power', value: '190 hp' }, { label: 'Launch', value: 'Dec 2025' }];
-const GENERIC_UTILITY: KeySpec[] = [{ label: 'Boot Space', value: 'TBA' }];
-
-
-// --- 2. MAIN ARRAY (Total 8 Cars with Slugs) ---
-
-export const newLaunchCars: Car[] = [
-  // --- PURANI 4 CARS ---
+export const newLaunchCars = [
+  // ==============================
+  // 1. TESLA MODEL Y
+  // ==============================
   {
     id: 901,
     name: "Tesla Model Y",
-    slug: "tesla-model-y", // Added Slug
-    rating: 5.0,
-    reviews: 500,
+    slug: "tesla-model-y",
     priceRange: "₹ 60 - 70 Lakh*",
-    location: "Dec 15, 2025",
-    imageUrls: ["/cars/tesla.jpg"],
-    features: [], offers: [], keySpecifications: TESLA_Y_SPECS, utilitySpecs: TESLA_Y_UTILITY,
+    location: "Expected: Dec 15, 2025",
+    category: "SUV",
+    imageUrls: [
+      "/cars/tesla.jpg", "/cars/tesla-side.jpg", "/cars/tesla-rear.jpg", "/cars/tesla-interior.jpg"
+    ],
+    specs: {
+      engine: "75 kWh Battery",
+      power: "384 bhp",
+      torque: "510 Nm",
+      transmission: "Automatic",
+      mileage: "530 km (Range)",
+      bootSpace: "854 L",
+      groundClearance: "167 mm"
+    },
+    features: ["Autopilot Mode", "15-inch Touchscreen", "Glass Roof", "0-100 in 3.5s"]
   },
+
+  // ==============================
+  // 2. KIA CARNIVAL 2025
+  // ==============================
   {
     id: 902,
     name: "Kia Carnival 2025",
-    slug: "kia-carnival-2025", // Added Slug
-    rating: 4.8,
-    reviews: 80,
+    slug: "kia-carnival-2025",
     priceRange: "₹ 40 - 50 Lakh*",
-    location: "Jan 10, 2026",
-    imageUrls: ["/cars/carnival.jpg"],
-    features: [], offers: [], keySpecifications: CARNIVAL_SPECS, utilitySpecs: CARNIVAL_UTILITY,
+    location: "Expected: Jan 10, 2026",
+    category: "MUV",
+    imageUrls: [
+      "/cars/carnival.jpg", "/cars/carnival-side.jpg", "/cars/carnival-rear.jpg", "/cars/carnival-interior.jpg"
+    ],
+    specs: {
+      engine: "2.2L Diesel",
+      power: "197 bhp",
+      torque: "440 Nm",
+      transmission: "8-Speed AT",
+      mileage: "14 kmpl",
+      bootSpace: "627 L",
+      groundClearance: "180 mm"
+    },
+    features: ["VIP Lounge Seats", "Dual Sunroof", "ADAS Level 2", "Power Sliding Doors"]
   },
+
+  // ==============================
+  // 3. SKODA OCTAVIA RS
+  // ==============================
   {
     id: 903,
     name: "Skoda Octavia RS",
-    slug: "skoda-octavia-rs", // Added Slug
-    rating: 4.8,
-    reviews: 120,
+    slug: "skoda-octavia-rs",
     priceRange: "₹ 35 - 40 Lakh*",
-    location: "Nov 25, 2025",
-    imageUrls: ["/cars/octaviars.jpg"],
-    features: [], offers: [], keySpecifications: OCTAVIA_RS_SPECS, utilitySpecs: OCTAVIA_RS_UTILITY,
+    location: "Expected: Nov 25, 2025",
+    category: "Sedan",
+    imageUrls: [
+      "/cars/octaviars.jpg", "/cars/octaviars.jpg", "/cars/octaviars.jpg", "/cars/octaviars.jpg"
+    ],
+    specs: {
+      engine: "2.0L TSI Petrol",
+      power: "245 hp",
+      torque: "370 Nm",
+      transmission: "7-Speed DSG",
+      mileage: "15 kmpl",
+      bootSpace: "600 L",
+      groundClearance: "140 mm"
+    },
+    features: ["Sport Seats", "Matrix LED Headlamps", "Virtual Cockpit", "Dynamic Chassis Control"]
   },
+
+  // ==============================
+  // 4. TATA SIERRA EV
+  // ==============================
   {
     id: 904,
     name: "Tata Sierra EV",
-    slug: "tata-sierra-ev", // Added Slug
-    rating: 4.9,
-    reviews: 50,
+    slug: "tata-sierra-ev",
     priceRange: "₹ 25 - 30 Lakh*",
-    location: "Feb 01, 2026",
-    imageUrls: ["/cars/sierra.jpg"],
-    features: [], offers: [], keySpecifications: SIERRA_SPECS, utilitySpecs: SIERRA_UTILITY,
+    location: "Expected: Feb 01, 2026",
+    category: "EV",
+    imageUrls: [
+      "/cars/sierra.jpg", "/cars/sierra.jpg", "/cars/sierra.jpg", "/cars/sierra.jpg"
+    ],
+    specs: {
+      engine: "60 kWh Battery",
+      power: "170 bhp",
+      torque: "280 Nm",
+      transmission: "Automatic",
+      mileage: "500 km (Range)",
+      bootSpace: "450 L",
+      groundClearance: "205 mm"
+    },
+    features: ["Lounge Seating", "Glass Roof", "Sustainable Interiors", "V2L Feature"]
   },
 
-  // --- NAYI 4 CARS ---
+  // ==============================
+  // 5. MAHINDRA XEV 9S
+  // ==============================
   {
     id: 905,
     name: "Mahindra XEV 9S",
-    slug: "mahindra-xev-9s", // Added Slug
-    rating: 4.8,
-    reviews: 10,
+    slug: "mahindra-xev-9s",
     priceRange: "₹ 35 - 40 Lakh*",
-    location: "Nov 27, 2025",
-    imageUrls: ["/cars/xev9s.jpg"],
-    features: [], offers: [], keySpecifications: EV_SPECS, utilitySpecs: GENERIC_UTILITY,
+    location: "Expected: Nov 27, 2025",
+    category: "EV",
+    imageUrls: [
+      "/cars/xev9s.jpg", "/cars/xev9s.jpg", "/cars/xev9s.jpg", "/cars/xev9s.jpg"
+    ],
+    specs: {
+      engine: "80 kWh Battery",
+      power: "280 bhp",
+      torque: "380 Nm",
+      transmission: "Automatic",
+      mileage: "450+ km (Range)",
+      bootSpace: "TBA",
+      groundClearance: "200 mm"
+    },
+    features: ["Triple Screen Dash", "5-Star Safety", "HUD with AR", "Premium Audio"]
   },
+
+  // ==============================
+  // 6. SKODA SUPERB 2025
+  // ==============================
   {
     id: 906,
     name: "Skoda Superb 2025",
-    slug: "skoda-superb-2025", // Added Slug
-    rating: 4.8,
-    reviews: 5,
+    slug: "skoda-superb-2025",
     priceRange: "₹ 50.00 Lakh*",
-    location: "Dec 13, 2025",
-    imageUrls: ["/cars/superb-new.jpg"],
-    features: [], offers: [], keySpecifications: SEDAN_SPECS, utilitySpecs: GENERIC_UTILITY,
+    location: "Expected: Dec 13, 2025",
+    category: "Sedan",
+    imageUrls: [
+      "/cars/superb-new.jpg", "/cars/superb-new.jpg", "/cars/superb-new.jpg", "/cars/superb-new.jpg"
+    ],
+    specs: {
+      engine: "2.0L Turbo Petrol",
+      power: "190 hp",
+      torque: "320 Nm",
+      transmission: "7-Speed DSG",
+      mileage: "15 kmpl",
+      bootSpace: "625 L",
+      groundClearance: "150 mm"
+    },
+    features: ["Massage Seats", "13-inch Infotainment", "Smart Dials", "Park Assist"]
   },
+
+  // ==============================
+  // 7. BMW iX 2025
+  // ==============================
   {
     id: 907,
     name: "BMW iX 2025",
-    slug: "bmw-ix-2025", // Added Slug
-    rating: 4.9,
-    reviews: 12,
+    slug: "bmw-ix-2025",
     priceRange: "₹ 1.45 Cr*",
-    location: "Dec 14, 2025",
-    imageUrls: ["/cars/bmw-ix-new.jpg"],
-    features: [], offers: [], keySpecifications: EV_SPECS, utilitySpecs: GENERIC_UTILITY,
+    location: "Expected: Dec 14, 2025",
+    category: "EV",
+    imageUrls: [
+      "/cars/bmw-ix-new.jpg", "/cars/bmw-ix-new.jpg", "/cars/bmw-ix-new.jpg", "/cars/bmw-ix-new.jpg"
+    ],
+    specs: {
+      engine: "76.6 kWh Battery",
+      power: "326 bhp",
+      torque: "630 Nm",
+      transmission: "Automatic AWD",
+      mileage: "425 km (Range)",
+      bootSpace: "500 L",
+      groundClearance: "202 mm"
+    },
+    features: ["Curved Display", "Shy Tech", "Crystal Controls", "Sky Lounge Roof"]
   },
+
+  // ==============================
+  // 8. AUDI A5
+  // ==============================
   {
     id: 908,
     name: "Audi A5",
-    slug: "audi-a5", // Added Slug
-    rating: 4.7,
-    reviews: 8,
+    slug: "audi-a5",
     priceRange: "₹ 50.00 Lakh*",
-    location: "Dec 15, 2025",
-    imageUrls: ["/cars/audi-a5-new.jpg"],
-    features: [], offers: [], keySpecifications: SEDAN_SPECS, utilitySpecs: GENERIC_UTILITY,
-  },
+    location: "Expected: Dec 15, 2025",
+    category: "Sedan",
+    imageUrls: [
+      "/cars/audi-a5-new.jpg", "/cars/audi-a5-new.jpg", "/cars/audi-a5-new.jpg", "/cars/audi-a5-new.jpg"
+    ],
+    specs: {
+      engine: "2.0L TFSI",
+      power: "204 hp",
+      torque: "320 Nm",
+      transmission: "7-Speed S-Tronic",
+      mileage: "14 kmpl",
+      bootSpace: "465 L",
+      groundClearance: "135 mm"
+    },
+    features: ["Virtual Cockpit Plus", "Matrix LED Lights", "Quattro AWD", "Bang & Olufsen 3D Sound"]
+  }
 ];

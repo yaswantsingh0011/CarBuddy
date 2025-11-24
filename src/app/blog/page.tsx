@@ -1,59 +1,75 @@
 // src/app/blog/page.tsx
+
 import { supabase } from '@/lib/supabaseClient';
 import { Post, SidebarAuthor, SidebarCategory, SidebarLatestPost } from '@/types/index';
 import BlogLayout from './BlogLayout';
 
 // --- Data Fetching ---
 async function getPosts(): Promise<Post[]> {
+  // 'select' me '*' use kar rahe hain taaki saare columns aa jayein
   const { data, error } = await supabase
     .from('posts')
-    .select('*') // Saare columns lelo
+    .select('*')
     .order('created_at', { ascending: false });
 
   if (error) {
-    console.error('Error fetching posts:', error.message);
+    console.error('Error fetching posts from Supabase:', error.message);
+    // Error aane par empty array return karein taaki page crash na ho
     return [];
   }
-  
-  // Data ko Post type me map karna (Agar zaroorat ho)
-  // Yahan hum assume kar rahe hain ki Supabase columns aur Post type same hain
-  return data || [];
+
+  // Data ko Safe Format me map karte hain (Null checks ke saath)
+  const formattedData: Post[] = (data || []).map((item: any) => ({
+    id: item.id,
+    title: item.title || "Untitled Post",
+    slug: item.slug,
+    created_at: item.created_at,
+    date: new Date(item.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }),
+    content: item.content || "",
+    excerpt: item.excerpt || "Click to read more...",
+    featured_image_url: item.featured_image_url || "/blog/default-blog.jpg", // Fallback Image
+    category: item.category || "General",
+    author_name: item.author_name || "Admin",
+    tags: Array.isArray(item.tags) ? item.tags : [], // Ensure tags is always an array
+  }));
+
+  return formattedData;
 }
 
 async function getSidebarData(posts: Post[]) {
-  // Latest Posts (Title, Date, Slug)
-  const latestPosts = posts.slice(0, 5).map(p => ({
+  // 1. Latest Posts
+  const latestPosts: SidebarLatestPost[] = posts.slice(0, 5).map(p => ({
     title: p.title,
-    date: new Date(p.created_at).toLocaleDateString(), // Date format fix
+    date: p.date || "",
     slug: p.slug,
   }));
 
-  // Categories Count
+  // 2. Categories
   const categoryCounts = new Map<string, number>();
   posts.forEach(p => {
-    const cat = p.category || 'Uncategorized';
+    const cat = p.category;
     categoryCounts.set(cat, (categoryCounts.get(cat) || 0) + 1);
   });
-  const categories = Array.from(categoryCounts, ([name, count]) => ({ name, count }));
+  const categories: SidebarCategory[] = Array.from(categoryCounts, ([name, count]) => ({ name, count }));
 
-  // Tags (Unique)
+  // 3. Tags
   const allTags = new Set<string>();
   posts.forEach(p => {
-    if (Array.isArray(p.tags)) { // Check if array
+    if (p.tags && Array.isArray(p.tags)) {
         p.tags.forEach((tag: string) => allTags.add(tag));
     }
   });
   const tags = Array.from(allTags);
 
-  // Authors
+  // 4. Authors
   const authorCounts = new Map<string, number>();
   posts.forEach(p => {
-    const auth = p.author_name || 'Admin';
+    const auth = p.author_name;
     authorCounts.set(auth, (authorCounts.get(auth) || 0) + 1);
   });
-  const authors = Array.from(authorCounts, ([name, posts]) => ({
+  const authors: SidebarAuthor[] = Array.from(authorCounts, ([name, count]) => ({
     name,
-    posts,
+    posts: count,
     initial: name.charAt(0).toUpperCase()
   }));
 

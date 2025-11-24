@@ -2,24 +2,24 @@
 
 export const electricCars = [
   // ==============================
-  // 1. MAHINDRA BE 6
+  // 1. MAHINDRA BE 6e
   // ==============================
   {
     id: 801,
-    name: "Mahindra BE 6",
+    name: "Mahindra BE 6e",
     priceRange: "₹ 18.90 - 27.79 Lakh*",
-    images: ["/cars/be6.jpg", "/cars/be6.jpg", "/cars/be6.jpg", "/cars/be6.jpg"],
+    images: ["/cars/be6.jpg", "/cars/be6e-side.jpg", "/cars/be6e-rear.jpg", "/cars/be6e-interior.jpg"],
     category: "EV",
     specs: {
-      engine: "60 kWh Battery (Est)",
-      power: "228 bhp",
+      engine: "79 kWh Battery",
+      power: "282 bhp",
       torque: "380 Nm",
       transmission: "Automatic",
-      mileage: "450 km (Range)",
-      bootSpace: "450 L",
-      groundClearance: "205 mm"
+      mileage: "683 km (Range)",
+      bootSpace: "455 L",
+      groundClearance: "207 mm"
     },
-    features: ["Dual 12.3-inch Screens", "Panoramic Glass Roof", "Level 2 ADAS", "Aero-Optimized Wheels"]
+    features: ["Dual 12.3-inch Screens", "Panoramic Glass Roof", "Level 2+ ADAS", "5-Star Bharat NCAP"]
   },
 
   // ==============================
@@ -29,18 +29,18 @@ export const electricCars = [
     id: 802,
     name: "Mahindra XEV 9e",
     priceRange: "₹ 21.90 - 31.25 Lakh*",
-    images: ["/cars/xev9e.jpg", "/cars/xev9e.jpg", "/cars/xev9e.jpg", "/cars/xev9e.jpg"],
+    images: ["/cars/xev9e.jpg", "/cars/xev9e-side.jpg", "/cars/xev9e-rear.jpg", "/cars/xev9e-interior.jpg"],
     category: "EV",
     specs: {
-      engine: "80 kWh Battery",
-      power: "230 bhp",
+      engine: "79 kWh Battery",
+      power: "282 bhp",
       torque: "380 Nm",
       transmission: "Automatic",
-      mileage: "500 km (Range)",
-      bootSpace: "500 L",
-      groundClearance: "200 mm"
+      mileage: "656 km (Range)",
+      bootSpace: "663 L",
+      groundClearance: "207 mm"
     },
-    features: ["Triple Screen Dashboard", "5-Star Safety (Expected)", "Premium Audio System", "HUD (Heads Up Display)"]
+    features: ["Triple Screen Dashboard", "16-Speaker Premium Audio", "HUD with Augmented Reality", "Multi-Zone Climate Control"]
   },
 
   // ==============================
@@ -50,18 +50,18 @@ export const electricCars = [
     id: 803,
     name: "MG Windsor EV",
     priceRange: "₹ 12.65 - 18.39 Lakh*",
-    images: ["/cars/windsor.jpg", "/cars/windsor.jpg", "/cars/windsor.jpg", "/cars/windsor.jpg"],
+    images: ["/cars/windsor.jpg", "/cars/windsor-side.jpg", "/cars/windsor-rear.jpg", "/cars/windsor-interior.jpg"],
     category: "EV",
     specs: {
-      engine: "38 kWh Battery",
+      engine: "52.9 kWh Battery",
       power: "134 bhp",
       torque: "200 Nm",
       transmission: "Automatic",
-      mileage: "331 km (Range)",
+      mileage: "449 km (Range)",
       bootSpace: "604 L",
-      groundClearance: "170 mm"
+      groundClearance: "186 mm"
     },
-    features: ["Infinity View Glass Roof", "15.6-inch Grand View Touchscreen", "Aero Lounge Seats", "Ambient Lighting"]
+    features: ["Infinity View Glass Roof", "15.6-inch Grand View Touchscreen", "Aero Lounge Seats (135° Recline)", "256-Color Ambient Lighting"]
   },
 
   // ==============================
@@ -71,18 +71,18 @@ export const electricCars = [
     id: 804,
     name: "MG Cyberster",
     priceRange: "₹ 75 Lakh*",
-    images: ["/cars/cyberster.jpg", "/cars/cyberster.jpg", "/cars/cyberster.jpg", "/cars/cyberster.jpg"],
+    images: ["/cars/cyberster.jpg", "/cars/cyberster-side.jpg", "/cars/cyberster-rear.jpg", "/cars/cyberster-interior.jpg"],
     category: "EV", // Luxury/Sports EV
     specs: {
       engine: "77 kWh Battery",
       power: "535 bhp",
       torque: "725 Nm",
-      transmission: "Automatic",
-      mileage: "500 km (Range)",
-      bootSpace: "250 L",
+      transmission: "AWD Automatic",
+      mileage: "580 km (Range)",
+      bootSpace: "249 L",
       groundClearance: "115 mm"
     },
-    features: ["Scissor Doors", "Convertible Soft Top", "0-100 km/h in 3.2s", "Bose Premium Audio"]
+    features: ["Electric Scissor Doors", "Convertible Soft Top", "0-100 km/h in 3.2s", "Triple Screen Cockpit"]
   },
 
   // ==============================
@@ -92,7 +92,7 @@ export const electricCars = [
     id: 805,
     name: "Tata Tiago EV",
     priceRange: "₹ 7.99 - 11.89 Lakh*",
-    images: ["/cars/tiago-ev.jpg", "/cars/tiago-ev.jpg", "/cars/tiago-ev.jpg", "/cars/tiago-ev.jpg"],
+    images: ["/cars/tiago-ev.jpg", "/cars/tiago-ev-side.jpg", "/cars/tiago-ev-rear.jpg", "/cars/tiago-ev-interior.jpg"],
     category: "EV",
     specs: {
       engine: "24 kWh Battery",
@@ -103,7 +103,7 @@ export const electricCars = [
       bootSpace: "240 L",
       groundClearance: "168 mm"
     },
-    features: ["Multi-Mode Regen", "Cruise Control", "ZConnect App", "Auto Headlamps"]
+    features: ["Multi-Mode Regen Braking", "Cruise Control", "ZConnect App Features", "Auto Headlamps & Wipers"]
   },
 
   // ==============================
@@ -113,10 +113,10 @@ export const electricCars = [
     id: 806,
     name: "Tata Punch EV",
     priceRange: "₹ 10.99 - 15.49 Lakh*",
-    images: ["/cars/punch-ev.jpg", "/cars/punch-ev.jpg", "/cars/punch-ev.jpg", "/cars/punch-ev.jpg"],
+    images: ["/cars/punch-ev.jpg", "/cars/punch-ev-side.jpg", "/cars/punch-ev-rear.jpg", "/cars/punch-ev-interior.jpg"],
     category: "EV",
     specs: {
-      engine: "35 kWh Battery",
+      engine: "35 kWh Battery (LR)",
       power: "120 bhp",
       torque: "190 Nm",
       transmission: "Automatic",
@@ -124,7 +124,7 @@ export const electricCars = [
       bootSpace: "366 L",
       groundClearance: "190 mm"
     },
-    features: ["Frunk (Front Trunk)", "Voice Assisted Sunroof", "Ventilated Seats", "360 Degree Camera"]
+    features: ["Frunk (Front Trunk)", "Voice Assisted Sunroof", "Ventilated Front Seats", "360 Degree Surround View"]
   },
 
   // ==============================
@@ -134,17 +134,17 @@ export const electricCars = [
     id: 807,
     name: "Tata Nexon EV",
     priceRange: "₹ 14.49 - 19.49 Lakh*",
-    images: ["/cars/nexon-ev.jpg", "/cars/nexon-ev.jpg", "/cars/nexon-ev.jpg", "/cars/nexon-ev.jpg"],
+    images: ["/cars/nexon-ev.jpg", "/cars/nexon-ev-side.jpg", "/cars/nexon-ev-rear.jpg", "/cars/nexon-ev-interior.jpg"],
     category: "EV",
     specs: {
-      engine: "40.5 kWh Battery",
+      engine: "40.5 kWh Battery (LR)",
       power: "143 bhp",
       torque: "215 Nm",
       transmission: "Automatic",
       mileage: "465 km (Range)",
       bootSpace: "350 L",
-      groundClearance: "205 mm"
+      groundClearance: "190 mm"
     },
-    features: ["V2L (Vehicle to Load)", "JBL Cinematic Sound System", "Arcade.ev App Suite", "Paddle Shifters for Regen"]
+    features: ["V2L (Vehicle to Load)", "JBL Cinematic Sound System", "12.3-inch Touchscreen", "Paddle Shifters for Regen"]
   },
 ];

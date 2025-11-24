@@ -1,8 +1,6 @@
-// src/app/page.tsx
 "use client";
 
 import React, { useState, useRef } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation'; 
 import Hero from '@/components/Hero';
 
@@ -12,7 +10,7 @@ import ElectricCarCard from '@/components/ElectricCarCard';
 import MostSearchedSection from '@/components/MostSearchedSection';
 import BlogSection from '@/components/BlogSection'; 
 import BrandSection from '@/components/BrandSection'; 
-import VisualStoriesSection from '@/components/VisualStoriesSection'; // ✅ ADDED
+import VisualStoriesSection from '@/components/VisualStoriesSection';
 
 // --- DATA IMPORTS ---
 import { newLaunchCars } from '@/data/newlaunchcars'; 
@@ -30,7 +28,7 @@ import ImageModal from '@/components/ImageModal';
 export default function Home() {
   const router = useRouter();
 
-  // --- STATES FOR MODALS ---
+  // --- STATES ---
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<any>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<any>(null);
   const [selectedCarForOffers, setSelectedCarForOffers] = useState<any>(null);
@@ -44,7 +42,6 @@ export default function Home() {
   const handleBookNow = (car: any) => setSelectedCarForBooking(car);
   const handleShowFeatures = (car: any) => setSelectedCarForFeatures(car);
   
-  // Offers Handler
   const handleGetOffers = (car: any) => {
     setSelectedCarForOffers(car);
   };
@@ -55,16 +52,16 @@ export default function Home() {
     alert(`Notification set for ${carName}! We will notify you when it launches.`);
   };
 
+  // ✅ Universal Navigation Handler
   const handleCardClick = (carName: string) => {
     const slug = carName.toLowerCase().split(" ").join("-");
     router.push(`/car-details/${slug}`);
   };
 
-  // --- HELPER: Generate Offers Logic ---
+  // --- OFFERS LOGIC ---
   const getOffersList = (car: any) => {
     if (!car) return [];
     const name = car.name;
-    
     if (name.includes("EV") || car.category === "EV") {
       return ["Free Home Wall Box Charger", "Zero Processing Fee on Loan", "3 Year Battery Health Checkup Free"];
     }
@@ -93,10 +90,9 @@ export default function Home() {
   return (
     <main className="bg-gray-50 min-h-screen pb-12">
       
-      {/* 1. HERO SECTION */}
       <Hero onExploreClick={scrollToCars} />
 
-      {/* 2. UPCOMING CARS SECTION */}
+      {/* 1. UPCOMING CARS SECTION */}
       <section id="upcoming-cars" className="container mx-auto px-4 pt-12 pb-8 relative">
         <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Upcoming Cars</h2>
@@ -111,11 +107,12 @@ export default function Home() {
             {newLaunchCars.map((car, index) => (
               <div key={index} className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0">
                  <UpcomingCarCard 
-                    slug={car.slug}
+                    // ✅ FIX: Ensure slug is passed correctly
+                    slug={car.slug || car.name.toLowerCase().replace(/\s+/g, "-")}
                     name={car.name} 
                     priceRange={car.priceRange} 
                     launchDate={car.location || "Coming Soon"} 
-                    imageUrl={car.imageUrls[0]} 
+                    imageUrl={car.imageUrls ? car.imageUrls[0] : "/cars/placeholder.jpg"} 
                     onAlertClick={() => handleAlert(car.name)} 
                  />
               </div>
@@ -128,13 +125,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. BRAND SECTION */}
+      {/* 2. BRAND SECTION */}
       <BrandSection />
 
-      {/* 4. MOST SEARCHED CARS */}
+      {/* 3. MOST SEARCHED CARS */}
       <MostSearchedSection />
 
-      {/* 5. ELECTRIC CARS SECTION */}
+      {/* 4. ELECTRIC CARS SECTION */}
       <section className="container mx-auto px-4 pb-12 relative">
         <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Electric Cars</h2>
@@ -147,10 +144,7 @@ export default function Home() {
 
           <div ref={electricSliderRef} className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {electricCars.map((car, index) => {
-              
-              // FIX: Handle Image Array properly
               const displayImage = (car as any).images ? (car as any).images[0] : (car as any).image;
-
               return (
                 <div 
                     key={index} 
@@ -176,34 +170,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ✅ 6. VISUAL STORIES SECTION (New) */}
+      {/* 5. VISUAL STORIES */}
       <VisualStoriesSection />
 
-      {/* 7. BLOG SECTION */}
+      {/* 6. BLOG SECTION */}
       <BlogSection />
-
 
       {/* --- MODALS --- */}
       {selectedCarForBooking && <BookingForm isOpen={!!selectedCarForBooking} onClose={() => setSelectedCarForBooking(null)} car={selectedCarForBooking} />}
       {selectedCarForFeatures && <FeaturesModal isOpen={!!selectedCarForFeatures} onClose={() => setSelectedCarForFeatures(null)} car={selectedCarForFeatures} />}
-      
       {selectedCarForOffers && <OffersModal isOpen={!!selectedCarForOffers} onClose={() => setSelectedCarForOffers(null)} car={carForOffersModal} />}
-      
       {selectedCarForImages && <ImageModal isOpen={!!selectedCarForImages} onClose={() => setSelectedCarForImages(null)} imageUrls={selectedCarForImages.imageUrls} startIndex={imageStartIndex} />}
       
-      {/* Compare Bar */}
-      {compareList.length > 0 && (
-        <div className="fixed bottom-6 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-auto md:min-w-[400px] z-50">
-          <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl p-3 md:p-4 flex justify-between items-center">
-            <div className="flex items-center space-x-3 ml-1">
-              <div className="bg-gray-900 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-md">{compareList.length}</div>
-              <div className="flex flex-col"><span className="text-sm font-bold text-gray-800 leading-tight">Cars Added</span><button onClick={() => setCompareList([])} className="text-[11px] text-red-500 font-semibold uppercase tracking-wide text-left hover:underline">Clear List</button></div>
-            </div>
-            <Link href={`/compare?cars=${compareList.join(',')}`} className="ml-4 bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow-lg hover:bg-blue-700 flex items-center">Compare Now <span className="ml-2 text-lg">→</span></Link>
-          </div>
-        </div>
-      )}
-
     </main>
   );
 }
