@@ -4,27 +4,29 @@ export const newLaunchCars = [
   // ==============================
   // 1. TESLA MODEL Y
   // ==============================
+  
   {
-    id: 901,
-    name: "Tesla Model Y",
-    slug: "tesla-model-y",
-    priceRange: "₹ 60 - 70 Lakh*",
+    id: 908,
+    name: "Audi A5",
+    slug: "audi-a5",
+    priceRange: "₹ 50.00 Lakh*",
     location: "Expected: Dec 15, 2025",
-    category: "SUV",
+    category: "Sedan",
     imageUrls: [
-      "/cars/tesla.jpg", "/cars/tesla-side.jpg", "/cars/tesla-rear.jpg", "/cars/tesla-interior.jpg"
+      "/cars/a5.jpg", "/cars/a5-side.jpg", "/cars/a5-rear.jpg", "/cars/a5-.jpg"
     ],
     specs: {
-      engine: "75 kWh Battery",
-      power: "384 bhp",
-      torque: "510 Nm",
-      transmission: "Automatic",
-      mileage: "530 km (Range)",
-      bootSpace: "854 L",
-      groundClearance: "167 mm"
+      engine: "2.0L TFSI",
+      power: "204 hp",
+      torque: "320 Nm",
+      transmission: "7-Speed S-Tronic",
+      mileage: "14 kmpl",
+      bootSpace: "465 L",
+      groundClearance: "135 mm"
     },
-    features: ["Autopilot Mode", "15-inch Touchscreen", "Glass Roof", "0-100 in 3.5s"]
+    features: ["Virtual Cockpit Plus", "Matrix LED Lights", "Quattro AWD", "Bang & Olufsen 3D Sound"]
   },
+  
 
   // ==============================
   // 2. KIA CARNIVAL 2025
@@ -51,6 +53,49 @@ export const newLaunchCars = [
     features: ["VIP Lounge Seats", "Dual Sunroof", "ADAS Level 2", "Power Sliding Doors"]
   },
 
+  {
+    id: 907,
+    name: "BMW iX 2025",
+    slug: "bmw-ix-2025",
+    priceRange: "₹ 1.45 Cr*",
+    location: "Expected: Dec 14, 2025",
+    category: "EV",
+    imageUrls: [
+      "/cars/ix.jpg", "/cars/ix-side.jpg", "/cars/ix-rear.jpg", "/cars/ix-interior.jpg"
+    ],
+    specs: {
+      engine: "76.6 kWh Battery",
+      power: "326 bhp",
+      torque: "630 Nm",
+      transmission: "Automatic AWD",
+      mileage: "425 km (Range)",
+      bootSpace: "500 L",
+      groundClearance: "202 mm"
+    },
+    features: ["Curved Display", "Shy Tech", "Crystal Controls", "Sky Lounge Roof"]
+  },
+  
+  {
+    id: 901,
+    name: "Tesla Model Y",
+    slug: "tesla-model-y",
+    priceRange: "₹ 60 - 70 Lakh*",
+    location: "Expected: Dec 15, 2025",
+    category: "SUV",
+    imageUrls: [
+      "/cars/tesla.jpg", "/cars/tesla-side.jpg", "/cars/tesla-rear.jpg", "/cars/tesla-interior.jpg"
+    ],
+    specs: {
+      engine: "75 kWh Battery",
+      power: "384 bhp",
+      torque: "510 Nm",
+      transmission: "Automatic",
+      mileage: "530 km (Range)",
+      bootSpace: "854 L",
+      groundClearance: "167 mm"
+    },
+    features: ["Autopilot Mode", "15-inch Touchscreen", "Glass Roof", "0-100 in 3.5s"]
+  },
   // ==============================
   // 3. SKODA OCTAVIA RS
   // ==============================
@@ -62,7 +107,7 @@ export const newLaunchCars = [
     location: "Expected: Nov 25, 2025",
     category: "Sedan",
     imageUrls: [
-      "/cars/octaviars.jpg", "/cars/octaviars.jpg", "/cars/octaviars.jpg", "/cars/octaviars.jpg"
+      "/cars/octaviars.jpg", "/cars/octaviars-side.jpg", "/cars/octaviars-rear.jpg", "/cars/octaviars-interior.jpg"
     ],
     specs: {
       engine: "2.0L TSI Petrol",
@@ -87,7 +132,7 @@ export const newLaunchCars = [
     location: "Expected: Feb 01, 2026",
     category: "EV",
     imageUrls: [
-      "/cars/sierra.jpg", "/cars/sierra.jpg", "/cars/sierra.jpg", "/cars/sierra.jpg"
+      "/cars/sierra.jpg", "/cars/sierra-side.jpg", "/cars/sierra-rear.jpg", "/cars/sierra-interior.jpg"
     ],
     specs: {
       engine: "60 kWh Battery",
@@ -112,7 +157,7 @@ export const newLaunchCars = [
     location: "Expected: Nov 27, 2025",
     category: "EV",
     imageUrls: [
-      "/cars/xev9s.jpg", "/cars/xev9s.jpg", "/cars/xev9s.jpg", "/cars/xev9s.jpg"
+      "/cars/xev9s.jpg", "/cars/xev9s-side.jpg", "/cars/xev9s-rear.jpg", "/cars/xev9s-interior.jpg"
     ],
     specs: {
       engine: "80 kWh Battery",
@@ -137,7 +182,7 @@ export const newLaunchCars = [
     location: "Expected: Dec 13, 2025",
     category: "Sedan",
     imageUrls: [
-      "/cars/superb-new.jpg", "/cars/superb-new.jpg", "/cars/superb-new.jpg", "/cars/superb-new.jpg"
+      "/cars/superb.jpg", "/cars/superb-side.jpg", "/cars/superb-rear.jpg", "/cars/superb-interior.jpg"
     ],
     specs: {
       engine: "2.0L Turbo Petrol",
@@ -154,50 +199,10 @@ export const newLaunchCars = [
   // ==============================
   // 7. BMW iX 2025
   // ==============================
-  {
-    id: 907,
-    name: "BMW iX 2025",
-    slug: "bmw-ix-2025",
-    priceRange: "₹ 1.45 Cr*",
-    location: "Expected: Dec 14, 2025",
-    category: "EV",
-    imageUrls: [
-      "/cars/bmw-ix-new.jpg", "/cars/bmw-ix-new.jpg", "/cars/bmw-ix-new.jpg", "/cars/bmw-ix-new.jpg"
-    ],
-    specs: {
-      engine: "76.6 kWh Battery",
-      power: "326 bhp",
-      torque: "630 Nm",
-      transmission: "Automatic AWD",
-      mileage: "425 km (Range)",
-      bootSpace: "500 L",
-      groundClearance: "202 mm"
-    },
-    features: ["Curved Display", "Shy Tech", "Crystal Controls", "Sky Lounge Roof"]
-  },
+  
 
   // ==============================
   // 8. AUDI A5
   // ==============================
-  {
-    id: 908,
-    name: "Audi A5",
-    slug: "audi-a5",
-    priceRange: "₹ 50.00 Lakh*",
-    location: "Expected: Dec 15, 2025",
-    category: "Sedan",
-    imageUrls: [
-      "/cars/audi-a5-new.jpg", "/cars/audi-a5-new.jpg", "/cars/audi-a5-new.jpg", "/cars/audi-a5-new.jpg"
-    ],
-    specs: {
-      engine: "2.0L TFSI",
-      power: "204 hp",
-      torque: "320 Nm",
-      transmission: "7-Speed S-Tronic",
-      mileage: "14 kmpl",
-      bootSpace: "465 L",
-      groundClearance: "135 mm"
-    },
-    features: ["Virtual Cockpit Plus", "Matrix LED Lights", "Quattro AWD", "Bang & Olufsen 3D Sound"]
-  }
+  
 ];

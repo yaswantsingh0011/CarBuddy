@@ -32,6 +32,35 @@ export const mostSearchedCars = [
     specs: { engine: "2.0L Kryotec Diesel", power: "168 bhp", torque: "350 Nm", transmission: "6-AT", mileage: "16.8 kmpl", bootSpace: "425 L", groundClearance: "205 mm" },
     features: ["#Dark Edition Styling", "ADAS with 12 Functions", "Panoramic Sunroof", "Welcome/Goodbye Animation"]
   },
+
+  { 
+    id: 4, 
+    name: "Toyota Fortuner", 
+    price: "₹ 33.65 - 48.85 Lakh*", 
+    images: ["/cars/fortuner.jpg", "/cars/fortuner-side.jpg", "/cars/fortuner-rear.jpg", "/cars/fortuner-interior.jpg"], 
+    category: "SUV",
+    specs: { engine: "2.8L Diesel", power: "201 bhp", torque: "500 Nm", transmission: "6-AT 4x4", mileage: "10 kmpl", bootSpace: "296 L", groundClearance: "225 mm" },
+    features: ["Sigma 4 Drive Mode", "Ventilated Seats", "Power Tailgate", "JBL 11-Speaker System"]
+  },
+
+  { 
+    id: 16, 
+    name: "Hyundai Creta", 
+    price: "₹ 11.00 - 20.15 Lakh*", 
+    images: ["/cars/creta.jpg", "/cars/creta-side.jpg", "/cars/creta-rear.jpg", "/cars/creta-interior.jpg"], 
+    category: "SUV",
+    specs: { engine: "1.5L Turbo Petrol", power: "158 bhp", torque: "253 Nm", transmission: "7-DCT", mileage: "18.4 kmpl", bootSpace: "433 L", groundClearance: "190 mm" },
+    features: ["Panoramic Sunroof", "Level 2 ADAS", "Bose Premium Sound", "Dual Zone Climate Control"]
+  },
+  { 
+    id: 26, 
+    name: "Kia Seltos", 
+    price: "₹ 10.90 - 20.35 Lakh*", 
+    images: ["/cars/seltos.jpg", "/cars/seltos-side.jpg", "/cars/seltos-rear.jpg", "/cars/seltos-interior.jpg"], 
+    category: "SUV",
+    specs: { engine: "1.5L Turbo Petrol", power: "158 bhp", torque: "253 Nm", transmission: "7-DCT", mileage: "17.9 kmpl", bootSpace: "433 L", groundClearance: "190 mm" },
+    features: ["Dual 10.25-inch Screens", "Level 2 ADAS", "Panoramic Sunroof", "Electric Parking Brake"]
+  },
   
   { 
     id: 25, 
@@ -81,37 +110,12 @@ export const mostSearchedCars = [
   
 
   // --- Mid-Size & Premium SUVs ---
-  { 
-    id: 16, 
-    name: "Hyundai Creta", 
-    price: "₹ 11.00 - 20.15 Lakh*", 
-    images: ["/cars/creta.jpg", "/cars/creta-side.jpg", "/cars/creta-rear.jpg", "/cars/creta-interior.jpg"], 
-    category: "SUV",
-    specs: { engine: "1.5L Turbo Petrol", power: "158 bhp", torque: "253 Nm", transmission: "7-DCT", mileage: "18.4 kmpl", bootSpace: "433 L", groundClearance: "190 mm" },
-    features: ["Panoramic Sunroof", "Level 2 ADAS", "Bose Premium Sound", "Dual Zone Climate Control"]
-  },
-  { 
-    id: 26, 
-    name: "Kia Seltos", 
-    price: "₹ 10.90 - 20.35 Lakh*", 
-    images: ["/cars/seltos.jpg", "/cars/seltos-side.jpg", "/cars/seltos-rear.jpg", "/cars/seltos-interior.jpg"], 
-    category: "SUV",
-    specs: { engine: "1.5L Turbo Petrol", power: "158 bhp", torque: "253 Nm", transmission: "7-DCT", mileage: "17.9 kmpl", bootSpace: "433 L", groundClearance: "190 mm" },
-    features: ["Dual 10.25-inch Screens", "Level 2 ADAS", "Panoramic Sunroof", "Electric Parking Brake"]
-  },
+  
   
 
   // --- Off-Road & Full Size ---
  
-  { 
-    id: 4, 
-    name: "Toyota Fortuner", 
-    price: "₹ 33.65 - 48.85 Lakh*", 
-    images: ["/cars/fortuner.jpg", "/cars/fortuner-side.jpg", "/cars/fortuner-rear.jpg", "/cars/fortuner-interior.jpg"], 
-    category: "SUV",
-    specs: { engine: "2.8L Diesel", power: "201 bhp", torque: "500 Nm", transmission: "6-AT 4x4", mileage: "10 kmpl", bootSpace: "296 L", groundClearance: "225 mm" },
-    features: ["Sigma 4 Drive Mode", "Ventilated Seats", "Power Tailgate", "JBL 11-Speaker System"]
-  },
+  
 
 
   // ==============================
