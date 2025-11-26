@@ -103,27 +103,7 @@ export const newLaunchCars = [
   // ==============================
   // 4. TATA SIERRA EV
   // ==============================
-  {
-    id: 904,
-    name: "Tata Sierra EV",
-    slug: "tata-sierra-ev",
-    priceRange: "₹ 25 - 30 Lakh*",
-    location: "Expected: Feb 01, 2026",
-    category: "EV",
-    imageUrls: [
-      "/cars/sierra.jpg", "/cars/sierra-side.jpg", "/cars/sierra-rear.jpg", "/cars/sierra-interior.jpg"
-    ],
-    specs: {
-      engine: "60 kWh Battery",
-      power: "170 bhp",
-      torque: "280 Nm",
-      transmission: "Automatic",
-      mileage: "500 km (Range)",
-      bootSpace: "450 L",
-      groundClearance: "205 mm"
-    },
-    features: ["Lounge Seating", "Glass Roof", "Sustainable Interiors", "V2L Feature"]
-  },
+ 
 
   // ==============================
   // 5. MAHINDRA XEV 9S

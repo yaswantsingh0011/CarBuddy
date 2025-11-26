@@ -5,9 +5,10 @@ import { Car, KeySpec } from "@/types";
 // ==========================================
 // 1. SPECS & UTILITY CONSTANTS
 // ==========================================
-// --- B. NEW 2025 LAUNCHES (e-Vitara, Kylaq, Amaze) ---
 
-// Maruti Suzuki e-Vitara (Updated)
+// --- B. NEW 2025 LAUNCHES (e-Vitara, Kylaq, Amaze, Sierra, Octavia RS) ---
+
+// Maruti Suzuki e-Vitara
 const EVITARA_SPECS: KeySpec[] = [
     { label: 'Powertrain', value: 'Electric (Dual Motor)' },
     { label: 'Range (Est.)', value: '550 km' },
@@ -54,6 +55,42 @@ const AMAZE_UTILITY: KeySpec[] = [
     { label: 'Length', value: '3995 mm' },
     { label: 'Wheels', value: '15-inch Alloys' },
 ];
+
+// --- NEW ADDITIONS: SIERRA & OCTAVIA RS ---
+
+// Tata Sierra EV Specs
+const SIERRA_SPECS: KeySpec[] = [
+    { label: 'Powertrain', value: 'Electric (AWD Optional)' },
+    { label: 'Range (Est.)', value: '500+ km' },
+    { label: 'Battery', value: '60 - 75 kWh' },
+    { label: 'Power', value: '174 bhp (Est)' },
+    { label: 'Charging', value: 'Fast Charge Supported' },
+    { label: 'Drivetrain', value: 'FWD / AWD' },
+];
+const SIERRA_UTILITY: KeySpec[] = [
+    { label: 'Ground Clearance', value: '205 mm' },
+    { label: 'Boot Space', value: '622 Litres' }, // Best in segment
+    { label: 'Length', value: '4340 mm' },
+    { label: 'Wheelbase', value: '2730 mm' },
+];
+
+// Skoda Octavia RS Specs
+const OCTAVIA_RS_SPECS: KeySpec[] = [
+    { label: 'Engine', value: '2.0L TSI Turbo Petrol' },
+    { label: '0-100 km/h', value: '6.6 Seconds' },
+    { label: 'Power', value: '265 PS' },
+    { label: 'Torque', value: '370 Nm' },
+    { label: 'Transmission', value: '7-Speed DSG' },
+    { label: 'Top Speed', value: '250 km/h' },
+];
+const OCTAVIA_RS_UTILITY: KeySpec[] = [
+    { label: 'Ground Clearance', value: '128 mm (Sport)' },
+    { label: 'Boot Space', value: '600 Litres' },
+    { label: 'Airbags', value: '10 Airbags' },
+    { label: 'Wheels', value: '19-inch Alloy' },
+];
+
+
 // --- A. ORIGINAL CARS (BE.6e, Creta EV, Victoris) ---
 
 // Mahindra BE.6e Specs
@@ -113,13 +150,52 @@ const VICTORIS_UTILITY: KeySpec[] = [
 export const newCarsData: Car[] = [
 
   // --- ORIGINAL 3 CARS ---
-   {
+  
+  {
+    id: 205,
+    name: "Tata Sierra EV",
+    rating: 4.8,
+    reviews: 18,
+    priceRange: "₹ 11.49 - 13.70 Lakh*",
+    location: "jaipur",
+    imageUrls: [
+      "/cars/sierra.jpg", 
+      "/cars/sierra-side.jpg", 
+      "/cars/sierra-rear.jpg", 
+      "/cars/sierra-interior.jpg"
+    ],
+    features: ["Lounge Style Rear Seating", "Panoramic Glass Roof", "Connected Car Tech", "Flush Door Handles"],
+    offers: ["Pre-booking Benefit ₹20,000", "Extended Battery Warranty"],
+    keySpecifications: SIERRA_SPECS,
+    utilitySpecs: SIERRA_UTILITY,
+  },
+
+  {
+    id: 206,
+    name: "Skoda Octavia RS",
+    rating: 4.9,
+    reviews: 10,
+    priceRange: "₹ 49.99 Lakh*",
+    location: "jaipur",
+    imageUrls: [
+      "/cars/octaviars.jpg", 
+      "/cars/octaviars-side.jpg", 
+      "/cars/octaviars-rear.jpg", 
+      "/cars/octaviars-interior.jpg"
+    ],
+    features: ["vRS Sport Seats", "Matrix LED Headlamps", "Canton Sound System", "10 Airbags"],
+    offers: ["Exclusive RS Merchandise Kit", "Service Package @ 50% Off"],
+    keySpecifications: OCTAVIA_RS_SPECS,
+    utilitySpecs: OCTAVIA_RS_UTILITY,
+  }, 
+  
+  {
     id: 201,
     name: 'Maruti Suzuki e-Vitara',
     rating: 4.9,
     reviews: 45,
     priceRange: '₹ 16.00 - 22.00 Lakh*',
-    location: 'Delhi',
+    location: 'jaipur',
     imageUrls: [
       '/cars/e-vitara.jpg',
       '/cars/e-vitara-side.jpg',
@@ -147,7 +223,7 @@ export const newCarsData: Car[] = [
     rating: 4.7,
     reviews: 32,
     priceRange: '₹ 8.50 - 14.00 Lakh*',
-    location: 'Mumbai',
+    location: 'jaipur',
     imageUrls: [
       '/cars/kylaq.jpg',
       '/cars/kylaq-side.jpg',
@@ -166,7 +242,7 @@ export const newCarsData: Car[] = [
     rating: 4.6,
     reviews: 25,
     priceRange: '₹ 7.50 - 10.50 Lakh*',
-    location: 'Chennai',
+    location: 'jaipur',
     imageUrls: [
       '/cars/amaze.jpg',
       '/cars/amaze-side.jpg',
@@ -234,9 +310,9 @@ export const newCarsData: Car[] = [
     offers: ['Exchange Bonus ₹ 25,000', 'Corporate Discount ₹ 10,000'],
     keySpecifications: VICTORIS_SPECS,
     utilitySpecs: VICTORIS_UTILITY,
-  }
+  },
 
-  // --- NEW 2025 LAUNCHES ---
- 
+  // --- NEW ADDED CARS (SIERRA & OCTAVIA RS) ---
+
 
 ];
