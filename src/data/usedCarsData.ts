@@ -1,7 +1,7 @@
 // src/data/usedCarsData.ts
-import { UsedCar } from '../types'; // Make sure path sahi ho
+import { UsedCar } from '../types';
 
-// 👇 Yahan maine naam badal kar 'usedCarsData' kar diya hai
+// Ye naam 'Header.tsx' ke liye hai (Jo humne abhi fix kiya tha)
 export const usedCarsData: UsedCar[] = [
   {
     id: 1,
@@ -35,7 +35,7 @@ export const usedCarsData: UsedCar[] = [
       "/cars/safari-3.jpg",
       "/cars/safari-4.jpg",
     ],
-    sellerPhone: "9876543211"
+    sellerPhone: "9876543211" 
   },
   {
     id: 3,
@@ -52,7 +52,7 @@ export const usedCarsData: UsedCar[] = [
       "/cars/swift-3.jpg",
       "/cars/swift-4.jpg",
     ],
-    sellerPhone: "9876543212"
+    sellerPhone: "9876543212" 
   },
   {
     id: 4,
@@ -69,6 +69,10 @@ export const usedCarsData: UsedCar[] = [
       "/cars/creta-3.jpg",
       "/cars/creta-4.jpg",
     ],
-    sellerPhone: "9876543213"
+    sellerPhone: "9876543213" 
   }
 ];
+
+// 👇👇👇 YE LINE ADD KAREIN (Sabse Important) 👇👇👇
+// Isse aapke purane pages (used-cars page, all-cars page) khush rahenge
+export const usedCars = usedCarsData;
