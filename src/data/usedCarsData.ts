@@ -1,7 +1,8 @@
-// data/usedCarsData.ts
-import { UsedCar } from '../types';
+// src/data/usedCarsData.ts
+import { UsedCar } from '../types'; // Make sure path sahi ho
 
-export const usedCars: UsedCar[] = [
+// 👇 Yahan maine naam badal kar 'usedCarsData' kar diya hai
+export const usedCarsData: UsedCar[] = [
   {
     id: 1,
     name: "Ford Endeavour 2.0",
@@ -17,7 +18,7 @@ export const usedCars: UsedCar[] = [
       "/cars/endeavour-3.jpg",
       "/cars/endeavour-4.jpg",
     ],
-    sellerPhone: "9876543210" // <-- YEH ADD KAREIN
+    sellerPhone: "9876543210"
   },
   {
     id: 2,
@@ -34,7 +35,7 @@ export const usedCars: UsedCar[] = [
       "/cars/safari-3.jpg",
       "/cars/safari-4.jpg",
     ],
-    sellerPhone: "9876543211" // <-- YEH ADD KAREIN
+    sellerPhone: "9876543211"
   },
   {
     id: 3,
@@ -51,7 +52,7 @@ export const usedCars: UsedCar[] = [
       "/cars/swift-3.jpg",
       "/cars/swift-4.jpg",
     ],
-    sellerPhone: "9876543212" // <-- YEH ADD KAREIN
+    sellerPhone: "9876543212"
   },
   {
     id: 4,
@@ -68,6 +69,6 @@ export const usedCars: UsedCar[] = [
       "/cars/creta-3.jpg",
       "/cars/creta-4.jpg",
     ],
-    sellerPhone: "9876543213" // <-- YEH ADD KAREIN
+    sellerPhone: "9876543213"
   }
 ];

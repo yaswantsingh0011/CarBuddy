@@ -13,7 +13,7 @@ export const newLaunchCars = [
     location: "Expected: Dec 15, 2025",
     category: "Sedan",
     imageUrls: [
-      "/cars/a5.jpg", "/cars/a5-side.jpg", "/cars/a5-rear.jpg", "/cars/a5-.jpg"
+      "/cars/a5.jpg", "/cars/a5-side.jpg", "/cars/a5-rear.jpg", "/cars/a5-interior.jpg"
     ],
     specs: {
       engine: "2.0L TFSI",
@@ -99,28 +99,7 @@ export const newLaunchCars = [
   // ==============================
   // 3. SKODA OCTAVIA RS
   // ==============================
-  {
-    id: 903,
-    name: "Skoda Octavia RS",
-    slug: "skoda-octavia-rs",
-    priceRange: "₹ 35 - 40 Lakh*",
-    location: "Expected: Nov 25, 2025",
-    category: "Sedan",
-    imageUrls: [
-      "/cars/octaviars.jpg", "/cars/octaviars-side.jpg", "/cars/octaviars-rear.jpg", "/cars/octaviars-interior.jpg"
-    ],
-    specs: {
-      engine: "2.0L TSI Petrol",
-      power: "245 hp",
-      torque: "370 Nm",
-      transmission: "7-Speed DSG",
-      mileage: "15 kmpl",
-      bootSpace: "600 L",
-      groundClearance: "140 mm"
-    },
-    features: ["Sport Seats", "Matrix LED Headlamps", "Virtual Cockpit", "Dynamic Chassis Control"]
-  },
-
+  
   // ==============================
   // 4. TATA SIERRA EV
   // ==============================
