@@ -2,9 +2,61 @@
 
 import { Car, KeySpec } from "@/types";
 
-// --- 1. SPECS & UTILITY CONSTANTS (Sirf 3 cars ke liye) ---
+// ==========================================
+// 1. SPECS & UTILITY CONSTANTS
+// ==========================================
+// --- B. NEW 2025 LAUNCHES (e-Vitara, Kylaq, Amaze) ---
 
-// Mahindra BE6E Specs
+// Maruti Suzuki e-Vitara (Updated)
+const EVITARA_SPECS: KeySpec[] = [
+    { label: 'Powertrain', value: 'Electric (Dual Motor)' },
+    { label: 'Range (Est.)', value: '550 km' },
+    { label: 'Battery', value: '60 kWh' },
+    { label: 'Power', value: '180 hp - 200 hp' },
+    { label: 'Charging', value: 'Fast Charge Supported' },
+    { label: 'Drivetrain', value: 'AWD' },
+];
+const EVITARA_UTILITY: KeySpec[] = [
+    { label: 'Ground Clearance', value: '190 mm' },
+    { label: 'Boot Space', value: '430 Litres' },
+    { label: 'Length', value: '4320 mm' },
+    { label: 'Wheelbase', value: '2700 mm' },
+];
+
+// Skoda Kylaq Specs
+const KYLAQ_SPECS: KeySpec[] = [
+    { label: 'Engine', value: '1.0L TSI Turbo Petrol' },
+    { label: 'Mileage', value: '19.8 kmpl' },
+    { label: 'Power', value: '114 hp' },
+    { label: 'Torque', value: '178 Nm' },
+    { label: 'Transmission', value: '6-Speed MT / AT' },
+    { label: '0-100 km/h', value: '10.5 Seconds' },
+];
+const KYLAQ_UTILITY: KeySpec[] = [
+    { label: 'Ground Clearance', value: '189 mm' },
+    { label: 'Boot Space', value: '380 Litres' },
+    { label: 'Length', value: '3995 mm (Sub-4m)' },
+    { label: 'Safety', value: '6 Airbags Standard' },
+];
+
+// Honda Amaze 2025 Specs
+const AMAZE_SPECS: KeySpec[] = [
+    { label: 'Engine', value: '1.2L i-VTEC Petrol' },
+    { label: 'Mileage', value: '18.6 kmpl' },
+    { label: 'Power', value: '90 hp' },
+    { label: 'Transmission', value: 'CVT / 5-MT' },
+    { label: 'Tech', value: 'ADAS Level 1' },
+    { label: 'Fuel Tank', value: '35 Litres' },
+];
+const AMAZE_UTILITY: KeySpec[] = [
+    { label: 'Ground Clearance', value: '170 mm' },
+    { label: 'Boot Space', value: '420 Litres' },
+    { label: 'Length', value: '3995 mm' },
+    { label: 'Wheels', value: '15-inch Alloys' },
+];
+// --- A. ORIGINAL CARS (BE.6e, Creta EV, Victoris) ---
+
+// Mahindra BE.6e Specs
 const BE6E_SPECS: KeySpec[] = [
     { label: 'Powertrain', value: 'Electric (EV)' },
     { label: 'Range (Est.)', value: '450 - 500 km' },
@@ -20,7 +72,7 @@ const BE6E_UTILITY: KeySpec[] = [
     { label: 'Wheelbase', value: '2775 mm' },
 ];
 
-// Hyundai Creta Electric Specs
+// Hyundai Creta EV Specs
 const CRETA_EV_SPECS: KeySpec[] = [
     { label: 'Powertrain', value: 'Electric (EV)' },
     { label: 'Range (Est.)', value: '400 - 450 km' },
@@ -52,12 +104,84 @@ const VICTORIS_UTILITY: KeySpec[] = [
     { label: 'Fuel Tank', value: '45 Litres' },
 ];
 
-// --- 2. MAIN DATA ARRAY (ONLY 3 CARS) ---
+
+
+// ==========================================
+// 2. MAIN DATA ARRAY (MERGED)
+// ==========================================
 
 export const newCarsData: Car[] = [
+
+  // --- ORIGINAL 3 CARS ---
+   {
+    id: 201,
+    name: 'Maruti Suzuki e-Vitara',
+    rating: 4.9,
+    reviews: 45,
+    priceRange: '₹ 16.00 - 22.00 Lakh*',
+    location: 'Delhi',
+    imageUrls: [
+      '/cars/e-vitara.jpg',
+      '/cars/e-vitara-side.jpg',
+      '/cars/e-vitara-rear.jpg',
+      '/cars/e-vitara-interior.jpg'
+    ],
+    features: [
+      'Born Electric SUV',
+      '12-inch Floating Touchscreen',
+      '360 Degree Camera',
+      'Panoramic Sunroof',
+      'ADAS Level 2'
+    ],
+    offers: [
+      'Early Bird Discount ₹40,000',
+      'Free Home Charger Installation'
+    ],
+    keySpecifications: EVITARA_SPECS,
+    utilitySpecs: EVITARA_UTILITY,
+  },
+
+  {
+    id: 202,
+    name: 'Skoda Kylaq',
+    rating: 4.7,
+    reviews: 32,
+    priceRange: '₹ 8.50 - 14.00 Lakh*',
+    location: 'Mumbai',
+    imageUrls: [
+      '/cars/kylaq.jpg',
+      '/cars/kylaq-side.jpg',
+      '/cars/kylaq-rear.jpg',
+      '/cars/kylaq-interior.jpg'
+    ],
+    features: ['Ventilated Seats', 'Electric Sunroof', '10-inch Infotainment', 'Powered Driver Seat'],
+    offers: ['4 Year Maintenance Package', 'Corporate Discount ₹ 15,000'],
+    keySpecifications: KYLAQ_SPECS,
+    utilitySpecs: KYLAQ_UTILITY,
+  },
+
+  {
+    id: 204,
+    name: 'Honda Amaze',
+    rating: 4.6,
+    reviews: 25,
+    priceRange: '₹ 7.50 - 10.50 Lakh*',
+    location: 'Chennai',
+    imageUrls: [
+      '/cars/amaze.jpg',
+      '/cars/amaze-side.jpg',
+      '/cars/amaze-rear.jpg',
+      '/cars/amaze-interior.jpg'
+    ],
+    features: ['ADAS Safety Suite', 'Premium Dual Tone Interior', 'Wireless Charger', 'LED Projector Headlamps'],
+    offers: ['Loyalty Bonus ₹ 20,000', 'Exchange Bonus ₹ 10,000'],
+    keySpecifications: AMAZE_SPECS,
+    utilitySpecs: AMAZE_UTILITY,
+  },
+  
   {
     id: 101,
-    name: 'Mahindra BE6E',
+    name: 'Mahindra BE6e',
     rating: 4.8,
     reviews: 12,
     priceRange: '₹ 25.00 - 30.00 Lakh*',
@@ -73,6 +197,7 @@ export const newCarsData: Car[] = [
     keySpecifications: BE6E_SPECS,
     utilitySpecs: BE6E_UTILITY,
   },
+
   {
     id: 102,
     name: 'Hyundai Creta Electric',
@@ -91,6 +216,7 @@ export const newCarsData: Car[] = [
     keySpecifications: CRETA_EV_SPECS,
     utilitySpecs: CRETA_EV_UTILITY,
   },
+
   {
     id: 103,
     name: 'Maruti Suzuki Victoris',
@@ -108,5 +234,9 @@ export const newCarsData: Car[] = [
     offers: ['Exchange Bonus ₹ 25,000', 'Corporate Discount ₹ 10,000'],
     keySpecifications: VICTORIS_SPECS,
     utilitySpecs: VICTORIS_UTILITY,
-  },
+  }
+
+  // --- NEW 2025 LAUNCHES ---
+ 
+
 ];
