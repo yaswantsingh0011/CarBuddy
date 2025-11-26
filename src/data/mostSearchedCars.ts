@@ -70,7 +70,9 @@ export const mostSearchedCars = [
     category: "SUV",
     specs: { engine: "1.0L Turbo", power: "99 bhp", torque: "160 Nm", transmission: "CVT / MT", mileage: "20.5 kmpl", bootSpace: "405 L", groundClearance: "205 mm" },
     features: ["Sport Mode", "Wireless CarPlay", "PM 2.5 Air Filter", "Digital Instrument Cluster"]
-  },// --- Compact & Micro SUVs ---
+  },
+  
+  // --- Compact & Micro SUVs ---
   { 
     id: 1, 
     name: "Hyundai Venue", 
@@ -107,22 +109,54 @@ export const mostSearchedCars = [
     specs: { engine: "1.2L Revotron", power: "87 bhp", torque: "115 Nm", transmission: "5-MT / AMT", mileage: "18.8 kmpl", bootSpace: "366 L", groundClearance: "187 mm" },
     features: ["5 Star Safety Rating", "7-inch Harman Screen", "90 Degree Door Opening", "Traction Pro Mode"]
   },
-  
 
-  // --- Mid-Size & Premium SUVs ---
-  
-  
 
-  // --- Off-Road & Full Size ---
- 
-  
+  // ==============================
+  // 1.5 MUV CATEGORY (NEWLY ADDED)
+  // ==============================
+  {
+    id: 30,
+    name: "Maruti Ertiga",
+    category: "MUV",
+    price: "₹ 8.69 - 13.03 Lakh*",
+    images: ["/cars/ertiga.jpg", "/cars/ertiga-side.jpg", "/cars/ertiga-rear.jpg", "/cars/ertiga-interior.jpg"],
+    specs: { engine: "1.5L K15C Petrol", power: "102 bhp", torque: "136.8 Nm", transmission: "5-MT / 6-AT", mileage: "20.51 kmpl", bootSpace: "209 L", groundClearance: "185 mm" },
+    features: ["CNG Option Available", "Roof Mounted AC", "SmartPlay Pro", "Projector Headlamps"]
+  },
+  {
+    id: 31,
+    name: "Toyota Innova Crysta",
+    category: "MUV",
+    price: "₹ 19.99 - 26.55 Lakh*",
+    images: ["/cars/innova.jpg", "/cars/innova-side.jpg", "/cars/innova-rear.jpg", "/cars/innova-interior.jpg"],
+    specs: { engine: "2.4L Diesel", power: "148 bhp", torque: "343 Nm", transmission: "5-MT", mileage: "12 kmpl", bootSpace: "300 L", groundClearance: "178 mm" },
+    features: ["7 Airbags", "One-Touch Tumble Seats", "8-inch Display", "Ambient Lighting"]
+  },
+  {
+    id: 32,
+    name: "Kia Carens",
+    category: "MUV",
+    price: "₹ 10.45 - 19.45 Lakh*",
+    images: ["/cars/carens.jpg", "/cars/carens-side.jpg", "/cars/carens-rear.jpg", "/cars/carens-interior.jpg"],
+    specs: { engine: "1.5L Turbo Petrol", power: "158 bhp", torque: "253 Nm", transmission: "7-DCT / 6-iMT", mileage: "16.5 kmpl", bootSpace: "216 L", groundClearance: "195 mm" },
+    features: ["Skyroof", "Ventilated Front Seats", "Bose Premium Sound", "6 Airbags Standard"]
+  },
+  {
+    id: 33,
+    name: "Toyota Innova Hycross",
+    category: "MUV",
+    price: "₹ 19.77 - 30.98 Lakh*",
+    images: ["/cars/hycross.jpg", "/cars/hycross-side.jpg", "/cars/hycross-rear.jpg", "/cars/hycross-interior.jpg"],
+    specs: { engine: "2.0L TNGA Hybrid", power: "183 bhp", torque: "206 Nm", transmission: "e-CVT", mileage: "23.24 kmpl", bootSpace: "300+ L", groundClearance: "185 mm" },
+    features: ["Ottoman Seats", "Panoramic Sunroof", "Toyota Safety Sense ADAS", "Powered Tailgate"]
+  },
 
 
   // ==============================
   // 2. LUXURY CATEGORY
   // ==============================
 
-{ 
+  { 
     id: 29, 
     name: "Jeep Wrangler", 
     price: "₹ 62.65 - 67.65 Lakh*", 

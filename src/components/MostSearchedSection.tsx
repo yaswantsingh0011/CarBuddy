@@ -7,7 +7,8 @@ import { mostSearchedCars } from '@/data/mostSearchedCars';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import OffersModal from './OffersModal';
 
-const categories = ["SUV", "Luxury","Sedan","Hatchback"];
+// Updated Categories list with MUV added
+const categories = ["SUV", "MUV", "Luxury", "Sedan", "Hatchback"];
 
 const MostSearchedSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState("SUV");
@@ -78,34 +79,34 @@ const MostSearchedSection: React.FC = () => {
           className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth" 
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {filteredCars.map((car) => {
-            // 🛠️ FIX: Image Logic
-            // Agar 'images' array hai to pehli image lo, nahi to purana 'image' string lo
-            // (mostSearchedCars me ab 'images' array hai)
-            const displayImage = (car as any).images ? (car as any).images[0] : (car as any).image;
+          {filteredCars.length > 0 ? (
+            filteredCars.map((car) => {
+              // Image Logic check
+              const displayImage = (car as any).images ? (car as any).images[0] : (car as any).image;
 
-            return (
-              <div 
-                  key={car.id} 
-                  onClick={() => handleCardClick(car.name)}
-                  className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0 cursor-pointer transition-transform hover:scale-105"
-              >
-                 <div className="h-full pointer-events-auto">
-                     <ElectricCarCard 
-                        name={car.name} 
-                        // Note: Data file me 'price' hai
-                        priceRange={(car as any).price} 
-                        // Yahan Fixed Image Pass kar rahe hain
-                        imageUrl={displayImage || "/cars/placeholder.jpg"} 
-                        onOfferClick={() => setOfferCar(car)} 
-                     />
-                 </div>
-              </div>
-            );
-          })}
+              return (
+                <div 
+                    key={car.id} 
+                    onClick={() => handleCardClick(car.name)}
+                    className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0 cursor-pointer transition-transform hover:scale-105"
+                >
+                   <div className="h-full pointer-events-auto">
+                       <ElectricCarCard 
+                          name={car.name} 
+                          priceRange={(car as any).price} 
+                          imageUrl={displayImage || "/cars/placeholder.jpg"} 
+                          onOfferClick={() => setOfferCar(car)} 
+                       />
+                   </div>
+                </div>
+              );
+            })
+          ) : (
+             <div className="text-center w-full py-10 text-gray-500">No cars found in this category.</div>
+          )}
         </div>
 
-        <button onClick={slideRight} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all flex items-center justify-center">
+        <button onClick={slideRight} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all hidden md:flex items-center justify-center">
             <FaChevronRight size={20} />
         </button>
       </div>
