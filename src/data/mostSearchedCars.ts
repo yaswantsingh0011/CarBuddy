@@ -155,51 +155,45 @@ export const mostSearchedCars = [
   // ==============================
   // 2. LUXURY CATEGORY
   // ==============================
+  
+  
+  { 
+    id: 14, 
+    name: "BMW 3 Series", 
+    price: "₹ 72.90 Lakh*", 
+    images: ["/cars/bmw3.jpg", "/cars/bmw3-side.jpg", "/cars/bmw3-rear.jpg", "/cars/bmw3-interior.jpg"], 
+    category: "Luxury",
+    specs: { engine: "3.0L Inline-6 Turbo", power: "369 bhp", torque: "500 Nm", transmission: "8-Speed Steptronic", mileage: "11 kmpl", bootSpace: "480 L", groundClearance: "135 mm" },
+    features: ["Curved Display", "M Sport Suspension", "Carbon Fiber Trim", "Head-up Display"]
+  },
+  
+  
+  {
+    id: 43, // Unique ID
+    name: "Volvo XC40 ",
+    price: "₹ 54.95 - 57.90 Lakh*",
+    images: ["/cars/xc40.jpg", "/cars/xc40-side.jpg", "/cars/xc40-rear.jpg", "/cars/xc40-interior.jpg"],
+    category: "Luxury",
+    specs: { 
+      engine: "Electric Motor (Twin)", 
+      power: "402 bhp", 
+      torque: "660 Nm", 
+      transmission: "Automatic", 
+      mileage: "418 km Range", 
+      bootSpace: "452 L", 
+      groundClearance: "175 mm" 
+    },
+    features: ["Google Built-in", "ADAS Level 2", "Panoramic Sunroof", "Harman Kardon Sound"]
+  }, 
 
   { 
-    id: 29, 
-    name: "Jeep Wrangler", 
-    price: "₹ 62.65 - 67.65 Lakh*", 
-    images: ["/cars/wrangler.jpg", "/cars/wrangler-side.jpg", "/cars/wrangler-rear.jpg", "/cars/wrangler-interior.jpg"], 
+    id: 15, 
+    name: "Audi A4", 
+    price: "₹ 45.34 - 53.50 Lakh*", 
+    images: ["/cars/a4.jpg", "/cars/a4-side.jpg", "/cars/a4-rear.jpg", "/cars/a4-interior.jpg"], 
     category: "Luxury",
-    specs: { engine: "2.0L Turbo Petrol", power: "268 bhp", torque: "400 Nm", transmission: "8-AT 4x4", mileage: "12.1 kmpl", bootSpace: "897 L", groundClearance: "217 mm" },
-    features: ["Rubicon 4x4 System", "Removable Doors & Roof", "Gorilla Glass Windshield", "Off-road Camera"]
-  },
-  { 
-    id: 20, 
-    name: "Mercedes-Benz G-Class", 
-    price: "₹ 2.55 - 4.00 Cr*", 
-    images: ["/cars/g63.jpg", "/cars/g63-side.jpg", "/cars/g63-rear.jpg", "/cars/g63-interior.jpg"], 
-    category: "Luxury",
-    specs: { engine: "4.0L V8 Biturbo", power: "577 bhp", torque: "850 Nm", transmission: "AMG 9-Speed", mileage: "6 kmpl", bootSpace: "667 L", groundClearance: "241 mm" },
-    features: ["3 Differential Locks", "AMG Active Ride Control", "Burmester Surround Sound", "Multicontour Massage Seats"]
-  },
-  { 
-    id: 21, 
-    name: "Land Rover Defender", 
-    price: "₹ 93.55 Lakh - 2.30 Cr*", 
-    images: ["/cars/defender.jpg", "/cars/defender-side.jpg", "/cars/defender-rear.jpg", "/cars/defender-interior.jpg"], 
-    category: "Luxury",
-    specs: { engine: "3.0L Diesel / 5.0L V8", power: "296 bhp", torque: "650 Nm", transmission: "8-AT", mileage: "10 kmpl", bootSpace: "857 L", groundClearance: "291 mm" },
-    features: ["ClearSight Ground View", "Air Suspension", "Wade Sensing", "Pivi Pro Infotainment"]
-  },
-  { 
-    id: 22, 
-    name: "Range Rover", 
-    price: "₹ 2.39 - 4.17 Cr*", 
-    images: ["/cars/range-rover.jpg", "/cars/range-rover-side.jpg", "/cars/range-rover-rear.jpg", "/cars/range-rover-interior.jpg"], 
-    category: "Luxury",
-    specs: { engine: "3.0L Diesel LWB", power: "346 bhp", torque: "700 Nm", transmission: "8-AT AWD", mileage: "13 kmpl", bootSpace: "818 L", groundClearance: "219 mm" },
-    features: ["Executive Class Rear Seats", "Active Noise Cancellation", "All-Wheel Steering", "Meridian Signature Sound"]
-  },
-  { 
-    id: 23, 
-    name: "Toyota Land Cruiser", 
-    price: "₹ 2.10 Cr*", 
-    images: ["/cars/landcruiser.jpg", "/cars/landcruiser-side.jpg", "/cars/landcruiser-rear.jpg", "/cars/landcruiser-interior.jpg"], 
-    category: "Luxury",
-    specs: { engine: "3.3L V6 Diesel", power: "304 bhp", torque: "700 Nm", transmission: "10-Speed AT", mileage: "11 kmpl", bootSpace: "1131 L", groundClearance: "235 mm" },
-    features: ["E-KDSS Suspension", "Multi-Terrain Monitor", "JBL 14-Speaker Audio", "Fingerprint Authentication"]
+    specs: { engine: "2.0L TFSI", power: "187 bhp", torque: "320 Nm", transmission: "7-Speed S-Tronic", mileage: "17.4 kmpl", bootSpace: "460 L", groundClearance: "135 mm" },
+    features: ["Virtual Cockpit", "Comfort Key", "3-Zone Climate Control", "Park Assist"]
   },
 
 
@@ -212,24 +206,78 @@ export const mostSearchedCars = [
     specs: { engine: "2.0L Diesel", power: "197 bhp", torque: "440 Nm", transmission: "9G-TRONIC", mileage: "23 kmpl", bootSpace: "455 L", groundClearance: "157 mm" },
     features: ["MBUX Infotainment", "Burmester 3D Sound", "Digital Lights", "Fingerprint Scanner"]
   },
-  { 
-    id: 14, 
-    name: "BMW 3 Series", 
-    price: "₹ 72.90 Lakh*", 
-    images: ["/cars/bmw3.jpg", "/cars/bmw3-side.jpg", "/cars/bmw3-rear.jpg", "/cars/bmw3-interior.jpg"], 
+ { 
+    id: 22, 
+    name: "Range Rover", 
+    price: "₹ 2.39 - 4.17 Cr*", 
+    images: ["/cars/range-rover.jpg", "/cars/range-rover-side.jpg", "/cars/range-rover-rear.jpg", "/cars/range-rover-interior.jpg"], 
     category: "Luxury",
-    specs: { engine: "3.0L Inline-6 Turbo", power: "369 bhp", torque: "500 Nm", transmission: "8-Speed Steptronic", mileage: "11 kmpl", bootSpace: "480 L", groundClearance: "135 mm" },
-    features: ["Curved Display", "M Sport Suspension", "Carbon Fiber Trim", "Head-up Display"]
+    specs: { engine: "3.0L Diesel LWB", power: "346 bhp", torque: "700 Nm", transmission: "8-AT AWD", mileage: "13 kmpl", bootSpace: "818 L", groundClearance: "219 mm" },
+    features: ["Executive Class Rear Seats", "Active Noise Cancellation", "All-Wheel Steering", "Meridian Signature Sound"]
   },
-  { 
-    id: 15, 
-    name: "Audi A4", 
-    price: "₹ 45.34 - 53.50 Lakh*", 
-    images: ["/cars/a4.jpg", "/cars/a4-side.jpg", "/cars/a4-rear.jpg", "/cars/a4-interior.jpg"], 
+
+   { 
+    id: 20, 
+    name: "Mercedes-Benz G-Class", 
+    price: "₹ 2.55 - 4.00 Cr*", 
+    images: ["/cars/g63.jpg", "/cars/g63-side.jpg", "/cars/g63-rear.jpg", "/cars/g63-interior.jpg"], 
     category: "Luxury",
-    specs: { engine: "2.0L TFSI", power: "187 bhp", torque: "320 Nm", transmission: "7-Speed S-Tronic", mileage: "17.4 kmpl", bootSpace: "460 L", groundClearance: "135 mm" },
-    features: ["Virtual Cockpit", "Comfort Key", "3-Zone Climate Control", "Park Assist"]
+    specs: { engine: "4.0L V8 Biturbo", power: "577 bhp", torque: "850 Nm", transmission: "AMG 9-Speed", mileage: "6 kmpl", bootSpace: "667 L", groundClearance: "241 mm" },
+    features: ["3 Differential Locks", "AMG Active Ride Control", "Burmester Surround Sound", "Multicontour Massage Seats"]
   },
+
+{ 
+    id: 21, 
+    name: "Land Rover Defender", 
+    price: "₹ 93.55 Lakh - 2.30 Cr*", 
+    images: ["/cars/defender.jpg", "/cars/defender-side.jpg", "/cars/defender-rear.jpg", "/cars/defender-interior.jpg"], 
+    category: "Luxury",
+    specs: { engine: "3.0L Diesel / 5.0L V8", power: "296 bhp", torque: "650 Nm", transmission: "8-AT", mileage: "10 kmpl", bootSpace: "857 L", groundClearance: "291 mm" },
+    features: ["ClearSight Ground View", "Air Suspension", "Wade Sensing", "Pivi Pro Infotainment"]
+  },
+
+
+  { 
+    id: 29, 
+    name: "Jeep Wrangler", 
+    price: "₹ 62.65 - 67.65 Lakh*", 
+    images: ["/cars/wrangler.jpg", "/cars/wrangler-side.jpg", "/cars/wrangler-rear.jpg", "/cars/wrangler-interior.jpg"], 
+    category: "Luxury",
+    specs: { engine: "2.0L Turbo Petrol", power: "268 bhp", torque: "400 Nm", transmission: "8-AT 4x4", mileage: "12.1 kmpl", bootSpace: "897 L", groundClearance: "217 mm" },
+    features: ["Rubicon 4x4 System", "Removable Doors & Roof", "Gorilla Glass Windshield", "Off-road Camera"]
+  },
+ 
+  
+
+  {
+    id: 42, // Unique ID
+    name: "Toyota Vellfire",
+    price: "₹ 1.20 - 1.32 Cr*",
+    images: ["/cars/vellfire.jpg", "/cars/vellfire-side.jpg", "/cars/vellfire-rear.jpg", "/cars/vellfire-interior.jpg"],
+    category: "Luxury",
+    specs: { 
+      engine: "2.5L Hybrid Petrol", 
+      power: "190 bhp", 
+      torque: "240 Nm", 
+      transmission: "e-CVT", 
+      mileage: "19.28 kmpl", 
+      bootSpace: "Space for 6 Bags", 
+      groundClearance: "160 mm" 
+    },
+    features: ["Executive Lounge Seats", "14-inch Rear Screen", "Massage Function", "Power Sliding Doors"]
+  },
+ 
+  { 
+    id: 23, 
+    name: "Toyota Land Cruiser", 
+    price: "₹ 2.10 Cr*", 
+    images: ["/cars/landcruiser.jpg", "/cars/landcruiser-side.jpg", "/cars/landcruiser-rear.jpg", "/cars/landcruiser-interior.jpg"], 
+    category: "Luxury",
+    specs: { engine: "3.3L V6 Diesel", power: "304 bhp", torque: "700 Nm", transmission: "10-Speed AT", mileage: "11 kmpl", bootSpace: "1131 L", groundClearance: "235 mm" },
+    features: ["E-KDSS Suspension", "Multi-Terrain Monitor", "JBL 14-Speaker Audio", "Fingerprint Authentication"]
+  },
+
+  
   { 
     id: 28, 
     name: "Audi Q5", 
@@ -241,9 +289,7 @@ export const mostSearchedCars = [
   },
   
 
-  // ==============================
-  // 3. SEDAN CATEGORY
-  // ==============================
+  
   { 
     id: 9, 
     name: "Hyundai Verna", 
