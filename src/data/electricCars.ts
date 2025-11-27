@@ -8,7 +8,7 @@ export const electricCars = [
     id: 801,
     name: "Mahindra BE 6e",
     priceRange: "₹ 18.90 - 27.79 Lakh*",
-    images: ["/cars/be6.jpg", "/cars/be6e-side.jpg", "/cars/be6e-rear.jpg", "/cars/be6e-interior.jpg"],
+    images: ["/cars/be6e.jpg", "/cars/be6e-side.jpg", "/cars/be6e-rear.jpg", "/cars/be6e-interior.jpg"],
     category: "EV",
     specs: {
       engine: "79 kWh Battery",

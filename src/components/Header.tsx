@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes, FaSearch } from 'react-icons/fa'; 
 import AuthModal from './AuthModal';
-import AccountModal from './AccountModal';
+// ❌ AccountModal import hata diya hai
 import { supabase } from '@/lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
 
@@ -15,16 +15,15 @@ import { Session } from '@supabase/supabase-js';
 import { mostSearchedCars } from '@/data/mostSearchedCars';
 import { electricCars } from '@/data/electricCars';
 import { newLaunchCars } from '@/data/newlaunchcars';
-// ✅ New Imports added for logic
-import { newCarsData } from '@/data/newCarsData'; // Make sure path is correct
-import { usedCarsData } from '@/data/usedCarsData'; // Make sure path is correct
+import { newCarsData } from '@/data/newCarsData';
+import { usedCarsData } from '@/data/usedCarsData';
 
 const Header: React.FC = () => {
   const router = useRouter();
   
   // --- States ---
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false);
+  // ❌ isAccountModalOpen state hata diya hai
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [session, setSession] = useState<Session | null>(null);
 
@@ -33,7 +32,7 @@ const Header: React.FC = () => {
   const [filteredCars, setFilteredCars] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   
-  // 1. ✅ Category State (Default 'All')
+  // Category State
   const [searchCategory, setSearchCategory] = useState("All"); 
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
 
@@ -49,18 +48,16 @@ const Header: React.FC = () => {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    setIsAccountModalOpen(false);
     setIsMobileMenuOpen(false); 
     router.push('/');
+    router.refresh(); // Refresh page to update UI state
   };
 
-  // --- 2. ✅ UPDATED SEARCH LOGIC ---
+  // --- SEARCH LOGIC ---
   useEffect(() => {
-    // Data source decide karo category ke hisaab se
     let sourceData: any[] = [];
 
     if (searchCategory === "All") {
-        // ✅ Rule 1: All -> electric + mostSearched + newCars + newLaunch + usedCars
         sourceData = [
             ...electricCars, 
             ...mostSearchedCars, 
@@ -69,14 +66,12 @@ const Header: React.FC = () => {
             ...usedCarsData
         ];
     } else if (searchCategory === "New") {
-        // ✅ Rule 2: New -> newCars + newLaunch + electric
         sourceData = [
             ...newCarsData, 
             ...newLaunchCars, 
             ...electricCars
         ]; 
     } else if (searchCategory === "Used") {
-        // ✅ Rule 3: Used -> usedCarsData ONLY
         sourceData = [...usedCarsData]; 
     }
 
@@ -85,7 +80,6 @@ const Header: React.FC = () => {
         car.name.toLowerCase().includes(query.toLowerCase())
       );
       
-      // Remove duplicates (kyunki 'All' me same car multiple lists me ho sakti h)
       const uniqueResults = Array.from(new Set(results.map(a => a.name)))
         .map(name => results.find(a => a.name === name));
       
@@ -95,7 +89,7 @@ const Header: React.FC = () => {
       setFilteredCars([]);
       setShowSuggestions(false);
     }
-  }, [query, searchCategory]); // Query ya Category change hone par run hoga
+  }, [query, searchCategory]);
 
   // Outside Click Handlers
   useEffect(() => {
@@ -146,7 +140,7 @@ const Header: React.FC = () => {
             <div className="hidden md:block flex-1 max-w-xs xl:max-w-sm relative" ref={searchRef}>
                 <div className="flex items-center w-full h-10 rounded-full border border-gray-300 bg-gray-50 hover:border-blue-400 focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 transition-all relative">
                     
-                    {/* ✅ 3. CATEGORY DROPDOWN */}
+                    {/* CATEGORY DROPDOWN */}
                     <div 
                         className="flex items-center px-3 border-r border-gray-300 h-full cursor-pointer hover:bg-gray-100 rounded-l-full transition-colors relative"
                         onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
@@ -155,7 +149,6 @@ const Header: React.FC = () => {
                         <span className="text-xs font-bold text-gray-700 mr-1 w-8 text-center">{searchCategory}</span>
                         <FaChevronDown className="text-gray-500 text-[10px]" />
 
-                        {/* Dropdown Menu */}
                         {showCategoryDropdown && (
                             <div className="absolute top-full left-0 mt-2 w-24 bg-white border border-gray-200 rounded-lg shadow-xl z-[60] overflow-hidden">
                                 {["All", "New", "Used"].map((cat) => (
@@ -189,11 +182,9 @@ const Header: React.FC = () => {
                     </div>
                 </div>
 
-                {/* ✅ 4. SUGGESTIONS & NO RESULTS */}
+                {/* SUGGESTIONS */}
                 {showSuggestions && query.length > 1 && (
                     <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-fadeIn">
-                        
-                        {/* Agar Results Hain */}
                         {filteredCars.length > 0 ? (
                             filteredCars.map((car, index) => (
                                 <div 
@@ -206,20 +197,16 @@ const Header: React.FC = () => {
                                     </div>
                                     <div>
                                         <p className="text-sm font-medium text-gray-800 line-clamp-1">{car.name}</p>
-                                        <p className="text--[10px] text-gray-500">{car.category || "Car"}</p>
+                                        <p className="text-[10px] text-gray-500">{car.category || "Car"}</p>
                                     </div>
                                 </div>
                             ))
                         ) : (
-                            // ✅ NO RESULT FOUND MESSAGE
                             <div className="px-4 py-6 text-center">
                                 <div className="text-gray-300 mb-2 flex justify-center">
                                     <FaCar className="text-2xl" />
                                 </div>
                                 <p className="text-sm font-semibold text-gray-600">No results found</p>
-                                <p className="text-xs text-gray-400 mt-1">
-                                    We couldn't find any matches for "{query}" in {searchCategory} category.
-                                </p>
                             </div>
                         )}
                     </div>
@@ -233,9 +220,10 @@ const Header: React.FC = () => {
                 </button>
 
                 {session ? (
-                    <button onClick={() => setIsAccountModalOpen(true)} className="hidden md:flex items-center hover:text-blue-600 gap-1 transition-colors">
+                    // ✅ Updated: Direct Link to Profile Page
+                    <Link href="/profile" className="hidden md:flex items-center hover:text-blue-600 gap-1 transition-colors">
                         <FaRegUser /> Account
-                    </button>
+                    </Link>
                 ) : (
                     <button onClick={() => setIsAuthModalOpen(true)} className="hidden md:block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all shadow-md shadow-blue-100 font-bold">
                         Login
@@ -271,9 +259,10 @@ const Header: React.FC = () => {
                 <div className="border-t border-gray-100 pt-3 px-2">
                     {session ? (
                         <>
-                            <button onClick={() => { setIsAccountModalOpen(true); setIsMobileMenuOpen(false); }} className="flex items-center text-gray-700 w-full mb-3">
+                            {/* ✅ Updated: Direct Link to Profile Page in Mobile Menu */}
+                            <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center text-gray-700 w-full mb-3">
                                 <FaRegUser className="mr-2" /> My Account
-                            </button>
+                            </Link>
                             <button onClick={handleLogout} className="text-red-500 font-medium w-full text-left">Logout</button>
                         </>
                     ) : (
@@ -287,7 +276,7 @@ const Header: React.FC = () => {
       </header>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
-      <AccountModal isOpen={isAccountModalOpen} onClose={() => setIsAccountModalOpen(false)} />
+      {/* ❌ AccountModal component hata diya hai */}
     </>
   );
 };

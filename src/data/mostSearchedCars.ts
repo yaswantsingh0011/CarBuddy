@@ -86,7 +86,7 @@ export const mostSearchedCars = [
     id: 2, 
     name: "Tata Nexon", 
     price: "₹ 7.32 - 14.05 Lakh*", 
-    images: ["/cars/nexon.jpg", "/cars/nexon-side.jpg", "/cars/nexon-rear.jpg", "/cars/nexon-interior.jpg"], 
+    images: ["/cars/tata-nexon.jpg", "/cars/tata-nexon-side.jpg", "/cars/tata-nexon-rear.jpg", "/cars/tata-nexon-interior.jpg"], 
     category: "SUV",
     specs: { engine: "1.2L Turbo Petrol", power: "118 bhp", torque: "170 Nm", transmission: "6-MT / AMT", mileage: "17.0 kmpl", bootSpace: "382 L", groundClearance: "208 mm" },
     features: ["10.25-inch Infotainment", "5 Star Global NCAP", "Ventilated Seats", "360 Degree Camera"]
@@ -288,7 +288,7 @@ export const mostSearchedCars = [
     id: 5, 
     name: "Maruti Swift", 
     price: "₹ 6.49 - 9.64 Lakh*", 
-    images: ["/cars/swift1.jpg", "/cars/swift1-side.jpg", "/cars/swift1-rear.jpg", "/cars/swift1-interior.jpg"], 
+    images: ["/cars/swift.jpg", "/cars/swift1-side.jpg", "/cars/swift1-rear.jpg", "/cars/swift1-interior.jpg"], 
     category: "Hatchback",
     specs: { engine: "1.2L Z-Series", power: "80 bhp", torque: "112 Nm", transmission: "5-MT / AMT", mileage: "25.7 kmpl", bootSpace: "265 L", groundClearance: "163 mm" },
     features: ["9-inch SmartPlay Pro", "6 Airbags Standard", "Wireless Charger", "Rear AC Vents"]
