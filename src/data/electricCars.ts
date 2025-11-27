@@ -4,6 +4,45 @@ export const electricCars = [
   // ==============================
   // 1. MAHINDRA BE 6e
   // ==============================
+   {
+    id: 806,
+    name: "Tata Punch EV",
+    priceRange: "₹ 10.99 - 15.49 Lakh*",
+    images: ["/cars/punch-ev.jpg", "/cars/punch-ev-side.jpg", "/cars/punch-ev-rear.jpg", "/cars/punch-ev-interior.jpg"],
+    category: "EV",
+    specs: {
+      engine: "35 kWh Battery (LR)",
+      power: "120 bhp",
+      torque: "190 Nm",
+      transmission: "Automatic",
+      mileage: "421 km (Range)",
+      bootSpace: "366 L",
+      groundClearance: "190 mm"
+    },
+    features: ["Frunk (Front Trunk)", "Voice Assisted Sunroof", "Ventilated Front Seats", "360 Degree Surround View"]
+  },
+
+  // ==============================
+  // 7. TATA NEXON EV
+  // ==============================
+  {
+    id: 807,
+    name: "Tata Nexon EV",
+    priceRange: "₹ 14.49 - 19.49 Lakh*",
+    images: ["/cars/nexon-ev.jpg", "/cars/nexon-ev-side.jpg", "/cars/nexon-ev-rear.jpg", "/cars/nexon-ev-interior.jpg"],
+    category: "EV",
+    specs: {
+      engine: "40.5 kWh Battery (LR)",
+      power: "143 bhp",
+      torque: "215 Nm",
+      transmission: "Automatic",
+      mileage: "465 km (Range)",
+      bootSpace: "350 L",
+      groundClearance: "190 mm"
+    },
+    features: ["V2L (Vehicle to Load)", "JBL Cinematic Sound System", "12.3-inch Touchscreen", "Paddle Shifters for Regen"]
+  },
+  
   {
     id: 801,
     name: "Mahindra BE 6e",
@@ -109,42 +148,5 @@ export const electricCars = [
   // ==============================
   // 6. TATA PUNCH EV
   // ==============================
-  {
-    id: 806,
-    name: "Tata Punch EV",
-    priceRange: "₹ 10.99 - 15.49 Lakh*",
-    images: ["/cars/punch-ev.jpg", "/cars/punch-ev-side.jpg", "/cars/punch-ev-rear.jpg", "/cars/punch-ev-interior.jpg"],
-    category: "EV",
-    specs: {
-      engine: "35 kWh Battery (LR)",
-      power: "120 bhp",
-      torque: "190 Nm",
-      transmission: "Automatic",
-      mileage: "421 km (Range)",
-      bootSpace: "366 L",
-      groundClearance: "190 mm"
-    },
-    features: ["Frunk (Front Trunk)", "Voice Assisted Sunroof", "Ventilated Front Seats", "360 Degree Surround View"]
-  },
-
-  // ==============================
-  // 7. TATA NEXON EV
-  // ==============================
-  {
-    id: 807,
-    name: "Tata Nexon EV",
-    priceRange: "₹ 14.49 - 19.49 Lakh*",
-    images: ["/cars/nexon-ev.jpg", "/cars/nexon-ev-side.jpg", "/cars/nexon-ev-rear.jpg", "/cars/nexon-ev-interior.jpg"],
-    category: "EV",
-    specs: {
-      engine: "40.5 kWh Battery (LR)",
-      power: "143 bhp",
-      torque: "215 Nm",
-      transmission: "Automatic",
-      mileage: "465 km (Range)",
-      bootSpace: "350 L",
-      groundClearance: "190 mm"
-    },
-    features: ["V2L (Vehicle to Load)", "JBL Cinematic Sound System", "12.3-inch Touchscreen", "Paddle Shifters for Regen"]
-  },
+ 
 ];
