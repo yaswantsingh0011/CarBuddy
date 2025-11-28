@@ -1,120 +1,83 @@
-// src/components/UsedCarCard.tsx
 "use client";
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link'; // <-- Import zaroori hai
-import { FaShareAlt } from 'react-icons/fa';
+import Link from 'next/link';
+import { FaStar, FaRegHeart, FaHeart } from 'react-icons/fa';
 import { UsedCar } from '@/types'; 
 
-// Interface se 'onViewDetailsClick' hata diya hai
 interface UsedCarCardProps {
   car: UsedCar;
-  onBookNowClick: () => void;
-  onContactSellerClick: () => void;
-  onImageClick: (index: number) => void;
 }
 
-const UsedCarCard: React.FC<UsedCarCardProps> = ({
-  car,
-  onBookNowClick,
-  onContactSellerClick,
-  onImageClick,
-}) => {
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const carSlug = encodeURIComponent(car.name.toLowerCase().replace(/ /g, '-'));
+const UsedCarCard: React.FC<UsedCarCardProps> = ({ car }) => {
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const carSlug = car.name ? encodeURIComponent(car.name.toLowerCase().replace(/ /g, '-')) : '#';
+
+  const toggleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsWishlisted(!isWishlisted);
+  };
 
   return (
-    // Main horizontal container
-    <div className="bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden flex flex-row relative">
-
-      {/* --- Image Section (Left) --- */}
-      <div className="w-5/12 p-4 flex flex-col items-center justify-start">
-        {/* Main Image */}
-        <div
-          className="w-full h-48 relative cursor-pointer mb-3"
-          onClick={() => onImageClick(selectedImageIndex)}
-        >
-          <Image
-            src={car.imageUrls[selectedImageIndex]}
-            alt={car.name}
-            fill
-            style={{ objectFit: 'contain' }}
-            priority
-          />
-        </div>
-        {/* Thumbnails */}
-        <div className="flex space-x-2 justify-center">
-          {car.imageUrls.map((url, index) => (
-            <div
-              key={index}
-              className={`w-14 h-10 relative cursor-pointer border-2 rounded-sm ${
-                selectedImageIndex === index ? 'border-blue-500' : 'border-gray-300'
-              }`}
-              onClick={() => setSelectedImageIndex(index)}
-            >
-              <Image
-                src={url}
-                alt={`${car.name} thumbnail ${index + 1}`}
+    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full group">
+      
+      {/* --- IMAGE SECTION --- */}
+      <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
+         <Link href={`/used-cars/${carSlug}`}>
+            <Image
+                src={car.imageUrls?.[0] || "/cars/placeholder.jpg"}
+                alt={car.name}
                 fill
-                style={{ objectFit: 'cover' }}
-                className="rounded-sm"
-              />
-            </div>
-          ))}
-        </div>
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+         </Link>
+
+         {/* Heart Icon (Top Right) - Optional, image style doesn't strictly have it but good for UX */}
+         <button 
+            onClick={toggleWishlist}
+            className="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-sm hover:bg-white transition-all z-10 opacity-0 group-hover:opacity-100"
+         >
+            {isWishlisted ? <FaHeart className="text-red-500 text-sm" /> : <FaRegHeart className="text-gray-600 text-sm hover:text-red-500" />}
+         </button>
       </div>
 
-      {/* --- Details Section (Right) --- */}
-      <div className="w-7/12 p-4 flex flex-col flex-grow border-l border-gray-100">
+      {/* --- CONTENT SECTION --- */}
+      <div className="p-4 flex flex-col flex-grow">
         
-        {/* Details (Name, Specs, Price) */}
-        <div className="flex justify-between items-start">
-          <Link href={`/used-cars/${carSlug}`} className="hover:text-blue-600">
-            <h2 className="text-xl font-bold text-gray-800">{car.name}</h2>
-          </Link>
-          <div className="flex space-x-3 text-gray-500">
-            <button className="hover:text-blue-600"><FaShareAlt /></button>
-          </div>
-        </div>
-        <div className="flex items-center text-sm text-gray-600 space-x-2 flex-wrap my-2">
-          <span>{car.kms}</span>
-          <span className="text-gray-300">|</span>
-          <span>{car.fuelType}</span>
-          <span className="text-gray-300">|</span>
-          <span>{car.owner}</span>
-          <span className="text-gray-300">|</span>
-          <span>{car.modelYear}</span>
-        </div>
-        <div className="mt-2 mb-4">
-          <p className="text-2xl font-bold text-gray-900">₹ {car.price}</p>
-          <p className="text-xs text-gray-500 mt-1">*Listing Price in {car.location}</p>
+        {/* Title */}
+        <Link href={`/used-cars/${carSlug}`}>
+            <h3 className="text-lg font-bold text-gray-900 line-clamp-1 hover:text-blue-600 transition-colors">
+                {car.name}
+            </h3>
+        </Link>
+
+        {/* Rating Row (Green Box style as per image) */}
+        <div className="flex items-center mt-2 mb-3">
+            <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1">
+                {car.rating || 4.5} <FaStar size={10} />
+            </div>
+            <span className="text-gray-500 text-xs ml-2 font-medium">
+                ({car.reviewCount || 20} Reviews)
+            </span>
         </div>
 
-        {/* Buttons (mt-auto se neeche rahenge) */}
-        <div className="mt-auto flex flex-col space-y-2">
-          {/* 'View Details' ab LINK hai */}
-          <Link 
-            href={`/used-cars/${carSlug}`}
-            className="bg-purple-600 text-white text-center font-semibold py-2 px-4 rounded-md text-sm hover:bg-purple-700 transition-colors"
-          >
-            View Details
-          </Link>
-          
-          {/* Baaki 2 buttons waise hi hain */}
-          <button
-            onClick={onContactSellerClick}
-            className="bg-white text-blue-600 border border-blue-600 font-semibold py-2 px-4 rounded-md text-sm hover:bg-blue-50 transition-colors"
-          >
-            Contact Seller
-          </button>
-          <button
-            onClick={onBookNowClick}
-            className="bg-green-500 text-white font-semibold py-2 px-4 rounded-md text-sm hover:bg-green-600 transition-colors"
-          >
-            Book Your Test Drive Now
-          </button>
+        {/* Price Section */}
+        <div className="mt-1">
+            <p className="text-xl font-bold text-gray-900">₹ {car.price}</p>
+            <p className="text-[11px] text-gray-500 mt-0.5">*Ex-showroom price in {car.location}</p>
         </div>
+
+        {/* Button Section (Outline Blue Style) */}
+        <div className="mt-auto pt-5">
+            <Link href={`/used-cars/${carSlug}`} className="block w-full">
+                <button className="w-full border border-blue-600 text-blue-600 font-bold py-2.5 rounded-lg hover:bg-blue-50 transition-colors text-sm">
+                    View Details
+                </button>
+            </Link>
+        </div>
+
       </div>
     </div>
   );

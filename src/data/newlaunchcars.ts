@@ -108,27 +108,7 @@ export const newLaunchCars = [
   // ==============================
   // 5. MAHINDRA XEV 9S
   // ==============================
-  {
-    id: 905,
-    name: "Mahindra XEV 9S",
-    slug: "mahindra-xev-9s",
-    priceRange: "₹ 35 - 40 Lakh*",
-    location: "Expected: Nov 27, 2025",
-    category: "EV",
-    imageUrls: [
-      "/cars/xev9s.jpg", "/cars/xev9s-side.jpg", "/cars/xev9s-rear.jpg", "/cars/xev9s-interior.jpg"
-    ],
-    specs: {
-      engine: "80 kWh Battery",
-      power: "280 bhp",
-      torque: "380 Nm",
-      transmission: "Automatic",
-      mileage: "450+ km (Range)",
-      bootSpace: "TBA",
-      groundClearance: "200 mm"
-    },
-    features: ["Triple Screen Dash", "5-Star Safety", "HUD with AR", "Premium Audio"]
-  },
+  
 
   // ==============================
   // 6. SKODA SUPERB 2025

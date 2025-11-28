@@ -8,6 +8,8 @@ import { Car, KeySpec } from "@/types";
 
 // --- B. NEW 2025 LAUNCHES (e-Vitara, Kylaq, Amaze, Sierra, Octavia RS) ---
 
+// ... (Baaki purane constants same rahenge: EVITARA, KYLAQ, AMAZE, SIERRA, OCTAVIA_RS) ...
+
 // Maruti Suzuki e-Vitara
 const EVITARA_SPECS: KeySpec[] = [
     { label: 'Powertrain', value: 'Electric (Dual Motor)' },
@@ -69,7 +71,7 @@ const SIERRA_SPECS: KeySpec[] = [
 ];
 const SIERRA_UTILITY: KeySpec[] = [
     { label: 'Ground Clearance', value: '205 mm' },
-    { label: 'Boot Space', value: '622 Litres' }, // Best in segment
+    { label: 'Boot Space', value: '622 Litres' }, 
     { label: 'Length', value: '4340 mm' },
     { label: 'Wheelbase', value: '2730 mm' },
 ];
@@ -88,6 +90,22 @@ const OCTAVIA_RS_UTILITY: KeySpec[] = [
     { label: 'Boot Space', value: '600 Litres' },
     { label: 'Airbags', value: '10 Airbags' },
     { label: 'Wheels', value: '19-inch Alloy' },
+];
+
+// ✅ NEW ADDITION: MAHINDRA XEV 9S Specs
+const XEV9S_SPECS: KeySpec[] = [
+    { label: 'Powertrain', value: 'Electric (RWD)' },
+    { label: 'Range', value: '679 km (Claimed)' },
+    { label: 'Battery', value: '79 kWh LFP' },
+    { label: 'Power', value: '282 bhp' },
+    { label: 'Charging', value: '20-80% in 20 min' },
+    { label: 'Seating', value: '7 Seater' },
+];
+const XEV9S_UTILITY: KeySpec[] = [
+    { label: 'Ground Clearance', value: '207 mm' },
+    { label: 'Boot Space', value: 'Expandable (3rd Row)' },
+    { label: 'Length', value: '4790 mm' },
+    { label: 'Screen', value: 'Triple Screen Setup' },
 ];
 
 
@@ -150,7 +168,27 @@ const VICTORIS_UTILITY: KeySpec[] = [
 export const newCarsData: Car[] = [
 
   // --- ORIGINAL 3 CARS ---
-  
+ 
+  {
+    id: 104, // Unique ID
+    name: 'Mahindra XEV 9S',
+    rating: 4.8,
+    reviews: 25,
+    priceRange: '₹ 19.95 - 29.45 Lakh*',
+    location: 'Jaipur',
+    imageUrls: [
+      '/cars/xev9s.jpg',
+      '/cars/xev9s-side.jpg',
+      '/cars/xev9s-rear.jpg',
+      '/cars/xev9s-interior.jpg'
+    ],
+    features: ['7 Seater EV', 'Triple Screen Dashboard', 'Panoramic Sunroof', 'ADAS Level 2', 'Ventilated Seats'],
+    offers: ['Introductory Price', 'Free Fast Charger for first 1000 bookings'],
+    keySpecifications: XEV9S_SPECS,
+    utilitySpecs: XEV9S_UTILITY,
+  },
+
+
   {
     id: 205,
     name: "Tata Sierra EV",
@@ -310,9 +348,8 @@ export const newCarsData: Car[] = [
     offers: ['Exchange Bonus ₹ 25,000', 'Corporate Discount ₹ 10,000'],
     keySpecifications: VICTORIS_SPECS,
     utilitySpecs: VICTORIS_UTILITY,
-  },
+  }
 
-  // --- NEW ADDED CARS (SIERRA & OCTAVIA RS) ---
-
-
+  // ✅ NEW ADDED CAR: MAHINDRA XEV 9S
+  
 ];
