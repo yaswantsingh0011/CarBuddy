@@ -1,9 +1,13 @@
-import type { Metadata, Viewport } from 'next'; // FIX: Viewport type import kiya
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google'; 
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer'; 
 import { AuthProvider } from '@/context/AuthContext';
+
+// ✅ New Imports for Compare Feature
+import { CompareProvider } from '@/context/CompareContext';
+import CompareFloatingButton from '@/components/CompareFloatingButton';
 
 const inter = Inter({ subsets: ['latin'] }); 
 
@@ -12,13 +16,11 @@ export const metadata: Metadata = {
   description: 'Find the best new and used cars.',
 };
 
-// --- FIX: YE VIEWPORT CODE MISSING THA ---
-// Iski wajah se mobile par site choti dikh rahi thi.
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  userScalable: false, // User ko zoom-in rokne ke liye (App jaisa feel dega)
+  userScalable: false,
 };
 
 export default function RootLayout({
@@ -29,10 +31,26 @@ export default function RootLayout({
   return (
     <html lang="en" className="light">
       <body className={`${inter.className} flex flex-col min-h-screen bg-white text-gray-900`}> 
+        
+        {/* Auth Provider Wrap */}
         <AuthProvider>
-          <Header />
-          <main className="flex-grow">{children}</main>
-          <Footer /> 
+          
+          {/* ✅ Compare Provider Wrap (Iske andar hi Compare Context kaam karega) */}
+          <CompareProvider>
+            
+            <Header />
+            
+            <main className="flex-grow">
+              {children}
+            </main>
+
+            {/* ✅ Compare Button Yahan Add Kiya */}
+            <CompareFloatingButton /> 
+            
+            <Footer /> 
+
+          </CompareProvider>
+
         </AuthProvider>
       </body>
     </html>

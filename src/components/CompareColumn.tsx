@@ -2,8 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-// Note: Type ko 'any' kar diya hai taaki Used/New dono cars fit ho jayein
-// Agar aapke paas strict type hai to wo use karein
 import { FaStar, FaRegStar, FaTimesCircle } from 'react-icons/fa';
 
 interface CompareColumnProps {

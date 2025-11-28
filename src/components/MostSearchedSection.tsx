@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import React, { useState, useRef } from 'react';
@@ -7,7 +9,6 @@ import { mostSearchedCars } from '@/data/mostSearchedCars';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import OffersModal from './OffersModal';
 
-// Updated Categories list with MUV added
 const categories = ["SUV", "MUV", "Luxury", "Sedan", "Hatchback"];
 
 const MostSearchedSection: React.FC = () => {
@@ -15,10 +16,8 @@ const MostSearchedSection: React.FC = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // State for Offers Modal
   const [offerCar, setOfferCar] = useState<any>(null);
 
-  // Filter cars based on active tab
   const filteredCars = mostSearchedCars.filter(car => car.category === activeTab);
 
   const slideLeft = () => sliderRef.current?.scrollBy({ left: -300, behavior: 'smooth' });
@@ -29,11 +28,9 @@ const MostSearchedSection: React.FC = () => {
     router.push(`/car-details/${slug}`);
   };
 
-  // Helper: Generate Offers
   const getOffersList = (car: any) => {
     if (!car) return [];
     const name = car.name;
-    
     if (name.includes("EV") || car.category === "EV") {
       return ["Free Home Wall Box Charger", "Zero Processing Fee on Loan", "3 Year Battery Health Checkup Free"];
     }
@@ -50,7 +47,6 @@ const MostSearchedSection: React.FC = () => {
       <div className="mb-6">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">The Most Searched Cars</h2>
         
-        {/* --- TABS --- */}
         <div className="flex space-x-6 border-b border-gray-200 overflow-x-auto no-scrollbar">
           {categories.map((cat) => (
             <button
@@ -68,7 +64,6 @@ const MostSearchedSection: React.FC = () => {
         </div>
       </div>
 
-      {/* --- SLIDER --- */}
       <div className="relative group">
         <button onClick={slideLeft} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all hidden md:flex items-center justify-center">
             <FaChevronLeft size={20} />
@@ -81,7 +76,7 @@ const MostSearchedSection: React.FC = () => {
         >
           {filteredCars.length > 0 ? (
             filteredCars.map((car) => {
-              // Image Logic check
+              // ✅ Image Logic: Agar array hai to pehla, nahi to string
               const displayImage = (car as any).images ? (car as any).images[0] : (car as any).image;
 
               return (
@@ -92,6 +87,10 @@ const MostSearchedSection: React.FC = () => {
                 >
                    <div className="h-full pointer-events-auto">
                        <ElectricCarCard 
+                          // ✅ AB HUM POORA 'car' OBJECT PASS KAR RAHE HAIN
+                          carData={car} 
+                          
+                          // Fallback props (agar carData fail ho)
                           name={car.name} 
                           priceRange={(car as any).price} 
                           imageUrl={displayImage || "/cars/placeholder.jpg"} 
@@ -111,7 +110,6 @@ const MostSearchedSection: React.FC = () => {
         </button>
       </div>
 
-      {/* Render Modal */}
       {offerCar && (
         <OffersModal 
             isOpen={!!offerCar}
