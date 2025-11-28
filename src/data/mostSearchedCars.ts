@@ -170,7 +170,7 @@ export const mostSearchedCars = [
   
   {
     id: 43, // Unique ID
-    name: "Volvo XC40 ",
+    name: "Volvo XC40",
     price: "₹ 54.95 - 57.90 Lakh*",
     images: ["/cars/xc40.jpg", "/cars/xc40-side.jpg", "/cars/xc40-rear.jpg", "/cars/xc40-interior.jpg"],
     category: "Luxury",

@@ -1,13 +1,12 @@
-// src/components/Header.tsx
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes, FaSearch } from 'react-icons/fa'; 
+// ✅ Import FaRegHeart (Empty Heart)
+import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes, FaSearch, FaRegHeart } from 'react-icons/fa'; 
 import AuthModal from './AuthModal';
-// ❌ AccountModal import hata diya hai
 import { supabase } from '@/lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
 
@@ -23,7 +22,6 @@ const Header: React.FC = () => {
   
   // --- States ---
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  // ❌ isAccountModalOpen state hata diya hai
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [session, setSession] = useState<Session | null>(null);
 
@@ -50,7 +48,7 @@ const Header: React.FC = () => {
     await supabase.auth.signOut();
     setIsMobileMenuOpen(false); 
     router.push('/');
-    router.refresh(); // Refresh page to update UI state
+    router.refresh(); 
   };
 
   // --- SEARCH LOGIC ---
@@ -215,14 +213,22 @@ const Header: React.FC = () => {
 
             {/* User Actions */}
             <div className="flex items-center space-x-6 text-sm font-medium text-gray-600 flex-shrink-0">
+                
+                {/* Language (Hidden on Mobile) */}
                 <button className="hidden xl:flex items-center hover:text-blue-600 transition-colors">
                     English <FaChevronDown className="ml-1 text-xs" />
                 </button>
 
+                {/* ✅ NEW: WISHLIST ICON */}
+                <Link href="/shortlisted" className="hidden md:flex items-center text-gray-700 hover:text-red-500 transition-colors" title="Shortlisted Vehicles">
+                    <FaRegHeart className="text-xl" />
+                </Link>
+
                 {session ? (
-                    // ✅ Updated: Direct Link to Profile Page
-                    <Link href="/profile" className="hidden md:flex items-center hover:text-blue-600 gap-1 transition-colors">
-                        <FaRegUser /> Account
+                    // Account Link
+                    <Link href="/profile" className="hidden md:flex items-center hover:text-blue-600 gap-2 transition-colors">
+                        <FaRegUser className="text-lg"/> 
+                        <span className="max-w-[100px] truncate">Hello {session.user.user_metadata.full_name?.split(' ')[0] || 'User'}</span>
                     </Link>
                 ) : (
                     <button onClick={() => setIsAuthModalOpen(true)} className="hidden md:block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all shadow-md shadow-blue-100 font-bold">
@@ -255,11 +261,12 @@ const Header: React.FC = () => {
                 <Link href="/new-cars" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>New Cars</Link>
                 <Link href="/used-cars" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Used Cars</Link>
                 <Link href="/blog" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Blogs</Link>
+                {/* Mobile Wishlist Link */}
+                <Link href="/shortlisted" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Shortlisted Vehicles</Link>
                 
                 <div className="border-t border-gray-100 pt-3 px-2">
                     {session ? (
                         <>
-                            {/* ✅ Updated: Direct Link to Profile Page in Mobile Menu */}
                             <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center text-gray-700 w-full mb-3">
                                 <FaRegUser className="mr-2" /> My Account
                             </Link>
@@ -276,7 +283,6 @@ const Header: React.FC = () => {
       </header>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
-      {/* ❌ AccountModal component hata diya hai */}
     </>
   );
 };
