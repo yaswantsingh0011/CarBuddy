@@ -1,87 +1,104 @@
-"use client";
+'use client'; // ✅ YE LINE SABSE ZAROORI HAI (Build Error Fix)
 
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useCompare } from '@/context/CompareContext';
-import CompareColumn from '@/components/CompareColumn'; 
-import { PlusCircle, Trash2, Layers } from 'lucide-react';
+import { FaTrash, FaTimes } from 'react-icons/fa';
 
-export default function ComparePage() {
-  const { compareList, removeFromCompare, clearCompare } = useCompare();
+const ComparePage = () => {
+  const { compareList, removeFromCompare } = useCompare();
 
-  // 1. EMPTY STATE
+  // Agar koi car select nahi ki hai
   if (compareList.length === 0) {
     return (
-      <div className="min-h-[80vh] bg-gray-50 flex flex-col items-center justify-center px-4 text-center pt-20">
-        <div className="w-24 h-24 bg-blue-100 rounded-full flex items-center justify-center mb-6 text-blue-600 shadow-sm animate-bounce">
-            <Layers size={40} />
-        </div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">No Cars to Compare</h1>
-        <p className="text-gray-500 mb-8 max-w-md">
-          Please add at least 2 cars to compare their features.
-        </p>
-        <Link href="/">
-          <button className="bg-orange-600 text-white px-8 py-3 rounded-full font-bold hover:bg-orange-700 transition shadow-lg">
-            Browse Cars
-          </button>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">Compare Cars</h1>
+        <p className="text-gray-500 mb-8">You haven't added any cars to compare yet.</p>
+        <Link href="/" className="bg-orange-500 text-white px-6 py-3 rounded-full font-bold hover:bg-orange-600 transition-colors">
+          Browse Cars
         </Link>
       </div>
     );
   }
 
-  // ✅ DYNAMIC GRID CLASS LOGIC
-  // Jitni cars hain, utne columns banenge taaki wo poora space le lein
-  let gridClass = "grid-cols-1"; // Mobile default
-  if (compareList.length === 2) gridClass = "sm:grid-cols-2";
-  else if (compareList.length === 3) gridClass = "sm:grid-cols-2 lg:grid-cols-3";
-  else if (compareList.length === 4) gridClass = "sm:grid-cols-2 lg:grid-cols-4";
-
   return (
-    <div className="bg-gray-50 min-h-screen py-12 pt-28">
+    <div className="min-h-screen bg-gray-50 py-10">
       <div className="container mx-auto px-4">
-        
-        {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 border-b border-gray-200 pb-6">
-            <div className="text-center md:text-left">
-                <h1 className="text-3xl font-extrabold text-gray-900">Compare Cars</h1>
-                <p className="text-gray-500 text-sm mt-1">
-                    Comparing <span className="font-bold text-blue-600">{compareList.length}</span> vehicle{compareList.length > 1 ? 's' : ''}
-                </p>
-            </div>
-            
-            <div className="flex gap-3">
-                {compareList.length < 4 && (
-                    <Link href="/new-cars">
-                        <button className="flex items-center gap-2 border border-blue-600 text-blue-600 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-blue-50 transition">
-                            <PlusCircle size={18} /> Add Another Car
-                        </button>
-                    </Link>
-                )}
-                <button 
-                    onClick={clearCompare}
-                    className="flex items-center gap-2 bg-white border border-red-200 text-red-500 px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-red-50 transition shadow-sm"
-                >
-                    <Trash2 size={18} /> Clear All
-                </button>
-            </div>
-        </div>
+        <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">Compare Cars</h1>
 
-        {/* ✅ DYNAMIC GRID */}
-        <div className={`grid ${gridClass} gap-6 w-full max-w-7xl mx-auto`}>
+        <div className="overflow-x-auto pb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-w-[600px]">
             
-            {/* Sirf Selected Cars dikhayenge (No Empty Slots) */}
-            {compareList.map((car) => (
-                <div key={car.id} className="h-full animate-in fade-in zoom-in-95 duration-300">
-                    <CompareColumn 
-                        car={car} 
-                        onRemove={() => removeFromCompare(car.id)} 
-                    />
+            {/* Compare Columns */}
+            {compareList.map((car, index) => (
+              <div key={index} className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden relative flex flex-col">
+                
+                {/* Remove Button */}
+                <button 
+                  onClick={() => removeFromCompare(car.id || car.name)}
+                  className="absolute top-2 right-2 bg-red-100 text-red-500 p-2 rounded-full hover:bg-red-200 transition-colors z-10"
+                  title="Remove"
+                >
+                  <FaTimes />
+                </button>
+
+                {/* Image */}
+                <div className="relative h-48 w-full bg-gray-100">
+                  <Image 
+                    src={car.imageUrl || "/cars/placeholder.jpg"} 
+                    alt={car.name} 
+                    fill 
+                    className="object-cover" 
+                  />
                 </div>
+
+                {/* Specs */}
+                <div className="p-6 flex-grow">
+                  <h3 className="text-xl font-bold text-gray-800 mb-4">{car.name}</h3>
+                  
+                  <div className="space-y-4">
+                    <div className="flex justify-between border-b border-gray-100 pb-2">
+                        <span className="text-gray-500 font-medium">Price</span>
+                        <span className="text-gray-900 font-bold text-right">{car.priceRange}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-gray-100 pb-2">
+                        <span className="text-gray-500 font-medium">Fuel Type</span>
+                        <span className="text-gray-900 font-bold text-right">
+                            {car.fuelType || (car.name.toLowerCase().includes('ev') ? 'Electric' : 'Petrol/Diesel')}
+                        </span>
+                    </div>
+                    {/* Add more specs here if available in data */}
+                    <div className="flex justify-between border-b border-gray-100 pb-2">
+                        <span className="text-gray-500 font-medium">Transmission</span>
+                        <span className="text-gray-900 font-bold text-right">Automatic / Manual</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-gray-50 border-t border-gray-100">
+                    <Link href={`/car-details/${car.name.toLowerCase().replace(/\s+/g, "-")}`} className="block w-full text-center text-blue-600 font-bold hover:underline">
+                        View Full Details
+                    </Link>
+                </div>
+              </div>
             ))}
 
-        </div>
+            {/* Add Car Placeholder (If only 1 car selected) */}
+            {compareList.length === 1 && (
+                <div className="border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center bg-gray-50 min-h-[400px]">
+                    <p className="text-gray-400 font-medium mb-4">Add another car to compare</p>
+                    <Link href="/" className="px-6 py-2 border border-gray-400 text-gray-600 rounded-full hover:bg-gray-200 transition-colors">
+                        + Add Car
+                    </Link>
+                </div>
+            )}
 
+          </div>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default ComparePage;
