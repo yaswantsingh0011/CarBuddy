@@ -43,24 +43,7 @@ export const electricCars = [
     features: ["V2L (Vehicle to Load)", "JBL Cinematic Sound System", "12.3-inch Touchscreen", "Paddle Shifters for Regen"]
   },
   
-  {
-    id: 801,
-    name: "Mahindra BE 6e",
-    priceRange: "₹ 18.90 - 27.79 Lakh*",
-    images: ["/cars/be6e.jpg", "/cars/be6e-side.jpg", "/cars/be6e-rear.jpg", "/cars/be6e-interior.jpg"],
-    category: "EV",
-    specs: {
-      engine: "79 kWh Battery",
-      power: "282 bhp",
-      torque: "380 Nm",
-      transmission: "Automatic",
-      mileage: "683 km (Range)",
-      bootSpace: "455 L",
-      groundClearance: "207 mm"
-    },
-    features: ["Dual 12.3-inch Screens", "Panoramic Glass Roof", "Level 2+ ADAS", "5-Star Bharat NCAP"]
-  },
-
+  
   // ==============================
   // 2. MAHINDRA XEV 9e
   // ==============================
@@ -106,24 +89,7 @@ export const electricCars = [
   // ==============================
   // 4. MG CYBERSTER
   // ==============================
-  {
-    id: 804,
-    name: "MG Cyberster",
-    priceRange: "₹ 75 Lakh*",
-    images: ["/cars/cyberster.jpg", "/cars/cyberster-side.jpg", "/cars/cyberster-rear.jpg", "/cars/cyberster-interior.jpg"],
-    category: "EV", // Luxury/Sports EV
-    specs: {
-      engine: "77 kWh Battery",
-      power: "535 bhp",
-      torque: "725 Nm",
-      transmission: "AWD Automatic",
-      mileage: "580 km (Range)",
-      bootSpace: "249 L",
-      groundClearance: "115 mm"
-    },
-    features: ["Electric Scissor Doors", "Convertible Soft Top", "0-100 km/h in 3.2s", "Triple Screen Cockpit"]
-  },
-
+  
   // ==============================
   // 5. TATA TIAGO EV
   // ==============================

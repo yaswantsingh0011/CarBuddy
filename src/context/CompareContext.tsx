@@ -1,62 +1,44 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-// Car Type Definition (Flexible rakhne ke liye 'any' use kar rahe hain abhi)
-type Car = any;
-
+// ✅ Updated Type Definition
 interface CompareContextType {
-  compareList: Car[];
-  addToCompare: (car: Car) => void;
-  removeFromCompare: (carId: number | string) => void;
-  isInCompare: (carId: number | string) => boolean;
-  clearCompare: () => void;
+  compareList: any[];
+  addToCompare: (car: any) => void;
+  removeFromCompare: (id: number | string) => void;
+  isInCompare: (id: number | string) => boolean; // ✅ Added function type
 }
 
 const CompareContext = createContext<CompareContextType | undefined>(undefined);
 
-export const CompareProvider = ({ children }: { children: React.ReactNode }) => {
-  const [compareList, setCompareList] = useState<Car[]>([]);
+export const CompareProvider = ({ children }: { children: ReactNode }) => {
+  const [compareList, setCompareList] = useState<any[]>([]);
 
-  // LocalStorage se data uthana (taaki refresh hone par list na ude)
-  useEffect(() => {
-    const saved = localStorage.getItem("compareList");
-    if (saved) setCompareList(JSON.parse(saved));
-  }, []);
-
-  // Update LocalStorage whenever list changes
-  useEffect(() => {
-    localStorage.setItem("compareList", JSON.stringify(compareList));
-  }, [compareList]);
-
-  // Add Car Logic
-  const addToCompare = (car: Car) => {
-    // Check Max Limit (4 Cars)
-    if (compareList.length >= 4) {
-      alert("You can only compare up to 4 cars!");
+  // ✅ Add Car Logic
+  const addToCompare = (car: any) => {
+    if (compareList.length >= 2) {
+      alert("You can only compare 2 cars at a time!");
       return;
     }
-    // Check Duplicate
-    if (compareList.find((c) => c.id === car.id || c.name === car.name)) {
-      return;
+    // Avoid duplicates
+    if (!isInCompare(car.id || car.name)) {
+        setCompareList((prev) => [...prev, car]);
     }
-    setCompareList([...compareList, car]);
   };
 
-  // Remove Car Logic
-  const removeFromCompare = (carId: number | string) => {
-    setCompareList(compareList.filter((c) => c.id !== carId && c.name !== carId));
+  // ✅ Remove Car Logic
+  const removeFromCompare = (id: number | string) => {
+    setCompareList((prev) => prev.filter((item) => (item.id || item.name) !== id));
   };
 
-  // Check if car is already added (For Green Button UI)
-  const isInCompare = (carId: number | string) => {
-    return compareList.some((c) => c.id === carId || c.name === carId);
+  // ✅ Check if Car is in List Logic
+  const isInCompare = (id: number | string) => {
+    return compareList.some((item) => (item.id || item.name) === id);
   };
-
-  const clearCompare = () => setCompareList([]);
 
   return (
-    <CompareContext.Provider value={{ compareList, addToCompare, removeFromCompare, isInCompare, clearCompare }}>
+    <CompareContext.Provider value={{ compareList, addToCompare, removeFromCompare, isInCompare }}>
       {children}
     </CompareContext.Provider>
   );
@@ -64,6 +46,8 @@ export const CompareProvider = ({ children }: { children: React.ReactNode }) => 
 
 export const useCompare = () => {
   const context = useContext(CompareContext);
-  if (!context) throw new Error("useCompare must be used within a CompareProvider");
+  if (!context) {
+    throw new Error("useCompare must be used within a CompareProvider");
+  }
   return context;
 };

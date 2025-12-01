@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation'; 
 import Hero from '@/components/Hero';
 
-// --- COMPONENTS ---
+// Components
 import UpcomingCarCard from '@/components/UpcomingCarCard';
 import ElectricCarCard from '@/components/ElectricCarCard';
 import MostSearchedSection from '@/components/MostSearchedSection';
@@ -13,14 +13,14 @@ import BrandSection from '@/components/BrandSection';
 import VisualStoriesSection from '@/components/VisualStoriesSection';
 import LatestStories from '@/components/LatestStories';
 
-// --- DATA IMPORTS ---
+// Data
 import { newLaunchCars } from '@/data/newlaunchcars'; 
 import { electricCars } from '@/data/electricCars'; 
 
-// --- ICONS ---
+// Icons
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-// --- MODALS ---
+// Modals
 import BookingForm from '@/components/BookingForm'; 
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal'; 
@@ -29,15 +29,12 @@ import ImageModal from '@/components/ImageModal';
 export default function Home() {
   const router = useRouter();
 
-  // --- STATES ---
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<any>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<any>(null);
   const [selectedCarForOffers, setSelectedCarForOffers] = useState<any>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<any>(null);
   const [imageStartIndex, setImageStartIndex] = useState(0);
 
-  // --- HANDLERS ---
-  // ✅ Scroll ab Most Searched par jayega (kyuki wo ab top par hai)
   const scrollToCars = () => document.getElementById('most-searched-section')?.scrollIntoView({ behavior: 'smooth' });
 
   const handleBookNow = (car: any) => setSelectedCarForBooking(car);
@@ -58,7 +55,6 @@ export default function Home() {
     router.push(`/car-details/${slug}`);
   };
 
-  // --- OFFERS LOGIC ---
   const getOffersList = (car: any) => {
     if (!car) return [];
     const name = car.name;
@@ -75,8 +71,6 @@ export default function Home() {
     ? { ...selectedCarForOffers, offers: getOffersList(selectedCarForOffers) } 
     : null;
 
-
-  // --- SLIDER REFS ---
   const upcomingSliderRef = useRef<HTMLDivElement>(null);
   const electricSliderRef = useRef<HTMLDivElement>(null);
 
@@ -92,7 +86,7 @@ export default function Home() {
       
       <Hero onExploreClick={scrollToCars} />
 
-      {/* 1. ✅ MOST SEARCHED CARS (Moved to Top) */}
+      {/* 1. MOST SEARCHED CARS */}
       <div id="most-searched-section" className="pt-8">
         <MostSearchedSection />
       </div>
@@ -100,7 +94,7 @@ export default function Home() {
       {/* 2. BRAND SECTION */}
       <BrandSection />
 
-      {/* 3. ✅ UPCOMING CARS SECTION (Moved Here - Above Electric) */}
+      {/* 3. UPCOMING CARS SECTION */}
       <section id="upcoming-cars" className="container mx-auto px-4 pt-12 pb-8 relative">
         <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Upcoming Cars</h2>

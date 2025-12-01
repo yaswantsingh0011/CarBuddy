@@ -5,10 +5,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer'; 
 import { AuthProvider } from '@/context/AuthContext';
 
-// ✅ New Imports for Compare Feature
-import { CompareProvider } from '@/context/CompareContext';
-import CompareFloatingButton from '@/components/CompareFloatingButton';
-
 const inter = Inter({ subsets: ['latin'] }); 
 
 export const metadata: Metadata = {
@@ -32,26 +28,15 @@ export default function RootLayout({
     <html lang="en" className="light">
       <body className={`${inter.className} flex flex-col min-h-screen bg-white text-gray-900`}> 
         
-        {/* Auth Provider Wrap */}
+        {/* Sirf Auth Provider Rakha Hai */}
         <AuthProvider>
-          
-          {/* ✅ Compare Provider Wrap (Iske andar hi Compare Context kaam karega) */}
-          <CompareProvider>
-            
             <Header />
-            
             <main className="flex-grow">
-              {children}
+                {children}
             </main>
-
-            {/* ✅ Compare Button Yahan Add Kiya */}
-            <CompareFloatingButton /> 
-            
             <Footer /> 
-
-          </CompareProvider>
-
         </AuthProvider>
+
       </body>
     </html>
   );

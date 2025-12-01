@@ -1,104 +1,78 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
-import { useCompare } from '@/context/CompareContext';
-import { PlusCircle, CheckCircle } from 'lucide-react';
+import { FaBolt, FaTag, FaGasPump } from 'react-icons/fa'; 
 
 interface ElectricCarCardProps {
-  carData?: any; // ✅ Full object accept karne ke liye
+  id?: number | string; 
   name: string;
   priceRange: string;
   imageUrl: string;
+  fuelType?: string; 
   onOfferClick: () => void;
 }
 
-const ElectricCarCard: React.FC<ElectricCarCardProps> = ({
-  carData,
-  name,
-  priceRange,
-  imageUrl,
-  onOfferClick,
+const ElectricCarCard: React.FC<ElectricCarCardProps> = ({ 
+  id, 
+  name, 
+  priceRange, 
+  imageUrl, 
+  fuelType = "Petrol", 
+  onOfferClick 
 }) => {
-  
-  const { addToCompare, removeFromCompare, isInCompare } = useCompare();
-  
-  // Unique ID
-  const carId = carData?.id || name; 
-  const isCompared = isInCompare(carId);
-
-  const toggleCompare = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (isCompared) {
-        removeFromCompare(carId);
-    } else {
-        // ✅ SMART MAPPING: Data ko sahi format mein convert kar rahe hain
-        // Taaki Compare Page par "N/A" na aaye
-        const compareObject = { 
-            id: carId, 
-            name, 
-            price: priceRange, 
-            
-            // Images: Agar array hai to wo lo, nahi to single image ko array banao
-            imageUrls: carData?.images || carData?.imageUrls || [imageUrl], 
-
-            // Details: Data file mein 'specs' ke andar fuel/transmission hota hai
-            fuelType: carData?.specs?.fuel || carData?.fuelType || (name.includes("EV") ? "Electric" : "Petrol/Diesel"),
-            transmission: carData?.specs?.transmission || "Automatic", 
-            mileage: carData?.specs?.mileage || carData?.range || "N/A",
-            
-            rating: 4.5, 
-            reviews: 24
-        };
-
-        addToCompare(compareObject);
-    }
-  };
+  // Check if car is Electric
+  const isElectric = fuelType.toLowerCase() === "electric" || name.toLowerCase().includes("ev");
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-all overflow-hidden flex flex-col h-full p-3 group">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 flex flex-col h-full relative group">
       
-      <div className="relative w-full h-48 rounded-lg overflow-hidden mb-3 bg-gray-100">
+      {/* Image Section */}
+      <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
         <Image 
-          src={imageUrl} 
-          alt={name} 
-          fill 
-          className="object-cover hover:scale-105 transition-transform duration-500"
+            src={imageUrl} 
+            alt={name} 
+            fill 
+            className="object-cover group-hover:scale-105 transition-transform duration-500" 
         />
+        
+        {/* Dynamic Badge */}
+        {isElectric ? (
+            <div className="absolute top-3 right-3 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center shadow-sm">
+                <FaBolt className="mr-1" /> ELECTRIC
+            </div>
+        ) : (
+            <div className="absolute top-3 right-3 bg-gray-800 text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center shadow-sm opacity-90">
+                <FaGasPump className="mr-1" /> {fuelType.toUpperCase()}
+            </div>
+        )}
       </div>
 
-      <div className="flex flex-col flex-grow justify-between">
+      {/* Content Section */}
+      <div className="p-4 flex flex-col flex-grow">
+        <h3 className="text-lg font-bold text-gray-800 mb-1 line-clamp-1" title={name}>{name}</h3>
+        
         <div className="mb-4">
-          <h3 className="text-lg font-bold text-gray-900 line-clamp-1">{name}</h3>
-          <p className="text-sm text-gray-600 mt-1">{priceRange}</p>
+            <p className="text-blue-600 font-extrabold text-lg">
+                {priceRange}
+            </p>
+            <p className="text-xs text-gray-500 font-medium">
+                Avg. Ex-Showroom Price
+            </p>
         </div>
 
-        <div className="mt-auto flex flex-col gap-2">
-            <button 
-              onClick={(e) => {
-                e.stopPropagation(); 
-                onOfferClick();      
-              }}
-              className="w-full border border-orange-500 text-orange-600 font-bold py-2.5 rounded-lg hover:bg-orange-50 transition-colors text-sm"
-            >
-              View Current Offers
-            </button>
-
-            <button 
-                onClick={toggleCompare}
-                className={`w-full flex items-center justify-center gap-2 text-sm font-medium transition-colors py-1 ${
-                    isCompared ? 'text-green-600' : 'text-gray-500 hover:text-gray-900'
-                }`}
-            >
-                {isCompared ? <CheckCircle size={16} /> : <PlusCircle size={16} />}
-                {isCompared ? "Added to Compare" : "Add to Compare"}
-            </button>
-
+        <div className="mt-auto flex gap-2">
+          <button className="flex-1 bg-white border border-blue-600 text-blue-600 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors">
+            View Details
+          </button>
+          <button 
+            onClick={(e) => { e.stopPropagation(); onOfferClick(); }}
+            className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white py-2 rounded-lg font-semibold text-sm hover:shadow-lg transition-all flex items-center justify-center"
+          >
+             <FaTag className="mr-1" /> Offers
+          </button>
         </div>
       </div>
-
     </div>
   );
 };
