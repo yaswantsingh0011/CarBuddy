@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-// ✅ Import FaRegHeart (Empty Heart)
 import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes, FaSearch, FaRegHeart } from 'react-icons/fa'; 
 import AuthModal from './AuthModal';
 import { supabase } from '@/lib/supabaseClient';
@@ -126,11 +125,15 @@ const Header: React.FC = () => {
               </div>
             </Link>
 
-            {/* Navigation Links */}
+            {/* Navigation Links (Desktop) */}
             <nav className="hidden lg:flex items-center space-x-10 font-bold text-gray-700 text-sm uppercase tracking-wide">
                 <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
                 <Link href="/new-cars" className="hover:text-blue-600 transition-colors">New Cars</Link>
                 <Link href="/used-cars" className="hover:text-blue-600 transition-colors">Used Cars</Link>
+                
+                {/* ✅ ADDED: News & Reviews Link */}
+                <Link href="/news" className="hover:text-blue-600 transition-colors">News & Reviews</Link>
+                
                 <Link href="/blog" className="hover:text-blue-600 transition-colors">Blogs</Link>
             </nav>
 
@@ -219,7 +222,7 @@ const Header: React.FC = () => {
                     English <FaChevronDown className="ml-1 text-xs" />
                 </button>
 
-                {/* ✅ NEW: WISHLIST ICON */}
+                {/* WISHLIST ICON */}
                 <Link href="/shortlisted" className="hidden md:flex items-center text-gray-700 hover:text-red-500 transition-colors" title="Shortlisted Vehicles">
                     <FaRegHeart className="text-xl" />
                 </Link>
@@ -260,8 +263,11 @@ const Header: React.FC = () => {
                 <Link href="/" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
                 <Link href="/new-cars" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>New Cars</Link>
                 <Link href="/used-cars" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Used Cars</Link>
+                
+                {/* ✅ ADDED: News & Reviews Link in Mobile */}
+                <Link href="/news" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>News & Reviews</Link>
+                
                 <Link href="/blog" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Blogs</Link>
-                {/* Mobile Wishlist Link */}
                 <Link href="/shortlisted" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Shortlisted Vehicles</Link>
                 
                 <div className="border-t border-gray-100 pt-3 px-2">

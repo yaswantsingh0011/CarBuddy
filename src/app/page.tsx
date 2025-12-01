@@ -11,6 +11,7 @@ import MostSearchedSection from '@/components/MostSearchedSection';
 import BlogSection from '@/components/BlogSection'; 
 import BrandSection from '@/components/BrandSection'; 
 import VisualStoriesSection from '@/components/VisualStoriesSection';
+import LatestStories from '@/components/LatestStories';
 
 // --- DATA IMPORTS ---
 import { newLaunchCars } from '@/data/newlaunchcars'; 
@@ -34,10 +35,10 @@ export default function Home() {
   const [selectedCarForOffers, setSelectedCarForOffers] = useState<any>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<any>(null);
   const [imageStartIndex, setImageStartIndex] = useState(0);
-  const [compareList, setCompareList] = useState<number[]>([]);
 
   // --- HANDLERS ---
-  const scrollToCars = () => document.getElementById('upcoming-cars')?.scrollIntoView({ behavior: 'smooth' });
+  // ✅ Scroll ab Most Searched par jayega (kyuki wo ab top par hai)
+  const scrollToCars = () => document.getElementById('most-searched-section')?.scrollIntoView({ behavior: 'smooth' });
 
   const handleBookNow = (car: any) => setSelectedCarForBooking(car);
   const handleShowFeatures = (car: any) => setSelectedCarForFeatures(car);
@@ -52,7 +53,6 @@ export default function Home() {
     alert(`Notification set for ${carName}! We will notify you when it launches.`);
   };
 
-  // ✅ Universal Navigation Handler
   const handleCardClick = (carName: string) => {
     const slug = carName.toLowerCase().split(" ").join("-");
     router.push(`/car-details/${slug}`);
@@ -92,7 +92,15 @@ export default function Home() {
       
       <Hero onExploreClick={scrollToCars} />
 
-      {/* 1. UPCOMING CARS SECTION */}
+      {/* 1. ✅ MOST SEARCHED CARS (Moved to Top) */}
+      <div id="most-searched-section" className="pt-8">
+        <MostSearchedSection />
+      </div>
+
+      {/* 2. BRAND SECTION */}
+      <BrandSection />
+
+      {/* 3. ✅ UPCOMING CARS SECTION (Moved Here - Above Electric) */}
       <section id="upcoming-cars" className="container mx-auto px-4 pt-12 pb-8 relative">
         <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Upcoming Cars</h2>
@@ -107,7 +115,6 @@ export default function Home() {
             {newLaunchCars.map((car, index) => (
               <div key={index} className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0">
                  <UpcomingCarCard 
-                    // ✅ FIX: Ensure slug is passed correctly
                     slug={car.slug || car.name.toLowerCase().replace(/\s+/g, "-")}
                     name={car.name} 
                     priceRange={car.priceRange} 
@@ -124,12 +131,6 @@ export default function Home() {
           </button>
         </div>
       </section>
-
-      {/* 2. BRAND SECTION */}
-      <BrandSection />
-
-      {/* 3. MOST SEARCHED CARS */}
-      <MostSearchedSection />
 
       {/* 4. ELECTRIC CARS SECTION */}
       <section className="container mx-auto px-4 pb-12 relative">
@@ -170,10 +171,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. VISUAL STORIES */}
+      {/* 5. LATEST STORIES */}
+      <LatestStories />
+
+      {/* 6. VISUAL STORIES */}
       <VisualStoriesSection />
 
-      {/* 6. BLOG SECTION */}
+      {/* 7. BLOG SECTION */}
       <BlogSection />
 
       {/* --- MODALS --- */}

@@ -1,14 +1,22 @@
 "use client";
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-// ✅ FIX: FaArrowRight yahan add kar diya hai
 import { FaChevronLeft, FaChevronRight, FaArrowRight, FaPlay } from 'react-icons/fa';
-import { visualStories } from '@/data/visualStories';
+
+// ✅ DATA IMPORT (Make sure this file has 'slides' array as discussed before)
+import { visualStories } from '@/data/visualStories'; 
+
+// ✅ VIEWER IMPORT
+import StoryViewer from './StoryViewer';
 
 const VisualStoriesSection = () => {
   const sliderRef = useRef<HTMLDivElement>(null);
+  
+  // ✅ States for Modal
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+  const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
 
   const slideLeft = () => {
     if (sliderRef.current) {
@@ -22,6 +30,12 @@ const VisualStoriesSection = () => {
         const width = sliderRef.current.clientWidth;
         sliderRef.current.scrollBy({ left: width, behavior: 'smooth' });
     }
+  };
+
+  // ✅ Click Handler to Open Viewer
+  const handleStoryClick = (index: number) => {
+    setSelectedStoryIndex(index);
+    setIsViewerOpen(true);
   };
 
   return (
@@ -44,16 +58,17 @@ const VisualStoriesSection = () => {
                     className="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide scroll-smooth"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
-                    {visualStories.map((story) => (
-                        <Link 
+                    {visualStories.map((story, index) => (
+                        <div 
                             key={story.id} 
-                            href={story.link}
+                            // ✅ Click Event Added here
+                            onClick={() => handleStoryClick(index)}
                             // Desktop: exactly 4 cards visible (25% width)
                             className="relative min-w-[80%] sm:min-w-[40%] md:min-w-[calc(25%-12px)] h-[320px] md:h-[380px] rounded-xl overflow-hidden flex-shrink-0 group/card cursor-pointer"
                         >
                             {/* Background Image */}
                             <Image 
-                                src={story.image} 
+                                src={story.coverImage || story.image} // Fallback support
                                 alt={story.title} 
                                 fill 
                                 className="object-cover transition-transform duration-700 group-hover/card:scale-110"
@@ -77,7 +92,7 @@ const VisualStoriesSection = () => {
                                     Read Story
                                 </span>
                             </div>
-                        </Link>
+                        </div>
                     ))}
                 </div>
 
@@ -94,6 +109,16 @@ const VisualStoriesSection = () => {
             </div>
 
         </div>
+
+        {/* ✅ STORY VIEWER MODAL INTEGRATION */}
+        {isViewerOpen && (
+            <StoryViewer 
+                stories={visualStories}
+                startIndex={selectedStoryIndex}
+                onClose={() => setIsViewerOpen(false)}
+            />
+        )}
+
       </div>
     </section>
   );
