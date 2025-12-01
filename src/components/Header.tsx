@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes, FaSearch, FaRegHeart } from 'react-icons/fa'; 
+import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes, FaSearch, FaRegHeart, FaMapMarkerAlt } from 'react-icons/fa'; 
 import AuthModal from './AuthModal';
 import { supabase } from '@/lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
@@ -16,6 +16,8 @@ import { newLaunchCars } from '@/data/newlaunchcars';
 import { newCarsData } from '@/data/newCarsData';
 import { usedCarsData } from '@/data/usedCarsData';
 
+const popularCities = ["Jaipur","New Delhi", "Gurgaon", "Mumbai", "Bangalore", "Pune", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad"];
+
 const Header: React.FC = () => {
   const router = useRouter();
   
@@ -24,12 +26,14 @@ const Header: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [session, setSession] = useState<Session | null>(null);
 
+  // Location States (Default: Jaipur)
+  const [location, setLocation] = useState("Jaipur"); 
+  const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
+
   // --- Search States ---
   const [query, setQuery] = useState("");
   const [filteredCars, setFilteredCars] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  
-  // Category State
   const [searchCategory, setSearchCategory] = useState("All"); 
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
 
@@ -53,33 +57,17 @@ const Header: React.FC = () => {
   // --- SEARCH LOGIC ---
   useEffect(() => {
     let sourceData: any[] = [];
-
     if (searchCategory === "All") {
-        sourceData = [
-            ...electricCars, 
-            ...mostSearchedCars, 
-            ...newCarsData, 
-            ...newLaunchCars, 
-            ...usedCarsData
-        ];
+        sourceData = [...electricCars, ...mostSearchedCars, ...newCarsData, ...newLaunchCars, ...usedCarsData];
     } else if (searchCategory === "New") {
-        sourceData = [
-            ...newCarsData, 
-            ...newLaunchCars, 
-            ...electricCars
-        ]; 
+        sourceData = [...newCarsData, ...newLaunchCars, ...electricCars]; 
     } else if (searchCategory === "Used") {
         sourceData = [...usedCarsData]; 
     }
 
     if (query.length > 1) {
-      const results = sourceData.filter((car) => 
-        car.name.toLowerCase().includes(query.toLowerCase())
-      );
-      
-      const uniqueResults = Array.from(new Set(results.map(a => a.name)))
-        .map(name => results.find(a => a.name === name));
-      
+      const results = sourceData.filter((car) => car.name.toLowerCase().includes(query.toLowerCase()));
+      const uniqueResults = Array.from(new Set(results.map(a => a.name))).map(name => results.find(a => a.name === name));
       setFilteredCars(uniqueResults.slice(0, 5));
       setShowSuggestions(true);
     } else {
@@ -88,25 +76,16 @@ const Header: React.FC = () => {
     }
   }, [query, searchCategory]);
 
-  // Outside Click Handlers
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setShowSuggestions(false);
-      }
-      if (categoryRef.current && !categoryRef.current.contains(event.target as Node)) {
-        setShowCategoryDropdown(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
   const handleSelectCar = (car: any) => {
     const slug = car.slug || car.name.trim().toLowerCase().replace(/\s+/g, "-");
     router.push(`/car-details/${slug}`);
     setShowSuggestions(false);
     setQuery("");
+  };
+
+  const handleCitySelect = (city: string) => {
+    setLocation(city);
+    setIsLocationModalOpen(false);
   };
 
   return (
@@ -125,23 +104,33 @@ const Header: React.FC = () => {
               </div>
             </Link>
 
-            {/* Navigation Links (Desktop) */}
-            <nav className="hidden lg:flex items-center space-x-10 font-bold text-gray-700 text-sm uppercase tracking-wide">
+            {/* ✅ NAVIGATION LINKS (Ab logo ke paas hain) */}
+            <nav className="hidden lg:flex items-center space-x-8 font-bold text-gray-700 text-sm uppercase tracking-wide h-full">
                 <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
-                <Link href="/new-cars" className="hover:text-blue-600 transition-colors">New Cars</Link>
-                <Link href="/used-cars" className="hover:text-blue-600 transition-colors">Used Cars</Link>
                 
-                {/* ✅ ADDED: News & Reviews Link */}
-                <Link href="/news" className="hover:text-blue-600 transition-colors">News & Reviews</Link>
-                
+                {/* ALL CARS DROPDOWN */}
+                <div className="relative group h-full flex items-center cursor-pointer">
+                    <span className="flex items-center hover:text-blue-600 transition-colors py-8">
+                        ALL CARS <FaChevronDown className="ml-1 text-[10px]" />
+                    </span>
+                    
+                    <div className="absolute top-[70px] left-0 w-48 bg-white shadow-xl border-t-2 border-blue-600 rounded-b-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                        <Link href="/new-cars" className="block px-4 py-3 hover:bg-blue-50 text-gray-700 hover:text-blue-600 border-b border-gray-100">
+                           New Cars
+                        </Link>
+                        <Link href="/used-cars" className="block px-4 py-3 hover:bg-blue-50 text-gray-700 hover:text-blue-600">
+                           Used Cars
+                        </Link>
+                    </div>
+                </div>
+
+                <Link href="/news" className="hover:text-blue-600 transition-colors">News</Link>
                 <Link href="/blog" className="hover:text-blue-600 transition-colors">Blogs</Link>
             </nav>
 
             {/* --- SEARCH BAR --- */}
             <div className="hidden md:block flex-1 max-w-xs xl:max-w-sm relative" ref={searchRef}>
                 <div className="flex items-center w-full h-10 rounded-full border border-gray-300 bg-gray-50 hover:border-blue-400 focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 transition-all relative">
-                    
-                    {/* CATEGORY DROPDOWN */}
                     <div 
                         className="flex items-center px-3 border-r border-gray-300 h-full cursor-pointer hover:bg-gray-100 rounded-l-full transition-colors relative"
                         onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
@@ -149,7 +138,6 @@ const Header: React.FC = () => {
                     >
                         <span className="text-xs font-bold text-gray-700 mr-1 w-8 text-center">{searchCategory}</span>
                         <FaChevronDown className="text-gray-500 text-[10px]" />
-
                         {showCategoryDropdown && (
                             <div className="absolute top-full left-0 mt-2 w-24 bg-white border border-gray-200 rounded-lg shadow-xl z-[60] overflow-hidden">
                                 {["All", "New", "Used"].map((cat) => (
@@ -168,8 +156,6 @@ const Header: React.FC = () => {
                             </div>
                         )}
                     </div>
-
-                    {/* Input */}
                     <div className="flex-grow flex items-center px-3">
                         <FaSearch className="text-gray-400 mr-2 text-sm" />
                         <input 
@@ -183,7 +169,6 @@ const Header: React.FC = () => {
                     </div>
                 </div>
 
-                {/* SUGGESTIONS */}
                 {showSuggestions && query.length > 1 && (
                     <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-fadeIn">
                         {filteredCars.length > 0 ? (
@@ -204,9 +189,6 @@ const Header: React.FC = () => {
                             ))
                         ) : (
                             <div className="px-4 py-6 text-center">
-                                <div className="text-gray-300 mb-2 flex justify-center">
-                                    <FaCar className="text-2xl" />
-                                </div>
                                 <p className="text-sm font-semibold text-gray-600">No results found</p>
                             </div>
                         )}
@@ -214,21 +196,23 @@ const Header: React.FC = () => {
                 )}
             </div>
 
+            {/* ✅ LOCATION SELECTOR (Moved here, after Search Bar) */}
+            <div 
+                className="hidden xl:flex items-center gap-1 cursor-pointer hover:text-blue-600 transition-colors border-l border-gray-200 pl-4 h-10"
+                onClick={() => setIsLocationModalOpen(true)}
+            >
+                <FaMapMarkerAlt className="text-gray-500" />
+                <span className="text-sm font-bold text-gray-700">{location}</span>
+                <FaChevronDown className="text-gray-400 text-xs mt-1" />
+            </div>
+
             {/* User Actions */}
             <div className="flex items-center space-x-6 text-sm font-medium text-gray-600 flex-shrink-0">
-                
-                {/* Language (Hidden on Mobile) */}
-                <button className="hidden xl:flex items-center hover:text-blue-600 transition-colors">
-                    English <FaChevronDown className="ml-1 text-xs" />
-                </button>
-
-                {/* WISHLIST ICON */}
                 <Link href="/shortlisted" className="hidden md:flex items-center text-gray-700 hover:text-red-500 transition-colors" title="Shortlisted Vehicles">
                     <FaRegHeart className="text-xl" />
                 </Link>
 
                 {session ? (
-                    // Account Link
                     <Link href="/profile" className="hidden md:flex items-center hover:text-blue-600 gap-2 transition-colors">
                         <FaRegUser className="text-lg"/> 
                         <span className="max-w-[100px] truncate">Hello {session.user.user_metadata.full_name?.split(' ')[0] || 'User'}</span>
@@ -239,56 +223,71 @@ const Header: React.FC = () => {
                     </button>
                 )}
 
-                {/* Mobile Toggle */}
                 <button className="lg:hidden text-gray-700 p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                     {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                 </button>
             </div>
-
           </div>
 
           {/* Mobile Menu */}
           {isMobileMenuOpen && (
             <div className="lg:hidden py-4 border-t border-gray-100 space-y-4">
-                <div className="bg-gray-100 rounded-lg flex items-center px-3 py-2 mx-1">
-                    <FaSearch className="text-gray-500 mr-2" />
-                    <input 
-                        type="text" 
-                        placeholder="Search cars..." 
-                        className="bg-transparent w-full outline-none text-sm"
-                        onChange={(e) => setQuery(e.target.value)}
-                    />
+                <div className="bg-blue-50 rounded-lg flex items-center px-3 py-2 mx-2 text-blue-700 font-semibold" onClick={() => {setIsMobileMenuOpen(false); setIsLocationModalOpen(true);}}>
+                     <FaMapMarkerAlt className="mr-2" /> {location} (Change)
                 </div>
 
                 <Link href="/" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-                <Link href="/new-cars" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>New Cars</Link>
-                <Link href="/used-cars" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Used Cars</Link>
                 
-                {/* ✅ ADDED: News & Reviews Link in Mobile */}
+                <p className="text-xs font-bold text-gray-400 px-2 mt-2">CARS</p>
+                <Link href="/new-cars" className="block font-medium text-gray-800 px-4" onClick={() => setIsMobileMenuOpen(false)}>New Cars</Link>
+                <Link href="/used-cars" className="block font-medium text-gray-800 px-4" onClick={() => setIsMobileMenuOpen(false)}>Used Cars</Link>
+                
+                <div className="border-t border-gray-50 my-2"></div>
+
                 <Link href="/news" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>News & Reviews</Link>
-                
                 <Link href="/blog" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Blogs</Link>
-                <Link href="/shortlisted" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Shortlisted Vehicles</Link>
-                
-                <div className="border-t border-gray-100 pt-3 px-2">
-                    {session ? (
-                        <>
-                            <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center text-gray-700 w-full mb-3">
-                                <FaRegUser className="mr-2" /> My Account
-                            </Link>
-                            <button onClick={handleLogout} className="text-red-500 font-medium w-full text-left">Logout</button>
-                        </>
-                    ) : (
-                        <button onClick={() => { setIsAuthModalOpen(true); setIsMobileMenuOpen(false); }} className="text-blue-600 font-bold w-full text-left">Login / Register</button>
-                    )}
-                </div>
             </div>
           )}
-
         </div>
       </header>
 
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+
+      {/* Location Modal */}
+      {isLocationModalOpen && (
+        <div className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center p-4 backdrop-blur-sm animate-fadeIn">
+            <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+                <div className="flex justify-between items-center p-4 border-b border-gray-100">
+                    <h3 className="text-lg font-bold text-gray-800">Select City</h3>
+                    <button onClick={() => setIsLocationModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                        <FaTimes size={20} />
+                    </button>
+                </div>
+                <div className="p-4">
+                    <div className="flex items-center bg-gray-100 px-3 py-2 rounded-lg mb-4">
+                        <FaSearch className="text-gray-400 mr-2" />
+                        <input type="text" placeholder="Type your city" className="bg-transparent w-full outline-none text-sm" />
+                    </div>
+                    <p className="text-xs font-bold text-gray-500 uppercase mb-3">Popular Cities</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        {popularCities.map((city) => (
+                            <button 
+                                key={city}
+                                onClick={() => handleCitySelect(city)}
+                                className={`text-sm py-2 px-3 rounded-lg border transition-all ${
+                                    location === city 
+                                    ? "bg-blue-600 text-white border-blue-600 shadow-md" 
+                                    : "bg-white text-gray-700 border-gray-200 hover:border-blue-400 hover:text-blue-600"
+                                }`}
+                            >
+                                {city}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+      )}
     </>
   );
 };
