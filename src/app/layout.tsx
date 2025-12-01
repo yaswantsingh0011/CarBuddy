@@ -5,6 +5,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer'; 
 import { AuthProvider } from '@/context/AuthContext';
 
+// ✅ Imports wapas laye
+import { CompareProvider } from '@/context/CompareContext';
+import CompareFloatingButton from '@/components/CompareFloatingButton';
+
 const inter = Inter({ subsets: ['latin'] }); 
 
 export const metadata: Metadata = {
@@ -28,13 +32,22 @@ export default function RootLayout({
     <html lang="en" className="light">
       <body className={`${inter.className} flex flex-col min-h-screen bg-white text-gray-900`}> 
         
-        {/* Sirf Auth Provider Rakha Hai */}
         <AuthProvider>
-            <Header />
-            <main className="flex-grow">
+            {/* ✅ Compare Provider Wapas Wrap Kiya */}
+            <CompareProvider>
+              
+              <Header />
+              
+              <main className="flex-grow">
                 {children}
-            </main>
-            <Footer /> 
+              </main>
+
+              {/* ✅ Floating Button Wapas Lagaya */}
+              <CompareFloatingButton /> 
+              
+              <Footer /> 
+
+            </CompareProvider>
         </AuthProvider>
 
       </body>
