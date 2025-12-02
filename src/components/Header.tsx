@@ -8,8 +8,9 @@ import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes, FaSearch, FaRegHeart,
 import AuthModal from './AuthModal';
 import { supabase } from '@/lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
+import { useLocation } from '@/context/LocationContext'; // ✅ Context Import
 
-// --- Data Imports ---
+// Data Imports
 import { mostSearchedCars } from '@/data/mostSearchedCars';
 import { electricCars } from '@/data/electricCars';
 import { newLaunchCars } from '@/data/newlaunchcars';
@@ -21,16 +22,14 @@ const popularCities = ["New Delhi", "Gurgaon", "Mumbai", "Bangalore", "Pune", "H
 const Header: React.FC = () => {
   const router = useRouter();
   
-  // --- States ---
+  // Context & States
+  const { city, setCity } = useLocation(); // Location Context
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [session, setSession] = useState<Session | null>(null);
-
-  // Location States (Default: Jaipur)
-  const [location, setLocation] = useState("Jaipur"); 
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(false);
 
-  // --- Search States ---
+  // Search States
   const [query, setQuery] = useState("");
   const [filteredCars, setFilteredCars] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -47,14 +46,7 @@ const Header: React.FC = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setIsMobileMenuOpen(false); 
-    router.push('/');
-    router.refresh(); 
-  };
-
-  // --- SEARCH LOGIC ---
+  // Search Logic
   useEffect(() => {
     let sourceData: any[] = [];
     if (searchCategory === "All") {
@@ -81,10 +73,11 @@ const Header: React.FC = () => {
     router.push(`/car-details/${slug}`);
     setShowSuggestions(false);
     setQuery("");
+    setIsMobileMenuOpen(false); // Close mobile menu if open
   };
 
-  const handleCitySelect = (city: string) => {
-    setLocation(city);
+  const handleCitySelect = (selectedCity: string) => {
+    setCity(selectedCity);
     setIsLocationModalOpen(false);
   };
 
@@ -93,25 +86,27 @@ const Header: React.FC = () => {
       <header className="bg-white sticky top-0 z-50 shadow-md">
         <div className="container mx-auto px-4">
           
-          <div className="flex justify-between items-center h-20 gap-4">
+          <div className="flex justify-between items-center h-16 md:h-20 gap-2 md:gap-4">
 
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
-              <FaCar className="text-3xl md:text-4xl text-blue-600" />
+              <FaCar className="text-2xl md:text-4xl text-blue-600" />
               <div className="leading-tight">
-                <span className="text-2xl font-bold text-blue-600 block">CarBuddy</span>
+                <span className="text-xl md:text-2xl font-bold text-blue-600 block">CarBuddy</span>
                 <span className="hidden lg:block text-[10px] text-gray-500 uppercase tracking-wider font-medium">Your Travel Companion</span>
               </div>
             </Link>
 
-            {/* ✅ NAVIGATION LINKS (Cleaned - Removed New/Used Cars) */}
+            {/* Navigation Links (Desktop) */}
             <nav className="hidden lg:flex items-center space-x-8 font-bold text-gray-700 text-sm uppercase tracking-wide h-full">
                 <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
+                <Link href="/new-cars" className="hover:text-blue-600 transition-colors">New Cars</Link>
+                <Link href="/used-cars" className="hover:text-blue-600 transition-colors">Used Cars</Link>
                 <Link href="/news" className="hover:text-blue-600 transition-colors">News</Link>
                 <Link href="/blog" className="hover:text-blue-600 transition-colors">Blogs</Link>
             </nav>
 
-            {/* --- SEARCH BAR --- */}
+            {/* --- DESKTOP SEARCH BAR --- */}
             <div className="hidden md:block flex-1 max-w-xs xl:max-w-sm relative" ref={searchRef}>
                 <div className="flex items-center w-full h-10 rounded-full border border-gray-300 bg-gray-50 hover:border-blue-400 focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 transition-all relative">
                     <div 
@@ -143,7 +138,7 @@ const Header: React.FC = () => {
                         <FaSearch className="text-gray-400 mr-2 text-sm" />
                         <input 
                             type="text" 
-                            placeholder={`Search ${searchCategory === 'All' ? 'cars' : searchCategory + ' cars'}...`} 
+                            placeholder="Search cars..." 
                             className="w-full bg-transparent outline-none text-sm text-gray-700 placeholder-gray-500"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
@@ -152,47 +147,39 @@ const Header: React.FC = () => {
                     </div>
                 </div>
 
+                {/* Suggestions Dropdown */}
                 {showSuggestions && query.length > 1 && (
                     <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-fadeIn">
                         {filteredCars.length > 0 ? (
                             filteredCars.map((car, index) => (
-                                <div 
-                                    key={index}
-                                    onClick={() => handleSelectCar(car)}
-                                    className="px-4 py-2 hover:bg-blue-50 cursor-pointer flex items-center gap-3 border-b border-gray-50 last:border-none"
-                                >
+                                <div key={index} onClick={() => handleSelectCar(car)} className="px-4 py-2 hover:bg-blue-50 cursor-pointer flex items-center gap-3 border-b border-gray-50 last:border-none">
                                     <div className="w-8 h-8 bg-gray-100 rounded overflow-hidden relative flex-shrink-0">
-                                        <Image src={car.images?.[0] || car.image || car.imageUrls?.[0] || "/cars/placeholder.jpg"} alt={car.name} fill className="object-cover" />
+                                        <Image src={car.images?.[0] || car.image || "/cars/placeholder.jpg"} alt={car.name} fill className="object-cover" />
                                     </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-gray-800 line-clamp-1">{car.name}</p>
-                                        <p className="text-[10px] text-gray-500">{car.category || "Car"}</p>
-                                    </div>
+                                    <p className="text-sm font-medium text-gray-800 line-clamp-1">{car.name}</p>
                                 </div>
                             ))
-                        ) : (
-                            <div className="px-4 py-6 text-center">
-                                <p className="text-sm font-semibold text-gray-600">No results found</p>
-                            </div>
-                        )}
+                        ) : (<div className="px-4 py-6 text-center"><p className="text-sm font-semibold text-gray-600">No results found</p></div>)}
                     </div>
                 )}
             </div>
 
-            {/* Location Selector */}
+            {/* Location Selector (Desktop) */}
             <div 
                 className="hidden xl:flex items-center gap-1 cursor-pointer hover:text-blue-600 transition-colors border-l border-gray-200 pl-4 h-10"
                 onClick={() => setIsLocationModalOpen(true)}
             >
                 <FaMapMarkerAlt className="text-gray-500" />
-                <span className="text-sm font-bold text-gray-700">{location}</span>
+                <span className="text-sm font-bold text-gray-700">{city}</span>
                 <FaChevronDown className="text-gray-400 text-xs mt-1" />
             </div>
 
-            {/* User Actions */}
-            <div className="flex items-center space-x-6 text-sm font-medium text-gray-600 flex-shrink-0">
-                <Link href="/shortlisted" className="hidden md:flex items-center text-gray-700 hover:text-red-500 transition-colors" title="Shortlisted Vehicles">
-                    <FaRegHeart className="text-xl" />
+            {/* User Actions (Mobile & Desktop) */}
+            <div className="flex items-center space-x-4 md:space-x-6 text-sm font-medium text-gray-600 flex-shrink-0">
+                
+                {/* ✅ WISHLIST ICON (AB MOBILE PE BHI DIKHEGA) */}
+                <Link href="/shortlisted" className="flex items-center text-gray-700 hover:text-red-500 transition-colors" title="Shortlisted Vehicles">
+                    <FaRegHeart className="text-xl md:text-xl" />
                 </Link>
 
                 {session ? (
@@ -201,33 +188,68 @@ const Header: React.FC = () => {
                         <span className="max-w-[100px] truncate">Hello {session.user.user_metadata.full_name?.split(' ')[0] || 'User'}</span>
                     </Link>
                 ) : (
-                    <button onClick={() => setIsAuthModalOpen(true)} className="hidden md:block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-all shadow-md shadow-blue-100 font-bold">
+                    <button onClick={() => setIsAuthModalOpen(true)} className="hidden md:block bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 font-bold">
                         Login
                     </button>
                 )}
 
-                <button className="lg:hidden text-gray-700 p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                {/* Mobile Menu Toggle */}
+                <button className="lg:hidden text-gray-700 p-1" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                     {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                 </button>
             </div>
           </div>
 
-          {/* Mobile Menu (Updated) */}
+          {/* ✅ MOBILE MENU (WITH SEARCH BAR) */}
           {isMobileMenuOpen && (
-            <div className="lg:hidden py-4 border-t border-gray-100 space-y-4">
-                <div className="bg-blue-50 rounded-lg flex items-center px-3 py-2 mx-2 text-blue-700 font-semibold" onClick={() => {setIsMobileMenuOpen(false); setIsLocationModalOpen(true);}}>
-                     <FaMapMarkerAlt className="mr-2" /> {location} (Change)
+            <div className="lg:hidden py-4 border-t border-gray-100 space-y-4 animate-fadeIn">
+                
+                {/* 🔍 MOBILE SEARCH BAR ADDED HERE */}
+                <div className="px-2 relative">
+                    <div className="flex items-center bg-gray-100 rounded-full px-4 py-2.5">
+                        <FaSearch className="text-gray-400 mr-2" />
+                        <input 
+                            type="text" 
+                            placeholder="Search cars..." 
+                            className="bg-transparent w-full outline-none text-sm text-gray-700 placeholder-gray-500"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                        />
+                    </div>
+                    {/* Mobile Suggestions */}
+                    {query.length > 1 && (
+                        <div className="absolute top-full left-2 right-2 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50">
+                            {filteredCars.length > 0 ? (
+                                filteredCars.map((car, index) => (
+                                    <div key={index} onClick={() => handleSelectCar(car)} className="px-4 py-3 border-b border-gray-50 last:border-none flex items-center gap-3">
+                                        <div className="w-10 h-10 bg-gray-100 rounded relative overflow-hidden flex-shrink-0">
+                                            <Image src={car.images?.[0] || car.image || "/cars/placeholder.jpg"} alt={car.name} fill className="object-cover" />
+                                        </div>
+                                        <span className="text-sm font-medium text-gray-800">{car.name}</span>
+                                    </div>
+                                ))
+                            ) : (<div className="p-3 text-center text-sm text-gray-500">No results found</div>)}
+                        </div>
+                    )}
                 </div>
 
-                <Link href="/" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-                <Link href="/news" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>News & Reviews</Link>
-                <Link href="/blog" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Blogs</Link>
+                {/* Mobile Location */}
+                <div className="bg-blue-50 rounded-lg flex items-center px-3 py-3 mx-2 text-blue-700 font-semibold cursor-pointer" onClick={() => {setIsMobileMenuOpen(false); setIsLocationModalOpen(true);}}>
+                     <FaMapMarkerAlt className="mr-2" /> {city} (Change City)
+                </div>
+
+                <Link href="/" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
+                <Link href="/new-cars" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>New Cars</Link>
+                <Link href="/used-cars" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>Used Cars</Link>
+                <Link href="/news" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>News & Reviews</Link>
+                <Link href="/blog" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>Blogs</Link>
                 
-                {/* Mobile Login Button if not logged in */}
                 {!session && (
-                    <button onClick={() => {setIsAuthModalOpen(true); setIsMobileMenuOpen(false);}} className="w-full text-left font-bold text-blue-600 px-2 mt-4">
-                        Login / Register
-                    </button>
+                    <div className="px-2 pt-2">
+                        <button onClick={() => {setIsAuthModalOpen(true); setIsMobileMenuOpen(false);}} className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold shadow-md">
+                            Login / Register
+                        </button>
+                    </div>
                 )}
             </div>
           )}
@@ -247,23 +269,19 @@ const Header: React.FC = () => {
                     </button>
                 </div>
                 <div className="p-4">
-                    <div className="flex items-center bg-gray-100 px-3 py-2 rounded-lg mb-4">
-                        <FaSearch className="text-gray-400 mr-2" />
-                        <input type="text" placeholder="Type your city" className="bg-transparent w-full outline-none text-sm" />
-                    </div>
                     <p className="text-xs font-bold text-gray-500 uppercase mb-3">Popular Cities</p>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        {popularCities.map((city) => (
+                        {popularCities.map((c) => (
                             <button 
-                                key={city}
-                                onClick={() => handleCitySelect(city)}
+                                key={c}
+                                onClick={() => handleCitySelect(c)}
                                 className={`text-sm py-2 px-3 rounded-lg border transition-all ${
-                                    location === city 
+                                    city === c 
                                     ? "bg-blue-600 text-white border-blue-600 shadow-md" 
                                     : "bg-white text-gray-700 border-gray-200 hover:border-blue-400 hover:text-blue-600"
                                 }`}
                             >
-                                {city}
+                                {c}
                             </button>
                         ))}
                     </div>
