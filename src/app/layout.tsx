@@ -5,8 +5,11 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer'; 
 import { AuthProvider } from '@/context/AuthContext';
 
-// ✅ Imports wapas laye
+// ✅ Context Imports
+import { LocationProvider } from '@/context/LocationContext';
 import { CompareProvider } from '@/context/CompareContext';
+import { ShortlistProvider } from '@/context/ShortlistContext'; // ✅ Added Shortlist Provider
+
 import CompareFloatingButton from '@/components/CompareFloatingButton';
 
 const inter = Inter({ subsets: ['latin'] }); 
@@ -32,24 +35,36 @@ export default function RootLayout({
     <html lang="en" className="light">
       <body className={`${inter.className} flex flex-col min-h-screen bg-white text-gray-900`}> 
         
+        {/* 1. Auth Provider */}
         <AuthProvider>
-            {/* ✅ Compare Provider Wapas Wrap Kiya */}
-            <CompareProvider>
-              
-              <Header />
-              
-              <main className="flex-grow">
-                {children}
-              </main>
+          
+          {/* 2. Location Provider */}
+          <LocationProvider>
 
-              {/* ✅ Floating Button Wapas Lagaya */}
-              <CompareFloatingButton /> 
-              
-              <Footer /> 
+            {/* 3. ✅ Shortlist Provider (Ye Missing Tha) */}
+            <ShortlistProvider>
 
-            </CompareProvider>
+                {/* 4. Compare Provider */}
+                <CompareProvider>
+                  
+                  <Header />
+                  
+                  <main className="flex-grow">
+                    {children}
+                  </main>
+
+                  {/* Floating Button */}
+                  <CompareFloatingButton /> 
+                  
+                  <Footer /> 
+
+                </CompareProvider>
+
+            </ShortlistProvider>
+
+          </LocationProvider>
+
         </AuthProvider>
-
       </body>
     </html>
   );

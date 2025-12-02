@@ -4,23 +4,24 @@ import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation'; 
 import Hero from '@/components/Hero';
 
-// Components
+// --- COMPONENTS ---
 import UpcomingCarCard from '@/components/UpcomingCarCard';
-import ElectricCarCard from '@/components/ElectricCarCard';
+import ElectricCarCard from '@/components/ElectricCarCard'; // ✅ Default Import
 import MostSearchedSection from '@/components/MostSearchedSection';
 import BlogSection from '@/components/BlogSection'; 
 import BrandSection from '@/components/BrandSection'; 
 import VisualStoriesSection from '@/components/VisualStoriesSection';
 import LatestStories from '@/components/LatestStories';
+import UsedCarsSection from '@/components/UsedCarsSection'; // ✅ Used Cars Added
 
-// Data
+// --- DATA IMPORTS ---
 import { newLaunchCars } from '@/data/newlaunchcars'; 
 import { electricCars } from '@/data/electricCars'; 
 
-// Icons
+// --- ICONS ---
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
-// Modals
+// --- MODALS ---
 import BookingForm from '@/components/BookingForm'; 
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal'; 
@@ -29,12 +30,14 @@ import ImageModal from '@/components/ImageModal';
 export default function Home() {
   const router = useRouter();
 
+  // --- STATES ---
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<any>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<any>(null);
   const [selectedCarForOffers, setSelectedCarForOffers] = useState<any>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<any>(null);
   const [imageStartIndex, setImageStartIndex] = useState(0);
 
+  // --- HANDLERS ---
   const scrollToCars = () => document.getElementById('most-searched-section')?.scrollIntoView({ behavior: 'smooth' });
 
   const handleBookNow = (car: any) => setSelectedCarForBooking(car);
@@ -50,11 +53,13 @@ export default function Home() {
     alert(`Notification set for ${carName}! We will notify you when it launches.`);
   };
 
+  // ✅ Navigation Handler
   const handleCardClick = (carName: string) => {
     const slug = carName.toLowerCase().split(" ").join("-");
     router.push(`/car-details/${slug}`);
   };
 
+  // --- OFFERS LOGIC ---
   const getOffersList = (car: any) => {
     if (!car) return [];
     const name = car.name;
@@ -71,6 +76,8 @@ export default function Home() {
     ? { ...selectedCarForOffers, offers: getOffersList(selectedCarForOffers) } 
     : null;
 
+
+  // --- SLIDER REFS ---
   const upcomingSliderRef = useRef<HTMLDivElement>(null);
   const electricSliderRef = useRef<HTMLDivElement>(null);
 
@@ -91,10 +98,13 @@ export default function Home() {
         <MostSearchedSection />
       </div>
 
-      {/* 2. BRAND SECTION */}
+      {/* 2. USED CARS SECTION */}
+      <UsedCarsSection />
+
+      {/* 3. BRAND SECTION */}
       <BrandSection />
 
-      {/* 3. UPCOMING CARS SECTION */}
+      {/* 4. UPCOMING CARS SECTION */}
       <section id="upcoming-cars" className="container mx-auto px-4 pt-12 pb-8 relative">
         <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Upcoming Cars</h2>
@@ -126,7 +136,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. ELECTRIC CARS SECTION */}
+      {/* 5. ELECTRIC CARS SECTION */}
       <section className="container mx-auto px-4 pb-12 relative">
         <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Electric Cars</h2>
@@ -140,6 +150,7 @@ export default function Home() {
           <div ref={electricSliderRef} className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {electricCars.map((car, index) => {
               const displayImage = (car as any).images ? (car as any).images[0] : (car as any).image;
+              
               return (
                 <div 
                     key={index} 
@@ -147,11 +158,22 @@ export default function Home() {
                     className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0 cursor-pointer transition-transform hover:scale-105"
                 >
                    <div className="h-full pointer-events-auto">
+                     {/* ✅ FIX: COMPARE DATA PASSED HERE */}
                      <ElectricCarCard 
+                        id={car.id || index}
                         name={car.name} 
                         priceRange={car.priceRange} 
                         imageUrl={displayImage || "/cars/placeholder.jpg"} 
-                        onOfferClick={() => handleGetOffers(car)} 
+                        
+                        fuelType="Electric"
+                        
+                        // Pass Specs & Features for Compare Page
+                        specs={(car as any).specs}
+                        features={(car as any).features}
+                        images={(car as any).images} // Gallery Images
+                        
+                        onOfferClick={() => handleGetOffers(car)}
+                        onDetailClick={() => handleCardClick(car.name)} 
                      />
                    </div>
                 </div>
@@ -165,13 +187,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. LATEST STORIES */}
+      {/* 6. LATEST STORIES */}
       <LatestStories />
 
-      {/* 6. VISUAL STORIES */}
+      {/* 7. VISUAL STORIES */}
       <VisualStoriesSection />
 
-      {/* 7. BLOG SECTION */}
+      {/* 8. BLOG SECTION */}
       <BlogSection />
 
       {/* --- MODALS --- */}

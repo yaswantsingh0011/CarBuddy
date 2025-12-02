@@ -1,7 +1,22 @@
 // src/data/usedCarsData.ts
-import { UsedCar } from '../types';
 
-// Ye naam 'Header.tsx' ke liye hai (Jo humne abhi fix kiya tha)
+export interface UsedCar {
+  id: number;
+  name: string;
+  price: string;
+  kms: string;
+  modelYear: string;
+  fuelType: string;
+  owner: string;
+  location: string;
+  images: string[];
+  image?: string;
+  sellerPhone: string;
+  // ✅ New Fields for Compare Page
+  specs?: any;
+  features?: string[];
+}
+
 export const usedCarsData: UsedCar[] = [
   {
     id: 1,
@@ -12,13 +27,18 @@ export const usedCarsData: UsedCar[] = [
     fuelType: "Diesel",
     owner: "1st Owner",
     location: "Jaipur",
-    imageUrls: [ 
+    // ✅ Aapke Local Image Paths
+    images: [ 
       "/cars/fordendeavour-1.jpg",
       "/cars/endeavour-2.jpg",
       "/cars/endeavour-3.jpg",
       "/cars/endeavour-4.jpg",
     ],
-    sellerPhone: "9876543210"
+    image: "/cars/fordendeavour-1.jpg",
+    sellerPhone: "9876543210",
+    // ✅ Added Specs
+    specs: { engine: "2.0L EcoBlue", power: "168 bhp", torque: "420 Nm", transmission: "10-AT", mileage: "12.4 kmpl" },
+    features: ["Panoramic Sunroof", "Terrain Management System", "Power Fold 3rd Row"]
   },
   {
     id: 2,
@@ -29,13 +49,17 @@ export const usedCarsData: UsedCar[] = [
     fuelType: "Diesel",
     owner: "1st Owner",
     location: "Jaipur",
-    imageUrls: [ 
+    images: [ 
       "/cars/safari-1.jpg",
       "/cars/safari-2.jpg",
       "/cars/safari-3.jpg",
       "/cars/safari-4.jpg",
     ],
-    sellerPhone: "9876543211" 
+    image: "/cars/safari-1.jpg",
+    sellerPhone: "9876543211",
+    // ✅ Added Specs
+    specs: { engine: "2.0L Kryotec", power: "168 bhp", torque: "350 Nm", transmission: "6-AT", mileage: "14.0 kmpl" },
+    features: ["Ventilated Seats", "JBL 9-Speaker Audio", "Captain Seats"] 
   },
   {
     id: 3,
@@ -46,13 +70,17 @@ export const usedCarsData: UsedCar[] = [
     fuelType: "Diesel",
     owner: "1st Owner",
     location: "Jaipur",
-    imageUrls: [ 
+    images: [ 
       "/cars/swift-1.jpg",
       "/cars/swift-2.jpg",
       "/cars/swift-3.jpg",
       "/cars/swift-4.jpg",
     ],
-    sellerPhone: "9876543212" 
+    image: "/cars/swift-1.jpg",
+    sellerPhone: "9876543212",
+    // ✅ Added Specs
+    specs: { engine: "1.3L DDiS", power: "74 bhp", torque: "190 Nm", transmission: "5-MT", mileage: "28.4 kmpl" },
+    features: ["ABS with EBD", "Dual Front Airbags", "Integrated Audio System"] 
   },
   {
     id: 4,
@@ -63,16 +91,19 @@ export const usedCarsData: UsedCar[] = [
     fuelType: "Petrol",
     owner: "1st Owner",
     location: "Jaipur",
-    imageUrls: [ 
+    images: [ 
       "/cars/hyundaicreta-1.jpg",
       "/cars/creta-2.jpg",
       "/cars/creta-3.jpg",
       "/cars/creta-4.jpg",
     ],
-    sellerPhone: "9876543213" 
+    image: "/cars/hyundaicreta-1.jpg",
+    sellerPhone: "9876543213",
+    // ✅ Added Specs
+    specs: { engine: "1.5L MPi", power: "113 bhp", torque: "144 Nm", transmission: "IVT", mileage: "16.8 kmpl" },
+    features: ["Smart Panoramic Sunroof", "BlueLink Connectivity", "Wireless Phone Charger"] 
   }
 ];
 
-// 👇👇👇 YE LINE ADD KAREIN (Sabse Important) 👇👇👇
-// Isse aapke purane pages (used-cars page, all-cars page) khush rahenge
+// Compatibility Export
 export const usedCars = usedCarsData;

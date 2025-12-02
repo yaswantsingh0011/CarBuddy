@@ -16,7 +16,7 @@ import { newLaunchCars } from '@/data/newlaunchcars';
 import { newCarsData } from '@/data/newCarsData';
 import { usedCarsData } from '@/data/usedCarsData';
 
-const popularCities = ["Jaipur","New Delhi", "Gurgaon", "Mumbai", "Bangalore", "Pune", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad"];
+const popularCities = ["New Delhi", "Gurgaon", "Mumbai", "Bangalore", "Pune", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad", "Jaipur"];
 
 const Header: React.FC = () => {
   const router = useRouter();
@@ -104,26 +104,9 @@ const Header: React.FC = () => {
               </div>
             </Link>
 
-            {/* ✅ NAVIGATION LINKS (Ab logo ke paas hain) */}
+            {/* ✅ NAVIGATION LINKS (Cleaned - Removed New/Used Cars) */}
             <nav className="hidden lg:flex items-center space-x-8 font-bold text-gray-700 text-sm uppercase tracking-wide h-full">
                 <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
-                
-                {/* ALL CARS DROPDOWN */}
-                <div className="relative group h-full flex items-center cursor-pointer">
-                    <span className="flex items-center hover:text-blue-600 transition-colors py-8">
-                        ALL CARS <FaChevronDown className="ml-1 text-[10px]" />
-                    </span>
-                    
-                    <div className="absolute top-[70px] left-0 w-48 bg-white shadow-xl border-t-2 border-blue-600 rounded-b-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                        <Link href="/new-cars" className="block px-4 py-3 hover:bg-blue-50 text-gray-700 hover:text-blue-600 border-b border-gray-100">
-                           New Cars
-                        </Link>
-                        <Link href="/used-cars" className="block px-4 py-3 hover:bg-blue-50 text-gray-700 hover:text-blue-600">
-                           Used Cars
-                        </Link>
-                    </div>
-                </div>
-
                 <Link href="/news" className="hover:text-blue-600 transition-colors">News</Link>
                 <Link href="/blog" className="hover:text-blue-600 transition-colors">Blogs</Link>
             </nav>
@@ -196,7 +179,7 @@ const Header: React.FC = () => {
                 )}
             </div>
 
-            {/* ✅ LOCATION SELECTOR (Moved here, after Search Bar) */}
+            {/* Location Selector */}
             <div 
                 className="hidden xl:flex items-center gap-1 cursor-pointer hover:text-blue-600 transition-colors border-l border-gray-200 pl-4 h-10"
                 onClick={() => setIsLocationModalOpen(true)}
@@ -229,7 +212,7 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu (Updated) */}
           {isMobileMenuOpen && (
             <div className="lg:hidden py-4 border-t border-gray-100 space-y-4">
                 <div className="bg-blue-50 rounded-lg flex items-center px-3 py-2 mx-2 text-blue-700 font-semibold" onClick={() => {setIsMobileMenuOpen(false); setIsLocationModalOpen(true);}}>
@@ -237,15 +220,15 @@ const Header: React.FC = () => {
                 </div>
 
                 <Link href="/" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-                
-                <p className="text-xs font-bold text-gray-400 px-2 mt-2">CARS</p>
-                <Link href="/new-cars" className="block font-medium text-gray-800 px-4" onClick={() => setIsMobileMenuOpen(false)}>New Cars</Link>
-                <Link href="/used-cars" className="block font-medium text-gray-800 px-4" onClick={() => setIsMobileMenuOpen(false)}>Used Cars</Link>
-                
-                <div className="border-t border-gray-50 my-2"></div>
-
                 <Link href="/news" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>News & Reviews</Link>
                 <Link href="/blog" className="block font-medium text-gray-800 px-2" onClick={() => setIsMobileMenuOpen(false)}>Blogs</Link>
+                
+                {/* Mobile Login Button if not logged in */}
+                {!session && (
+                    <button onClick={() => {setIsAuthModalOpen(true); setIsMobileMenuOpen(false);}} className="w-full text-left font-bold text-blue-600 px-2 mt-4">
+                        Login / Register
+                    </button>
+                )}
             </div>
           )}
         </div>
