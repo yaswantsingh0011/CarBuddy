@@ -167,8 +167,7 @@ const VICTORIS_UTILITY: KeySpec[] = [
 
 export const newCarsData: Car[] = [
 
-  // --- ORIGINAL 3 CARS ---
- 
+  
   {
     id: 104, // Unique ID
     name: 'Mahindra XEV 9S',

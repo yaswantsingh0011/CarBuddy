@@ -9,7 +9,7 @@ import { newCarsData } from '@/data/newCarsData';
 import { carsData } from '@/data/cars';
 import { usedCars } from '@/data/usedCarsData';
 
-// MODALS IMPORTS (Copy from home page)
+// MODALS IMPORTS
 import BookingForm from '@/components/BookingForm';
 import FeaturesModal from '@/components/FeaturesModal';
 import OffersModal from '@/components/OffersModal';
@@ -17,8 +17,11 @@ import ImageModal from '@/components/ImageModal';
 
 export default function AllCarsPage() {
   // --- MERGING ALL DATA ---
-  // Sabhi arrays ko ek badi list me jod rahe hain
-  const allVehicles = [...newCarsData, ...carsData, ...(usedCars as any[])];
+  const allVehiclesRaw = [...newCarsData, ...carsData, ...(usedCars as any[])];
+
+  // --- FIX 1: FILTER BAD DATA ---
+  // Ye line ensure karegi ki agar koi empty object ya bina ID wali car hai to wo remove ho jaye
+  const allVehicles = allVehiclesRaw.filter(car => car && (car.id || car.name));
 
   // States
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<any>(null);
@@ -28,11 +31,16 @@ export default function AllCarsPage() {
   const [imageStartIndex, setImageStartIndex] = useState(0);
   const [compareList, setCompareList] = useState<number[]>([]);
 
-  // Handlers (Same as Home)
+  // Handlers
   const handleBookNow = (car: any) => setSelectedCarForBooking(car);
   const handleShowFeatures = (car: any) => setSelectedCarForFeatures(car);
   const handleGetOffers = (car: any) => setSelectedCarForOffers(car);
-  const handleImageClick = (car: any, index: number) => { setSelectedCarForImages(car); setImageStartIndex(index); };
+  const handleImageClick = (car: any, index: number) => { 
+    // FIX: Ensure we pass the correct image array to modal
+    const correctImages = car.imageUrls || car.images || [];
+    setSelectedCarForImages({ ...car, imageUrls: correctImages }); 
+    setImageStartIndex(index); 
+  };
 
   const toggleCompare = (id: number) => {
     if (compareList.includes(id)) setCompareList((prev) => prev.filter((carId) => carId !== id));
@@ -51,33 +59,52 @@ export default function AllCarsPage() {
 
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Using the Merged Array 'allVehicles' */}
-          {allVehicles.map((car, index) => (
-            <CarGridCard
-             key={index}
-              name={car.name}
-              rating={car.rating || 4.5}
-              reviews={car.reviews || 10}
-              priceRange={car.priceRange}
-              location={car.location || "Jaipur"}
-              imageUrls={car.imageUrls}
-              onBookNowClick={() => handleBookNow(car)}
-              onGetOffersClick={() => handleGetOffers(car)}
-              onImageClick={(idx) => handleImageClick(car, idx)}
-              onShowFeaturesClick={() => handleShowFeatures(car)}
-              onAddToCompare={() => toggleCompare(Number(car.id) || index)}
-              isSelectedForCompare={compareList.includes(Number(car.id) || index)}
-              compareCount={compareList.length}
-            />
-          ))}
+          
+          {allVehicles.map((car, index) => {
+            // --- FIX 2: SAFE IMAGE HANDLING ---
+            // Agar data me 'images' hai to wo use karega, agar 'imageUrls' hai to wo use karega.
+            // Agar dono nahi hain, to empty array jayega taaki crash na ho.
+            const safeImages = car.imageUrls || car.images || [];
+
+            return (
+              <CarGridCard
+                key={car.id || index} // Prefer ID over index
+                name={car.name}
+                rating={car.rating || 4.5}
+                reviews={car.reviews || 10}
+                priceRange={car.priceRange}
+                location={car.location || "Jaipur"}
+                
+                // CRITICAL FIX HERE:
+                imageUrls={safeImages} 
+
+                onBookNowClick={() => handleBookNow(car)}
+                onGetOffersClick={() => handleGetOffers(car)}
+                onImageClick={(idx) => handleImageClick(car, idx)}
+                onShowFeaturesClick={() => handleShowFeatures(car)}
+                onAddToCompare={() => toggleCompare(Number(car.id) || index)}
+                isSelectedForCompare={compareList.includes(Number(car.id) || index)}
+                compareCount={compareList.length}
+              />
+            );
+          })}
         </div>
       </div>
 
-      {/* Modals and Compare Bar (Same as Home) - Added for functionality */}
+      {/* Modals */}
       {selectedCarForBooking && <BookingForm isOpen={!!selectedCarForBooking} onClose={() => setSelectedCarForBooking(null)} car={selectedCarForBooking} />}
       {selectedCarForFeatures && <FeaturesModal isOpen={!!selectedCarForFeatures} onClose={() => setSelectedCarForFeatures(null)} car={selectedCarForFeatures} />}
       {selectedCarForOffers && <OffersModal isOpen={!!selectedCarForOffers} onClose={() => setSelectedCarForOffers(null)} car={selectedCarForOffers} />}
-      {selectedCarForImages && <ImageModal isOpen={!!selectedCarForImages} onClose={() => setSelectedCarForImages(null)} imageUrls={selectedCarForImages.imageUrls} startIndex={imageStartIndex} />}
+      
+      {/* Image Modal needs safe images too */}
+      {selectedCarForImages && (
+        <ImageModal 
+          isOpen={!!selectedCarForImages} 
+          onClose={() => setSelectedCarForImages(null)} 
+          imageUrls={selectedCarForImages.imageUrls || []} 
+          startIndex={imageStartIndex} 
+        />
+      )}
       
       {compareList.length > 0 && (
         <div className="fixed bottom-6 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-auto md:min-w-[400px] z-50">

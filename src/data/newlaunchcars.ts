@@ -1,9 +1,7 @@
 // src/data/newlaunchcars.ts
 
 export const newLaunchCars = [
-  // ==============================
-  // 1. TESLA MODEL Y
-  // ==============================
+  
   
   {
     id: 908,
@@ -28,9 +26,7 @@ export const newLaunchCars = [
   },
   
 
-  // ==============================
-  // 2. KIA CARNIVAL 2025
-  // ==============================
+ 
   {
     id: 902,
     name: "Kia Carnival 2025",
@@ -96,23 +92,7 @@ export const newLaunchCars = [
     },
     features: ["Autopilot Mode", "15-inch Touchscreen", "Glass Roof", "0-100 in 3.5s"]
   },
-  // ==============================
-  // 3. SKODA OCTAVIA RS
-  // ==============================
   
-  // ==============================
-  // 4. TATA SIERRA EV
-  // ==============================
- 
-
-  // ==============================
-  // 5. MAHINDRA XEV 9S
-  // ==============================
-  
-
-  // ==============================
-  // 6. SKODA SUPERB 2025
-  // ==============================
   {
     id: 906,
     name: "Skoda Superb 2025",
@@ -135,13 +115,6 @@ export const newLaunchCars = [
     features: ["Massage Seats", "13-inch Infotainment", "Smart Dials", "Park Assist"]
   },
 
-  // ==============================
-  // 7. BMW iX 2025
-  // ==============================
   
-
-  // ==============================
-  // 8. AUDI A5
-  // ==============================
   
 ];
