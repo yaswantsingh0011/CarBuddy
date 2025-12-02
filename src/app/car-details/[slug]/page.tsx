@@ -3,15 +3,18 @@
 import React, { useState, use } from 'react';
 import { notFound } from 'next/navigation';
 
-// ✅ 1. IMPORT ALL DATA FILES (Old + New)
+// ✅ 1. IMPORT ALL DATA FILES
 import { mostSearchedCars } from '@/data/mostSearchedCars';
 import { electricCars } from '@/data/electricCars'; 
 import { newLaunchCars } from '@/data/newlaunchcars'; 
-import { newCarsData } from '@/data/newCarsData';   // ✅ Added
-import { usedCarsData } from '@/data/usedCarsData'; // ✅ Added
+import { newCarsData } from '@/data/newCarsData';
+import { usedCarsData } from '@/data/usedCarsData';
 
 import BookingForm from '@/components/BookingForm';
-import OffersModal from '@/components/OffersModal'; 
+import OffersModal from '@/components/OffersModal';
+
+import CarOverviewGrid from '@/components/CarOverviewGrid'; // ✅ NEW COMPONENT IMPORT
+
 import { 
   FaStar, FaStarHalfAlt, FaGasPump, FaCogs, FaBolt, FaArrowRight, FaCheckCircle, FaCar, FaRoad, FaUser, FaMapMarkerAlt, FaCalendarAlt
 } from 'react-icons/fa';
@@ -32,81 +35,65 @@ const CarDetailPage = ({ params }: PageProps) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'specs' | 'features'>('specs');
 
-  // ✅ 2. UNIVERSAL SEARCH LOGIC (Updated)
-  // Sabhi 5 files me dhoondhega
+  // ✅ 2. UNIVERSAL SEARCH LOGIC
   const foundCar = 
     mostSearchedCars.find((c) => generateSlug(c.name) === decodedSlug) || 
     electricCars.find((c) => generateSlug(c.name) === decodedSlug) ||
     newLaunchCars.find((c) => (c.slug === decodedSlug) || (generateSlug(c.name) === decodedSlug)) ||
     newCarsData.find((c) => (c.slug === decodedSlug) || (generateSlug(c.name) === decodedSlug)) ||
-    usedCarsData.find((c) => generateSlug(c.name) === decodedSlug);
+    usedCarsData.find((c) => generateSlug(c.name) === decodedSlug || c.slug === decodedSlug); // Added slug check for used cars
 
-  // Agar kahin nahi mili to 404
   if (!foundCar) {
     return notFound();
   }
 
-  // --- DATA NORMALIZATION (Sab data ko ek format me lana) ---
-  
-  // 1. Detect Car Type
-  const isUsed = (foundCar as any).kms !== undefined; // Agar kms hai to Used Car hai
+  // --- DATA NORMALIZATION ---
+  const isUsed = (foundCar as any).kms !== undefined; 
   const isEV = foundCar.id > 800 || (foundCar as any).category === "EV" || foundCar.name.includes("Electric") || foundCar.name.includes("EV");
 
-  // 2. Images
+  // Images
   const carImages = (foundCar as any).images || (foundCar as any).imageUrls || [(foundCar as any).image] || ["/cars/placeholder.jpg"];
 
-  // 3. Price
+  // Price
   const displayPrice = (foundCar as any).price || (foundCar as any).priceRange;
 
-  // 4. Specs Standardization (Sabse Important Part)
+  // Specs Standardization (For New Cars)
   let normalizedSpecs = {
     engine: "N/A", power: "N/A", torque: "N/A", transmission: "N/A", 
     bootSpace: "N/A", groundClearance: "N/A", mileage: "N/A"
   };
 
-  if (isUsed) {
-    // USED CARS DATA MAPPING
-    normalizedSpecs = {
-        engine: (foundCar as any).modelYear + " Model", // Engine ki jagah Year dikha denge
-        power: (foundCar as any).owner,                 // Power ki jagah Owner
-        torque: "N/A",
-        transmission: (foundCar as any).fuelType,       // Transmission ki jagah Fuel
-        bootSpace: "N/A", 
-        groundClearance: "N/A", 
-        mileage: (foundCar as any).kms                  // Mileage ki jagah KMs driven
-    };
-  } else if ((foundCar as any).keySpecifications) {
-    // NEW CARS DATA (Example: newCarsData.ts format)
-    const specsMap: any = {};
-    (foundCar as any).keySpecifications.forEach((s: any) => {
-        if(s.label.includes("Power") || s.label.includes("Motor")) specsMap.power = s.value;
-        if(s.label.includes("Torque")) specsMap.torque = s.value;
-        if(s.label.includes("Transmission")) specsMap.transmission = s.value;
-        if(s.label.includes("Mileage") || s.label.includes("Range")) specsMap.mileage = s.value;
-        if(s.label.includes("Engine") || s.label.includes("Battery")) specsMap.engine = s.value;
-    });
-    // Utility specs merge
-    if((foundCar as any).utilitySpecs) {
-        (foundCar as any).utilitySpecs.forEach((s: any) => {
-            if(s.label.includes("Boot")) specsMap.bootSpace = s.value;
-            if(s.label.includes("Ground")) specsMap.groundClearance = s.value;
+  if (!isUsed) {
+      if ((foundCar as any).keySpecifications) {
+        // NEW CARS DATA MAPPING
+        const specsMap: any = {};
+        (foundCar as any).keySpecifications.forEach((s: any) => {
+            if(s.label.includes("Power") || s.label.includes("Motor")) specsMap.power = s.value;
+            if(s.label.includes("Torque")) specsMap.torque = s.value;
+            if(s.label.includes("Transmission")) specsMap.transmission = s.value;
+            if(s.label.includes("Mileage") || s.label.includes("Range")) specsMap.mileage = s.value;
+            if(s.label.includes("Engine") || s.label.includes("Battery")) specsMap.engine = s.value;
         });
-    }
-    normalizedSpecs = { ...normalizedSpecs, ...specsMap };
-  } else {
-    // OLD DATA FORMAT
-    normalizedSpecs = { ...normalizedSpecs, ...((foundCar as any).specs || {}) };
+        if((foundCar as any).utilitySpecs) {
+            (foundCar as any).utilitySpecs.forEach((s: any) => {
+                if(s.label.includes("Boot")) specsMap.bootSpace = s.value;
+                if(s.label.includes("Ground")) specsMap.groundClearance = s.value;
+            });
+        }
+        normalizedSpecs = { ...normalizedSpecs, ...specsMap };
+      } else {
+        // OLD DATA FORMAT
+        normalizedSpecs = { ...normalizedSpecs, ...((foundCar as any).specs || {}) };
+      }
   }
 
-  // 5. Features
+  // Features
   const features = (foundCar as any).features || ["Standard Safety Features", "AC", "Power Windows", "Music System", "ABS with EBD"];
 
   // Offers Logic
   const getOffersList = () => {
     if(isUsed) return ["7-Day Money Back Guarantee", "6 Months Warranty", "Free RC Transfer"];
     if(isEV) return ["Free Home Wall Box Charger", "3 Year Battery Health Checkup", "Zero Loan Processing Fee"];
-    if(foundCar.name.includes("Mercedes") || foundCar.name.includes("BMW")) return ["5 Year Service Package", "Ceramic Coating Free"];
-    if((foundCar as any).launchDate) return ["Pre-Booking Open", "Priority Delivery", "Early Bird Price Protection"];
     return ["Exchange Bonus up to ₹25,000", "Free Insurance for 1st Year", "Corporate Discount Available"];
   };
 
@@ -117,7 +104,7 @@ const CarDetailPage = ({ params }: PageProps) => {
     <div className="min-h-screen bg-gray-100 py-8 font-sans">
       <div className="container mx-auto px-4 max-w-7xl">
         
-        {/* --- TOP SECTION --- */}
+        {/* --- TOP SECTION (Image & Info) --- */}
         <div className="bg-white rounded-xl shadow-sm p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
             
             {/* GALLERY */}
@@ -163,28 +150,16 @@ const CarDetailPage = ({ params }: PageProps) => {
                     {isUsed ? "*Asking Price (Negotiable)" : "*Ex-showroom price"}
                 </p>
 
-                {/* Used Car Seller Info (Extra Box) */}
+                {/* Used Car Seller Info */}
                 {isUsed && (foundCar as any).sellerPhone && (
-                     <div className="bg-blue-50 border border-blue-100 p-3 rounded-lg mb-4 flex items-center justify-between">
+                      <div className="bg-blue-50 border border-blue-100 p-3 rounded-lg mb-4 flex items-center justify-between">
                         <div>
                             <p className="text-xs text-gray-500 font-bold uppercase">Seller Contact</p>
                             <p className="text-blue-700 font-bold text-lg">{(foundCar as any).sellerPhone}</p>
                         </div>
                         <a href={`tel:${(foundCar as any).sellerPhone}`} className="bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-blue-700">Call Now</a>
-                     </div>
+                      </div>
                 )}
-
-                {/* Highlight Box */}
-                <div className="bg-green-50 rounded-lg p-4 border border-green-100 mb-6">
-                    <div className="flex justify-between items-center mb-2">
-                        <span className="text-gray-700 font-medium">Estimated EMI:</span>
-                        <span className="text-green-700 font-bold text-sm cursor-pointer hover:underline">Check Eligibility</span>
-                    </div>
-                    <div className="text-sm text-gray-600 space-y-1">
-                        <div className="flex items-center gap-2"><FaCheckCircle className="text-green-500 text-xs"/> <span className="text-xs">{isEV ? "Long Range Battery" : "Powerful Performance"}</span></div>
-                        <div className="flex items-center gap-2"><FaCheckCircle className="text-green-500 text-xs"/> <span className="text-xs">{isUsed ? "Certified & Inspected" : "Premium Comfort & Safety"}</span></div>
-                    </div>
-                </div>
 
                 <div className="mt-auto flex flex-col gap-3">
                     <button 
@@ -203,7 +178,7 @@ const CarDetailPage = ({ params }: PageProps) => {
             </div>
         </div>
 
-        {/* TABS SECTION */}
+        {/* --- TABS SECTION (UPDATED) --- */}
         <div className="bg-white rounded-xl shadow-sm p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">{isUsed ? "Vehicle Details & Features" : "Detailed Key Specs & Features"}</h3>
             <div className="flex border-b border-gray-200 mb-8">
@@ -215,21 +190,23 @@ const CarDetailPage = ({ params }: PageProps) => {
                 </button>
             </div>
 
+            {/* ✅ NEW LOGIC: USED vs NEW */}
             {activeTab === 'specs' && (
-                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-8 gap-x-4 animate-fadeIn">
-                    {/* Conditional Labels based on Used/New */}
-                    <SpecItem icon={isEV ? <FaBolt/> : (isUsed ? <FaCalendarAlt/> : <FaGasPump/>)} label={isEV ? "Battery" : (isUsed ? "Model Year" : "Engine")} value={normalizedSpecs.engine} />
-                    
-                    <SpecItem icon={isUsed ? <FaUser/> : <FaBolt/>} label={isUsed ? "Owner" : "Power"} value={normalizedSpecs.power} />
-                    
-                    <SpecItem icon={<FaCogs/>} label={isUsed ? "Fuel Type" : "Transmission"} value={isUsed ? (foundCar as any).fuelType : normalizedSpecs.transmission} />
-                    
-                    <SpecItem icon={<FaRoad/>} label={isEV ? "Range" : (isUsed ? "KMs Driven" : "Mileage")} value={normalizedSpecs.mileage} />
-                    
-                    {!isUsed && <SpecItem icon={<FaCogs/>} label="Torque" value={normalizedSpecs.torque} />}
-                    {!isUsed && <SpecItem icon={<FaCar/>} label="Boot Space" value={normalizedSpecs.bootSpace} />}
-                    {!isUsed && <SpecItem icon={<FaCar/>} label="Ground Clearance" value={normalizedSpecs.groundClearance} />}
-                 </div>
+                isUsed ? (
+                    // ✅ USED CAR: Show New Grid Design
+                    <CarOverviewGrid car={foundCar} />
+                ) : (
+                    // ✅ NEW CAR: Show Standard Specs Grid
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-8 gap-x-4 animate-fadeIn">
+                        <SpecItem icon={isEV ? <FaBolt/> : <FaGasPump/>} label={isEV ? "Battery" : "Engine"} value={normalizedSpecs.engine} />
+                        <SpecItem icon={<FaBolt/>} label="Power" value={normalizedSpecs.power} />
+                        <SpecItem icon={<FaCogs/>} label="Transmission" value={normalizedSpecs.transmission} />
+                        <SpecItem icon={<FaRoad/>} label={isEV ? "Range" : "Mileage"} value={normalizedSpecs.mileage} />
+                        <SpecItem icon={<FaCogs/>} label="Torque" value={normalizedSpecs.torque} />
+                        <SpecItem icon={<FaCar/>} label="Boot Space" value={normalizedSpecs.bootSpace} />
+                        <SpecItem icon={<FaCar/>} label="Ground Clearance" value={normalizedSpecs.groundClearance} />
+                    </div>
+                )
             )}
 
             {activeTab === 'features' && (

@@ -102,11 +102,7 @@ const VisualStoriesSection = () => {
                 </button>
             </div>
 
-            <div className="mt-6">
-                <Link href="/stories" className="inline-flex items-center text-orange-600 font-bold hover:text-orange-700 transition-colors">
-                    View All Car Visual Stories <FaArrowRight className="ml-2 text-sm" />
-                </Link>
-            </div>
+            
 
         </div>
 
