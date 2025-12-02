@@ -4,11 +4,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes, FaSearch, FaRegHeart, FaMapMarkerAlt } from 'react-icons/fa'; 
+import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes, FaSearch, FaRegHeart, FaMapMarkerAlt, FaSignOutAlt } from 'react-icons/fa'; 
 import AuthModal from './AuthModal';
 import { supabase } from '@/lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
-import { useLocation } from '@/context/LocationContext'; // ✅ Context Import
+import { useLocation } from '@/context/LocationContext'; 
 
 // Data Imports
 import { mostSearchedCars } from '@/data/mostSearchedCars';
@@ -23,7 +23,7 @@ const Header: React.FC = () => {
   const router = useRouter();
   
   // Context & States
-  const { city, setCity } = useLocation(); // Location Context
+  const { city, setCity } = useLocation(); 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); 
   const [session, setSession] = useState<Session | null>(null);
@@ -45,6 +45,13 @@ const Header: React.FC = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSession(session));
     return () => subscription.unsubscribe();
   }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsMobileMenuOpen(false); 
+    router.push('/');
+    router.refresh(); 
+  };
 
   // Search Logic
   useEffect(() => {
@@ -73,7 +80,7 @@ const Header: React.FC = () => {
     router.push(`/car-details/${slug}`);
     setShowSuggestions(false);
     setQuery("");
-    setIsMobileMenuOpen(false); // Close mobile menu if open
+    setIsMobileMenuOpen(false); 
   };
 
   const handleCitySelect = (selectedCity: string) => {
@@ -100,8 +107,6 @@ const Header: React.FC = () => {
             {/* Navigation Links (Desktop) */}
             <nav className="hidden lg:flex items-center space-x-8 font-bold text-gray-700 text-sm uppercase tracking-wide h-full">
                 <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
-                <Link href="/new-cars" className="hover:text-blue-600 transition-colors">New Cars</Link>
-                <Link href="/used-cars" className="hover:text-blue-600 transition-colors">Used Cars</Link>
                 <Link href="/news" className="hover:text-blue-600 transition-colors">News</Link>
                 <Link href="/blog" className="hover:text-blue-600 transition-colors">Blogs</Link>
             </nav>
@@ -174,14 +179,15 @@ const Header: React.FC = () => {
                 <FaChevronDown className="text-gray-400 text-xs mt-1" />
             </div>
 
-            {/* User Actions (Mobile & Desktop) */}
+            {/* User Actions */}
             <div className="flex items-center space-x-4 md:space-x-6 text-sm font-medium text-gray-600 flex-shrink-0">
                 
-                {/* ✅ WISHLIST ICON (AB MOBILE PE BHI DIKHEGA) */}
+                {/* Wishlist Icon */}
                 <Link href="/shortlisted" className="flex items-center text-gray-700 hover:text-red-500 transition-colors" title="Shortlisted Vehicles">
                     <FaRegHeart className="text-xl md:text-xl" />
                 </Link>
 
+                {/* Desktop Profile Link */}
                 {session ? (
                     <Link href="/profile" className="hidden md:flex items-center hover:text-blue-600 gap-2 transition-colors">
                         <FaRegUser className="text-lg"/> 
@@ -200,11 +206,11 @@ const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* ✅ MOBILE MENU (WITH SEARCH BAR) */}
+          {/* ✅ MOBILE MENU (FIXED) */}
           {isMobileMenuOpen && (
             <div className="lg:hidden py-4 border-t border-gray-100 space-y-4 animate-fadeIn">
                 
-                {/* 🔍 MOBILE SEARCH BAR ADDED HERE */}
+                {/* 1. Mobile Search */}
                 <div className="px-2 relative">
                     <div className="flex items-center bg-gray-100 rounded-full px-4 py-2.5">
                         <FaSearch className="text-gray-400 mr-2" />
@@ -233,24 +239,38 @@ const Header: React.FC = () => {
                     )}
                 </div>
 
-                {/* Mobile Location */}
+                {/* 2. Mobile Location */}
                 <div className="bg-blue-50 rounded-lg flex items-center px-3 py-3 mx-2 text-blue-700 font-semibold cursor-pointer" onClick={() => {setIsMobileMenuOpen(false); setIsLocationModalOpen(true);}}>
                      <FaMapMarkerAlt className="mr-2" /> {city} (Change City)
                 </div>
 
+                {/* 3. Links (Removed New/Used Cars) */}
                 <Link href="/" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
-                <Link href="/new-cars" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>New Cars</Link>
-                <Link href="/used-cars" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>Used Cars</Link>
                 <Link href="/news" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>News & Reviews</Link>
                 <Link href="/blog" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>Blogs</Link>
                 
-                {!session && (
-                    <div className="px-2 pt-2">
-                        <button onClick={() => {setIsAuthModalOpen(true); setIsMobileMenuOpen(false);}} className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold shadow-md">
-                            Login / Register
-                        </button>
-                    </div>
-                )}
+                {/* 4. ✅ MOBILE PROFILE SECTION (FIXED) */}
+                <div className="border-t border-gray-100 mt-2 pt-2">
+                    {session ? (
+                        <>
+                            {/* Agar Login hai to Profile dikhega */}
+                            <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-blue-600 font-bold hover:bg-blue-50">
+                                <FaRegUser /> My Profile
+                            </Link>
+                            <button onClick={handleLogout} className="w-full flex items-center gap-3 px-4 py-3 text-red-500 font-bold hover:bg-red-50 text-left">
+                                <FaSignOutAlt /> Logout
+                            </button>
+                        </>
+                    ) : (
+                        /* Agar Login NAHI hai to Login Button dikhega */
+                        <div className="px-2">
+                            <button onClick={() => {setIsAuthModalOpen(true); setIsMobileMenuOpen(false);}} className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold shadow-md">
+                                Login / Register
+                            </button>
+                        </div>
+                    )}
+                </div>
+
             </div>
           )}
         </div>
