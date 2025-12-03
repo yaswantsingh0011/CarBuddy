@@ -1,3 +1,5 @@
+// src/data/mostSearchedCars.ts
+
 export const mostSearchedCars = [
   // ==============================
   // 1. SUV CATEGORY
@@ -9,9 +11,15 @@ export const mostSearchedCars = [
     price: "₹ 13.99 - 26.99 Lakh*", 
     images: ["/cars/xuv700.jpg", "/cars/xuv700-side.jpg", "/cars/xuv700-rear.jpg", "/cars/xuv700-interior.jpg"], 
     category: "SUV",
-    fuelType: "Diesel", // ✅ Updated
+    fuelType: "Diesel",
     specs: { engine: "2.0L mStallion Turbo", power: "197 bhp", torque: "380 Nm", transmission: "6-AT / 6-MT", mileage: "13 kmpl", bootSpace: "Expandable", groundClearance: "200 mm" },
-    features: ["Skyroof", "Integrated Dual Screens", "ADAS Level 2", "Sony 3D Sound System"]
+    features: ["Skyroof", "Integrated Dual Screens", "ADAS Level 2", "Sony 3D Sound System"],
+    variants: [
+      { name: "MX Petrol", price: "₹ 13.99 Lakh", engine: "2.0L Turbo Petrol", transmission: "Manual" },
+      { name: "AX3 Diesel", price: "₹ 16.39 Lakh", engine: "2.2L Diesel", transmission: "Manual" },
+      { name: "AX5 Petrol AT", price: "₹ 19.49 Lakh", engine: "2.0L Turbo Petrol", transmission: "Automatic" },
+      { name: "AX7 Luxury Diesel AWD", price: "₹ 26.99 Lakh", engine: "2.2L Diesel", transmission: "Automatic" }
+    ]
   },
   { 
     id: 17, 
@@ -19,9 +27,15 @@ export const mostSearchedCars = [
     price: "₹ 13.60 - 24.54 Lakh*", 
     images: ["/cars/scorpio-n.jpg", "/cars/scorpio-side.jpg", "/cars/scorpio-rear.jpg", "/cars/scorpio-interior.jpg"], 
     category: "SUV",
-    fuelType: "Diesel", // ✅ Updated
+    fuelType: "Diesel",
     specs: { engine: "2.2L mHawk Diesel", power: "172 bhp", torque: "400 Nm", transmission: "6-AT 4x4", mileage: "14 kmpl", bootSpace: "460 L", groundClearance: "187 mm" },
-    features: ["4XPLOR Terrain Mode", "Alexa Built-in", "Driver Drowsiness Detection", "6-Seater Captain Seats"]
+    features: ["4XPLOR Terrain Mode", "Alexa Built-in", "Driver Drowsiness Detection", "6-Seater Captain Seats"],
+    variants: [
+      { name: "Z2 Petrol", price: "₹ 13.60 Lakh", engine: "2.0L Petrol", transmission: "Manual" },
+      { name: "Z4 Diesel", price: "₹ 15.90 Lakh", engine: "2.2L Diesel", transmission: "Manual" },
+      { name: "Z8 Select Diesel AT", price: "₹ 19.19 Lakh", engine: "2.2L Diesel", transmission: "Automatic" },
+      { name: "Z8L Diesel 4x4 AT", price: "₹ 24.54 Lakh", engine: "2.2L Diesel", transmission: "Automatic" }
+    ]
   },
   { 
     id: 19, 
@@ -29,31 +43,59 @@ export const mostSearchedCars = [
     price: "₹ 15.49 - 26.44 Lakh*", 
     images: ["/cars/harrier.jpg", "/cars/harrier-side.jpg", "/cars/harrier-rear.jpg", "/cars/harrier-interior.jpg"], 
     category: "SUV",
-    fuelType: "Diesel", // ✅ Updated
+    fuelType: "Diesel",
     specs: { engine: "2.0L Kryotec Diesel", power: "168 bhp", torque: "350 Nm", transmission: "6-AT", mileage: "16.8 kmpl", bootSpace: "425 L", groundClearance: "205 mm" },
-    features: ["#Dark Edition Styling", "ADAS with 12 Functions", "Panoramic Sunroof", "Welcome/Goodbye Animation"]
+    features: ["#Dark Edition Styling", "ADAS with 12 Functions", "Panoramic Sunroof", "Welcome/Goodbye Animation"],
+    variants: [
+      { name: "Smart", price: "₹ 15.49 Lakh", engine: "2.0L Diesel", transmission: "Manual" },
+      { name: "Pure +", price: "₹ 18.69 Lakh", engine: "2.0L Diesel", transmission: "Automatic" },
+      { name: "Adventure + A", price: "₹ 21.69 Lakh", engine: "2.0L Diesel", transmission: "Automatic" },
+      { name: "Fearless + #Dark", price: "₹ 26.44 Lakh", engine: "2.0L Diesel", transmission: "Automatic" }
+    ]
   },
-
   { 
     id: 4, 
-    name: "Toyota Fortuner", 
-    price: "₹ 33.65 - 48.85 Lakh*", 
+    // ✅ NAME CHANGE (Isse URL banega: toyota-fortuner-legender)
+    name: "Toyota Fortuner Legender", 
+    
+    // ✅ PRICE UPDATE (Legender mehngi hai)
+    price: "₹ 43.66 - 47.64 Lakh*", 
+    
     images: ["/cars/fortuner.jpg", "/cars/fortuner-side.jpg", "/cars/fortuner-rear.jpg", "/cars/fortuner-interior.jpg"], 
     category: "SUV",
-    fuelType: "Diesel", // ✅ Updated
-    specs: { engine: "2.8L Diesel", power: "201 bhp", torque: "500 Nm", transmission: "6-AT 4x4", mileage: "10 kmpl", bootSpace: "296 L", groundClearance: "225 mm" },
-    features: ["Sigma 4 Drive Mode", "Ventilated Seats", "Power Tailgate", "JBL 11-Speaker System"]
+    fuelType: "Diesel",
+    specs: { 
+        engine: "2.8L Diesel", 
+        power: "201 bhp", 
+        torque: "500 Nm", 
+        transmission: "6-AT", 
+        mileage: "14.4 kmpl", 
+        bootSpace: "296 L", 
+        groundClearance: "225 mm" 
+    },
+    features: ["Dual Tone Roof", "Wireless Charger", "Kick Sensor Tailgate", "Ambient Lighting"],
+    
+    // ✅ VARIANTS UPDATE (Legender ke 2 hi variants aate hain)
+    variants: [
+        { name: "4x2 AT", price: "₹ 43.66 Lakh", engine: "2.8L Diesel", transmission: "Automatic" },
+        { name: "4x4 AT", price: "₹ 47.64 Lakh", engine: "2.8L Diesel", transmission: "Automatic" }
+    ]
   },
-
   { 
     id: 16, 
     name: "Hyundai Creta", 
     price: "₹ 11.00 - 20.15 Lakh*", 
     images: ["/cars/creta.jpg", "/cars/creta-side.jpg", "/cars/creta-rear.jpg", "/cars/creta-interior.jpg"], 
     category: "SUV",
-    fuelType: "Petrol", // ✅ Default
+    fuelType: "Petrol",
     specs: { engine: "1.5L Turbo Petrol", power: "158 bhp", torque: "253 Nm", transmission: "7-DCT", mileage: "18.4 kmpl", bootSpace: "433 L", groundClearance: "190 mm" },
-    features: ["Panoramic Sunroof", "Level 2 ADAS", "Bose Premium Sound", "Dual Zone Climate Control"]
+    features: ["Panoramic Sunroof", "Level 2 ADAS", "Bose Premium Sound", "Dual Zone Climate Control"],
+    variants: [
+      { name: "E Petrol", price: "₹ 11.00 Lakh", engine: "1.5L Petrol", transmission: "Manual" },
+      { name: "S (O) Diesel", price: "₹ 15.86 Lakh", engine: "1.5L Diesel", transmission: "Manual" },
+      { name: "SX Tech IVT", price: "₹ 17.48 Lakh", engine: "1.5L Petrol", transmission: "Automatic" },
+      { name: "SX (O) Turbo DCT", price: "₹ 20.15 Lakh", engine: "1.5L Turbo Petrol", transmission: "Automatic" }
+    ]
   },
   { 
     id: 26, 
@@ -63,9 +105,14 @@ export const mostSearchedCars = [
     category: "SUV",
     fuelType: "Petrol",
     specs: { engine: "1.5L Turbo Petrol", power: "158 bhp", torque: "253 Nm", transmission: "7-DCT", mileage: "17.9 kmpl", bootSpace: "433 L", groundClearance: "190 mm" },
-    features: ["Dual 10.25-inch Screens", "Level 2 ADAS", "Panoramic Sunroof", "Electric Parking Brake"]
+    features: ["Dual 10.25-inch Screens", "Level 2 ADAS", "Panoramic Sunroof", "Electric Parking Brake"],
+    variants: [
+      { name: "HTE Petrol", price: "₹ 10.90 Lakh", engine: "1.5L Petrol", transmission: "Manual" },
+      { name: "HTK Plus Diesel", price: "₹ 15.00 Lakh", engine: "1.5L Diesel", transmission: "iMT" },
+      { name: "HTX Plus Turbo", price: "₹ 18.30 Lakh", engine: "1.5L Turbo", transmission: "DCT" },
+      { name: "X-Line Diesel AT", price: "₹ 20.35 Lakh", engine: "1.5L Diesel", transmission: "Automatic" }
+    ]
   },
-  
   { 
     id: 25, 
     name: "Renault Kiger", 
@@ -74,10 +121,14 @@ export const mostSearchedCars = [
     category: "SUV",
     fuelType: "Petrol",
     specs: { engine: "1.0L Turbo", power: "99 bhp", torque: "160 Nm", transmission: "CVT / MT", mileage: "20.5 kmpl", bootSpace: "405 L", groundClearance: "205 mm" },
-    features: ["Sport Mode", "Wireless CarPlay", "PM 2.5 Air Filter", "Digital Instrument Cluster"]
+    features: ["Sport Mode", "Wireless CarPlay", "PM 2.5 Air Filter", "Digital Instrument Cluster"],
+    variants: [
+      { name: "RXE", price: "₹ 6.50 Lakh", engine: "1.0L Petrol", transmission: "Manual" },
+      { name: "RXL AMT", price: "₹ 8.10 Lakh", engine: "1.0L Petrol", transmission: "Automatic" },
+      { name: "RXZ Turbo", price: "₹ 10.00 Lakh", engine: "1.0L Turbo", transmission: "Manual" },
+      { name: "RXZ Turbo CVT", price: "₹ 11.23 Lakh", engine: "1.0L Turbo", transmission: "CVT" }
+    ]
   },
-  
-  // --- Compact & Micro SUVs ---
   { 
     id: 1, 
     name: "Hyundai Venue", 
@@ -86,7 +137,13 @@ export const mostSearchedCars = [
     category: "SUV",
     fuelType: "Petrol",
     specs: { engine: "1.2L Kappa Petrol", power: "82 bhp", torque: "114 Nm", transmission: "5-MT / 7-DCT", mileage: "17.5 kmpl", bootSpace: "350 L", groundClearance: "195 mm" },
-    features: ["Electric Sunroof", "BlueLink Connected Tech", "Reclining Rear Seats", "6 Airbags Standard"]
+    features: ["Electric Sunroof", "BlueLink Connected Tech", "Reclining Rear Seats", "6 Airbags Standard"],
+    variants: [
+      { name: "E", price: "₹ 7.94 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "S (O) Turbo", price: "₹ 10.40 Lakh", engine: "1.0L Turbo", transmission: "iMT" },
+      { name: "SX Diesel", price: "₹ 12.40 Lakh", engine: "1.5L Diesel", transmission: "Manual" },
+      { name: "SX (O) DCT", price: "₹ 13.23 Lakh", engine: "1.0L Turbo", transmission: "DCT" }
+    ]
   },
   { 
     id: 2, 
@@ -96,7 +153,13 @@ export const mostSearchedCars = [
     category: "SUV",
     fuelType: "Petrol",
     specs: { engine: "1.2L Turbo Petrol", power: "118 bhp", torque: "170 Nm", transmission: "6-MT / AMT", mileage: "17.0 kmpl", bootSpace: "382 L", groundClearance: "208 mm" },
-    features: ["10.25-inch Infotainment", "5 Star Global NCAP", "Ventilated Seats", "360 Degree Camera"]
+    features: ["10.25-inch Infotainment", "5 Star Global NCAP", "Ventilated Seats", "360 Degree Camera"],
+    variants: [
+      { name: "Smart (O)", price: "₹ 8.15 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "Pure Diesel", price: "₹ 11.10 Lakh", engine: "1.5L Diesel", transmission: "Manual" },
+      { name: "Creative + DCA", price: "₹ 12.50 Lakh", engine: "1.2L Petrol", transmission: "Automatic" },
+      { name: "Fearless + S Diesel AMT", price: "₹ 15.60 Lakh", engine: "1.5L Diesel", transmission: "Automatic" }
+    ]
   },
   { 
     id: 3, 
@@ -106,7 +169,13 @@ export const mostSearchedCars = [
     category: "SUV",
     fuelType: "Petrol",
     specs: { engine: "1.0L Turbo Boosterjet", power: "99 bhp", torque: "147 Nm", transmission: "5-MT / 6-AT", mileage: "21.5 kmpl", bootSpace: "308 L", groundClearance: "190 mm" },
-    features: ["Heads Up Display (HUD)", "9-inch SmartPlay Pro+", "360 View Camera", "Wireless Charger"]
+    features: ["Heads Up Display (HUD)", "9-inch SmartPlay Pro+", "360 View Camera", "Wireless Charger"],
+    variants: [
+      { name: "Sigma", price: "₹ 7.51 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "Delta + AMT", price: "₹ 8.88 Lakh", engine: "1.2L Petrol", transmission: "Automatic" },
+      { name: "Zeta Turbo", price: "₹ 10.55 Lakh", engine: "1.0L Turbo", transmission: "Manual" },
+      { name: "Alpha Turbo AT", price: "₹ 13.04 Lakh", engine: "1.0L Turbo", transmission: "Automatic" }
+    ]
   },
   { 
     id: 24, 
@@ -116,12 +185,18 @@ export const mostSearchedCars = [
     category: "SUV",
     fuelType: "Petrol",
     specs: { engine: "1.2L Revotron", power: "87 bhp", torque: "115 Nm", transmission: "5-MT / AMT", mileage: "18.8 kmpl", bootSpace: "366 L", groundClearance: "187 mm" },
-    features: ["5 Star Safety Rating", "7-inch Harman Screen", "90 Degree Door Opening", "Traction Pro Mode"]
+    features: ["5 Star Safety Rating", "7-inch Harman Screen", "90 Degree Door Opening", "Traction Pro Mode"],
+    variants: [
+      { name: "Pure", price: "₹ 6.13 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "Adventure AMT", price: "₹ 7.60 Lakh", engine: "1.2L Petrol", transmission: "Automatic" },
+      { name: "Accomplished Dazzle", price: "₹ 8.90 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "Creative Flagship AMT", price: "₹ 10.20 Lakh", engine: "1.2L Petrol", transmission: "Automatic" }
+    ]
   },
 
 
   // ==============================
-  // 1.5 MUV CATEGORY (NEWLY ADDED)
+  // 1.5 MUV CATEGORY
   // ==============================
   {
     id: 30,
@@ -129,9 +204,15 @@ export const mostSearchedCars = [
     category: "MUV",
     price: "₹ 8.69 - 13.03 Lakh*",
     images: ["/cars/ertiga.jpg", "/cars/ertiga-side.jpg", "/cars/ertiga-rear.jpg", "/cars/ertiga-interior.jpg"],
-    fuelType: "Petrol", // CNG also available
+    fuelType: "Petrol",
     specs: { engine: "1.5L K15C Petrol", power: "102 bhp", torque: "136.8 Nm", transmission: "5-MT / 6-AT", mileage: "20.51 kmpl", bootSpace: "209 L", groundClearance: "185 mm" },
-    features: ["CNG Option Available", "Roof Mounted AC", "SmartPlay Pro", "Projector Headlamps"]
+    features: ["CNG Option Available", "Roof Mounted AC", "SmartPlay Pro", "Projector Headlamps"],
+    variants: [
+      { name: "LXi (O)", price: "₹ 8.69 Lakh", engine: "1.5L Petrol", transmission: "Manual" },
+      { name: "VXi CNG", price: "₹ 10.78 Lakh", engine: "1.5L CNG", transmission: "Manual" },
+      { name: "ZXi AT", price: "₹ 12.38 Lakh", engine: "1.5L Petrol", transmission: "Automatic" },
+      { name: "ZXi+ AT", price: "₹ 13.03 Lakh", engine: "1.5L Petrol", transmission: "Automatic" }
+    ]
   },
   {
     id: 31,
@@ -139,9 +220,15 @@ export const mostSearchedCars = [
     category: "MUV",
     price: "₹ 19.99 - 26.55 Lakh*",
     images: ["/cars/innova.jpg", "/cars/innova-side.jpg", "/cars/innova-rear.jpg", "/cars/innova-interior.jpg"],
-    fuelType: "Diesel", // ✅ Updated
+    fuelType: "Diesel",
     specs: { engine: "2.4L Diesel", power: "148 bhp", torque: "343 Nm", transmission: "5-MT", mileage: "12 kmpl", bootSpace: "300 L", groundClearance: "178 mm" },
-    features: ["7 Airbags", "One-Touch Tumble Seats", "8-inch Display", "Ambient Lighting"]
+    features: ["7 Airbags", "One-Touch Tumble Seats", "8-inch Display", "Ambient Lighting"],
+    variants: [
+      { name: "GX 7 STR", price: "₹ 19.99 Lakh", engine: "2.4L Diesel", transmission: "Manual" },
+      { name: "GX Plus 8 STR", price: "₹ 21.44 Lakh", engine: "2.4L Diesel", transmission: "Manual" },
+      { name: "VX 7 STR", price: "₹ 24.64 Lakh", engine: "2.4L Diesel", transmission: "Manual" },
+      { name: "ZX 7 STR", price: "₹ 26.55 Lakh", engine: "2.4L Diesel", transmission: "Manual" }
+    ]
   },
   {
     id: 32,
@@ -151,7 +238,13 @@ export const mostSearchedCars = [
     images: ["/cars/carens.jpg", "/cars/carens-side.jpg", "/cars/carens-rear.jpg", "/cars/carens-interior.jpg"],
     fuelType: "Petrol",
     specs: { engine: "1.5L Turbo Petrol", power: "158 bhp", torque: "253 Nm", transmission: "7-DCT / 6-iMT", mileage: "16.5 kmpl", bootSpace: "216 L", groundClearance: "195 mm" },
-    features: ["Skyroof", "Ventilated Front Seats", "Bose Premium Sound", "6 Airbags Standard"]
+    features: ["Skyroof", "Ventilated Front Seats", "Bose Premium Sound", "6 Airbags Standard"],
+    variants: [
+      { name: "Premium", price: "₹ 10.45 Lakh", engine: "1.5L Petrol", transmission: "Manual" },
+      { name: "Prestige Diesel", price: "₹ 14.25 Lakh", engine: "1.5L Diesel", transmission: "Manual" },
+      { name: "Luxury Plus Turbo DCT", price: "₹ 18.95 Lakh", engine: "1.5L Turbo", transmission: "Automatic" },
+      { name: "X-Line Diesel AT", price: "₹ 19.45 Lakh", engine: "1.5L Diesel", transmission: "Automatic" }
+    ]
   },
   {
     id: 33,
@@ -159,9 +252,15 @@ export const mostSearchedCars = [
     category: "MUV",
     price: "₹ 19.77 - 30.98 Lakh*",
     images: ["/cars/hycross.jpg", "/cars/hycross-side.jpg", "/cars/hycross-rear.jpg", "/cars/hycross-interior.jpg"],
-    fuelType: "Hybrid", // ✅ Updated
+    fuelType: "Hybrid",
     specs: { engine: "2.0L TNGA Hybrid", power: "183 bhp", torque: "206 Nm", transmission: "e-CVT", mileage: "23.24 kmpl", bootSpace: "300+ L", groundClearance: "185 mm" },
-    features: ["Ottoman Seats", "Panoramic Sunroof", "Toyota Safety Sense ADAS", "Powered Tailgate"]
+    features: ["Ottoman Seats", "Panoramic Sunroof", "Toyota Safety Sense ADAS", "Powered Tailgate"],
+    variants: [
+      { name: "GX 7 STR", price: "₹ 19.77 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
+      { name: "VX 7 STR Hybrid", price: "₹ 25.97 Lakh", engine: "2.0L Hybrid", transmission: "Automatic" },
+      { name: "ZX Hybrid", price: "₹ 30.30 Lakh", engine: "2.0L Hybrid", transmission: "Automatic" },
+      { name: "ZX(O) Hybrid", price: "₹ 30.98 Lakh", engine: "2.0L Hybrid", transmission: "Automatic" }
+    ]
   },
 
 
@@ -178,7 +277,12 @@ export const mostSearchedCars = [
     category: "Luxury",
     fuelType: "Petrol",
     specs: { engine: "3.0L Inline-6 Turbo", power: "369 bhp", torque: "500 Nm", transmission: "8-Speed Steptronic", mileage: "11 kmpl", bootSpace: "480 L", groundClearance: "135 mm" },
-    features: ["Curved Display", "M Sport Suspension", "Carbon Fiber Trim", "Head-up Display"]
+    features: ["Curved Display", "M Sport Suspension", "Carbon Fiber Trim", "Head-up Display"],
+    variants: [
+      { name: "330Li M Sport", price: "₹ 60.60 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
+      { name: "330Li M Sport Pro", price: "₹ 62.60 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
+      { name: "M340i xDrive", price: "₹ 72.90 Lakh", engine: "3.0L Turbo Petrol", transmission: "Automatic" }
+    ]
   },
   
   
@@ -188,7 +292,7 @@ export const mostSearchedCars = [
     price: "₹ 54.95 - 57.90 Lakh*",
     images: ["/cars/xc40.jpg", "/cars/xc40-side.jpg", "/cars/xc40-rear.jpg", "/cars/xc40-interior.jpg"],
     category: "Luxury",
-    fuelType: "Electric", // ✅ Updated
+    fuelType: "Electric",
     specs: { 
       engine: "Electric Motor (Twin)", 
       power: "402 bhp", 
@@ -198,7 +302,11 @@ export const mostSearchedCars = [
       bootSpace: "452 L", 
       groundClearance: "175 mm" 
     },
-    features: ["Google Built-in", "ADAS Level 2", "Panoramic Sunroof", "Harman Kardon Sound"]
+    features: ["Google Built-in", "ADAS Level 2", "Panoramic Sunroof", "Harman Kardon Sound"],
+    variants: [
+      { name: "Recharge Plus", price: "₹ 54.95 Lakh", engine: "Electric", transmission: "Automatic" },
+      { name: "Recharge Ultimate", price: "₹ 57.90 Lakh", engine: "Electric", transmission: "Automatic" }
+    ]
   }, 
 
   { 
@@ -209,19 +317,29 @@ export const mostSearchedCars = [
     category: "Luxury",
     fuelType: "Petrol",
     specs: { engine: "2.0L TFSI", power: "187 bhp", torque: "320 Nm", transmission: "7-Speed S-Tronic", mileage: "17.4 kmpl", bootSpace: "460 L", groundClearance: "135 mm" },
-    features: ["Virtual Cockpit", "Comfort Key", "3-Zone Climate Control", "Park Assist"]
+    features: ["Virtual Cockpit", "Comfort Key", "3-Zone Climate Control", "Park Assist"],
+    variants: [
+      { name: "Premium", price: "₹ 45.34 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
+      { name: "Premium Plus", price: "₹ 49.00 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
+      { name: "Technology", price: "₹ 53.50 Lakh", engine: "2.0L Petrol", transmission: "Automatic" }
+    ]
   },
 
 
   { 
     id: 13, 
     name: "Mercedes-Benz C-Class", 
-    price: "₹ 60.00 - 68.00 Lakh*", 
+    price: "₹ 61.85 - 69.00 Lakh*", 
     images: ["/cars/c-class.jpg", "/cars/c-class-side.jpg", "/cars/c-class-rear.jpg", "/cars/c-class-interior.jpg"], 
     category: "Luxury",
-    fuelType: "Diesel", // ✅ Updated
+    fuelType: "Diesel",
     specs: { engine: "2.0L Diesel", power: "197 bhp", torque: "440 Nm", transmission: "9G-TRONIC", mileage: "23 kmpl", bootSpace: "455 L", groundClearance: "157 mm" },
-    features: ["MBUX Infotainment", "Burmester 3D Sound", "Digital Lights", "Fingerprint Scanner"]
+    features: ["MBUX Infotainment", "Burmester 3D Sound", "Digital Lights", "Fingerprint Scanner"],
+    variants: [
+      { name: "C 200", price: "₹ 61.85 Lakh", engine: "1.5L Petrol", transmission: "Automatic" },
+      { name: "C 220d", price: "₹ 62.85 Lakh", engine: "2.0L Diesel", transmission: "Automatic" },
+      { name: "C 300d AMG Line", price: "₹ 69.00 Lakh", engine: "2.0L Diesel", transmission: "Automatic" }
+    ]
   },
  { 
     id: 22, 
@@ -229,9 +347,14 @@ export const mostSearchedCars = [
     price: "₹ 2.39 - 4.17 Cr*", 
     images: ["/cars/range-rover.jpg", "/cars/range-rover-side.jpg", "/cars/range-rover-rear.jpg", "/cars/range-rover-interior.jpg"], 
     category: "Luxury",
-    fuelType: "Diesel", // ✅ Updated
+    fuelType: "Diesel",
     specs: { engine: "3.0L Diesel LWB", power: "346 bhp", torque: "700 Nm", transmission: "8-AT AWD", mileage: "13 kmpl", bootSpace: "818 L", groundClearance: "219 mm" },
-    features: ["Executive Class Rear Seats", "Active Noise Cancellation", "All-Wheel Steering", "Meridian Signature Sound"]
+    features: ["Executive Class Rear Seats", "Active Noise Cancellation", "All-Wheel Steering", "Meridian Signature Sound"],
+    variants: [
+      { name: "3.0L Diesel HSE LWB", price: "₹ 2.39 Cr", engine: "3.0L Diesel", transmission: "Automatic" },
+      { name: "3.0L Petrol Autobiography", price: "₹ 2.60 Cr", engine: "3.0L Petrol", transmission: "Automatic" },
+      { name: "SV LWB", price: "₹ 4.17 Cr", engine: "4.4L Petrol", transmission: "Automatic" }
+    ]
   },
 
    { 
@@ -242,7 +365,11 @@ export const mostSearchedCars = [
     category: "Luxury",
     fuelType: "Petrol",
     specs: { engine: "4.0L V8 Biturbo", power: "577 bhp", torque: "850 Nm", transmission: "AMG 9-Speed", mileage: "6 kmpl", bootSpace: "667 L", groundClearance: "241 mm" },
-    features: ["3 Differential Locks", "AMG Active Ride Control", "Burmester Surround Sound", "Multicontour Massage Seats"]
+    features: ["3 Differential Locks", "AMG Active Ride Control", "Burmester Surround Sound", "Multicontour Massage Seats"],
+    variants: [
+      { name: "G 400d Adventure", price: "₹ 2.55 Cr", engine: "3.0L Diesel", transmission: "Automatic" },
+      { name: "AMG G 63", price: "₹ 4.00 Cr", engine: "4.0L V8 Petrol", transmission: "Automatic" }
+    ]
   },
 
 { 
@@ -251,9 +378,14 @@ export const mostSearchedCars = [
     price: "₹ 93.55 Lakh - 2.30 Cr*", 
     images: ["/cars/defender.jpg", "/cars/defender-side.jpg", "/cars/defender-rear.jpg", "/cars/defender-interior.jpg"], 
     category: "Luxury",
-    fuelType: "Diesel", // ✅ Updated
+    fuelType: "Diesel",
     specs: { engine: "3.0L Diesel / 5.0L V8", power: "296 bhp", torque: "650 Nm", transmission: "8-AT", mileage: "10 kmpl", bootSpace: "857 L", groundClearance: "291 mm" },
-    features: ["ClearSight Ground View", "Air Suspension", "Wade Sensing", "Pivi Pro Infotainment"]
+    features: ["ClearSight Ground View", "Air Suspension", "Wade Sensing", "Pivi Pro Infotainment"],
+    variants: [
+      { name: "Defender 110 SE", price: "₹ 93.55 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
+      { name: "Defender 90 HSE", price: "₹ 97.00 Lakh", engine: "3.0L Diesel", transmission: "Automatic" },
+      { name: "Defender 130 X", price: "₹ 1.41 Cr", engine: "3.0L Petrol", transmission: "Automatic" }
+    ]
   },
 
 
@@ -265,7 +397,11 @@ export const mostSearchedCars = [
     category: "Luxury",
     fuelType: "Petrol",
     specs: { engine: "2.0L Turbo Petrol", power: "268 bhp", torque: "400 Nm", transmission: "8-AT 4x4", mileage: "12.1 kmpl", bootSpace: "897 L", groundClearance: "217 mm" },
-    features: ["Rubicon 4x4 System", "Removable Doors & Roof", "Gorilla Glass Windshield", "Off-road Camera"]
+    features: ["Rubicon 4x4 System", "Removable Doors & Roof", "Gorilla Glass Windshield", "Off-road Camera"],
+    variants: [
+      { name: "Unlimited", price: "₹ 62.65 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
+      { name: "Rubicon", price: "₹ 67.65 Lakh", engine: "2.0L Petrol", transmission: "Automatic" }
+    ]
   },
  
  
@@ -276,7 +412,7 @@ export const mostSearchedCars = [
     price: "₹ 1.20 - 1.32 Cr*",
     images: ["/cars/vellfire.jpg", "/cars/vellfire-side.jpg", "/cars/vellfire-rear.jpg", "/cars/vellfire-interior.jpg"],
     category: "Luxury",
-    fuelType: "Hybrid", // ✅ Updated
+    fuelType: "Hybrid",
     specs: { 
       engine: "2.5L Hybrid Petrol", 
       power: "190 bhp", 
@@ -286,7 +422,11 @@ export const mostSearchedCars = [
       bootSpace: "Space for 6 Bags", 
       groundClearance: "160 mm" 
     },
-    features: ["Executive Lounge Seats", "14-inch Rear Screen", "Massage Function", "Power Sliding Doors"]
+    features: ["Executive Lounge Seats", "14-inch Rear Screen", "Massage Function", "Power Sliding Doors"],
+    variants: [
+      { name: "Hi-Grade", price: "₹ 1.20 Cr", engine: "2.5L Hybrid", transmission: "Automatic" },
+      { name: "VIP Grade", price: "₹ 1.32 Cr", engine: "2.5L Hybrid", transmission: "Automatic" }
+    ]
   },
  
   { 
@@ -295,9 +435,12 @@ export const mostSearchedCars = [
     price: "₹ 2.10 Cr*", 
     images: ["/cars/landcruiser.jpg", "/cars/landcruiser-side.jpg", "/cars/landcruiser-rear.jpg", "/cars/landcruiser-interior.jpg"], 
     category: "Luxury",
-    fuelType: "Diesel", // ✅ Updated
+    fuelType: "Diesel",
     specs: { engine: "3.3L V6 Diesel", power: "304 bhp", torque: "700 Nm", transmission: "10-Speed AT", mileage: "11 kmpl", bootSpace: "1131 L", groundClearance: "235 mm" },
-    features: ["E-KDSS Suspension", "Multi-Terrain Monitor", "JBL 14-Speaker Audio", "Fingerprint Authentication"]
+    features: ["E-KDSS Suspension", "Multi-Terrain Monitor", "JBL 14-Speaker Audio", "Fingerprint Authentication"],
+    variants: [
+      { name: "ZX Diesel", price: "₹ 2.10 Cr", engine: "3.3L Diesel", transmission: "Automatic" }
+    ]
   },
 
   
@@ -309,7 +452,11 @@ export const mostSearchedCars = [
     category: "Luxury",
     fuelType: "Petrol",
     specs: { engine: "2.0L TFSI Petrol", power: "261 bhp", torque: "370 Nm", transmission: "7-Speed S-Tronic", mileage: "13.4 kmpl", bootSpace: "520 L", groundClearance: "200 mm" },
-    features: ["Quattro AWD", "Panoramic Glass Sunroof", "Park Assist", "Bang & Olufsen Sound System"]
+    features: ["Quattro AWD", "Panoramic Glass Sunroof", "Park Assist", "Bang & Olufsen Sound System"],
+    variants: [
+      { name: "Premium Plus", price: "₹ 65.18 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
+      { name: "Technology", price: "₹ 70.45 Lakh", engine: "2.0L Petrol", transmission: "Automatic" }
+    ]
   },
   
 
@@ -322,7 +469,13 @@ export const mostSearchedCars = [
     category: "Sedan",
     fuelType: "Petrol",
     specs: { engine: "1.5L Turbo Petrol", power: "158 bhp", torque: "253 Nm", transmission: "7-DCT", mileage: "20.6 kmpl", bootSpace: "528 L", groundClearance: "170 mm" },
-    features: ["Level 2 ADAS", "Heated & Ventilated Seats", "Bose Audio", "Switchable Infotainment Control"]
+    features: ["Level 2 ADAS", "Heated & Ventilated Seats", "Bose Audio", "Switchable Infotainment Control"],
+    variants: [
+      { name: "EX", price: "₹ 11.00 Lakh", engine: "1.5L Petrol", transmission: "Manual" },
+      { name: "S", price: "₹ 11.99 Lakh", engine: "1.5L Petrol", transmission: "Manual" },
+      { name: "SX Turbo", price: "₹ 14.87 Lakh", engine: "1.5L Turbo", transmission: "Manual" },
+      { name: "SX (O) Turbo DCT", price: "₹ 17.42 Lakh", engine: "1.5L Turbo", transmission: "Automatic" }
+    ]
   },
   { 
     id: 10, 
@@ -332,7 +485,13 @@ export const mostSearchedCars = [
     category: "Sedan",
     fuelType: "Petrol",
     specs: { engine: "1.5L i-VTEC", power: "119 bhp", torque: "145 Nm", transmission: "CVT / MT", mileage: "18.4 kmpl", bootSpace: "506 L", groundClearance: "165 mm" },
-    features: ["Honda Sensing (ADAS)", "Lanewatch Camera", "Wireless CarPlay", "Soft Touch Dashboard"]
+    features: ["Honda Sensing (ADAS)", "Lanewatch Camera", "Wireless CarPlay", "Soft Touch Dashboard"],
+    variants: [
+      { name: "SV", price: "₹ 11.82 Lakh", engine: "1.5L Petrol", transmission: "Manual" },
+      { name: "V CVT", price: "₹ 13.85 Lakh", engine: "1.5L Petrol", transmission: "Automatic" },
+      { name: "ZX", price: "₹ 15.05 Lakh", engine: "1.5L Petrol", transmission: "Manual" },
+      { name: "ZX CVT", price: "₹ 16.30 Lakh", engine: "1.5L Petrol", transmission: "Automatic" }
+    ]
   },
   { 
     id: 11, 
@@ -342,7 +501,13 @@ export const mostSearchedCars = [
     category: "Sedan",
     fuelType: "Petrol",
     specs: { engine: "1.5L TSI EVO", power: "148 bhp", torque: "250 Nm", transmission: "7-DSG", mileage: "18.6 kmpl", bootSpace: "521 L", groundClearance: "179 mm" },
-    features: ["GT Line Styling", "Ventilated Front Seats", "10-inch VW Play", "Active Cylinder Technology"]
+    features: ["GT Line Styling", "Ventilated Front Seats", "10-inch VW Play", "Active Cylinder Technology"],
+    variants: [
+      { name: "Comfortline", price: "₹ 11.56 Lakh", engine: "1.0L TSI", transmission: "Manual" },
+      { name: "Highline AT", price: "₹ 14.87 Lakh", engine: "1.0L TSI", transmission: "Automatic" },
+      { name: "Topline", price: "₹ 15.27 Lakh", engine: "1.0L TSI", transmission: "Manual" },
+      { name: "GT Plus DSG", price: "₹ 19.41 Lakh", engine: "1.5L TSI", transmission: "Automatic" }
+    ]
   },
   { 
     id: 12, 
@@ -352,7 +517,13 @@ export const mostSearchedCars = [
     category: "Sedan",
     fuelType: "Petrol",
     specs: { engine: "1.5L TSI", power: "148 bhp", torque: "250 Nm", transmission: "7-DSG", mileage: "18.7 kmpl", bootSpace: "521 L", groundClearance: "179 mm" },
-    features: ["Subwoofer in Boot", "Electric Sunroof", "8-inch Virtual Cockpit", "Cooled Glovebox"]
+    features: ["Subwoofer in Boot", "Electric Sunroof", "8-inch Virtual Cockpit", "Cooled Glovebox"],
+    variants: [
+      { name: "Classic", price: "₹ 11.53 Lakh", engine: "1.0L TSI", transmission: "Manual" },
+      { name: "Signature AT", price: "₹ 15.03 Lakh", engine: "1.0L TSI", transmission: "Automatic" },
+      { name: "Prestige", price: "₹ 15.93 Lakh", engine: "1.0L TSI", transmission: "Manual" },
+      { name: "Prestige 1.5 DSG", price: "₹ 19.13 Lakh", engine: "1.5L TSI", transmission: "Automatic" }
+    ]
   },
 
   // ==============================
@@ -366,7 +537,13 @@ export const mostSearchedCars = [
     category: "Hatchback",
     fuelType: "Petrol",
     specs: { engine: "1.2L Z-Series", power: "80 bhp", torque: "112 Nm", transmission: "5-MT / AMT", mileage: "25.7 kmpl", bootSpace: "265 L", groundClearance: "163 mm" },
-    features: ["9-inch SmartPlay Pro", "6 Airbags Standard", "Wireless Charger", "Rear AC Vents"]
+    features: ["9-inch SmartPlay Pro", "6 Airbags Standard", "Wireless Charger", "Rear AC Vents"],
+    variants: [
+      { name: "LXi", price: "₹ 6.49 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "VXi", price: "₹ 7.29 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "ZXi", price: "₹ 8.29 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "ZXi+ AMT", price: "₹ 9.64 Lakh", engine: "1.2L Petrol", transmission: "Automatic" }
+    ]
   },
   { 
     id: 6, 
@@ -374,9 +551,15 @@ export const mostSearchedCars = [
     price: "₹ 6.65 - 10.80 Lakh*", 
     images: ["/cars/altroz.jpg", "/cars/altroz-side.jpg", "/cars/altroz-rear.jpg", "/cars/altroz-interior.jpg"], 
     category: "Hatchback",
-    fuelType: "Diesel", // ✅ Updated (Altroz comes in Diesel too)
+    fuelType: "Diesel",
     specs: { engine: "1.2L i-Turbo", power: "108 bhp", torque: "140 Nm", transmission: "DCA / MT", mileage: "18.5 kmpl", bootSpace: "345 L", groundClearance: "165 mm" },
-    features: ["5 Star Safety", "Voice Assisted Sunroof", "90 Degree Door Opening", "Xpress Cool"]
+    features: ["5 Star Safety", "Voice Assisted Sunroof", "90 Degree Door Opening", "Xpress Cool"],
+    variants: [
+      { name: "XE", price: "₹ 6.65 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "XM+", price: "₹ 7.60 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "XZ Diesel", price: "₹ 8.90 Lakh", engine: "1.5L Diesel", transmission: "Manual" },
+      { name: "XZ+ Turbo", price: "₹ 10.00 Lakh", engine: "1.2L Turbo", transmission: "Manual" }
+    ]
   },
   { 
     id: 7, 
@@ -386,7 +569,13 @@ export const mostSearchedCars = [
     category: "Hatchback",
     fuelType: "Petrol",
     specs: { engine: "1.2L Kappa", power: "82 bhp", torque: "114 Nm", transmission: "IVT / MT", mileage: "20 kmpl", bootSpace: "311 L", groundClearance: "170 mm" },
-    features: ["Bose 7-Speaker Sound", "Electric Sunroof", "BlueLink Connectivity", "Puddle Lamps"]
+    features: ["Bose 7-Speaker Sound", "Electric Sunroof", "BlueLink Connectivity", "Puddle Lamps"],
+    variants: [
+      { name: "Era", price: "₹ 7.04 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "Magna", price: "₹ 7.75 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "Sportz IVT", price: "₹ 9.38 Lakh", engine: "1.2L Petrol", transmission: "Automatic" },
+      { name: "Asta (O)", price: "₹ 10.00 Lakh", engine: "1.2L Petrol", transmission: "Manual" }
+    ]
   },
   { 
     id: 8, 
@@ -396,6 +585,12 @@ export const mostSearchedCars = [
     category: "Hatchback",
     fuelType: "Petrol",
     specs: { engine: "1.2L DualJet", power: "88 bhp", torque: "113 Nm", transmission: "AMT / MT", mileage: "22.9 kmpl", bootSpace: "318 L", groundClearance: "170 mm" },
-    features: ["Heads Up Display", "360 View Camera", "Suzuki Connect", "UV Cut Glass"]
+    features: ["Heads Up Display", "360 View Camera", "Suzuki Connect", "UV Cut Glass"],
+    variants: [
+      { name: "Sigma", price: "₹ 6.66 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "Delta AMT", price: "₹ 8.00 Lakh", engine: "1.2L Petrol", transmission: "Automatic" },
+      { name: "Zeta", price: "₹ 8.43 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "Alpha AMT", price: "₹ 9.83 Lakh", engine: "1.2L Petrol", transmission: "Automatic" }
+    ]
   }
 ];

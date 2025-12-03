@@ -1,25 +1,29 @@
 "use client";
 
-import React, { useState, use } from 'react';
+import React, { useState, use, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 
-// ✅ 1. IMPORT ALL DATA FILES
+// 1. IMPORT ALL DATA FILES
 import { mostSearchedCars } from '@/data/mostSearchedCars';
 import { electricCars } from '@/data/electricCars'; 
 import { newLaunchCars } from '@/data/newlaunchcars'; 
 import { newCarsData } from '@/data/newCarsData';
 import { usedCarsData } from '@/data/usedCarsData';
 
+// Components
 import BookingForm from '@/components/BookingForm';
 import OffersModal from '@/components/OffersModal';
+import CarOverviewGrid from '@/components/CarOverviewGrid';
+import OnRoadPriceModal from '@/components/OnRoadPriceModal';
+import EMICalculatorModal from '@/components/EMICalculatorModal';
+import VariantsTable from '@/components/VariantsTable'; // ✅ FIX: Added Missing Import
 
-import CarOverviewGrid from '@/components/CarOverviewGrid'; // ✅ NEW COMPONENT IMPORT
+import { useLocation } from '@/context/LocationContext'; 
 
 import { 
-  FaStar, FaStarHalfAlt, FaGasPump, FaCogs, FaBolt, FaArrowRight, FaCheckCircle, FaCar, FaRoad, FaUser, FaMapMarkerAlt, FaCalendarAlt
+  FaStar, FaStarHalfAlt, FaGasPump, FaCogs, FaBolt, FaArrowRight, FaCheckCircle, FaCar, FaRoad, FaUser, FaMapMarkerAlt, FaCalendarAlt, FaInfoCircle, FaPhoneAlt, FaWhatsapp, FaChevronDown
 } from 'react-icons/fa';
 
-// Helper to clean slug
 const generateSlug = (name: string) => name.trim().toLowerCase().replace(/\s+/g, "-");
 
 interface PageProps {
@@ -30,18 +34,31 @@ const CarDetailPage = ({ params }: PageProps) => {
   const { slug } = use(params);
   const decodedSlug = decodeURIComponent(slug);
 
+  const { city } = useLocation();
+
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isOffersOpen, setIsOffersOpen] = useState(false);
+  const [isOnRoadOpen, setIsOnRoadOpen] = useState(false);
+  const [isEMIOpen, setIsEMIOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'specs' | 'features'>('specs');
+  
+  // Selected Variant State
+  const [selectedVariant, setSelectedVariant] = useState<any>(null);
 
-  // ✅ 2. UNIVERSAL SEARCH LOGIC
   const foundCar = 
     mostSearchedCars.find((c) => generateSlug(c.name) === decodedSlug) || 
     electricCars.find((c) => generateSlug(c.name) === decodedSlug) ||
     newLaunchCars.find((c) => (c.slug === decodedSlug) || (generateSlug(c.name) === decodedSlug)) ||
     newCarsData.find((c) => (c.slug === decodedSlug) || (generateSlug(c.name) === decodedSlug)) ||
-    usedCarsData.find((c) => generateSlug(c.name) === decodedSlug || c.slug === decodedSlug); // Added slug check for used cars
+    usedCarsData.find((c) => generateSlug(c.name) === decodedSlug || c.slug === decodedSlug);
+
+  // Default Variant Selection Logic
+  useEffect(() => {
+    if (foundCar && (foundCar as any).variants && (foundCar as any).variants.length > 0) {
+        setSelectedVariant((foundCar as any).variants[0]); 
+    }
+  }, [foundCar]);
 
   if (!foundCar) {
     return notFound();
@@ -50,22 +67,27 @@ const CarDetailPage = ({ params }: PageProps) => {
   // --- DATA NORMALIZATION ---
   const isUsed = (foundCar as any).kms !== undefined; 
   const isEV = foundCar.id > 800 || (foundCar as any).category === "EV" || foundCar.name.includes("Electric") || foundCar.name.includes("EV");
-
-  // Images
   const carImages = (foundCar as any).images || (foundCar as any).imageUrls || [(foundCar as any).image] || ["/cars/placeholder.jpg"];
+  
+  // PRICE LOGIC
+  const basePrice = (foundCar as any).price || (foundCar as any).priceRange;
+  const displayPrice = selectedVariant ? selectedVariant.price : basePrice;
 
-  // Price
-  const displayPrice = (foundCar as any).price || (foundCar as any).priceRange;
+  // Variants List
+  const variants = (foundCar as any).variants || [];
 
-  // Specs Standardization (For New Cars)
-  let normalizedSpecs = {
-    engine: "N/A", power: "N/A", torque: "N/A", transmission: "N/A", 
-    bootSpace: "N/A", groundClearance: "N/A", mileage: "N/A"
-  };
+  let normalizedSpecs = { engine: "N/A", power: "N/A", torque: "N/A", transmission: "N/A", bootSpace: "N/A", groundClearance: "N/A", mileage: "N/A" };
 
-  if (!isUsed) {
+  // Update Specs based on Variant
+  if (selectedVariant) {
+     normalizedSpecs = { 
+        ...normalizedSpecs, 
+        ...((foundCar as any).specs || {}),
+        engine: selectedVariant.engine || (foundCar as any).specs?.engine,
+        transmission: selectedVariant.transmission || (foundCar as any).specs?.transmission 
+     };
+  } else if (!isUsed) {
       if ((foundCar as any).keySpecifications) {
-        // NEW CARS DATA MAPPING
         const specsMap: any = {};
         (foundCar as any).keySpecifications.forEach((s: any) => {
             if(s.label.includes("Power") || s.label.includes("Motor")) specsMap.power = s.value;
@@ -82,15 +104,12 @@ const CarDetailPage = ({ params }: PageProps) => {
         }
         normalizedSpecs = { ...normalizedSpecs, ...specsMap };
       } else {
-        // OLD DATA FORMAT
         normalizedSpecs = { ...normalizedSpecs, ...((foundCar as any).specs || {}) };
       }
   }
 
-  // Features
   const features = (foundCar as any).features || ["Standard Safety Features", "AC", "Power Windows", "Music System", "ABS with EBD"];
 
-  // Offers Logic
   const getOffersList = () => {
     if(isUsed) return ["7-Day Money Back Guarantee", "6 Months Warranty", "Free RC Transfer"];
     if(isEV) return ["Free Home Wall Box Charger", "3 Year Battery Health Checkup", "Zero Loan Processing Fee"];
@@ -99,33 +118,21 @@ const CarDetailPage = ({ params }: PageProps) => {
 
   const carForModal = { ...foundCar, offers: getOffersList() };
 
-
   return (
     <div className="min-h-screen bg-gray-100 py-8 font-sans">
       <div className="container mx-auto px-4 max-w-7xl">
         
-        {/* --- TOP SECTION (Image & Info) --- */}
         <div className="bg-white rounded-xl shadow-sm p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
             
             {/* GALLERY */}
             <div>
                 <div className="relative w-full h-[300px] md:h-[400px] rounded-xl overflow-hidden border border-gray-100 mb-4 bg-gray-50 flex items-center justify-center">
-                    <img 
-                        src={carImages[selectedImageIndex]} 
-                        alt={foundCar.name} 
-                        className="w-full h-full object-contain transition-all duration-300 hover:scale-105" 
-                    />
+                    <img src={carImages[selectedImageIndex]} alt={foundCar.name} className="w-full h-full object-contain transition-all duration-300 hover:scale-105" />
                     {isUsed && <span className="absolute top-4 left-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Used Car</span>}
                 </div>
                 <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                     {carImages.map((img: string, idx: number) => (
-                        <div 
-                            key={idx}
-                            onClick={() => setSelectedImageIndex(idx)}
-                            className={`relative w-20 h-16 md:w-24 md:h-20 flex-shrink-0 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${
-                                selectedImageIndex === idx ? 'border-blue-600 ring-2 ring-blue-100' : 'border-transparent opacity-70 hover:opacity-100'
-                            }`}
-                        >
+                        <div key={idx} onClick={() => setSelectedImageIndex(idx)} className={`relative w-20 h-16 md:w-24 md:h-20 flex-shrink-0 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${selectedImageIndex === idx ? 'border-blue-600 ring-2 ring-blue-100' : 'border-transparent opacity-70 hover:opacity-100'}`}>
                             <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
                         </div>
                     ))}
@@ -133,8 +140,9 @@ const CarDetailPage = ({ params }: PageProps) => {
             </div>
 
             {/* INFO */}
-            <div className="flex flex-col">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">{foundCar.name}</h1>
+            <div className="flex flex-col h-full"> 
+                
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 mt-8">{foundCar.name}</h1>
                 
                 <div className="flex items-center space-x-2 mb-4 text-sm border-b border-gray-100 pb-4">
                     <div className="flex text-yellow-400"><FaStar /><FaStar /><FaStar /><FaStar /><FaStarHalfAlt /></div>
@@ -145,40 +153,88 @@ const CarDetailPage = ({ params }: PageProps) => {
                     )}
                 </div>
 
-                <div className="mb-1"><h2 className="text-3xl font-bold text-gray-900">{displayPrice}</h2></div>
-                <p className="text-xs text-gray-500 mb-6">
-                    {isUsed ? "*Asking Price (Negotiable)" : "*Ex-showroom price"}
-                </p>
+                {/* VARIANT SELECTION DROPDOWN */}
+                {variants.length > 0 && (
+                    <div className="mb-4">
+                        <label className="text-xs font-bold text-gray-500 uppercase mb-1 block">Select Variant</label>
+                        <div className="relative">
+                            <select 
+                                value={selectedVariant?.name || ""}
+                                onChange={(e) => {
+                                    const v = variants.find((item: any) => item.name === e.target.value);
+                                    setSelectedVariant(v);
+                                }}
+                                className="w-full appearance-none bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-3 pr-10 font-semibold"
+                            >
+                                {variants.map((v: any, idx: number) => (
+                                    <option key={idx} value={v.name}>
+                                        {v.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500">
+                                <FaChevronDown size={12} />
+                            </div>
+                        </div>
+                    </div>
+                )}
 
-                {/* Used Car Seller Info */}
+                <div className="mb-1"><h2 className="text-3xl font-bold text-gray-900">{displayPrice}</h2></div>
+                <div className="flex items-center gap-2 mb-6">
+                    <p className="text-xs text-gray-500">
+                        {isUsed ? "*Asking Price (Negotiable)" : "*Ex-showroom price"}
+                    </p>
+                    {!isUsed && (
+                        <button 
+                            onClick={() => setIsOnRoadOpen(true)}
+                            className="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 cursor-pointer"
+                        >
+                            <FaInfoCircle /> Check On-Road Price
+                        </button>
+                    )}
+                </div>
+
                 {isUsed && (foundCar as any).sellerPhone && (
                       <div className="bg-blue-50 border border-blue-100 p-3 rounded-lg mb-4 flex items-center justify-between">
                         <div>
                             <p className="text-xs text-gray-500 font-bold uppercase">Seller Contact</p>
                             <p className="text-blue-700 font-bold text-lg">{(foundCar as any).sellerPhone}</p>
                         </div>
-                        <a href={`tel:${(foundCar as any).sellerPhone}`} className="bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-blue-700">Call Now</a>
+                        <a href={`tel:${(foundCar as any).sellerPhone}`} className="bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-blue-700 flex items-center gap-2">
+                            <FaPhoneAlt size={12} /> Call Now
+                        </a>
                       </div>
                 )}
 
-                <div className="mt-auto flex flex-col gap-3">
-                    <button 
-                        onClick={() => setIsOffersOpen(true)}
-                        className="w-full py-3 border-2 border-blue-600 text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition-colors uppercase text-sm tracking-wide"
-                    >
-                        {isUsed ? "Check Warranty Offers" : "Get Current Offers"}
-                    </button>
-                    <button 
-                        onClick={() => setIsBookingOpen(true)}
-                        className="w-full py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition-colors shadow-lg shadow-green-200 uppercase text-sm tracking-wide"
-                    >
-                        {isUsed ? "Contact Seller / Book Visit" : "Book Your Test Drive Now"}
-                    </button>
+                <div className="bg-green-50 rounded-lg p-4 border border-green-100 mb-6">
+                    <div className="flex justify-between items-center mb-2">
+                        <span className="text-gray-700 font-medium">Estimated EMI:</span>
+                        <span onClick={() => setIsEMIOpen(true)} className="text-blue-700 font-bold text-sm cursor-pointer hover:underline">Check Eligibility</span>
+                    </div>
+                    <div className="text-sm text-gray-600 space-y-1">
+                        <div className="flex items-center gap-2"><FaCheckCircle className="text-green-500 text-xs"/> <span className="text-xs">{isEV ? "Long Range Battery" : "Powerful Performance"}</span></div>
+                        <div className="flex items-center gap-2"><FaCheckCircle className="text-green-500 text-xs"/> <span className="text-xs">{isUsed ? "Certified & Inspected" : "Premium Comfort & Safety"}</span></div>
+                    </div>
                 </div>
+
+                <div className="flex flex-col gap-3 mt-auto">
+                    <button onClick={() => setIsOffersOpen(true)} className="w-full py-3.5 border-2 border-red-600 text-red-600 font-bold rounded-lg hover:bg-red-50 transition-colors uppercase text-sm tracking-wide">
+                        {isUsed ? "Check Warranty" : "Check Offers"}
+                    </button>
+                    <button onClick={() => setIsBookingOpen(true)} className="w-full py-3.5 bg-red-700 text-white font-bold rounded-lg hover:bg-red-800 transition-colors shadow-lg shadow-red-100 uppercase text-sm tracking-wide">
+                        {isUsed ? "Contact Seller" : "Book Visit"}
+                    </button>
+                    {isUsed && (
+                         <button className="w-full border border-green-500 text-green-600 font-bold py-3 rounded-lg hover:bg-green-50 transition flex items-center justify-center gap-2">
+                            <FaWhatsapp size={20} /> Chat with Seller
+                        </button>
+                    )}
+                </div>
+
             </div>
         </div>
 
-        {/* --- TABS SECTION (UPDATED) --- */}
+        {/* TABS SECTION */}
         <div className="bg-white rounded-xl shadow-sm p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">{isUsed ? "Vehicle Details & Features" : "Detailed Key Specs & Features"}</h3>
             <div className="flex border-b border-gray-200 mb-8">
@@ -190,13 +246,10 @@ const CarDetailPage = ({ params }: PageProps) => {
                 </button>
             </div>
 
-            {/* ✅ NEW LOGIC: USED vs NEW */}
             {activeTab === 'specs' && (
                 isUsed ? (
-                    // ✅ USED CAR: Show New Grid Design
                     <CarOverviewGrid car={foundCar} />
                 ) : (
-                    // ✅ NEW CAR: Show Standard Specs Grid
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-8 gap-x-4 animate-fadeIn">
                         <SpecItem icon={isEV ? <FaBolt/> : <FaGasPump/>} label={isEV ? "Battery" : "Engine"} value={normalizedSpecs.engine} />
                         <SpecItem icon={<FaBolt/>} label="Power" value={normalizedSpecs.power} />
@@ -217,18 +270,6 @@ const CarDetailPage = ({ params }: PageProps) => {
                             <span className="text-gray-700 font-medium text-sm">{feat}</span>
                         </div>
                     ))}
-                    {isUsed && (
-                        <>
-                             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                                <div className="bg-white p-1.5 rounded-full text-blue-500 shadow-sm"><FaCheckCircle size={14} /></div>
-                                <span className="text-gray-700 font-medium text-sm">Non-Accidental</span>
-                            </div>
-                            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                                <div className="bg-white p-1.5 rounded-full text-blue-500 shadow-sm"><FaCheckCircle size={14} /></div>
-                                <span className="text-gray-700 font-medium text-sm">Original Paint</span>
-                            </div>
-                        </>
-                    )}
                 </div>
             )}
             
@@ -237,9 +278,34 @@ const CarDetailPage = ({ params }: PageProps) => {
             </div>
         </div>
 
+        {/* ✅ VARIANTS TABLE (Only for New Cars if available) */}
+        {!isUsed && (foundCar as any).variants && (
+             <div className="mt-8">
+                <VariantsTable 
+                    variants={(foundCar as any).variants} 
+                    carName={foundCar.name} 
+                />
+             </div>
+        )}
+
         {/* MODALS */}
         {isBookingOpen && <BookingForm isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} car={foundCar} />}
         <OffersModal isOpen={isOffersOpen} onClose={() => setIsOffersOpen(false)} car={carForModal} />
+        
+        <OnRoadPriceModal 
+            isOpen={isOnRoadOpen} 
+            onClose={() => setIsOnRoadOpen(false)} 
+            carName={selectedVariant ? `${foundCar.name} ${selectedVariant.name}` : foundCar.name}
+            price={displayPrice} 
+            city={city}
+            onOpenEMI={() => setIsEMIOpen(true)} 
+        />
+        <EMICalculatorModal 
+            isOpen={isEMIOpen} 
+            onClose={() => setIsEMIOpen(false)} 
+            price={displayPrice} 
+            city={city} 
+        />
 
       </div>
     </div>
