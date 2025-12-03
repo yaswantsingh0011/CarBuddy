@@ -69,7 +69,7 @@ const OnRoadPriceModal: React.FC<OnRoadPriceModalProps> = ({
             <div className="flex justify-between items-center text-sm py-2 border-b border-dashed border-gray-200">
                 <label className="flex items-center gap-2 cursor-pointer select-none">
                     <input type="checkbox" checked={isOptionalSelected} onChange={() => setIsOptionalSelected(!isOptionalSelected)} className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500 border-gray-300" />
-                    <span className="text-gray-600 flex items-center gap-1">Optional <FaInfoCircle className="text-gray-300"/></span>
+                    <span className="text-gray-600 flex items-center gap-1">Extend Warranty Charges & Accessories Charges <FaInfoCircle className="text-gray-300"/></span>
                 </label>
                 <span className="font-medium text-gray-900">{formatCurrency(optionalCharges)}</span>
             </div>
