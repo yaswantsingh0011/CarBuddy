@@ -9,11 +9,16 @@ interface OnRoadPriceModalProps {
   carName: string;
   price: string; 
   city: string;
-  onOpenEMI: () => void; // ✅ NEW PROP ADDED
+  onOpenEMI: () => void;
+  
+  // ✅ NEW PROPS ADDED
+  onOpenOffers: () => void;
+  onOpenBooking: () => void;
 }
 
 const OnRoadPriceModal: React.FC<OnRoadPriceModalProps> = ({ 
-  isOpen, onClose, carName, price, city, onOpenEMI 
+  isOpen, onClose, carName, price, city, 
+  onOpenEMI, onOpenOffers, onOpenBooking // ✅ Destructure new props
 }) => {
   const [isOptionalSelected, setIsOptionalSelected] = useState(true);
 
@@ -32,7 +37,6 @@ const OnRoadPriceModal: React.FC<OnRoadPriceModalProps> = ({
   const optionalCharges = Math.round(exShowroom * 0.015); 
   const totalOnRoad = exShowroom + rtoCharges + insuranceCharges + otherCharges + (isOptionalSelected ? optionalCharges : 0);
 
-  // EMI Calculation (Static display)
   const loanAmount = totalOnRoad * 0.8; 
   const monthlyRate = 9 / 1200;
   const tenureMonths = 60; 
@@ -75,22 +79,28 @@ const OnRoadPriceModal: React.FC<OnRoadPriceModalProps> = ({
                 <span className="text-2xl font-bold text-gray-900">{formatCurrency(totalOnRoad)}</span>
             </div>
             
-            {/* ✅ EMI LINK BUTTON */}
             <div className="flex justify-end items-center gap-2 text-sm">
                 <span className="text-gray-600 border-b border-gray-400">EMI : {formatCurrency(emi)}/month</span>
-                <button 
-                    onClick={() => { onClose(); onOpenEMI(); }} // Close current, Open EMI
-                    className="text-blue-600 font-bold hover:underline"
-                >
-                    View EMI Offers
-                </button>
+                <button onClick={() => { onClose(); onOpenEMI(); }} className="text-blue-600 font-bold hover:underline">View EMI Offers</button>
             </div>
         </div>
 
         {/* Footer Actions */}
         <div className="p-4 mt-4 flex gap-3 border-t border-gray-100">
-            <button className="flex-1 py-3 border border-blue-600 text-blue-600 font-bold rounded hover:bg-blue-50 transition-colors text-sm uppercase">Get Current Offers</button>
-            <button className="flex-1 py-3 bg-green-500 text-white font-bold rounded hover:bg-green-600 shadow-md transition-colors text-sm uppercase">Book Your Test Drive Now</button>
+            {/* ✅ CONNECTED BUTTONS */}
+            <button 
+                onClick={() => { onClose(); onOpenOffers(); }} // Close this, Open Offers
+                className="flex-1 py-3 border border-blue-600 text-blue-600 font-bold rounded hover:bg-blue-50 transition-colors text-sm uppercase"
+            >
+                Get Current Offers
+            </button>
+            
+            <button 
+                onClick={() => { onClose(); onOpenBooking(); }} // Close this, Open Booking
+                className="flex-1 py-3 bg-green-500 text-white font-bold rounded hover:bg-green-600 shadow-md transition-colors text-sm uppercase"
+            >
+                Book Your Test Drive Now
+            </button>
         </div>
 
       </div>
