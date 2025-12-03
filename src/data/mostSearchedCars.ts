@@ -344,7 +344,7 @@ export const mostSearchedCars = [
  { 
     id: 22, 
     name: "Range Rover", 
-    price: "₹ 2.39 - 4.17 Cr*", 
+    price: "₹ 2.39- 4.17 Cr*", 
     images: ["/cars/range-rover.jpg", "/cars/range-rover-side.jpg", "/cars/range-rover-rear.jpg", "/cars/range-rover-interior.jpg"], 
     category: "Luxury",
     fuelType: "Diesel",
