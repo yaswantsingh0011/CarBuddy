@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-// Define Context Type
 interface LocationContextType {
   city: string;
   setCity: (city: string) => void;
@@ -11,28 +10,39 @@ interface LocationContextType {
 
 const LocationContext = createContext<LocationContextType | undefined>(undefined);
 
-// ✅ Named Export use kar rahe hain (Layout me { LocationProvider } import hai)
 export const LocationProvider = ({ children }: { children: ReactNode }) => {
   const [city, setCity] = useState("Jaipur"); // Default City
 
-  // Price Calculation Logic based on City
+  // ✅ ADVANCED PRICE LOGIC BASED ON CITY
   const getPriceForCity = (basePrice: string) => {
-    // Agar price range hai (e.g. "10 - 15 Lakh") toh change mat karo
-    if (!basePrice || basePrice.includes("-")) return basePrice;
-
-    // Numeric value nikalo
-    let numericPrice = parseFloat(basePrice.replace(/[^0-9.]/g, ''));
+    if (!basePrice) return "N/A";
     
+    // 1. Agar price range hai (e.g. "10.00 - 15.00 Lakh"), toh hum use modify nahi karenge complex logic se bachne ke liye
+    if (basePrice.includes("-")) return basePrice;
+
+    // 2. Price string se number nikalo (e.g. "13.99 Lakh" -> 13.99)
+    let numericPrice = parseFloat(basePrice.replace(/[^0-9.]/g, ''));
     if (isNaN(numericPrice)) return basePrice;
 
-    // City Multipliers (Demo Logic)
-    let multiplier = 1;
-    if (city === "Bangalore") multiplier = 1.12; // 12% expensive
-    if (city === "Mumbai") multiplier = 1.08;    // 8% expensive
-    if (city === "Gurgaon") multiplier = 0.98;   // 2% cheaper
+    // 3. City Multiplier Logic (Real world RTO difference simulation)
+    let multiplier = 1.0; // Default (Ex-Showroom)
 
+    // RTO Tax variations approx:
+    if (city === "New Delhi") multiplier = 1.00; // Standard Reference
+    else if (city === "Jaipur") multiplier = 1.02; // ~2% higher
+    else if (city === "Mumbai") multiplier = 1.05; // ~5% higher
+    else if (city === "Bangalore") multiplier = 1.08; // ~8% higher (High Tax)
+    else if (city === "Chennai") multiplier = 1.04;
+    else if (city === "Kolkata") multiplier = 1.03;
+
+    // Calculate New Price
     const newPrice = (numericPrice * multiplier).toFixed(2);
-    return `₹ ${newPrice} Lakh`;
+
+    // Return formatted string (Same unit as input)
+    if (basePrice.includes("Cr")) {
+        return `₹ ${newPrice} Cr*`;
+    }
+    return `₹ ${newPrice} Lakh*`;
   };
 
   return (
@@ -42,7 +52,6 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// ✅ Custom Hook to use location easily
 export const useLocation = () => {
   const context = useContext(LocationContext);
   if (!context) {

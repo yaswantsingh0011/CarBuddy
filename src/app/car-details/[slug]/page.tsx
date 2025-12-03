@@ -10,7 +10,6 @@ import { newLaunchCars } from '@/data/newlaunchcars';
 import { newCarsData } from '@/data/newCarsData';
 import { usedCarsData } from '@/data/usedCarsData';
 
-// Components
 import BookingForm from '@/components/BookingForm';
 import OffersModal from '@/components/OffersModal';
 import CarOverviewGrid from '@/components/CarOverviewGrid';
@@ -34,19 +33,18 @@ const CarDetailPage = ({ params }: PageProps) => {
   const { slug } = use(params);
   const decodedSlug = decodeURIComponent(slug);
 
-  const { city } = useLocation();
+  // ✅ Using Context
+  const { city, getPriceForCity } = useLocation();
 
-  // ✅ STATE MANAGEMENT FOR MODALS
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isOffersOpen, setIsOffersOpen] = useState(false);
   const [isOnRoadOpen, setIsOnRoadOpen] = useState(false);
   const [isEMIOpen, setIsEMIOpen] = useState(false);
-  
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState<'specs' | 'features'>('specs');
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
 
-  // Find Car Logic
+  // Find Car
   const foundCar = 
     mostSearchedCars.find((c) => generateSlug(c.name) === decodedSlug) || 
     electricCars.find((c) => generateSlug(c.name) === decodedSlug) ||
@@ -54,7 +52,7 @@ const CarDetailPage = ({ params }: PageProps) => {
     newCarsData.find((c) => (c.slug === decodedSlug) || (generateSlug(c.name) === decodedSlug)) ||
     usedCarsData.find((c) => generateSlug(c.name) === decodedSlug || c.slug === decodedSlug);
 
-  // Default Variant Logic
+  // Default Variant
   useEffect(() => {
     if (foundCar && (foundCar as any).variants && (foundCar as any).variants.length > 0) {
         setSelectedVariant((foundCar as any).variants[0]); 
@@ -63,18 +61,22 @@ const CarDetailPage = ({ params }: PageProps) => {
 
   if (!foundCar) return notFound();
 
-  // --- DATA NORMALIZATION ---
   const isUsed = (foundCar as any).kms !== undefined; 
   const isEV = foundCar.id > 800 || (foundCar as any).category === "EV" || foundCar.name.includes("Electric") || foundCar.name.includes("EV");
   const carImages = (foundCar as any).images || (foundCar as any).imageUrls || [(foundCar as any).image] || ["/cars/placeholder.jpg"];
   
-  const basePrice = (foundCar as any).price || (foundCar as any).priceRange;
-  const displayPrice = selectedVariant ? selectedVariant.price : basePrice;
+  // ✅ PRICE CALCULATION LOGIC (Dynamic City Price)
+  // 1. Get raw price from Variant OR Car
+  const rawPrice = selectedVariant ? selectedVariant.price : ((foundCar as any).price || (foundCar as any).priceRange);
+  
+  // 2. Convert based on City (Only for New Cars)
+  // Used cars ki price fixed hoti hai seller ki taraf se, wo city se change nahi hoti logic wise.
+  const displayPrice = isUsed ? rawPrice : getPriceForCity(rawPrice);
+
   const variants = (foundCar as any).variants || [];
 
-  // Specs Logic
   let normalizedSpecs = { engine: "N/A", power: "N/A", torque: "N/A", transmission: "N/A", bootSpace: "N/A", groundClearance: "N/A", mileage: "N/A" };
-  
+
   if (selectedVariant) {
      normalizedSpecs = { 
         ...normalizedSpecs, 
@@ -106,21 +108,20 @@ const CarDetailPage = ({ params }: PageProps) => {
 
   const features = (foundCar as any).features || ["Standard Safety Features", "AC", "Power Windows", "Music System", "ABS with EBD"];
 
-  // Offers Data
   const getOffersList = () => {
     if(isUsed) return ["7-Day Money Back Guarantee", "6 Months Warranty", "Free RC Transfer"];
     if(isEV) return ["Free Home Wall Box Charger", "3 Year Battery Health Checkup", "Zero Loan Processing Fee"];
     return ["Exchange Bonus up to ₹25,000", "Free Insurance for 1st Year", "Corporate Discount Available"];
   };
 
-  // ✅ HANDLER FUNCTIONS (Logic Connected)
+  // Handler Functions
   const handleOpenOffers = () => setIsOffersOpen(true);
   const handleOpenBooking = () => setIsBookingOpen(true);
   const handleOpenOnRoad = () => setIsOnRoadOpen(true);
   const handleOpenEMI = () => setIsEMIOpen(true);
   
   const handleWhatsApp = () => {
-    const phone = (foundCar as any).sellerPhone || "919876543210"; // Default fallback
+    const phone = (foundCar as any).sellerPhone || "919876543210"; 
     const message = `Hi, I am interested in buying ${foundCar.name}. Is it available?`;
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
   };
@@ -157,12 +158,16 @@ const CarDetailPage = ({ params }: PageProps) => {
                     <div className="flex text-yellow-400"><FaStar /><FaStar /><FaStar /><FaStar /><FaStarHalfAlt /></div>
                     <span className="text-gray-900 font-bold">{(foundCar as any).rating || 4.5} / 5</span>
                     <span className="text-gray-500">| {(foundCar as any).reviews || 20} Reviews</span>
-                    {(foundCar as any).location && (
-                        <span className="flex items-center gap-1 text-gray-500 ml-2"><FaMapMarkerAlt className="text-red-500"/> {(foundCar as any).location}</span>
-                    )}
+                    
+                    {/* Location Display */}
+                    <span className="flex items-center gap-1 text-gray-500 ml-2">
+                        <FaMapMarkerAlt className="text-red-500"/> 
+                        {/* Used car ki location fix hoti hai, New car ki location header se aayegi */}
+                        {isUsed ? (foundCar as any).location : city}
+                    </span>
                 </div>
 
-                {/* Variant Dropdown */}
+                {/* VARIANT SELECTION */}
                 {variants.length > 0 && (
                     <div className="mb-4">
                         <label className="text-xs font-bold text-gray-500 uppercase mb-1 block">Select Variant</label>
@@ -185,11 +190,13 @@ const CarDetailPage = ({ params }: PageProps) => {
                     </div>
                 )}
 
+                {/* PRICE (DYNAMIC) */}
                 <div className="mb-1"><h2 className="text-3xl font-bold text-gray-900">{displayPrice}</h2></div>
+                
                 <div className="flex items-center gap-2 mb-6">
-                    <p className="text-xs text-gray-500">{isUsed ? "*Asking Price (Negotiable)" : "*Ex-showroom price"}</p>
-                    
-                    {/* ✅ ON-ROAD PRICE CLICK */}
+                    <p className="text-xs text-gray-500">
+                        {isUsed ? "*Asking Price (Negotiable)" : `*Ex-showroom price in ${city}`}
+                    </p>
                     {!isUsed && (
                         <button onClick={handleOpenOnRoad} className="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 cursor-pointer">
                             <FaInfoCircle /> Check On-Road Price
@@ -197,7 +204,6 @@ const CarDetailPage = ({ params }: PageProps) => {
                     )}
                 </div>
 
-                {/* Used Car Seller Info */}
                 {isUsed && (foundCar as any).sellerPhone && (
                       <div className="bg-blue-50 border border-blue-100 p-3 rounded-lg mb-4 flex items-center justify-between">
                         <div>
@@ -210,11 +216,9 @@ const CarDetailPage = ({ params }: PageProps) => {
                       </div>
                 )}
 
-                {/* EMI Box */}
                 <div className="bg-green-50 rounded-lg p-4 border border-green-100 mb-6">
                     <div className="flex justify-between items-center mb-2">
                         <span className="text-gray-700 font-medium">Estimated EMI:</span>
-                        {/* ✅ EMI CLICK */}
                         <span onClick={handleOpenEMI} className="text-blue-700 font-bold text-sm cursor-pointer hover:underline">Check Eligibility</span>
                     </div>
                     <div className="text-sm text-gray-600 space-y-1">
@@ -223,21 +227,13 @@ const CarDetailPage = ({ params }: PageProps) => {
                     </div>
                 </div>
 
-                {/* ✅ BUTTONS WITH ONCLICK HANDLERS */}
                 <div className="flex flex-col gap-3 mt-auto">
-                    <button 
-                        onClick={handleOpenOffers} 
-                        className="w-full py-3.5 border-2 border-red-600 text-red-600 font-bold rounded-lg hover:bg-red-50 transition-colors uppercase text-sm tracking-wide"
-                    >
+                    <button onClick={handleOpenOffers} className="w-full py-3.5 border-2 border-red-600 text-red-600 font-bold rounded-lg hover:bg-red-50 transition-colors uppercase text-sm tracking-wide">
                         {isUsed ? "Check Warranty" : "Check Offers"}
                     </button>
-                    <button 
-                        onClick={handleOpenBooking} 
-                        className="w-full py-3.5 bg-red-700 text-white font-bold rounded-lg hover:bg-red-800 transition-colors shadow-lg shadow-red-100 uppercase text-sm tracking-wide"
-                    >
+                    <button onClick={handleOpenBooking} className="w-full py-3.5 bg-red-700 text-white font-bold rounded-lg hover:bg-red-800 transition-colors shadow-lg shadow-red-100 uppercase text-sm tracking-wide">
                         {isUsed ? "Contact Seller" : "Book Visit"}
                     </button>
-                    
                     {isUsed && (
                          <button onClick={handleWhatsApp} className="w-full border border-green-500 text-green-600 font-bold py-3 rounded-lg hover:bg-green-50 transition flex items-center justify-center gap-2">
                             <FaWhatsapp size={20} /> Chat with Seller
@@ -248,7 +244,7 @@ const CarDetailPage = ({ params }: PageProps) => {
             </div>
         </div>
 
-        {/* TABS SECTION */}
+        {/* TABS */}
         <div className="bg-white rounded-xl shadow-sm p-6">
             <h3 className="text-xl font-bold text-gray-900 mb-6">{isUsed ? "Vehicle Details & Features" : "Detailed Key Specs & Features"}</h3>
             <div className="flex border-b border-gray-200 mb-8">
@@ -292,29 +288,16 @@ const CarDetailPage = ({ params }: PageProps) => {
             </div>
         </div>
 
-        {/* VARIANTS TABLE */}
         {!isUsed && (foundCar as any).variants && (
              <div className="mt-8">
                 <VariantsTable variants={(foundCar as any).variants} carName={foundCar.name} />
              </div>
         )}
 
-        {/* ✅ CONNECTED MODALS */}
+        {/* MODALS */}
         {isBookingOpen && <BookingForm isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} car={foundCar} />}
-        
         <OffersModal isOpen={isOffersOpen} onClose={() => setIsOffersOpen(false)} car={carForModal} />
-        
-        <OnRoadPriceModal 
-            isOpen={isOnRoadOpen} 
-            onClose={() => setIsOnRoadOpen(false)} 
-            carName={selectedVariant ? `${foundCar.name} ${selectedVariant.name}` : foundCar.name}
-            price={displayPrice} 
-            city={city}
-            onOpenEMI={() => setIsEMIOpen(true)} // Link OnRoad -> EMI
-            onOpenOffers={() => setIsOffersOpen(true)} // Link OnRoad -> Offers
-            onOpenBooking={() => setIsBookingOpen(true)} // Link OnRoad -> Booking
-        />
-        
+        <OnRoadPriceModal isOpen={isOnRoadOpen} onClose={() => setIsOnRoadOpen(false)} carName={selectedVariant ? `${foundCar.name} ${selectedVariant.name}` : foundCar.name} price={displayPrice} city={city} onOpenEMI={() => setIsEMIOpen(true)} onOpenOffers={() => setIsOffersOpen(true)} onOpenBooking={() => setIsBookingOpen(true)} />
         <EMICalculatorModal isOpen={isEMIOpen} onClose={() => setIsEMIOpen(false)} price={displayPrice} city={city} />
 
       </div>
