@@ -1,123 +1,123 @@
-// src/app/blog/[slug]/page.tsx
-
-import { supabase } from '@/lib/supabaseClient';
-import { Post, SidebarAuthor, SidebarCategory, SidebarLatestPost } from '@/types/index';
-import { BlogSidebar } from '@/components/BlogSidebar';
-// import { ContentRenderer } from '@/components/ContentRenderer'; // Ensure ye component aapke paas ho
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Calendar, User, Tag } from 'lucide-react';
-import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { blogs } from '@/data/blogs';
+import type { Metadata } from 'next';
 
-// Helper to clean date
-const formatDate = (dateStr: string) => new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-
-// 1. Get Post Data
-async function getPostBySlug(slug: string) {
-  const { data, error } = await supabase
-    .from('posts')
-    .select('*')
-    .eq('slug', slug)
-    .single();
-
-  if (error || !data) return null;
-  return data;
+// ✅ Change 1: Params ab Promise hai
+interface Props {
+  params: Promise<{ slug: string }>;
 }
 
-// 2. Get Sidebar Data (Reusable)
-async function getSidebarData() {
-  const { data: posts } = await supabase.from('posts').select('*').limit(10);
-  if (!posts) return { latestPosts: [], categories: [], tags: [], authors: [] };
-
-  // ... (Same sidebar logic as main page, bas short me likha hai yahan) ...
-  // Logic same rahega jo listing page par tha
-  const latestPosts = posts.slice(0, 5).map(p => ({ title: p.title, date: formatDate(p.created_at), slug: p.slug }));
-  return { latestPosts, categories: [], tags: [], authors: [] }; // Placeholder return for now to avoid big code block
-}
-
-// --- PAGE COMPONENT ---
-export default async function PostDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // ✅ Change 2: Await lagaya taaki slug mile
+  const { slug } = await params;
+  const blog = blogs.find((b) => b.slug === slug);
   
-  // ✅ FIX: Await params
-  const { slug } = await params; 
+  if (!blog) return { title: 'Blog Not Found' };
+  return {
+    title: `${blog.title} - CarBuddy`,
+    description: blog.excerpt,
+    openGraph: { images: [blog.image] },
+  };
+}
 
-  const post = await getPostBySlug(slug);
-  // Sidebar data bhi fetch kar sakte ho agar sidebar dikhana hai
-  // const sidebarData = await getSidebarData();
+// ✅ Change 3: Component ko async banaya
+export default async function BlogPostPage({ params }: Props) {
+  // ✅ Change 4: Params ko await kiya (Sabse zaroori line)
+  const { slug } = await params;
+  
+  const blog = blogs.find((b) => b.slug === slug);
 
-  if (!post) return notFound();
-
-  // Content Handling (JSON vs String)
-  let contentText = "";
-  if (Array.isArray(post.content)) {
-      // Agar JSON array hai (Jaise Editor.js ya rich text se aata hai)
-      contentText = post.content.map((block: any) => block.text || "").join("\n\n");
-  } else if (typeof post.content === 'string') {
-      contentText = post.content;
+  // Agar blog nahi mila toh 404
+  if (!blog) {
+    notFound();
   }
 
+  // Sidebar Data
+  const latestPosts = [...blogs].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
+
   return (
-    <div className="bg-white min-h-screen">
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto">
+    <div className="bg-gray-50 min-h-screen py-12">
+      <div className="container mx-auto px-4">
+        <div className="flex flex-col lg:flex-row gap-12">
           
-          {/* Article Header */}
-          <div className="mb-8 text-center">
-             <div className="flex items-center justify-center gap-2 mb-4">
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase tracking-wider">
-                    {post.category || "Article"}
+          {/* LEFT: Main Content (70%) */}
+          <div className="lg:w-2/3">
+            <article className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+              
+              <Link href="/blog" className="inline-flex items-center text-sm text-gray-500 hover:text-blue-600 mb-6">
+                ← Back to Blog
+              </Link>
+
+              <header className="mb-8">
+                <span className="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full mb-4 inline-block">
+                  {blog.category}
                 </span>
-             </div>
-             <h1 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-               {post.title}
-             </h1>
-             
-             <div className="flex items-center justify-center gap-6 text-gray-500 text-sm">
-               <div className="flex items-center gap-2">
-                 <User size={16} /> <span>{post.author_name || "CarBuddy Team"}</span>
-               </div>
-               <div className="flex items-center gap-2">
-                 <Calendar size={16} /> <span>{formatDate(post.created_at)}</span>
-               </div>
-             </div>
-          </div>
-
-          {/* Featured Image */}
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden mb-10 shadow-lg">
-             <Image 
-               src={post.featured_image_url || post.image_url || "/blog/default-blog.jpg"} 
-               alt={post.title}
-               fill
-               className="object-cover"
-               priority
-             />
-          </div>
-
-          {/* Content Body */}
-          <article className="prose prose-lg max-w-none text-gray-700">
-             {/* Agar ContentRenderer component hai to wo use karo, nahi to ye simple text dikhayega */}
-             {/* <ContentRenderer blocks={post.content} /> */}
-             
-             {/* Fallback Simple Text Display */}
-             <div className="whitespace-pre-line leading-relaxed">
-                {contentText}
-             </div>
-          </article>
-
-          {/* Tags Footer */}
-          {post.tags && (
-             <div className="mt-12 pt-8 border-t border-gray-100">
-                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-4">Related Topics</h3>
-                <div className="flex flex-wrap gap-2">
-                   {Array.isArray(post.tags) && post.tags.map((tag: string) => (
-                      <span key={tag} className="flex items-center gap-1 px-4 py-2 bg-gray-50 text-gray-700 rounded-lg text-sm hover:bg-gray-100 transition-colors cursor-pointer">
-                         <Tag size={12} /> {tag}
-                      </span>
-                   ))}
+                <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
+                  {blog.title}
+                </h1>
+                <div className="flex items-center text-gray-500 text-sm">
+                  <span>By <span className="text-gray-900 font-semibold">{blog.author}</span></span>
+                  <span className="mx-3">•</span>
+                  <time>{blog.date}</time>
                 </div>
-             </div>
-          )}
+              </header>
 
+              <div className="relative w-full h-[300px] md:h-[450px] mb-10 rounded-xl overflow-hidden">
+                <Image 
+                  src={blog.image || '/cars/placeholder.jpg'} 
+                  alt={blog.title} 
+                  fill 
+                  className="object-cover" 
+                  priority 
+                />
+              </div>
+
+              <div 
+                className="prose prose-lg prose-blue max-w-none text-gray-700"
+                dangerouslySetInnerHTML={{ __html: blog.content }}
+              />
+
+            </article>
+          </div>
+
+          {/* RIGHT: Sidebar (30%) */}
+          <div className="lg:w-1/3 space-y-8">
+            
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <h3 className="text-lg font-bold text-gray-900 mb-6">Latest Reads</h3>
+              <div className="space-y-5">
+                {latestPosts.filter(p => p.id !== blog.id).map(post => (
+                  <Link href={`/blog/${post.slug}`} key={post.id} className="flex gap-4 group">
+                    <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden">
+                      <Image 
+                        src={post.image || '/cars/placeholder.jpg'} 
+                        alt={post.title} 
+                        fill 
+                        className="object-cover group-hover:scale-110 transition-transform"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 line-clamp-2">
+                        {post.title}
+                      </h4>
+                      <p className="text-xs text-gray-400 mt-1">{post.date}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-8 rounded-2xl text-white text-center">
+              <h3 className="text-2xl font-bold mb-2">Ready to Buy?</h3>
+              <p className="text-blue-100 mb-6 text-sm">Compare prices, features, and find the perfect car for you.</p>
+              <Link href="/explore" className="block w-full bg-white text-blue-700 font-bold py-3 rounded-lg hover:bg-gray-100 transition-colors">
+                Explore Cars
+              </Link>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
