@@ -4,7 +4,8 @@ import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer'; 
 import { AuthProvider } from '@/context/AuthContext';
-// Google Analytics Import hata diya hai
+// ✅ Google Analytics Import wapas aa gaya
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 // ✅ Context Imports
 import { LocationProvider } from '@/context/LocationContext';
@@ -18,7 +19,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'CarBuddy - Your Travel Companion',
   description: 'Find the best new and used cars.',
-  // ✅ Google Verification Code abhi bhi hai taaki ownership verify ho jaye
+  // ✅ Verification Code safe hai
   verification: {
     google: 'fgTUti8vK-lRqaXCaVl5lhXferNXww-XA6q3Azs6RFw',
   },
@@ -40,7 +41,9 @@ export default function RootLayout({
     <html lang="en" className="light">
       <body className={`${inter.className} flex flex-col min-h-screen bg-white text-gray-900`}> 
         
-        {/* Google Analytics component hata diya */}
+        {/* ✅ Google Analytics Component laga diya */}
+        {/* NOTE: Niche "G-XXXXXXXXXX" hata ke apni ID daalna */}
+        <GoogleAnalytics GA_MEASUREMENT_ID="G-99E63LJFGF" />
 
         {/* 1. Auth Provider */}
         <AuthProvider>
