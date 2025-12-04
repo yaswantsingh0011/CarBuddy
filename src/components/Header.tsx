@@ -53,7 +53,7 @@ const Header: React.FC = () => {
     router.refresh(); 
   };
 
-  // Search Logic
+  // Search Logic (Local Filtering for Suggestions)
   useEffect(() => {
     let sourceData: any[] = [];
     if (searchCategory === "All") {
@@ -66,14 +66,26 @@ const Header: React.FC = () => {
 
     if (query.length > 1) {
       const results = sourceData.filter((car) => car.name.toLowerCase().includes(query.toLowerCase()));
+      // Remove duplicates
       const uniqueResults = Array.from(new Set(results.map(a => a.name))).map(name => results.find(a => a.name === name));
-      setFilteredCars(uniqueResults.slice(0, 5));
+      setFilteredCars(uniqueResults.slice(0, 5)); // Show top 5
       setShowSuggestions(true);
     } else {
       setFilteredCars([]);
       setShowSuggestions(false);
     }
   }, [query, searchCategory]);
+
+  // ✅ NEW: Handle Enter Key or "View All" click
+  const handleSearchSubmit = (e?: React.FormEvent | React.KeyboardEvent) => {
+    if (e) e.preventDefault();
+    if (query.trim()) {
+        setShowSuggestions(false);
+        setIsMobileMenuOpen(false);
+        // Redirect to Global Search Page
+        router.push(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
 
   const handleSelectCar = (car: any) => {
     const slug = car.slug || car.name.trim().toLowerCase().replace(/\s+/g, "-");
@@ -114,6 +126,7 @@ const Header: React.FC = () => {
             {/* --- DESKTOP SEARCH BAR --- */}
             <div className="hidden md:block flex-1 max-w-xs xl:max-w-sm relative" ref={searchRef}>
                 <div className="flex items-center w-full h-10 rounded-full border border-gray-300 bg-gray-50 hover:border-blue-400 focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600 transition-all relative">
+                    {/* Category Selector */}
                     <div 
                         className="flex items-center px-3 border-r border-gray-300 h-full cursor-pointer hover:bg-gray-100 rounded-l-full transition-colors relative"
                         onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
@@ -139,32 +152,54 @@ const Header: React.FC = () => {
                             </div>
                         )}
                     </div>
-                    <div className="flex-grow flex items-center px-3">
-                        <FaSearch className="text-gray-400 mr-2 text-sm" />
+                    
+                    {/* Input Field with Form for Enter Key Support */}
+                    <form onSubmit={handleSearchSubmit} className="flex-grow flex items-center px-3 h-full">
+                        <button type="submit" className="outline-none">
+                             <FaSearch className="text-gray-400 mr-2 text-sm hover:text-blue-600 cursor-pointer" />
+                        </button>
                         <input 
                             type="text" 
                             placeholder="Search cars..." 
-                            className="w-full bg-transparent outline-none text-sm text-gray-700 placeholder-gray-500"
+                            className="w-full bg-transparent outline-none text-sm text-gray-700 placeholder-gray-500 h-full"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             onFocus={() => query.length > 1 && setShowSuggestions(true)}
                         />
-                    </div>
+                    </form>
                 </div>
 
                 {/* Suggestions Dropdown */}
                 {showSuggestions && query.length > 1 && (
                     <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50 animate-fadeIn">
                         {filteredCars.length > 0 ? (
-                            filteredCars.map((car, index) => (
-                                <div key={index} onClick={() => handleSelectCar(car)} className="px-4 py-2 hover:bg-blue-50 cursor-pointer flex items-center gap-3 border-b border-gray-50 last:border-none">
-                                    <div className="w-8 h-8 bg-gray-100 rounded overflow-hidden relative flex-shrink-0">
-                                        <Image src={car.images?.[0] || car.image || "/cars/placeholder.jpg"} alt={car.name} fill className="object-cover" />
+                            <>
+                                {filteredCars.map((car, index) => (
+                                    <div key={index} onClick={() => handleSelectCar(car)} className="px-4 py-2 hover:bg-blue-50 cursor-pointer flex items-center gap-3 border-b border-gray-50">
+                                        <div className="w-8 h-8 bg-gray-100 rounded overflow-hidden relative flex-shrink-0">
+                                            <Image src={car.images?.[0] || car.image || "/cars/placeholder.jpg"} alt={car.name} fill className="object-cover" />
+                                        </div>
+                                        <p className="text-sm font-medium text-gray-800 line-clamp-1">{car.name}</p>
                                     </div>
-                                    <p className="text-sm font-medium text-gray-800 line-clamp-1">{car.name}</p>
+                                ))}
+                                {/* ✅ ADDED: Link to Global Search Page */}
+                                <div 
+                                    onClick={(e) => handleSearchSubmit(e)}
+                                    className="px-4 py-3 bg-gray-50 text-blue-600 text-sm font-bold text-center cursor-pointer hover:bg-blue-100 transition-colors"
+                                >
+                                    View all results for "{query}"
                                 </div>
-                            ))
-                        ) : (<div className="px-4 py-6 text-center"><p className="text-sm font-semibold text-gray-600">No results found</p></div>)}
+                            </>
+                        ) : (
+                            // ✅ No direct match? Show search button
+                            <div 
+                                onClick={(e) => handleSearchSubmit(e)}
+                                className="px-4 py-3 cursor-pointer hover:bg-gray-50"
+                            >
+                                <p className="text-sm font-semibold text-gray-600">No suggestions found.</p>
+                                <p className="text-xs text-blue-600 mt-1 font-bold">Search globally for "{query}" &rarr;</p>
+                            </div>
+                        )}
                     </div>
                 )}
             </div>
@@ -181,13 +216,10 @@ const Header: React.FC = () => {
 
             {/* User Actions */}
             <div className="flex items-center space-x-4 md:space-x-6 text-sm font-medium text-gray-600 flex-shrink-0">
-                
-                {/* Wishlist Icon */}
                 <Link href="/shortlisted" className="flex items-center text-gray-700 hover:text-red-500 transition-colors" title="Shortlisted Vehicles">
                     <FaRegHeart className="text-xl md:text-xl" />
                 </Link>
 
-                {/* Desktop Profile Link */}
                 {session ? (
                     <Link href="/profile" className="hidden md:flex items-center hover:text-blue-600 gap-2 transition-colors">
                         <FaRegUser className="text-lg"/> 
@@ -199,21 +231,20 @@ const Header: React.FC = () => {
                     </button>
                 )}
 
-                {/* Mobile Menu Toggle */}
                 <button className="lg:hidden text-gray-700 p-1" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                     {isMobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
                 </button>
             </div>
           </div>
 
-          {/* ✅ MOBILE MENU (FIXED) */}
+          {/* ✅ MOBILE MENU */}
           {isMobileMenuOpen && (
             <div className="lg:hidden py-4 border-t border-gray-100 space-y-4 animate-fadeIn">
                 
                 {/* 1. Mobile Search */}
                 <div className="px-2 relative">
-                    <div className="flex items-center bg-gray-100 rounded-full px-4 py-2.5">
-                        <FaSearch className="text-gray-400 mr-2" />
+                    <form onSubmit={handleSearchSubmit} className="flex items-center bg-gray-100 rounded-full px-4 py-2.5">
+                        <button type="submit"><FaSearch className="text-gray-400 mr-2" /></button>
                         <input 
                             type="text" 
                             placeholder="Search cars..." 
@@ -221,20 +252,33 @@ const Header: React.FC = () => {
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                         />
-                    </div>
+                    </form>
+
                     {/* Mobile Suggestions */}
                     {query.length > 1 && (
                         <div className="absolute top-full left-2 right-2 mt-2 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50">
                             {filteredCars.length > 0 ? (
-                                filteredCars.map((car, index) => (
-                                    <div key={index} onClick={() => handleSelectCar(car)} className="px-4 py-3 border-b border-gray-50 last:border-none flex items-center gap-3">
-                                        <div className="w-10 h-10 bg-gray-100 rounded relative overflow-hidden flex-shrink-0">
-                                            <Image src={car.images?.[0] || car.image || "/cars/placeholder.jpg"} alt={car.name} fill className="object-cover" />
+                                <>
+                                    {filteredCars.map((car, index) => (
+                                        <div key={index} onClick={() => handleSelectCar(car)} className="px-4 py-3 border-b border-gray-50 flex items-center gap-3">
+                                            <div className="w-10 h-10 bg-gray-100 rounded relative overflow-hidden flex-shrink-0">
+                                                <Image src={car.images?.[0] || car.image || "/cars/placeholder.jpg"} alt={car.name} fill className="object-cover" />
+                                            </div>
+                                            <span className="text-sm font-medium text-gray-800">{car.name}</span>
                                         </div>
-                                        <span className="text-sm font-medium text-gray-800">{car.name}</span>
+                                    ))}
+                                    <div 
+                                        onClick={(e) => handleSearchSubmit(e)}
+                                        className="px-4 py-3 bg-gray-50 text-blue-600 text-sm font-bold text-center"
+                                    >
+                                        View all results
                                     </div>
-                                ))
-                            ) : (<div className="p-3 text-center text-sm text-gray-500">No results found</div>)}
+                                </>
+                            ) : (
+                                <div onClick={(e) => handleSearchSubmit(e)} className="p-3 text-center text-sm text-gray-500 cursor-pointer">
+                                    Search for "{query}"
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
@@ -244,16 +288,15 @@ const Header: React.FC = () => {
                      <FaMapMarkerAlt className="mr-2" /> {city} (Change City)
                 </div>
 
-                {/* 3. Links (Removed New/Used Cars) */}
+                {/* 3. Links */}
                 <Link href="/" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>Home</Link>
                 <Link href="/news" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>News & Reviews</Link>
                 <Link href="/blog" className="block font-medium text-gray-800 px-4 py-2 hover:bg-gray-50" onClick={() => setIsMobileMenuOpen(false)}>Blogs</Link>
                 
-                {/* 4. ✅ MOBILE PROFILE SECTION (FIXED) */}
+                {/* 4. Mobile Profile */}
                 <div className="border-t border-gray-100 mt-2 pt-2">
                     {session ? (
                         <>
-                            {/* Agar Login hai to Profile dikhega */}
                             <Link href="/profile" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-blue-600 font-bold hover:bg-blue-50">
                                 <FaRegUser /> My Profile
                             </Link>
@@ -262,7 +305,6 @@ const Header: React.FC = () => {
                             </button>
                         </>
                     ) : (
-                        /* Agar Login NAHI hai to Login Button dikhega */
                         <div className="px-2">
                             <button onClick={() => {setIsAuthModalOpen(true); setIsMobileMenuOpen(false);}} className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold shadow-md">
                                 Login / Register
