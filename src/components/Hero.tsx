@@ -1,58 +1,62 @@
-// src/components/Hero.tsx
-"use client"; // Client component zaroori hai animation ke liye
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image"; // ★ Import zaroori hai
 
 interface HeroProps {
   onExploreClick: () => void;
 }
 
-// Yahan apni images ke naam daal dena
 const heroImages = [
-  "/cars/octaviars.jpg",     
-   "/cars/carnival.jpg",    // Car 3
+  "/cars/octaviars.jpg",
+  "/cars/carnival.jpg",
   "/cars/tiago-ev.jpg"
 ];
 
 const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Auto-Slide Logic (Har 3 second mein image badlegi)
+  // Auto-Slide Logic
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
-    }, 3000); // 3000ms = 3 seconds
+    }, 3000);
 
     return () => clearInterval(timer);
   }, []);
 
   return (
-    // Height wapas 'h-[35vh]' kar di (Mobile par chota aur sleek)
     <div className="relative w-full h-[35vh] md:h-screen flex items-center justify-center text-white overflow-hidden bg-gray-900">
       
-      {/* Background Image Slider */}
+      {/* Background Image Slider with Next/Image */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, scale: 1.1 }} // Thoda zoom-in effect start me
-          animate={{ opacity: 1, scale: 1 }}   // Normal scale
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 1 }} // 1 second ka smooth fade
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: `url('${heroImages[currentIndex]}')`,
-            // Fallback agar image load na ho to purani wali dikhe:
-            backgroundImage: `url('${heroImages[currentIndex] || "/cars/be6e.jpg"}')` 
-          }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0 w-full h-full" // div ko full size diya
         >
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/40 md:bg-black/50"></div>
+          {/* ★ Next/Image Implementation for Speed */}
+          <Image
+            src={heroImages[currentIndex] || "/cars/tiago-ev.jpg"} // Fallback image
+            alt="CarBuddy Hero Car"
+            fill // Ye automatic width/height adjust karega (replacement for bg-cover)
+            priority={true} // ★ GAME CHANGER: Ye LCP fast karega (Preload)
+            sizes="100vw" // Mobile pe choti image download hogi
+            className="object-cover" // CSS object-fit: cover
+            quality={85} // Thodi quality kam karke speed badhayega (optional)
+          />
+
+          {/* Dark Overlay (Image ke upar) */}
+          <div className="absolute inset-0 bg-black/40 md:bg-black/50 z-10"></div>
         </motion.div>
       </AnimatePresence>
 
-      {/* Hero Content (Ye Text hamesha upar rahega) */}
-      <div className="relative z-10 text-center p-4 mt-2">
+      {/* Hero Content */}
+      <div className="relative z-20 text-center p-4 mt-2">
         <motion.h1 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -79,8 +83,8 @@ const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
         </motion.button>
       </div>
 
-      {/* Slider Indicators (Chote dots niche) */}
-      <div className="absolute bottom-2 flex space-x-2 z-20">
+      {/* Slider Indicators */}
+      <div className="absolute bottom-2 flex space-x-2 z-30">
         {heroImages.map((_, index) => (
           <div 
             key={index}
