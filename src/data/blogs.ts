@@ -11,7 +11,225 @@ export interface BlogPost {
 }
 
 export const blogs: BlogPost[] = [
-  // 1. SUV Blog (Author: Priya Sharma)
+  // 1. Maintenance Tips (Title: Essential Car Maintenance Tips for 2025)
+  {
+    id: '10',
+    slug: 'essential-car-maintenance-tips-2025',
+    title: 'Essential Car Maintenance Tips for 2025',
+    excerpt: 'Keeping your vehicle running smoothly in 2025 isn\'t just about luck; it\'s about regular, simple maintenance. A well-maintained car is safer, more reliable, and holds its value far better.',
+    content: `
+      <p>Keeping your vehicle running smoothly in 2025 isn't just about luck; it's about regular, simple maintenance. A well-maintained car is safer, more reliable, and holds its value far better. You don't need to be a mechanic to handle the basics. This guide will walk you through the essential tips every car owner should know.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">The 'Must-Do' Monthly Checks</h2>
+      <p>These are simple checks you should perform every month, or before any long road trip. They take less than 15 minutes.</p>
+
+      <h3 class="text-xl font-bold mt-4 mb-2">1. Check Your Engine Oil</h3>
+      <p>Engine oil is the lifeblood of your car. It lubricates moving parts and prevents overheating.
+      <br/><strong>How to check:</strong> When the engine is cool, pull out the dipstick, wipe it clean, insert it back fully, and pull it out again. The oil level should be between the 'F' (Full) and 'L' (Low) marks. If it's low, top it up with the correct grade of oil for your car (check your owner's manual).</p>
+
+      <h3 class="text-xl font-bold mt-4 mb-2">2. Inspect Tire Pressure and Tread</h3>
+      <p>Proper tire pressure ensures better mileage, safer handling, and longer tire life.
+      <br/><strong>How to check:</strong> Use a simple tire pressure gauge (they are very cheap) to check the pressure in all four tires (and the spare!). The correct pressure (PSI) is written on a sticker inside your driver's door jamb, not on the tire itself. While you're there, check the tread for uneven wear or any embedded objects.</p>
+
+      <h3 class="text-xl font-bold mt-4 mb-2">3. Test All Your Lights</h3>
+      <p>This is a critical safety check. Have a friend stand outside the car while you test your headlights (low and high beams), brake lights, indicators (all four corners), and reverse lights. A non-working bulb is a safety risk and an easy fix.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">The Bi-Annual Service (Every 6 Months)</h2>
+      <p>Twice a year, it's good to dive a little deeper. A good time to do this is when you're switching between summer and winter.</p>
+
+      <h3 class="text-xl font-bold mt-4 mb-2">1. Rotate Your Tires</h3>
+      <p>Your front and rear tires wear down at different rates (especially in front-wheel-drive cars). Rotating them (e.g., moving front tires to the back and back to the front) every 6 months or 8,000 km ensures they wear down evenly, extending their life significantly.</p>
+
+      <h3 class="text-xl font-bold mt-4 mb-2">2. Check Your Battery</h3>
+      <p>Car batteries don't last forever. Check the battery terminals for any white, powdery corrosion (it looks like salt). If you see any, you can clean it off with a wire brush and a baking soda/water solution. If your car is starting slowly, especially in cold weather, get the battery tested at an auto shop.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">The Annual Deep Dive</h2>
+      <p>Once a year, regardless of how much you've driven, these checks are non-negotiable for the long-term health of your vehicle.</p>
+
+      <h3 class="text-xl font-bold mt-4 mb-2">1. Replace Air and Cabin Filters</h3>
+      <p>Your engine air filter stops dust and debris from getting into your engine. A clogged filter will reduce your mileage and hurt performance. Your cabin air filter cleans the air you breathe inside the car. Both are cheap and easy to replace yourself.</p>
+
+      <h3 class="text-xl font-bold mt-4 mb-2">2. Brake Inspection</h3>
+      <p>This is a job for a professional. Once a year, have your mechanic check your brake pads, rotors, and brake fluid. Never ignore strange sounds (like squealing or grinding) when you apply the brakes.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">Conclusion: A Maintained Car is a Happy Car</h2>
+      <p>Regular maintenance might seem like a chore, but it's the single best way to save money. A well-looked-after car will reward you with reliability, better fuel economy, and a much higher resale value when it's time to upgrade. These simple steps are the foundation of smart car ownership in 2025.</p>
+    `,
+    author: 'Priya Sharma', 
+    date: 'Nov 05, 2025',
+    image: '/cars/blog-sports.jpg', 
+    category: 'Maintenance',
+  },
+
+  // 2. Mileage Hatchbacks (Title: Best Mileage Hatchbacks for City Driving)
+  {
+    id: '8',
+    slug: 'best-mileage-hatchbacks',
+    title: 'Best Mileage Hatchbacks for City Driving',
+    excerpt: 'Fuel efficiency and compact size are the two biggest factors for city drivers in India. Choosing the right hatchback can make a huge difference in your daily expenses and ease of commute.',
+    content: `
+      <p>Fuel efficiency and compact size are the two biggest factors for city drivers in India. With increasing traffic and rising fuel costs, choosing the right hatchback can make a huge difference in your daily expenses and ease of commute.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">Why Mileage Matters in City Traffic</h2>
+      <p>Unlike highway driving, city commutes involve frequent braking, starting, and idling in traffic jams. This stop-start nature significantly reduces fuel economy. A car engineered for city efficiency will recover fuel better, resulting in real savings.</p>
+
+      <h3 class="text-xl font-bold mt-4 mb-2">Understanding ARAI vs. Real-World Mileage</h3>
+      <p>The ARAI (Automotive Research Association of India) mileage figures are based on standardized tests and are often higher than what you get in real-world driving conditions. For city driving, expect the real figure to be 15-20% lower than the official rating. However, the ARAI rating remains the best comparison tool.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">Our Top Picks for 2025 (Based on ARAI Mileage)</h2>
+      <p>Here are the hatchbacks currently dominating the mileage charts, offering a perfect blend of compact dimensions and class-leading economy:</p>
+      
+      <ol class="list-decimal pl-5 space-y-2 mt-4">
+        <li>Maruti Swift: Known for its refined K-series engine and lightweight platform, the Swift consistently tops the charts for city mileage.</li>
+        <li>Hyundai i10 Grand Nios: Offers superior comfort and features, with a strong focus on fuel-sipping petrol engines.</li>
+        <li>Tata Tiago: A dark horse offering the best safety rating in its segment combined with decent mileage and strong build quality.</li>
+      </ol>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">Tips to Maximize Hatchback Mileage</h2>
+      <p>Your driving habits play a crucial role in achieving high mileage. Follow these simple tips:</p>
+
+      <ul class="list-disc pl-5 space-y-2 mt-4">
+        <li>Maintain consistent speed: Avoid aggressive acceleration and sudden braking.</li>
+        <li>Check tire pressure weekly: Under-inflated tires increase rolling resistance and kill mileage.</li>
+        <li>Use AC sparingly: Air conditioning puts a significant load on the engine, reducing fuel efficiency by up to 10-15%.</li>
+        <li>Clear unnecessary load: Remove heavy items from the boot that you don't need for your daily commute.</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">The Future of City Commuting</h2>
+      <p>While hybrid and electric vehicles are slowly becoming mainstream, for budget-conscious buyers, petrol hatchbacks remain the most practical and cost-effective choice for navigating the urban landscape in India today. Choose smart, drive smart, and save big on fuel!</p>
+    `,
+    author: 'Rohan Gupta', 
+    date: 'Nov 01, 2025',
+    image: '/cars/blog6.jpg', 
+    category: 'Guides',
+  },
+
+  // 3. EV Guide (Title: EV Buying Guide 2025)
+  {
+    id: '9',
+    slug: 'ev-buying-guide-2025',
+    title: 'EV Buying Guide 2025',
+    excerpt: 'Planning to buy an electric car in India? We break down the pros, cons, charging infrastructure, and total cost of ownership.',
+    content: `
+      <h2 class="text-2xl font-bold mt-6 mb-4">1. 'Range Anxiety': Myth vs. Reality</h2>
+      <p>This is the biggest fear for new EV buyers. 'Range Anxiety' is the worry that the car might die mid-journey. Companies often claim 400km of range, but real-world figures are lower. As a rule of thumb, expect 25-30% less than the 'Claimed Range', especially with AC usage or high-speed highway driving. A car with a 400km claimed range will comfortably give you 280-320km in the city, which is more than enough for daily use.</p>
+      
+      <div class="relative w-full h-64 my-6">
+        <img alt="Electric car dashboard showing battery range" src="/images/blog/ev_dashboard_range.jpg" class="object-cover w-full h-full rounded-lg" />
+      </div>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">2. The Charging Conundrum: Home vs. Public</h2>
+      <p>The real benefit of an EV is realized when you can charge it at home. There are three main types of chargers:</p>
+      
+      <ul class="list-disc pl-5 space-y-2 mt-4">
+        <li>Level 1 (Slow): Your normal 15A wall socket. This is very slow (8-12 hours for a full charge).</li>
+        <li>Level 2 (AC Fast Charger): The 7kW wallbox charger that often comes with the car. It fully charges the car in 5-7 hours. This is ideal for home or office parking.</li>
+        <li>Level 3 (DC Fast Charger): Found at public stations and on highways. These can charge the car from 10% to 80% in just 30 to 60 minutes. They are essential for long trips.</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">3. The Truth About Battery Life and Warranty</h2>
+      <p>Like a smartphone battery, an EV battery also degrades over time, but very slowly. Most companies provide an 8-year or 1,60,000 km warranty on the battery. This typically guarantees that the battery capacity will not fall below 70% within that period. It's not something you need to worry about for years.</p>
+      
+      <h2 class="text-2xl font-bold mt-6 mb-4">4. Government Subsidies and Road Tax</h2>
+      <p>EVs are eligible for the FAME II (or its successor) subsidy, which varies from state to state. Many states also waive registration fees and road tax. This can bring the on-road price of an EV close to, or even lower than, a comparable petrol car. Always check the current subsidy policy in your city before buying.</p>
+      
+      <h2 class="text-2xl font-bold mt-6 mb-4">Final Verdict: Is an EV Right for You?</h2>
+      <p>If your daily running is under 100-150 km, you have a dedicated charging spot at home, and most of your driving is within the city, an EV is perfect for you. It will drastically reduce your fuel costs. However, if you take frequent long highway trips and home charging isn't possible, a Hybrid car might be a better option for now.</p>
+    `,
+    author: 'Ashok Sharma', 
+    date: 'Nov 11, 2025',
+    image: '/cars/evblogs.jpg', 
+    category: 'EV Special',
+  },
+
+  // 4. Luxury Sedans (Title: Luxury Sedans: Comfort Meets Performance)
+  {
+    id: '11',
+    slug: 'luxury-sedans-comfort-performance',
+    title: 'Luxury Sedans: Comfort Meets Performance',
+    excerpt: 'The luxury sedan segment represents the pinnacle of automotive engineering, seamlessly blending opulent comfort with exhilarating performance.',
+    content: `
+      <p>The luxury sedan segment represents the pinnacle of automotive engineering, seamlessly blending opulent comfort with exhilarating performance. In 2025, these vehicles are more technologically advanced and driver-focused than ever before. This guide dives into what makes a true luxury sedan and highlights key features you should look for.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">The Definition of True Luxury</h2>
+      <p>True luxury is about the experience, not just the price tag. It's the silent cabin, the quality of leather, the way the ambient lighting adjusts to your mood, and the feeling of seamless power delivery. It is a carefully curated blend of materials, craftsmanship, and technology.</p>
+
+      <h3 class="text-xl font-bold mt-4 mb-2">Craftsmanship and Materials</h3>
+      <p>Look for hand-stitched leather upholstery, open-pore wood finishes, and metal trims that feel solid to the touch. These subtle details define a luxury vehicle. In 2025, many brands are also integrating sustainable and vegan interior materials without compromising on quality.</p>
+
+      <h3 class="text-xl font-bold mt-4 mb-2">Acoustic Excellence</h3>
+      <p>A hallmark of a top-tier sedan is its ability to isolate the occupants from the outside world. This involves advanced sound-deadening materials, laminated glass, and active noise cancellation systems, ensuring that even at high speeds, conversations remain effortless.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">Performance: Beyond Horsepower</h2>
+      <p>While raw horsepower figures are impressive, performance in a luxury sedan is primarily judged by refinement and stability. You want power that is always available, delivered smoothly and quietly.</p>
+
+      <ol class="list-decimal pl-5 space-y-2 mt-4">
+        <li>Adaptive Suspension: Systems like air suspension instantly adjust damping based on road conditions, providing a cloud-like ride.</li>
+        <li>Torque Delivery: Modern luxury engines—especially hybrids—deliver peak torque instantly, ensuring quick and smooth overtakes on the highway.</li>
+        <li>All-Wheel Drive (AWD): Essential for stability at high speeds and maintaining grip in diverse Indian weather conditions.</li>
+      </ol>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">Key Interior Technologies</h2>
+      <p>From augmented reality navigation to full-suite connectivity, technology serves to enhance comfort and control. Key features include:</p>
+
+      <ul class="list-disc pl-5 space-y-2 mt-4">
+        <li>Rear-Seat Entertainment: Essential for chauffeured owners, often featuring individual touchscreens and control pads.</li>
+        <li>Advanced Driver Assistance Systems (ADAS): Features like adaptive cruise control and lane-keeping assist enhance safety and reduce driver fatigue.</li>
+        <li>Integrated Voice Control: The ability to control climate, navigation, and entertainment simply by speaking.</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">Our Outlook on the Sedan Market</h2>
+      <p>Despite the rise of luxury SUVs, high-end sedans continue to attract buyers who prioritize ride quality, understated elegance, and superior high-speed dynamics. In 2025, the best luxury sedans offer an experience that few other vehicle types can match.</p>
+    `,
+    author: 'Rohan Gupta', 
+    date: 'Nov 08, 2025',
+    image: '/cars/blog-sedan.jpg', 
+    category: 'Reviews',
+  },
+
+  // 5. Used Car Checklist (Title: 10 Things to Check Before Buying a Used Car)
+  {
+    id: '13',
+    slug: 'used-car-10-point-checklist',
+    title: '10 Things to Check Before Buying a Used Car',
+    excerpt: 'Buying a second-hand car can be smart if you check these points. Don’t get scammed!',
+    content: `
+      <h2 class="text-2xl font-bold mt-6 mb-4">The Ultimate 10-Point Used Car Checklist</h2>
+      <p><strong>1. Papers Please (RC, Insurance, PUC):</strong> First, check the Registration Certificate (RC). Match the owner's name and address. Check for 'Hypothecation' (which means the car is on loan). The insurance must be valid, and the Pollution Under Control (PUC) certificate should be up-to-date.</p>
+
+      <p><strong>2. Check the Service History:</strong> Ask for the car's service booklet. Check if services were done on time. A missing service history can be a major red flag.</p>
+      
+      <p><strong>3. Exterior (Rust and Repaint):</strong> Inspect the car in broad daylight. Look for uneven panel gaps. Differences in paint shade or small bubbles (a sign of rust) are bad signs. Always check under the doors and beneath the carpet in the boot (dickey).</p>
+      
+      <p><strong>4. Engine Bay (Cold Start):</strong> Always 'Cold Start' the engine (one that hasn't been run for a while). Listen for any strange rattling or knocking sounds. Look for any kind of oil leaks in the engine bay.</p>
+      
+      <p><strong>5. Tyre Condition:</strong> Check the tyre tread. If the tyres are worn unevenly (more on one side), it's a sign of alignment problems. Mismatched tyre brands also suggest poor maintenance.</p>
+      
+      <p><strong>6. Interior and Electronics:</strong> Sit inside and test everything. Power windows, AC (both cooling and heating), wipers, all lights, infotainment system—make sure it all works. Check for rust on the seat railings, a potential sign of a flood-damaged car.</p>
+      
+      <p><strong>7. The All-Important Test Drive:</strong> Drive the car for at least 5-10 km at various speeds. Test the brakes (any strange noises or vibrations?). The steering should remain straight. The suspension shouldn't make a loud 'thud' sound over potholes.</p>
+      
+      <p><strong>8. Identify Flood-Damaged Cars:</strong> A persistent damp or musty smell inside the car is a tell-tale sign of flood damage. Check the floor under the carpets for moisture or rust.</p>
+      
+      <p><strong>9. Odometer Tampering:</strong> If a car has 'very low mileage' (e.g., 20,000 km in 5 years) but the steering wheel, gear knob, and pedals are heavily worn, the meter might be tampered with. Match the kilometers with the service history.</p>
+      
+      <p><strong>10. Bring a Mechanic:</strong> Once you've shortlisted a car, always get it inspected by a trusted mechanic before finalizing the deal. They can catch critical issues that you might have missed.</p>
+      
+      <div class="relative w-full h-64 my-6">
+        <img alt="Mechanic inspecting a used car engine" src="/images/blog/used_car_mechanic_check.jpg" class="object-cover w-full h-full rounded-lg" />
+      </div>
+      
+      <h2 class="text-2xl font-bold mt-6 mb-4">Conclusion</h2>
+      <p>Don't rush when buying a used car. Taking a little time and effort to inspect it thoroughly can save you from major expenses down the road. Happy car hunting!</p>
+    `,
+    author: 'Mahira garg', 
+    date: 'Nov 07, 2025',
+    image: '/cars/mycar.jpg', 
+    category: 'Used Car',
+  },
+  
+  // 6. SUV Top 5 (Title: India's Top 5 SUVs in 2025)
+  // NOTE: Ye pehle se hi tumhare data mein tha, isliye ise waisa hi rakh raha hoon.
   {
     id: '7',
     slug: 'top-5-suv-india-2025',
@@ -35,130 +253,9 @@ export const blogs: BlogPost[] = [
       <h3 class="text-xl font-bold mt-6 mb-2">5. Mahindra XUV700</h3>
       <p>The most tech-loaded SUV in its segment. The dual-screen setup and autonomous driving features make it feel like a luxury car.</p>
     `,
-    author: 'Priya Sharma',
+    author: 'Priya Sharma', 
     date: 'Nov 04, 2025',
     image: '/cars/blog5.jpg', 
     category: 'Reviews',
-  },
-
-  // 2. Mileage Hatchbacks (Author: Rohan Gupta)
-  {
-    id: '8',
-    slug: 'best-mileage-hatchbacks',
-    title: 'Best Mileage Hatchbacks for City Driving',
-    excerpt: 'A complete guide to the most fuel-efficient hatchbacks perfect for navigating city traffic and saving money on fuel.',
-    content: `
-      <p>With petrol prices touching the sky, mileage is the most critical factor for Indian buyers. Here are the cars that sip fuel like a miser:</p>
-      
-      <h3 class="text-xl font-bold mt-6 mb-2">1. Maruti Suzuki Celerio (26.68 kmpl)</h3>
-      <p>Currently the most fuel-efficient petrol car in India. Its DualJet engine is a marvel of engineering.</p>
-      
-      <h3 class="text-xl font-bold mt-6 mb-2">2. Maruti Wagon R</h3>
-      <p>The tall-boy design offers great space and delivers a solid 24+ kmpl on highways.</p>
-      
-      <h3 class="text-xl font-bold mt-6 mb-2">3. Tata Tiago CNG</h3>
-      <p>If you want to save even more, the Tiago iCNG offers great performance without compromising on boot space thanks to its dual-cylinder tech.</p>
-      
-      <div class="bg-yellow-50 p-4 border-l-4 border-yellow-500 my-6">
-        <strong>Tip:</strong> Always maintain correct tyre pressure to get the best mileage from your hatchback.
-      </div>
-    `,
-    author: 'Rohan Gupta',
-    date: 'Nov 05, 2025',
-    image: '/cars/blog6.jpg',
-    category: 'Guides',
-  },
-
-  // 3. EV Guide (Author: Ashok Sharma)
-  {
-    id: '9',
-    slug: 'ev-buying-guide-2025',
-    title: 'EV Buying Guide 2025',
-    excerpt: 'Planning to buy an electric car in India? We break down the pros, cons, charging infrastructure, and total cost of ownership.',
-    content: `
-      <p>Electric Vehicles are no longer the future; they are the present. But should you buy one in 2025? Let's analyze.</p>
-      
-      <h3 class="text-xl font-bold mt-6 mb-2">Myth vs Reality: Range Anxiety</h3>
-      <p>Modern EVs like the Nexon EV and MG ZS EV offer a real-world range of 300km+, which is more than enough for weekly city commutes.</p>
-      
-      <h3 class="text-xl font-bold mt-6 mb-2">Charging at Home</h3>
-      <p>90% of EV charging happens at home. If you have a dedicated parking spot, installing a 7.2kW fast charger makes life very easy.</p>
-      
-      <h3 class="text-xl font-bold mt-6 mb-2">Cost Analysis</h3>
-      <p>While an EV costs ₹3-4 Lakh more upfront, the running cost is just ₹1/km compared to ₹8/km for petrol. You break even in about 3-4 years.</p>
-    `,
-    author: 'Ashok Sharma',
-    date: 'Nov 07, 2025',
-    image: '/cars/evblogs.jpg',
-    category: 'EV Special',
-  },
-
-  // 4. Maintenance Tips (Author: Priya Sharma)
-  {
-    id: '10',
-    slug: 'essential-car-maintenance-tips-2025',
-    title: 'Essential Car Maintenance Tips for 2025',
-    excerpt: 'Keep your vehicle running smoothly with these simple maintenance hacks that save money on repairs.',
-    content: `
-      <p>A well-maintained car not only drives better but also fetches a higher resale value. Follow these golden rules:</p>
-      
-      <ul class="list-disc pl-5 space-y-3 mt-4">
-        <li><strong>Check Fluids Weekly:</strong> Engine oil, coolant, and brake fluid levels should be checked regularly.</li>
-        <li><strong>Tyre Rotation:</strong> Rotate your tyres every 5,000 km to ensure even wear and tear.</li>
-        <li><strong>Battery Health:</strong> Clean the battery terminals with baking soda and water to prevent corrosion.</li>
-        <li><strong>AC Service:</strong> Don't wait for summer. Run your AC for 10 mins every week even in winter to keep the seals lubricated.</li>
-      </ul>
-    `,
-    author: 'Priya Sharma',
-    date: 'Nov 05, 2025',
-    image: '/cars/blog-sports.jpg',
-    category: 'Maintenance',
-  },
-
-  // 5. Luxury Sedans (Author: Rohan Gupta)
-  {
-    id: '11',
-    slug: 'luxury-sedans-comfort-performance',
-    title: 'Luxury Sedans: Comfort Meets Performance',
-    excerpt: 'Explore the latest luxury sedans that combine backseat comfort with thrilling driving dynamics.',
-    content: `
-      <p>SUVs are popular, but nothing beats the elegance and driving dynamics of a low-slung sedan. Here are the segment leaders:</p>
-      
-      <h3 class="text-xl font-bold mt-6 mb-2">Skoda Slavia / VW Virtus</h3>
-      <p>With their 1.5 TSI engines, these are the driver's choice. They offer German build quality and explosive performance.</p>
-      
-      <h3 class="text-xl font-bold mt-6 mb-2">Honda City</h3>
-      <p>The queen of the segment. If you want backseat comfort and reliability, the City is still unbeatable.</p>
-      
-      <h3 class="text-xl font-bold mt-6 mb-2">Hyundai Verna</h3>
-      <p>The new Verna is futuristic and fast. It's the only one in the segment with a 5-star safety rating and Level 2 ADAS.</p>
-    `,
-    author: 'Rohan Gupta',
-    date: 'Nov 05, 2025',
-    image: '/cars/blog-sedan.jpg',
-    category: 'Reviews',
-  },
-
-  // 6. Used Car Checklist (Author: Mahira garg)
-  {
-    id: '13',
-    slug: 'used-car-10-point-checklist',
-    title: '10 Things to Check Before Buying a Used Car',
-    excerpt: 'Buying a second-hand car can be smart if you check these points. Don’t get scammed!',
-    content: `
-      <p>Buying a used car is tricky. Dealers often hide defects. Use this checklist before paying a single rupee:</p>
-      
-      <ol class="list-decimal pl-5 space-y-3 mt-4">
-        <li><strong>Service History:</strong> Always ask for the service record. It tells you if the odometer has been tampered with.</li>
-        <li><strong>Rust Check:</strong> Look under the carpet in the boot and below the doors for rust.</li>
-        <li><strong>Smoke Color:</strong> Blue smoke means engine trouble. Black smoke means fuel issues.</li>
-        <li><strong>Tyre Date:</strong> Check the manufacturing date on tyres. Old tyres are a safety hazard.</li>
-        <li><strong>Test Drive:</strong> Turn off the music and listen for suspension noises on a rough road.</li>
-      </ol>
-    `,
-    author: 'Mahira garg',
-    date: 'Nov 07, 2025',
-    image: '/cars/mycar.jpg',
-    category: 'Used Car',
   },
 ];

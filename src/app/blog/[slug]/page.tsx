@@ -4,16 +4,14 @@ import Link from 'next/link';
 import { blogs } from '@/data/blogs';
 import type { Metadata } from 'next';
 
-// ✅ Change 1: Params ab Promise hai
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
+// SEO Metadata
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  // ✅ Change 2: Await lagaya taaki slug mile
   const { slug } = await params;
   const blog = blogs.find((b) => b.slug === slug);
-  
   if (!blog) return { title: 'Blog Not Found' };
   return {
     title: `${blog.title} - CarBuddy`,
@@ -22,20 +20,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// ✅ Change 3: Component ko async banaya
 export default async function BlogPostPage({ params }: Props) {
-  // ✅ Change 4: Params ko await kiya (Sabse zaroori line)
   const { slug } = await params;
-  
   const blog = blogs.find((b) => b.slug === slug);
+  if (!blog) notFound();
 
-  // Agar blog nahi mila toh 404
-  if (!blog) {
-    notFound();
-  }
+  // Sidebar Data Logic
+  const latestPosts = [...blogs].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                               .filter(p => p.id !== blog.id) // Current post ko hata diya
+                               .slice(0, 4); // Top 4 posts
+  
+  const categories = Array.from(new Set(blogs.map(b => b.category)));
+  
+  // Dummy tags design ke liye
+  const popularTags = ['Used Car', 'EV', 'Budget', 'Luxury', 'Safety', 'Mileage', 'Sedan', 'SUV'];
 
-  // Sidebar Data
-  const latestPosts = [...blogs].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).slice(0, 5);
 
   return (
     <div className="bg-gray-50 min-h-screen py-12">
@@ -82,13 +81,14 @@ export default async function BlogPostPage({ params }: Props) {
             </article>
           </div>
 
-          {/* RIGHT: Sidebar (30%) */}
+          {/* RIGHT: Sidebar (30%) - Content Yahan Aayega */}
           <div className="lg:w-1/3 space-y-8">
             
+            {/* Widget 1: Latest Reads (Current post ko chodkar) */}
             <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-              <h3 className="text-lg font-bold text-gray-900 mb-6">Latest Reads</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-6">More To Read</h3>
               <div className="space-y-5">
-                {latestPosts.filter(p => p.id !== blog.id).map(post => (
+                {latestPosts.map(post => (
                   <Link href={`/blog/${post.slug}`} key={post.id} className="flex gap-4 group">
                     <div className="relative w-16 h-16 flex-shrink-0 rounded-lg overflow-hidden">
                       <Image 
@@ -99,9 +99,7 @@ export default async function BlogPostPage({ params }: Props) {
                       />
                     </div>
                     <div>
-                      <h4 className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 line-clamp-2">
-                        {post.title}
-                      </h4>
+                      <h4 className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 line-clamp-2">{post.title}</h4>
                       <p className="text-xs text-gray-400 mt-1">{post.date}</p>
                     </div>
                   </Link>
@@ -109,6 +107,32 @@ export default async function BlogPostPage({ params }: Props) {
               </div>
             </div>
 
+            {/* Widget 2: Categories */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Categories</h3>
+              <ul className="space-y-2">
+                {categories.map(cat => (
+                  <li key={cat} className="flex justify-between items-center text-gray-600 text-sm py-2 border-b last:border-0 border-gray-50">
+                    <span>{cat}</span>
+                    <span className="bg-gray-100 px-2 py-0.5 rounded-full text-xs">{blogs.filter(b => b.category === cat).length}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            {/* Widget 3: Tags (Design consistency ke liye) */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Popular Tags</h3>
+              <div className="flex flex-wrap gap-2">
+                {popularTags.map(tag => (
+                  <span key={tag} className="text-xs font-medium bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full hover:bg-blue-600 hover:text-white cursor-pointer transition-colors">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Widget 4: Call to Action */}
             <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-8 rounded-2xl text-white text-center">
               <h3 className="text-2xl font-bold mb-2">Ready to Buy?</h3>
               <p className="text-blue-100 mb-6 text-sm">Compare prices, features, and find the perfect car for you.</p>
