@@ -1,5 +1,48 @@
 export const newsArticles = [
+    
+  // 1. NEW ARTICLE: Maruti Swift Sport (ID 8)
+   {
+      id: 5,
+      title: "New Govt Policy: Scrappage Scheme Benefits and Process Explained",
+      excerpt: "The government has rolled out new incentives for vehicle scrappage. Find out how much you can save and the step-by-step process to scrap your old car.",
+      content: `The Vehicle Scrappage Policy aims to phase out old, polluting vehicles (over 15 years for commercial, over 20 years for private). The new incentives make it financially attractive for owners to decommission their old vehicles.
+    
+      **Key Financial Benefits:**
+      Owners who scrap their old vehicles at an authorized center receive a 'Certificate of Deposit'. This certificate provides:
+      1. **Scrap Value:** Approx. 4% - 6% of the vehicle's ex-showroom price.
+      2. **Road Tax Rebate:** Up to 25% rebate on road tax for private vehicles, and up to 15% for commercial vehicles when buying a new vehicle.
+      3. **Manufacturer Discount:** Many OEMs offer an additional 5% discount on the new vehicle purchase upon presenting the certificate.
+    
+      **The Process:**
+      The process involves submitting the old vehicle to a Registered Vehicle Scrapping Facility (RVSF). The RVSF verifies the papers, scraps the vehicle safely, and issues the Certificate of Deposit, which must be used within two years. This policy is crucial for India's push towards cleaner air and safer roads.`,
+      image: "/news-images/news5.jpg",
+      category: "Policy Update",
+      date: "Dec 3, 2025",
+      author: "Team CarBuddy"
+    },
+    // 2. NEW ARTICLE: ADAS Policy Update (ID 7)
     {
+      id: 7,
+      title: "ADAS Level 2 Features Mandatory in Top-End Variants of New Cars",
+      excerpt: "The Ministry of Road Transport has announced new safety norms, making ADAS Level 2 features like Lane Keep Assist and Adaptive Cruise Control mandatory for new vehicles in higher trim levels.",
+      content: `In a landmark move towards improving road safety, the government has mandated that all newly launched car models must include certain Advanced Driver Assistance Systems (ADAS) Level 2 features in their top two variants. This rule comes into effect from mid-2026.
+    
+      **What is Mandatory ADAS Level 2?**
+      The mandate specifically targets features proven to reduce highway accidents:
+      1. **Adaptive Cruise Control (ACC):** Maintains a safe distance from the vehicle ahead.
+      2. **Lane Keep Assist (LKA):** Gently steers the car back if it drifts out of the lane.
+      3. **Forward Collision Warning (FCW):** Alerts the driver to an impending frontal crash.
+    
+      **Impact on Buyers:**
+      While this will slightly increase the price of the top variants, it brings world-class safety technology to the Indian mass market faster than expected. This policy is expected to significantly reduce accidents caused by driver fatigue on expressways.`,
+      image: "/news-images/news6.jpg",
+      category: "Policy Update",
+      date: "Dec 4, 2025",
+      author: "Team CarBuddy"
+    },
+  
+  
+  {
       id: 1,
       title: "Tata Curvv EV Launched: Price, Range, and Features",
       excerpt: "Tata Motors has finally launched the much-awaited Curvv EV in India. With a range of up to 585km, it challenges the mid-size SUV segment directly.",

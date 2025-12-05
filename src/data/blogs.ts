@@ -53,7 +53,7 @@ export const blogs: BlogPost[] = [
   {
     id: '15',
     slug: 'petrol-diesel-cng-comparison',
-    title: 'Petrol vs. Diesel vs. CNG: Which Fuel Type is Best for You?',
+    title: 'Petrol vs Diesel vs CNG: Which Fuel Type is Best ?',
     excerpt: 'Choosing the right fuel depends on your driving distance and budget. We compare the cost, maintenance, and performance of Petrol, Diesel, and CNG cars.',
     content: `
       <p>India mein car kharidte waqt sabse bada sawal hota hai: Petrol lein, Diesel lein, ya CNG? Har fuel type ke apne faayde aur nuksaan hain. Aapke liye sabse best choice aapki **daily running** aur **budget** par depend karti hai.</p>
