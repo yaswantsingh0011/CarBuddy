@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://car-buddy-new.vercel.app
+
+# Sitemaps
+Sitemap: https://car-buddy-new.vercel.app/sitemap.xml
