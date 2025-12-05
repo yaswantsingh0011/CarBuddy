@@ -11,7 +11,106 @@ export interface BlogPost {
 }
 
 export const blogs: BlogPost[] = [
-  // 1. Maintenance Tips (Title: Essential Car Maintenance Tips for 2025)
+  // 1. NEW BLOG: Fuel Types Comparison (ID 15) - Maine isse ID 14 se pehle rakha hai, kyunki iski date (Dec 03, 2025) 
+  //    ID 14 (Dec 05, 2025) se thodi purani hai, lekin dono naye hain. Agar aapko date wise strict ordering chahiye, toh yeh ID 14 se neeche aana chahiye.
+  // **NOTE: Agar aapko 14 ko 15 se pehle rakhna hai toh sequence ko manually badal sakte hain.**
+  {
+    id: '14',
+    slug: 'monsoon-driving-safety-tips',
+    title: 'Driving Safety Tips: How to Drive Safely in Monsoon',
+    excerpt: 'Monsoon driving requires extra caution. Learn how to prevent hydroplaning, maintain visibility, and manage unexpected breakdowns during heavy rains.',
+    content: `
+      <p>Monsoon driving requires extra caution on Indian roads. Heavy rainfall brings poor visibility, slippery surfaces, and unexpected waterlogging. Follow these essential tips to keep yourself and your vehicle safe this season.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">1. The 'W' Checks (Wipers, Windows, Wires)</h2>
+      <ul class="list-disc pl-5 space-y-2 mt-4">
+        <li><strong>Wipers:</strong> Ensure your wiper blades are in perfect condition. Old blades leave streaks, drastically reducing visibility.</li>
+        <li><strong>Windows:</strong> Use the car's defogger (AC and heater combo) to keep the windscreen clear from condensation.</li>
+        <li><strong>Wires/Lights:</strong> Always drive with your **low beam headlights** on. This not only helps you see but, more importantly, helps other drivers see you.</li>
+      </ul>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">2. Manage Wet Roads Safely</h2>
+      <p>The biggest risk in the rain is **hydroplaning** (when tires lose contact with the road due to a layer of water).</p>
+      <ul class="list-disc pl-5 space-y-2 mt-4">
+        <li><strong>Reduce Speed:</strong> Drive slower than usual. Reduced speed is the best defense against hydroplaning.</li>
+        <li><strong>Increase Gap:</strong> Maintain a significantly larger distance from the car in front of you. Wet roads mean much longer braking distances.</li>
+        <li><strong>Avoid Puddles:</strong> Never drive fast into a puddle. You don't know its depth, and a sudden splash can temporarily blind other drivers.</li>
+      </ul>
+      
+      <h2 class="text-2xl font-bold mt-6 mb-4">3. Dealing with Waterlogged Areas</h2>
+      <p>If you must drive through deep water, be extremely cautious:</p>
+      <ol class="list-decimal pl-5 space-y-2 mt-4">
+        <li>Drive slowly and steadily in the lowest gear (First or Second). Never change gears.</li>
+        <li>Keep the engine RPM high (around 2000-2500) to prevent water from entering the exhaust pipe.</li>
+        <li>If the water level reaches the center of your wheel or higher, **DO NOT PROCEED**. Water entering the engine (hydrolocking) will cause irreparable damage.</li>
+      </ol>
+    `,
+    author: 'Priya Sharma', 
+    date: 'Dec 05, 2025',
+    image: '/cars/blog-monsoon.jpg', 
+    category: 'Safety',
+  },
+  {
+    id: '15',
+    slug: 'petrol-diesel-cng-comparison',
+    title: 'Petrol vs. Diesel vs. CNG: Which Fuel Type is Best for You?',
+    excerpt: 'Choosing the right fuel depends on your driving distance and budget. We compare the cost, maintenance, and performance of Petrol, Diesel, and CNG cars.',
+    content: `
+      <p>India mein car kharidte waqt sabse bada sawal hota hai: Petrol lein, Diesel lein, ya CNG? Har fuel type ke apne faayde aur nuksaan hain. Aapke liye sabse best choice aapki **daily running** aur **budget** par depend karti hai.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">Comparison Table</h2>
+      <table class="min-w-full divide-y divide-gray-200 mt-4">
+        <thead>
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feature</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Petrol</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Diesel</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CNG/LPG</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">Initial Cost</td>
+            <td class="px-6 py-4 whitespace-nowrap">Lowest</td>
+            <td class="px-6 py-4 whitespace-nowrap">Higher (₹50k - ₹1L extra)</td>
+            <td class="px-6 py-4 whitespace-nowrap">Medium (₹60k - ₹80k extra)</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">Running Cost (per km)</td>
+            <td class="px-6 py-4 whitespace-nowrap">Highest</td>
+            <td class="px-6 py-4 whitespace-nowrap">Medium/Low</td>
+            <td class="px-6 py-4 whitespace-nowrap">Lowest</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">Performance</td>
+            <td class="px-6 py-4 whitespace-nowrap">Smooth, High RPM</td>
+            <td class="px-6 py-4 whitespace-nowrap">High Torque, Good Pickup</td>
+            <td class="px-6 py-4 whitespace-nowrap">Lower than Petrol/Diesel</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">Maintenance Cost</td>
+            <td class="px-6 py-4 whitespace-nowrap">Medium</td>
+            <td class="px-6 py-4 whitespace-nowrap">Highest (Complex parts)</td>
+            <td class="px-6 py-4 whitespace-nowrap">Medium/High (Extra filter/kit)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">When to Choose Which?</h2>
+
+      <ul class="list-disc pl-5 space-y-2 mt-4">
+        <li><strong>Choose Petrol if:</strong> Aapki daily drive **40 km se kam** hai, aapko smooth aur quiet engine chahiye, aur aapki annual running **10,000 km se kam** hai. Initial cost kam hogi.</li>
+        <li><strong>Choose Diesel if:</strong> Aapki daily drive **60 km se zyada** hai, aapko highway par zyada torque aur power chahiye, aur aapki annual running **15,000 km se zyada** hai. Running cost kam ho jayegi.</li>
+        <li><strong>Choose CNG if:</strong> Aapki daily drive **80 km se zyada** hai aur **mostly city ke andar** hi hai. Yeh sabse kam running cost deta hai, lekin boot space chala jata hai aur performance thodi kam ho jati hai.</li>
+      </ul>
+    `,
+    author: 'Rohan Gupta', 
+    date: 'Dec 03, 2025',
+    image: '/cars/blog-fuel.jpg', 
+    category: 'Guides',
+  },
+
+  // 3. Essential Car Maintenance Tips for 2025
   {
     id: '10',
     slug: 'essential-car-maintenance-tips-2025',
@@ -61,7 +160,7 @@ export const blogs: BlogPost[] = [
     category: 'Maintenance',
   },
 
-  // 2. Mileage Hatchbacks (Title: Best Mileage Hatchbacks for City Driving)
+  // 4. Best Mileage Hatchbacks for City Driving
   {
     id: '8',
     slug: 'best-mileage-hatchbacks',
@@ -78,7 +177,7 @@ export const blogs: BlogPost[] = [
 
       <h2 class="text-2xl font-bold mt-6 mb-4">Our Top Picks for 2025 (Based on ARAI Mileage)</h2>
       <p>Here are the hatchbacks currently dominating the mileage charts, offering a perfect blend of compact dimensions and class-leading economy:</p>
-      
+
       <ol class="list-decimal pl-5 space-y-2 mt-4">
         <li>Maruti Swift: Known for its refined K-series engine and lightweight platform, the Swift consistently tops the charts for city mileage.</li>
         <li>Hyundai i10 Grand Nios: Offers superior comfort and features, with a strong focus on fuel-sipping petrol engines.</li>
@@ -104,7 +203,7 @@ export const blogs: BlogPost[] = [
     category: 'Guides',
   },
 
-  // 3. EV Guide (Title: EV Buying Guide 2025)
+  // 5. EV Buying Guide 2025
   {
     id: '9',
     slug: 'ev-buying-guide-2025',
@@ -142,7 +241,7 @@ export const blogs: BlogPost[] = [
     category: 'EV Special',
   },
 
-  // 4. Luxury Sedans (Title: Luxury Sedans: Comfort Meets Performance)
+  // 6. Luxury Sedans: Comfort Meets Performance
   {
     id: '11',
     slug: 'luxury-sedans-comfort-performance',
@@ -187,7 +286,7 @@ export const blogs: BlogPost[] = [
     category: 'Reviews',
   },
 
-  // 5. Used Car Checklist (Title: 10 Things to Check Before Buying a Used Car)
+  // 7. 10 Things to Check Before Buying a Used Car
   {
     id: '13',
     slug: 'used-car-10-point-checklist',
@@ -228,8 +327,7 @@ export const blogs: BlogPost[] = [
     category: 'Used Car',
   },
   
-  // 6. SUV Top 5 (Title: India's Top 5 SUVs in 2025)
-  // NOTE: Ye pehle se hi tumhare data mein tha, isliye ise waisa hi rakh raha hoon.
+  // 8. India's Top 5 SUVs in 2025
   {
     id: '7',
     slug: 'top-5-suv-india-2025',
