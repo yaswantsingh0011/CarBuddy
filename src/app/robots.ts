@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/admin/', '/private/'], // In pages ko Google se chupana hai
     },
-    sitemap: `${BASE_URL}/sitemap.xml`, // Ye line sabse zaroori hai (Vercel URL use ho raha hai)
+    sitemap: `${BASE_URL}/sitemap-v2.xml`, // Ye line sabse zaroori hai (Vercel URL use ho raha hai)
   };
 }
