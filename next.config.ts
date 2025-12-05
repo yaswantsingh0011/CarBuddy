@@ -1,15 +1,15 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // ✅ नई सेटिंग्स (eslint, typescript, reactStrictMode)
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: true, // Build के दौरान ESLint errors को ignore करता है
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: true, // Build के दौरान TypeScript errors को ignore करता है
   },
   reactStrictMode: true,
   
-  // ✅ Ye section add kiya hai images allow karne ke liye
+  // ✅ Images को remote domains से allow करने के लिए
   images: {
     remotePatterns: [
       {
@@ -18,10 +18,30 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com', // Backup ke liye (agar kabhi use karein)
+        hostname: 'images.unsplash.com', // Backup के लिए (अगर कभी use करें)
       },
     ],
   },
+
+  // 🛠️ Sitemap fix के लिए ज़रूरी Headers (Caching और Content-Type)
+  async headers() {
+    return [
+      {
+        // sitemap.xml फ़ाइल के लिए HTTP Header सेट करता है
+        source: '/sitemap.xml',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/xml', // यह सुनिश्चित करता है कि ब्राउज़र/Googlebot इसे XML समझे
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate', // Caching को तुरंत रीसेट करता है
+          },
+        ],
+      },
+    ];
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
