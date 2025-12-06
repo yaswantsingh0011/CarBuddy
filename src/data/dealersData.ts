@@ -3,7 +3,7 @@ export const dealersData = [
   {
     city: "Jaipur",
     dealers: [
-      // Existing Dealers
+      // Popular Brands
       { name: "Sunny Toyota", brand: "Toyota", address: "Tonk Road, Jaipur", phone: "9829012345", mapLink: "https://maps.google.com" },
       { name: "Om Toyota", brand: "Toyota", address: "VKI Area, Jaipur", phone: "9829067890", mapLink: "https://maps.google.com" },
       { name: "Vipul Motors", brand: "Maruti Suzuki", address: "Tonk Road, Jaipur", phone: "9828112233", mapLink: "https://maps.google.com" },
@@ -19,14 +19,25 @@ export const dealersData = [
       { name: "Rajesh Kia", brand: "Kia", address: "Vaishali Nagar, Jaipur", phone: "9116005544", mapLink: "https://maps.google.com" },
       { name: "Dudes Kia", brand: "Kia", address: "Sikar Road, Jaipur", phone: "9116006677", mapLink: "https://maps.google.com" },
       { name: "MG Jaipur", brand: "MG", address: "Tonk Road, Jaipur", phone: "8877665544", mapLink: "https://maps.google.com" },
+      { name: "MG Central", brand: "MG", address: "Ajmer Road, Jaipur", phone: "8877664433", mapLink: "https://maps.google.com" },
       { name: "Volkswagen Jaipur", brand: "Volkswagen", address: "Ajmer Road, Jaipur", phone: "9929988776", mapLink: "https://maps.google.com" },
+      { name: "Volkswagen South", brand: "Volkswagen", address: "Mansarovar, Jaipur", phone: "9929988777", mapLink: "https://maps.google.com" },
       { name: "Renault Jaipur West", brand: "Renault", address: "Jhotwara, Jaipur", phone: "9829098290", mapLink: "https://maps.google.com" },
-      
-      // NEW Dealers
+      { name: "Renault North", brand: "Renault", address: "Sikar Road, Jaipur", phone: "9829098291", mapLink: "https://maps.google.com" },
+
+      // Premium Brands (Including the newly requested ones)
       { name: "Skoda Krishna", brand: "Skoda", address: "Civil Lines, Jaipur", phone: "9772001122", mapLink: "https://maps.google.com" },
       { name: "Skoda Jaipur East", brand: "Skoda", address: "Pratap Nagar, Jaipur", phone: "9772003344", mapLink: "https://maps.google.com" },
       { name: "T&T Motors Jaipur", brand: "Mercedes-Benz", address: "Jagatpura, Jaipur", phone: "9829011000", mapLink: "https://maps.google.com" },
-      { name: "Autohaus Jaipur", brand: "Mercedes-Benz", address: "Ajmer Road, Jaipur", phone: "9829022000", mapLink: "https://maps.google.com" }
+      { name: "Autohaus Jaipur", brand: "Mercedes-Benz", address: "Ajmer Road, Jaipur", phone: "9829022000", mapLink: "https://maps.google.com" },
+      { name: "BMW Sanghi Classic", brand: "BMW", address: "Tonk Road, Jaipur", phone: "9829033000", mapLink: "https://maps.google.com" },
+      { name: "BMW City Centre", brand: "BMW", address: "C-Scheme, Jaipur", phone: "9829044000", mapLink: "https://maps.google.com" },
+      { name: "Audi Jaipur", brand: "Audi", address: "Ajmer Road, Jaipur", phone: "9829055000", mapLink: "https://maps.google.com" },
+      { name: "Audi Pinkcity", brand: "Audi", address: "Malviya Nagar, Jaipur", phone: "9829066000", mapLink: "https://maps.google.com" },
+      { name: "Land Rover Jaipur", brand: "Land Rover", address: "Civil Lines, Jaipur", phone: "9829077000", mapLink: "https://maps.google.com" },
+      { name: "JLR Motors", brand: "Land Rover", address: "Ajmer Road, Jaipur", phone: "9829088000", mapLink: "https://maps.google.com" },
+      { name: "Volvo North", brand: "Volvo", address: "Sikar Road, Jaipur", phone: "9829099000", mapLink: "https://maps.google.com" },
+      { name: "Volvo Central", brand: "Volvo", address: "Tonk Road, Jaipur", phone: "9829110000", mapLink: "https://maps.google.com" },
     ]
   },
 
@@ -34,24 +45,41 @@ export const dealersData = [
   {
     city: "New Delhi",
     dealers: [
-      // Existing Dealers
+      // Popular Brands
       { name: "Galaxy Toyota", brand: "Toyota", address: "Moti Nagar, New Delhi", phone: "8899001122", mapLink: "https://maps.google.com" },
+      { name: "Viva Toyota", brand: "Toyota", address: "Okhla, New Delhi", phone: "8899001123", mapLink: "https://maps.google.com" },
       { name: "Rana Motors", brand: "Maruti Suzuki", address: "Safdarjung, New Delhi", phone: "9811002233", mapLink: "https://maps.google.com" },
+      { name: "Fairdeal Maruti", brand: "Maruti Suzuki", address: "Kirti Nagar, New Delhi", phone: "9811002234", mapLink: "https://maps.google.com" },
       { name: "Koncept Hyundai", brand: "Hyundai", address: "Okhla, New Delhi", phone: "7766554433", mapLink: "https://maps.google.com" },
+      { name: "Deep Hyundai", brand: "Hyundai", address: "Prashant Vihar, New Delhi", phone: "7766554434", mapLink: "https://maps.google.com" },
       { name: "Sanya Motors", brand: "Tata", address: "Def. Colony, New Delhi", phone: "9911223344", mapLink: "https://maps.google.com" },
+      { name: "Wasan Tata", brand: "Tata", address: "Moti Nagar, New Delhi", phone: "9911223345", mapLink: "https://maps.google.com" },
       { name: "Koncept Mahindra", brand: "Mahindra", address: "Lajpat Nagar, New Delhi", phone: "8800880088", mapLink: "https://maps.google.com" },
+      { name: "Mahindra Dwarka", brand: "Mahindra", address: "Dwarka, New Delhi", phone: "8800880089", mapLink: "https://maps.google.com" },
       { name: "Ring Road Honda", brand: "Honda", address: "Connaught Place, New Delhi", phone: "9810098100", mapLink: "https://maps.google.com" },
+      { name: "Vantage Honda", brand: "Honda", address: "Raja Garden, New Delhi", phone: "9810098101", mapLink: "https://maps.google.com" },
       { name: "Jayanti Kia", brand: "Kia", address: "Mathura Road, New Delhi", phone: "9818898188", mapLink: "https://maps.google.com" },
+      { name: "Kia Central", brand: "Kia", address: "Mayapuri, New Delhi", phone: "9818898189", mapLink: "https://maps.google.com" },
       { name: "MG Delhi South", brand: "MG", address: "Lajpat Nagar, New Delhi", phone: "7838383838", mapLink: "https://maps.google.com" },
+      { name: "MG Delhi West", brand: "MG", address: "Janakpuri, New Delhi", phone: "7838383839", mapLink: "https://maps.google.com" },
       { name: "Volkswagen Delhi West", brand: "Volkswagen", address: "Moti Nagar, New Delhi", phone: "9873001122", mapLink: "https://maps.google.com" },
+      { name: "Volkswagen Delhi South", brand: "Volkswagen", address: "Okhla, New Delhi", phone: "9873001123", mapLink: "https://maps.google.com" },
       { name: "Renault Delhi", brand: "Renault", address: "Okhla, New Delhi", phone: "9990011223", mapLink: "https://maps.google.com" },
+      { name: "Renault North West", brand: "Renault", address: "Rohini, New Delhi", phone: "9990011224", mapLink: "https://maps.google.com" },
 
-      // NEW Dealers
+      // Premium Brands
       { name: "Skoda New Delhi West", brand: "Skoda", address: "Karol Bagh, New Delhi", phone: "9999005566", mapLink: "https://maps.google.com" },
-      { name: "Skoda Gurugram", brand: "Skoda", address: "MG Road, Gurugram (Near Delhi)", phone: "9999007788", mapLink: "https://maps.google.com" },
-
+      { name: "Skoda South Delhi", brand: "Skoda", address: "Panchsheel Park, New Delhi", phone: "9999007788", mapLink: "https://maps.google.com" },
       { name: "T&T Motors Delhi", brand: "Mercedes-Benz", address: "Okhla Phase 1, New Delhi", phone: "9811122334", mapLink: "https://maps.google.com" },
-      { name: "Silver Arrows Delhi", brand: "Mercedes-Benz", address: "Lajpat Nagar, New Delhi", phone: "9811144556", mapLink: "https://maps.google.com" }
+      { name: "Silver Arrows Delhi", brand: "Mercedes-Benz", address: "Lajpat Nagar, New Delhi", phone: "9811144556", mapLink: "https://maps.google.com" },
+      { name: "BMW Bird Delhi", brand: "BMW", address: "Mathura Road, New Delhi", phone: "9811166778", mapLink: "https://maps.google.com" },
+      { name: "BMW Infinity", brand: "BMW", address: "Vasant Kunj, New Delhi", phone: "9811188990", mapLink: "https://maps.google.com" },
+      { name: "Audi Delhi Central", brand: "Audi", address: "Raja Garden, New Delhi", phone: "9810011000", mapLink: "https://maps.google.com" },
+      { name: "Audi South", brand: "Audi", address: "Okhla, New Delhi", phone: "9810022000", mapLink: "https://maps.google.com" },
+      { name: "Land Rover Delhi", brand: "Land Rover", address: "Sunder Nagar, New Delhi", phone: "9810033000", mapLink: "https://maps.google.com" },
+      { name: "JLR North", brand: "Land Rover", address: "MG Road, New Delhi", phone: "9810044000", mapLink: "https://maps.google.com" },
+      { name: "Volvo Delhi South", brand: "Volvo", address: "Saket, New Delhi", phone: "9810055000", mapLink: "https://maps.google.com" },
+      { name: "Volvo West", brand: "Volvo", address: "Moti Nagar, New Delhi", phone: "9810066000", mapLink: "https://maps.google.com" },
     ]
   },
 
@@ -59,24 +87,41 @@ export const dealersData = [
   {
     city: "Mumbai",
     dealers: [
-      // Existing Dealers
+      // Popular Brands
       { name: "Lakozy Toyota", brand: "Toyota", address: "Malad West, Mumbai", phone: "9820098200", mapLink: "https://maps.google.com" },
+      { name: "Shinrai Toyota", brand: "Toyota", address: "Chembur, Mumbai", phone: "9820098201", mapLink: "https://maps.google.com" },
       { name: "Sai Service", brand: "Maruti Suzuki", address: "Andheri, Mumbai", phone: "9820112233", mapLink: "https://maps.google.com" },
+      { name: "Fortpoint Maruti", brand: "Maruti Suzuki", address: "Dadar, Mumbai", phone: "9820112234", mapLink: "https://maps.google.com" },
       { name: "Modi Hyundai", brand: "Hyundai", address: "Thane, Mumbai", phone: "9820223344", mapLink: "https://maps.google.com" },
+      { name: "Laxmi Hyundai", brand: "Hyundai", address: "Goregaon, Mumbai", phone: "9820223345", mapLink: "https://maps.google.com" },
       { name: "Wasan Motors", brand: "Tata", address: "Chembur, Mumbai", phone: "9820334455", mapLink: "https://maps.google.com" },
+      { name: "KHT Motors", brand: "Tata", address: "Andheri East, Mumbai", phone: "9820334456", mapLink: "https://maps.google.com" },
       { name: "NBS Mahindra", brand: "Mahindra", address: "Chowpatty, Mumbai", phone: "9820445566", mapLink: "https://maps.google.com" },
+      { name: "G3 Mahindra", brand: "Mahindra", address: "Dahisar, Mumbai", phone: "9820445567", mapLink: "https://maps.google.com" },
       { name: "Arya Honda", brand: "Honda", address: "Prabhadevi, Mumbai", phone: "9820556677", mapLink: "https://maps.google.com" },
+      { name: "Linkway Honda", brand: "Honda", address: "Malad East, Mumbai", phone: "9820556678", mapLink: "https://maps.google.com" },
       { name: "Shreenath Kia", brand: "Kia", address: "Andheri West, Mumbai", phone: "9820667788", mapLink: "https://maps.google.com" },
+      { name: "Kia South Mumbai", brand: "Kia", address: "Cuffe Parade, Mumbai", phone: "9820667789", mapLink: "https://maps.google.com" },
       { name: "MG Mumbai", brand: "MG", address: "Jogeshwari, Mumbai", phone: "9820778899", mapLink: "https://maps.google.com" },
+      { name: "MG Thane", brand: "MG", address: "Thane West, Mumbai", phone: "9820778890", mapLink: "https://maps.google.com" },
       { name: "Volkswagen Mumbai", brand: "Volkswagen", address: "Worli, Mumbai", phone: "9820889900", mapLink: "https://maps.google.com" },
+      { name: "Volkswagen West", brand: "Volkswagen", address: "Andheri West, Mumbai", phone: "9820889901", mapLink: "https://maps.google.com" },
       { name: "Gen Next Renault", brand: "Renault", address: "Vashi, Mumbai", phone: "9820990011", mapLink: "https://maps.google.com" },
+      { name: "Renault Central", brand: "Renault", address: "Sion, Mumbai", phone: "9820990012", mapLink: "https://maps.google.com" },
 
-      // NEW Dealers
+      // Premium Brands
       { name: "Skoda Mumbai West", brand: "Skoda", address: "Malad West, Mumbai", phone: "9769001122", mapLink: "https://maps.google.com" },
       { name: "Skoda Auto Thane", brand: "Skoda", address: "Thane, Mumbai", phone: "9769003344", mapLink: "https://maps.google.com" },
-
       { name: "Auto Hangar Mumbai", brand: "Mercedes-Benz", address: "Prabhadevi, Mumbai", phone: "9821122334", mapLink: "https://maps.google.com" },
-      { name: "Shaman Wheels", brand: "Mercedes-Benz", address: "Kalina, Mumbai", phone: "9821144556", mapLink: "https://maps.google.com" }
+      { name: "Shaman Wheels", brand: "Mercedes-Benz", address: "Kalina, Mumbai", phone: "9821144556", mapLink: "https://maps.google.com" },
+      { name: "Infinity Cars", brand: "BMW", address: "Worli, Mumbai", phone: "9821166778", mapLink: "https://maps.google.com" },
+      { name: "Navnit Motors BMW", brand: "BMW", address: "Malad West, Mumbai", phone: "9821188990", mapLink: "https://maps.google.com" },
+      { name: "Audi Mumbai South", brand: "Audi", address: "Cuffe Parade, Mumbai", phone: "9820011000", mapLink: "https://maps.google.com" },
+      { name: "Audi Mumbai West", brand: "Audi", address: "Andheri West, Mumbai", phone: "9820022000", mapLink: "https://maps.google.com" },
+      { name: "Land Rover West", brand: "Land Rover", address: "Worli, Mumbai", phone: "9820033000", mapLink: "https://maps.google.com" },
+      { name: "JLR Thane", brand: "Land Rover", address: "Thane, Mumbai", phone: "9820044000", mapLink: "https://maps.google.com" },
+      { name: "Volvo West Mumbai", brand: "Volvo", address: "Andheri East, Mumbai", phone: "9820055000", mapLink: "https://maps.google.com" },
+      { name: "Volvo South", brand: "Volvo", address: "Prabhadevi, Mumbai", phone: "9820066000", mapLink: "https://maps.google.com" },
     ]
   },
 
@@ -84,168 +129,294 @@ export const dealersData = [
   {
     city: "Bangalore",
     dealers: [
-      // Existing Dealers
+      // Popular Brands
       { name: "Nandi Toyota", brand: "Toyota", address: "Kanakapura, Bangalore", phone: "9008007006", mapLink: "https://maps.google.com" },
+      { name: "Madras Toyota", brand: "Toyota", address: "Hosur Road, Bangalore", phone: "9008007007", mapLink: "https://maps.google.com" },
       { name: "Mandovi Motors", brand: "Maruti Suzuki", address: "Lavelle Road, Bangalore", phone: "9008112233", mapLink: "https://maps.google.com" },
+      { name: "Pratham Motors", brand: "Maruti Suzuki", address: "Outer Ring Road, Bangalore", phone: "9008112234", mapLink: "https://maps.google.com" },
       { name: "Advaith Hyundai", brand: "Hyundai", address: "Residency Rd, Bangalore", phone: "9008223344", mapLink: "https://maps.google.com" },
+      { name: "Trident Hyundai", brand: "Hyundai", address: "Outer Ring Road, Bangalore", phone: "9008223345", mapLink: "https://maps.google.com" },
       { name: "Prerana Motors", brand: "Tata", address: "Lalbagh Rd, Bangalore", phone: "9008334455", mapLink: "https://maps.google.com" },
+      { name: "KHT Motors Tata", brand: "Tata", address: "Whitefield, Bangalore", phone: "9008334456", mapLink: "https://maps.google.com" },
       { name: "India Garage", brand: "Mahindra", address: "St. Marks Rd, Bangalore", phone: "9008445566", mapLink: "https://maps.google.com" },
+      { name: "Anant Mahindra", brand: "Mahindra", address: "Bannerghatta Road, Bangalore", phone: "9008445567", mapLink: "https://maps.google.com" },
       { name: "Magnum Honda", brand: "Honda", address: "Kanakapura, Bangalore", phone: "9008556677", mapLink: "https://maps.google.com" },
+      { name: "Whitefield Honda", brand: "Honda", address: "Whitefield, Bangalore", phone: "9008556678", mapLink: "https://maps.google.com" },
       { name: "VST Kia", brand: "Kia", address: "Palace Road, Bangalore", phone: "9008667788", mapLink: "https://maps.google.com" },
+      { name: "Elegance Kia", brand: "Kia", address: "Sarjapur Road, Bangalore", phone: "9008667789", mapLink: "https://maps.google.com" },
       { name: "MG Bangalore", brand: "MG", address: "ORR, Bangalore", phone: "9008778899", mapLink: "https://maps.google.com" },
+      { name: "MG South", brand: "MG", address: "Bannerghatta Road, Bangalore", phone: "9008778890", mapLink: "https://maps.google.com" },
       { name: "Volkswagen Palace", brand: "Volkswagen", address: "Palace Cross, Bangalore", phone: "9008889900", mapLink: "https://maps.google.com" },
+      { name: "Volkswagen Whitefield", brand: "Volkswagen", address: "Whitefield, Bangalore", phone: "9008889901", mapLink: "https://maps.google.com" },
       { name: "Trident Renault", brand: "Renault", address: "JP Nagar, Bangalore", phone: "9008990011", mapLink: "https://maps.google.com" },
+      { name: "Renault North", brand: "Renault", address: "Yelahanka, Bangalore", phone: "9008990012", mapLink: "https://maps.google.com" },
 
-      // NEW Dealers
+      // Premium Brands
       { name: "Tafe Access Skoda", brand: "Skoda", address: "Whitefield, Bangalore", phone: "9008003344", mapLink: "https://maps.google.com" },
       { name: "Apple Auto Skoda", brand: "Skoda", address: "Bommanahalli, Bangalore", phone: "9008005566", mapLink: "https://maps.google.com" },
-
       { name: "Sundaram Motors", brand: "Mercedes-Benz", address: "Kasturba Rd, Bangalore", phone: "9008101010", mapLink: "https://maps.google.com" },
-      { name: "Akshaya Motors", brand: "Mercedes-Benz", address: "Hosur Road, Bangalore", phone: "9008202020", mapLink: "https://maps.google.com" }
+      { name: "Akshaya Motors", brand: "Mercedes-Benz", address: "Hosur Road, Bangalore", phone: "9008202020", mapLink: "https://maps.google.com" },
+      { name: "BMW Navnit Motors", brand: "BMW", address: "Shanti Nagar, Bangalore", phone: "9008303030", mapLink: "https://maps.google.com" },
+      { name: "BMW Apollo", brand: "BMW", address: "Whitefield, Bangalore", phone: "9008404040", mapLink: "https://maps.google.com" },
+      { name: "Audi Bengaluru", brand: "Audi", address: "Hosur Road, Bangalore", phone: "9008505050", mapLink: "https://maps.google.com" },
+      { name: "Audi Central", brand: "Audi", address: "Outer Ring Road, Bangalore", phone: "9008606060", mapLink: "https://maps.google.com" },
+      { name: "Land Rover Bangalore", brand: "Land Rover", address: "Kasturba Road, Bangalore", phone: "9008707070", mapLink: "https://maps.google.com" },
+      { name: "JLR South", brand: "Land Rover", address: "J P Nagar, Bangalore", phone: "9008808080", mapLink: "https://maps.google.com" },
+      { name: "Volvo Whitefield", brand: "Volvo", address: "Whitefield, Bangalore", phone: "9008909090", mapLink: "https://maps.google.com" },
+      { name: "Volvo Central", brand: "Volvo", address: "Hosur Road, Bangalore", phone: "9008919191", mapLink: "https://maps.google.com" },
     ]
   },
 
-  // ================= GURGAON (NEW CITY) =================
+  // ================= GURGAON =================
   {
     city: "Gurgaon",
     dealers: [
+      // Popular Brands
       { name: "Ambience Toyota", brand: "Toyota", address: "Ambience Mall, Gurgaon", phone: "9971001122", mapLink: "https://maps.google.com" },
+      { name: "Kunal Toyota", brand: "Toyota", address: "Sohna Road, Gurgaon", phone: "9971001123", mapLink: "https://maps.google.com" },
       { name: "Prem Motors", brand: "Maruti Suzuki", address: "Sohna Road, Gurgaon", phone: "9971003344", mapLink: "https://maps.google.com" },
+      { name: "Maruti Central", brand: "Maruti Suzuki", address: "Sector 14, Gurgaon", phone: "9971003345", mapLink: "https://maps.google.com" },
       { name: "Hyundai MG Road", brand: "Hyundai", address: "MG Road, Gurgaon", phone: "9971005566", mapLink: "https://maps.google.com" },
+      { name: "Hyundai South", brand: "Hyundai", address: "Sohna Road, Gurgaon", phone: "9971005567", mapLink: "https://maps.google.com" },
       { name: "Tata Nexa Gurgaon", brand: "Tata", address: "Sector 34, Gurgaon", phone: "9971007788", mapLink: "https://maps.google.com" },
+      { name: "Tata West", brand: "Tata", address: "Pataudi Road, Gurgaon", phone: "9971007789", mapLink: "https://maps.google.com" },
       { name: "Mahindra Auto", brand: "Mahindra", address: "Udyog Vihar, Gurgaon", phone: "9971009900", mapLink: "https://maps.google.com" },
+      { name: "Mahindra North", brand: "Mahindra", address: "NH-48, Gurgaon", phone: "9971009901", mapLink: "https://maps.google.com" },
       { name: "Apex Honda", brand: "Honda", address: "Sector 14, Gurgaon", phone: "9971011223", mapLink: "https://maps.google.com" },
+      { name: "Honda South", brand: "Honda", address: "Badshahpur, Gurgaon", phone: "9971011224", mapLink: "https://maps.google.com" },
       { name: "Kia Gurgaon", brand: "Kia", address: "Sohna Road, Gurgaon", phone: "9971013344", mapLink: "https://maps.google.com" },
+      { name: "Kia Cyber Hub", brand: "Kia", address: "Cyber Hub, Gurgaon", phone: "9971013345", mapLink: "https://maps.google.com" },
       { name: "MG Roadshow", brand: "MG", address: "NH-48, Gurgaon", phone: "9971015566", mapLink: "https://maps.google.com" },
+      { name: "MG Southpoint", brand: "MG", address: "Golf Course Road, Gurgaon", phone: "9971015567", mapLink: "https://maps.google.com" },
       { name: "Volkswagen Central", brand: "Volkswagen", address: "Sector 29, Gurgaon", phone: "9971017788", mapLink: "https://maps.google.com" },
+      { name: "Volkswagen North", brand: "Volkswagen", address: "MG Road, Gurgaon", phone: "9971017789", mapLink: "https://maps.google.com" },
       { name: "Renault South", brand: "Renault", address: "Sector 50, Gurgaon", phone: "9971019900", mapLink: "https://maps.google.com" },
+      { name: "Renault North", brand: "Renault", address: "NH-48, Gurgaon", phone: "9971019901", mapLink: "https://maps.google.com" },
 
-      // NEW Dealers
+      // Premium Brands
       { name: "Skoda South Point", brand: "Skoda", address: "Sector 18, Gurgaon", phone: "9971021122", mapLink: "https://maps.google.com" },
       { name: "Skoda Galleria", brand: "Skoda", address: "Cyber Hub, Gurgaon", phone: "9971023344", mapLink: "https://maps.google.com" },
-
       { name: "T&T Motors Gurgaon", brand: "Mercedes-Benz", address: "Golf Course Road, Gurgaon", phone: "9971025566", mapLink: "https://maps.google.com" },
-      { name: "Landmark Cars Gurgaon", brand: "Mercedes-Benz", address: "NH-48, Gurgaon", phone: "9971027788", mapLink: "https://maps.google.com" }
+      { name: "Landmark Cars Gurgaon", brand: "Mercedes-Benz", address: "NH-48, Gurgaon", phone: "9971027788", mapLink: "https://maps.google.com" },
+      { name: "BMW Bird Gurgaon", brand: "BMW", address: "NH-48, Gurgaon", phone: "9971029900", mapLink: "https://maps.google.com" },
+      { name: "BMW South", brand: "BMW", address: "Sector 58, Gurgaon", phone: "9971031122", mapLink: "https://maps.google.com" },
+      { name: "Audi Gurgaon", brand: "Audi", address: "Sohna Road, Gurgaon", phone: "9971033344", mapLink: "https://maps.google.com" },
+      { name: "Audi North", brand: "Audi", address: "MG Road, Gurgaon", phone: "9971035566", mapLink: "https://maps.google.com" },
+      { name: "Land Rover North", brand: "Land Rover", address: "NH-48, Gurgaon", phone: "9971037788", mapLink: "https://maps.google.com" },
+      { name: "JLR Central", brand: "Land Rover", address: "Golf Course Road, Gurgaon", phone: "9971039900", mapLink: "https://maps.google.com" },
+      { name: "Volvo Central", brand: "Volvo", address: "Sector 29, Gurgaon", phone: "9971041122", mapLink: "https://maps.google.com" },
+      { name: "Volvo North", brand: "Volvo", address: "MG Road, Gurgaon", phone: "9971043344", mapLink: "https://maps.google.com" },
     ]
   },
 
-  // ================= PUNE (NEW CITY) =================
+  // ================= PUNE =================
   {
     city: "Pune",
     dealers: [
+      // Popular Brands
       { name: "Kothari Toyota", brand: "Toyota", address: "Hadapsar, Pune", phone: "9922001122", mapLink: "https://maps.google.com" },
+      { name: "Daimler Toyota", brand: "Toyota", address: "Pimpri, Pune", phone: "9922001123", mapLink: "https://maps.google.com" },
       { name: "Sai Service Maruti", brand: "Maruti Suzuki", address: "Bavdhan, Pune", phone: "9922003344", mapLink: "https://maps.google.com" },
+      { name: "Maruti West", brand: "Maruti Suzuki", address: "Wakad, Pune", phone: "9922003345", mapLink: "https://maps.google.com" },
       { name: "Kothari Hyundai", brand: "Hyundai", address: "Pimpri, Pune", phone: "9922005566", mapLink: "https://maps.google.com" },
+      { name: "Hyundai East", brand: "Hyundai", address: "Nagar Road, Pune", phone: "9922005567", mapLink: "https://maps.google.com" },
       { name: "Tata Motors Pune", brand: "Tata", address: "Baner, Pune", phone: "9922007788", mapLink: "https://maps.google.com" },
+      { name: "Tata East", brand: "Tata", address: "Hadapsar, Pune", phone: "9922007789", mapLink: "https://maps.google.com" },
       { name: "Mahindra Pune East", brand: "Mahindra", address: "Nagar Road, Pune", phone: "9922009900", mapLink: "https://maps.google.com" },
+      { name: "Mahindra West", brand: "Mahindra", address: "Hinjewadi, Pune", phone: "9922009901", mapLink: "https://maps.google.com" },
       { name: "Crystal Honda", brand: "Honda", address: "Akurdi, Pune", phone: "9922011223", mapLink: "https://maps.google.com" },
+      { name: "Honda Pune Central", brand: "Honda", address: "Koregaon Park, Pune", phone: "9922011224", mapLink: "https://maps.google.com" },
       { name: "Kia Pune", brand: "Kia", address: "Wakad, Pune", phone: "9922013344", mapLink: "https://maps.google.com" },
+      { name: "Kia East", brand: "Kia", address: "Hadapsar, Pune", phone: "9922013345", mapLink: "https://maps.google.com" },
       { name: "MG Pune", brand: "MG", address: "Pune-Mumbai Expressway", phone: "9922015566", mapLink: "https://maps.google.com" },
+      { name: "MG South", brand: "MG", address: "Katraj, Pune", phone: "9922015567", mapLink: "https://maps.google.com" },
       { name: "Volkswagen West", brand: "Volkswagen", address: "Chinchwad, Pune", phone: "9922017788", mapLink: "https://maps.google.com" },
+      { name: "Volkswagen Central", brand: "Volkswagen", address: "Nagar Road, Pune", phone: "9922017789", mapLink: "https://maps.google.com" },
       { name: "Renault East", brand: "Renault", address: "Hadapsar, Pune", phone: "9922019900", mapLink: "https://maps.google.com" },
+      { name: "Renault West", brand: "Renault", address: "Baner, Pune", phone: "9922019901", mapLink: "https://maps.google.com" },
 
-      // NEW Dealers
+      // Premium Brands
       { name: "Skoda Auto Pune", brand: "Skoda", address: "Koregaon Park, Pune", phone: "9922021122", mapLink: "https://maps.google.com" },
       { name: "Skoda Westend", brand: "Skoda", address: "Hinjewadi, Pune", phone: "9922023344", mapLink: "https://maps.google.com" },
-
       { name: "Auto Hangar Pune", brand: "Mercedes-Benz", address: "Baner, Pune", phone: "9922025566", mapLink: "https://maps.google.com" },
-      { name: "Trinity Motors", brand: "Mercedes-Benz", address: "Nagar Road, Pune", phone: "9922027788", mapLink: "https://maps.google.com" }
+      { name: "Trinity Motors", brand: "Mercedes-Benz", address: "Nagar Road, Pune", phone: "9922027788", mapLink: "https://maps.google.com" },
+      { name: "BMW Bavaria", brand: "BMW", address: "Hadapsar, Pune", phone: "9922029900", mapLink: "https://maps.google.com" },
+      { name: "BMW West", brand: "BMW", address: "Hinjewadi, Pune", phone: "9922031122", mapLink: "https://maps.google.com" },
+      { name: "Audi Pune", brand: "Audi", address: "Baner, Pune", phone: "9922033344", mapLink: "https://maps.google.com" },
+      { name: "Audi East", brand: "Audi", address: "Nagar Road, Pune", phone: "9922035566", mapLink: "https://maps.google.com" },
+      { name: "Land Rover Pune", brand: "Land Rover", address: "Nagar Road, Pune", phone: "9922037788", mapLink: "https://maps.google.com" },
+      { name: "JLR West", brand: "Land Rover", address: "Wakad, Pune", phone: "9922039900", mapLink: "https://maps.google.com" },
+      { name: "Volvo Central", brand: "Volvo", address: "Nagar Road, Pune", phone: "9922041122", mapLink: "https://maps.google.com" },
+      { name: "Volvo West", brand: "Volvo", address: "Baner, Pune", phone: "9922043344", mapLink: "https://maps.google.com" },
     ]
   },
 
-  // ================= HYDERABAD (NEW CITY) =================
+  // ================= HYDERABAD =================
   {
     city: "Hyderabad",
     dealers: [
+      // Popular Brands
       { name: "Harsha Toyota", brand: "Toyota", address: "Banjara Hills, Hyderabad", phone: "9030001122", mapLink: "https://maps.google.com" },
+      { name: "Radha Krishna Toyota", brand: "Toyota", address: "Secunderabad, Hyderabad", phone: "9030001123", mapLink: "https://maps.google.com" },
       { name: "Varun Motors", brand: "Maruti Suzuki", address: "Begumpet, Hyderabad", phone: "9030003344", mapLink: "https://maps.google.com" },
+      { name: "Nexgen Maruti", brand: "Maruti Suzuki", address: "Kukatpally, Hyderabad", phone: "9030003345", mapLink: "https://maps.google.com" },
       { name: "Talwar Hyundai", brand: "Hyundai", address: "Jubilee Hills, Hyderabad", phone: "9030005566", mapLink: "https://maps.google.com" },
+      { name: "KUN Hyundai", brand: "Hyundai", address: "Gachibowli, Hyderabad", phone: "9030005567", mapLink: "https://maps.google.com" },
       { name: "Malik Motors", brand: "Tata", address: "Gachibowli, Hyderabad", phone: "9030007788", mapLink: "https://maps.google.com" },
+      { name: "TATA Motors East", brand: "Tata", address: "Uppal, Hyderabad", phone: "9030007789", mapLink: "https://maps.google.com" },
       { name: "Mahindra West", brand: "Mahindra", address: "Kukatpally, Hyderabad", phone: "9030009900", mapLink: "https://maps.google.com" },
+      { name: "Mahindra East", brand: "Mahindra", address: "Nampally, Hyderabad", phone: "9030009901", mapLink: "https://maps.google.com" },
       { name: "Pride Honda", brand: "Honda", address: "Kondapur, Hyderabad", phone: "9030011223", mapLink: "https://maps.google.com" },
+      { name: "Vertex Honda", brand: "Honda", address: "Malakpet, Hyderabad", phone: "9030011224", mapLink: "https://maps.google.com" },
       { name: "Kia Hyderabad", brand: "Kia", address: "Hitec City, Hyderabad", phone: "9030013344", mapLink: "https://maps.google.com" },
+      { name: "Kia Banjara", brand: "Kia", address: "Banjara Hills, Hyderabad", phone: "9030013345", mapLink: "https://maps.google.com" },
       { name: "MG Hyderabad", brand: "MG", address: "Banjara Hills, Hyderabad", phone: "9030015566", mapLink: "https://maps.google.com" },
+      { name: "MG East", brand: "MG", address: "Jubilee Hills, Hyderabad", phone: "9030015567", mapLink: "https://maps.google.com" },
       { name: "Volkswagen Begumpet", brand: "Volkswagen", address: "Begumpet, Hyderabad", phone: "9030017788", mapLink: "https://maps.google.com" },
+      { name: "Volkswagen West", brand: "Volkswagen", address: "Kukatpally, Hyderabad", phone: "9030017789", mapLink: "https://maps.google.com" },
       { name: "Renault West", brand: "Renault", address: "Kukatpally, Hyderabad", phone: "9030019900", mapLink: "https://maps.google.com" },
+      { name: "Renault East", brand: "Renault", address: "Nagarjuna Circle, Hyderabad", phone: "9030019901", mapLink: "https://maps.google.com" },
 
-      // NEW Dealers
+      // Premium Brands
       { name: "Skoda Hyderabad Central", brand: "Skoda", address: "Banjara Hills, Hyderabad", phone: "9030021122", mapLink: "https://maps.google.com" },
       { name: "Skoda Jubilee", brand: "Skoda", address: "Jubilee Hills, Hyderabad", phone: "9030023344", mapLink: "https://maps.google.com" },
-
       { name: "Mahavir Motors", brand: "Mercedes-Benz", address: "Jubilee Hills, Hyderabad", phone: "9030025566", mapLink: "https://maps.google.com" },
-      { name: "Sundaram Hyderabad", brand: "Mercedes-Benz", address: "Begumpet, Hyderabad", phone: "9030027788", mapLink: "https://maps.google.com" }
+      { name: "Sundaram Hyderabad", brand: "Mercedes-Benz", address: "Begumpet, Hyderabad", phone: "9030027788", mapLink: "https://maps.google.com" },
+      { name: "BMW Kun Motors", brand: "BMW", address: "Hitec City, Hyderabad", phone: "9030029900", mapLink: "https://maps.google.com" },
+      { name: "BMW Central", brand: "BMW", address: "Banjara Hills, Hyderabad", phone: "9030031122", mapLink: "https://maps.google.com" },
+      { name: "Audi Hyderabad", brand: "Audi", address: "Jubilee Hills, Hyderabad", phone: "9030033344", mapLink: "https://maps.google.com" },
+      { name: "Audi South", brand: "Audi", address: "Begumpet, Hyderabad", phone: "9030035566", mapLink: "https://maps.google.com" },
+      { name: "Land Rover North", brand: "Land Rover", address: "Banjara Hills, Hyderabad", phone: "9030037788", mapLink: "https://maps.google.com" },
+      { name: "JLR Hitec", brand: "Land Rover", address: "Hitec City, Hyderabad", phone: "9030039900", mapLink: "https://maps.google.com" },
+      { name: "Volvo Central", brand: "Volvo", address: "Banjara Hills, Hyderabad", phone: "9030041122", mapLink: "https://maps.google.com" },
+      { name: "Volvo East", brand: "Volvo", address: "Kondapur, Hyderabad", phone: "9030043344", mapLink: "https://maps.google.com" },
     ]
   },
 
-  // ================= CHENNAI (NEW CITY) =================
+  // ================= CHENNAI =================
   {
     city: "Chennai",
     dealers: [
+      // Popular Brands
       { name: "Lanson Toyota", brand: "Toyota", address: "Guindy, Chennai", phone: "9840001122", mapLink: "https://maps.google.com" },
+      { name: "Radha Toyota", brand: "Toyota", address: "Mount Road, Chennai", phone: "9840001123", mapLink: "https://maps.google.com" },
       { name: "V3 Motors", brand: "Maruti Suzuki", address: "Anna Salai, Chennai", phone: "9840003344", mapLink: "https://maps.google.com" },
+      { name: "KUN Maruti", brand: "Maruti Suzuki", address: "OMR, Chennai", phone: "9840003345", mapLink: "https://maps.google.com" },
       { name: "KUN Hyundai", brand: "Hyundai", address: "OMR, Chennai", phone: "9840005566", mapLink: "https://maps.google.com" },
+      { name: "Hyundai South", brand: "Hyundai", address: "Guindy, Chennai", phone: "9840005567", mapLink: "https://maps.google.com" },
       { name: "Prerana Tata", brand: "Tata", address: "Velachery, Chennai", phone: "9840007788", mapLink: "https://maps.google.com" },
+      { name: "Tata North", brand: "Tata", address: "Ambattur, Chennai", phone: "9840007789", mapLink: "https://maps.google.com" },
       { name: "Mahindra Central", brand: "Mahindra", address: "T Nagar, Chennai", phone: "9840009900", mapLink: "https://maps.google.com" },
+      { name: "Mahindra East", brand: "Mahindra", address: "OMR, Chennai", phone: "9840009901", mapLink: "https://maps.google.com" },
       { name: "Dakshin Honda", brand: "Honda", address: "Mylapore, Chennai", phone: "9840011223", mapLink: "https://maps.google.com" },
+      { name: "Olympia Honda", brand: "Honda", address: "Ambattur, Chennai", phone: "9840011224", mapLink: "https://maps.google.com" },
       { name: "Kia Chennai North", brand: "Kia", address: "Ambattur, Chennai", phone: "9840013344", mapLink: "https://maps.google.com" },
+      { name: "Kia South", brand: "Kia", address: "OMR, Chennai", phone: "9840013345", mapLink: "https://maps.google.com" },
       { name: "MG Chennai", brand: "MG", address: "Adyar, Chennai", phone: "9840015566", mapLink: "https://maps.google.com" },
+      { name: "MG South", brand: "MG", address: "Velachery, Chennai", phone: "9840015567", mapLink: "https://maps.google.com" },
       { name: "Volkswagen Chennai", brand: "Volkswagen", address: "OMR, Chennai", phone: "9840017788", mapLink: "https://maps.google.com" },
+      { name: "Volkswagen North", brand: "Volkswagen", address: "Anna Nagar, Chennai", phone: "9840017789", mapLink: "https://maps.google.com" },
       { name: "Renault South", brand: "Renault", address: "Pallikaranai, Chennai", phone: "9840019900", mapLink: "https://maps.google.com" },
+      { name: "Renault North", brand: "Renault", address: "Anna Salai, Chennai", phone: "9840019901", mapLink: "https://maps.google.com" },
 
-      // NEW Dealers
+      // Premium Brands
       { name: "Skoda Chennai Auto", brand: "Skoda", address: "Nungambakkam, Chennai", phone: "9840021122", mapLink: "https://maps.google.com" },
       { name: "Skoda OMR", brand: "Skoda", address: "OMR, Chennai", phone: "9840023344", mapLink: "https://maps.google.com" },
-
       { name: "Sundaram Motors Chennai", brand: "Mercedes-Benz", address: "Anna Salai, Chennai", phone: "9840025566", mapLink: "https://maps.google.com" },
-      { name: "Trans Car India", brand: "Mercedes-Benz", address: "Guindy, Chennai", phone: "9840027788", mapLink: "https://maps.google.com" }
+      { name: "Trans Car India", brand: "Mercedes-Benz", address: "Guindy, Chennai", phone: "9840027788", mapLink: "https://maps.google.com" },
+      { name: "BMW Kun", brand: "BMW", address: "OMR, Chennai", phone: "9840029900", mapLink: "https://maps.google.com" },
+      { name: "BMW Anna Salai", brand: "BMW", address: "Anna Salai, Chennai", phone: "9840031122", mapLink: "https://maps.google.com" },
+      { name: "Audi Chennai", brand: "Audi", address: "OMR, Chennai", phone: "9840033344", mapLink: "https://maps.google.com" },
+      { name: "Audi T Nagar", brand: "Audi", address: "T Nagar, Chennai", phone: "9840035566", mapLink: "https://maps.google.com" },
+      { name: "Land Rover South", brand: "Land Rover", address: "Guindy, Chennai", phone: "9840037788", mapLink: "https://maps.google.com" },
+      { name: "JLR Chennai", brand: "Land Rover", address: "Anna Salai, Chennai", phone: "9840039900", mapLink: "https://maps.google.com" },
+      { name: "Volvo South", brand: "Volvo", address: "OMR, Chennai", phone: "9840041122", mapLink: "https://maps.google.com" },
+      { name: "Volvo Central", brand: "Volvo", address: "Anna Salai, Chennai", phone: "9840043344", mapLink: "https://maps.google.com" },
     ]
   },
 
-  // ================= KOLKATA (NEW CITY) =================
+  // ================= KOLKATA =================
   {
     city: "Kolkata",
     dealers: [
+      // Popular Brands
       { name: "Topsel Toyota", brand: "Toyota", address: "EM Bypass, Kolkata", phone: "9831001122", mapLink: "https://maps.google.com" },
+      { name: "Toyota Central", brand: "Toyota", address: "Camac Street, Kolkata", phone: "9831001123", mapLink: "https://maps.google.com" },
       { name: "Prem Motors Maruti", brand: "Maruti Suzuki", address: "Salt Lake, Kolkata", phone: "9831003344", mapLink: "https://maps.google.com" },
+      { name: "Maruti Central", brand: "Maruti Suzuki", address: "Ballygunge, Kolkata", phone: "9831003345", mapLink: "https://maps.google.com" },
       { name: "Laxmi Hyundai", brand: "Hyundai", address: "Park Street, Kolkata", phone: "9831005566", mapLink: "https://maps.google.com" },
+      { name: "Hyundai East", brand: "Hyundai", address: "Rajarhat, Kolkata", phone: "9831005567", mapLink: "https://maps.google.com" },
       { name: "Lexy Motors", brand: "Tata", address: "Tollygunge, Kolkata", phone: "9831007788", mapLink: "https://maps.google.com" },
+      { name: "TATA North", brand: "Tata", address: "BT Road, Kolkata", phone: "9831007789", mapLink: "https://maps.google.com" },
       { name: "Mahindra West", brand: "Mahindra", address: "Esplanade, Kolkata", phone: "9831009900", mapLink: "https://maps.google.com" },
+      { name: "Mahindra South", brand: "Mahindra", address: "Gariahat, Kolkata", phone: "9831009901", mapLink: "https://maps.google.com" },
       { name: "Classic Honda", brand: "Honda", address: "Camac Street, Kolkata", phone: "9831011223", mapLink: "https://maps.google.com" },
+      { name: "Honda South", brand: "Honda", address: "Purbachal, Kolkata", phone: "9831011224", mapLink: "https://maps.google.com" },
       { name: "Kia East", brand: "Kia", address: "Rajarhat, Kolkata", phone: "9831013344", mapLink: "https://maps.google.com" },
+      { name: "Kia South", brand: "Kia", address: "Jadavpur, Kolkata", phone: "9831013345", mapLink: "https://maps.google.com" },
       { name: "MG Kolkata", brand: "MG", address: "Gariahat, Kolkata", phone: "9831015566", mapLink: "https://maps.google.com" },
+      { name: "MG Salt Lake", brand: "MG", address: "Salt Lake, Kolkata", phone: "9831015567", mapLink: "https://maps.google.com" },
       { name: "Volkswagen Park", brand: "Volkswagen", address: "Park Street, Kolkata", phone: "9831017788", mapLink: "https://maps.google.com" },
+      { name: "Volkswagen East", brand: "Volkswagen", address: "EM Bypass, Kolkata", phone: "9831017789", mapLink: "https://maps.google.com" },
       { name: "Renault South", brand: "Renault", address: "Kasba, Kolkata", phone: "9831019900", mapLink: "https://maps.google.com" },
+      { name: "Renault North", brand: "Renault", address: "BT Road, Kolkata", phone: "9831019901", mapLink: "https://maps.google.com" },
 
-      // NEW Dealers
+      // Premium Brands
       { name: "Skoda Auto Kolkata", brand: "Skoda", address: "E.M. Bypass, Kolkata", phone: "9831021122", mapLink: "https://maps.google.com" },
       { name: "Skoda North", brand: "Skoda", address: "Dhakuria, Kolkata", phone: "9831023344", mapLink: "https://maps.google.com" },
-
       { name: "Benchmark Motors", brand: "Mercedes-Benz", address: "Topsia, Kolkata", phone: "9831025566", mapLink: "https://maps.google.com" },
-      { name: "Silver Arrows Kolkata", brand: "Mercedes-Benz", address: "Park Circus, Kolkata", phone: "9831027788", mapLink: "https://maps.google.com" }
+      { name: "Silver Arrows Kolkata", brand: "Mercedes-Benz", address: "Park Circus, Kolkata", phone: "9831027788", mapLink: "https://maps.google.com" },
+      { name: "BMW OSL Pre-owned", brand: "BMW", address: "Rajarhat, Kolkata", phone: "9831029900", mapLink: "https://maps.google.com" },
+      { name: "BMW City Centre", brand: "BMW", address: "Park Street, Kolkata", phone: "9831031122", mapLink: "https://maps.google.com" },
+      { name: "Audi Kolkata", brand: "Audi", address: "Park Street, Kolkata", phone: "9831033344", mapLink: "https://maps.google.com" },
+      { name: "Audi East", brand: "Audi", address: "EM Bypass, Kolkata", phone: "9831035566", mapLink: "https://maps.google.com" },
+      { name: "Land Rover East", brand: "Land Rover", address: "Topsia, Kolkata", phone: "9831037788", mapLink: "https://maps.google.com" },
+      { name: "JLR North", brand: "Land Rover", address: "Salt Lake, Kolkata", phone: "9831039900", mapLink: "https://maps.google.com" },
+      { name: "Volvo Central", brand: "Volvo", address: "Park Street, Kolkata", phone: "9831041122", mapLink: "https://maps.google.com" },
+      { name: "Volvo East", brand: "Volvo", address: "EM Bypass, Kolkata", phone: "9831043344", mapLink: "https://maps.google.com" },
     ]
   },
 
-  // ================= AHMEDABAD (NEW CITY) =================
+  // ================= AHMEDABAD =================
   {
     city: "Ahmedabad",
     dealers: [
+      // Popular Brands
       { name: "Sharad Toyota", brand: "Toyota", address: "SG Highway, Ahmedabad", phone: "9909001122", mapLink: "https://maps.google.com" },
+      { name: "Toyota Central", brand: "Toyota", address: "Naranpura, Ahmedabad", phone: "9909001123", mapLink: "https://maps.google.com" },
       { name: "Popular Maruti", brand: "Maruti Suzuki", address: "Satellite, Ahmedabad", phone: "9909003344", mapLink: "https://maps.google.com" },
+      { name: "Kataria Maruti", brand: "Maruti Suzuki", address: "SG Highway, Ahmedabad", phone: "9909003345", mapLink: "https://maps.google.com" },
       { name: "Hyundai North", brand: "Hyundai", address: "C.G. Road, Ahmedabad", phone: "9909005566", mapLink: "https://maps.google.com" },
+      { name: "Hyundai South", brand: "Hyundai", address: "Maninagar, Ahmedabad", phone: "9909005567", mapLink: "https://maps.google.com" },
       { name: "Tata Auto", brand: "Tata", address: "Bodakdev, Ahmedabad", phone: "9909007788", mapLink: "https://maps.google.com" },
+      { name: "Tata North", brand: "Tata", address: "Chandkheda, Ahmedabad", phone: "9909007789", mapLink: "https://maps.google.com" },
       { name: "Mahindra West", brand: "Mahindra", address: "Sarkhej, Ahmedabad", phone: "9909009900", mapLink: "https://maps.google.com" },
+      { name: "Mahindra Central", brand: "Mahindra", address: "C.G. Road, Ahmedabad", phone: "9909009901", mapLink: "https://maps.google.com" },
       { name: "Honda West", brand: "Honda", address: "SG Highway, Ahmedabad", phone: "9909011223", mapLink: "https://maps.google.com" },
+      { name: "Honda Central", brand: "Honda", address: "Ashram Road, Ahmedabad", phone: "9909011224", mapLink: "https://maps.google.com" },
       { name: "Kia Ahmedabad", brand: "Kia", address: "Rajpath, Ahmedabad", phone: "9909013344", mapLink: "https://maps.google.com" },
+      { name: "Kia South", brand: "Kia", address: "Maninagar, Ahmedabad", phone: "9909013345", mapLink: "https://maps.google.com" },
       { name: "MG Ahmedabad", brand: "MG", address: "Thaltej, Ahmedabad", phone: "9909015566", mapLink: "https://maps.google.com" },
+      { name: "MG Central", brand: "MG", address: "Gota, Ahmedabad", phone: "9909015567", mapLink: "https://maps.google.com" },
       { name: "Volkswagen South", brand: "Volkswagen", address: "Prahladnagar, Ahmedabad", phone: "9909017788", mapLink: "https://maps.google.com" },
+      { name: "Volkswagen West", brand: "Volkswagen", address: "SG Highway, Ahmedabad", phone: "9909017789", mapLink: "https://maps.google.com" },
       { name: "Renault North", brand: "Renault", address: "Chandkheda, Ahmedabad", phone: "9909019900", mapLink: "https://maps.google.com" },
+      { name: "Renault West", brand: "Renault", address: "SG Highway, Ahmedabad", phone: "9909019901", mapLink: "https://maps.google.com" },
 
-      // NEW Dealers
+      // Premium Brands
       { name: "Skoda Ahmedabad Auto", brand: "Skoda", address: "Sola, Ahmedabad", phone: "9909021122", mapLink: "https://maps.google.com" },
       { name: "Skoda Westside", brand: "Skoda", address: "C.G. Road, Ahmedabad", phone: "9909023344", mapLink: "https://maps.google.com" },
-
       { name: "Benchmark Motors Ahmedabad", brand: "Mercedes-Benz", address: "SG Road, Ahmedabad", phone: "9909025566", mapLink: "https://maps.google.com" },
-      { name: "Auto Hangar Ahmedabad", brand: "Mercedes-Benz", address: "Sanand, Ahmedabad", phone: "9909027788", mapLink: "https://maps.google.com" }
+      { name: "Auto Hangar Ahmedabad", brand: "Mercedes-Benz", address: "Sanand, Ahmedabad", phone: "9909027788", mapLink: "https://maps.google.com" },
+      { name: "BMW Infinity West", brand: "BMW", address: "SG Highway, Ahmedabad", phone: "9909029900", mapLink: "https://maps.google.com" },
+      { name: "BMW Central", brand: "BMW", address: "Ashram Road, Ahmedabad", phone: "9909031122", mapLink: "https://maps.google.com" },
+      { name: "Audi Ahmedabad", brand: "Audi", address: "SG Highway, Ahmedabad", phone: "9909033344", mapLink: "https://maps.google.com" },
+      { name: "Audi East", brand: "Audi", address: "Maninagar, Ahmedabad", phone: "9909035566", mapLink: "https://maps.google.com" },
+      { name: "Land Rover North", brand: "Land Rover", address: "SG Highway, Ahmedabad", phone: "9909037788", mapLink: "https://maps.google.com" },
+      { name: "JLR Central", brand: "Land Rover", address: "C.G. Road, Ahmedabad", phone: "9909039900", mapLink: "https://maps.google.com" },
+      { name: "Volvo West", brand: "Volvo", address: "SG Highway, Ahmedabad", phone: "9909041122", mapLink: "https://maps.google.com" },
+      { name: "Volvo Central", brand: "Volvo", address: "Ashram Road, Ahmedabad", phone: "9909043344", mapLink: "https://maps.google.com" },
     ]
-  }
+  },
+  // ================= End of Ahmedabad =================
 ];
