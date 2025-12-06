@@ -1,9 +1,68 @@
 export const newsArticles = [
     
+
+  {
+      id: 12,
+      title: "EV vs Hybrid vs Turbo: Which Next-Gen Tech Is For You?",
+      excerpt: "Electric, Hybrid, or Turbo Petrol? We break down the cost, efficiency, and real-world performance of the three most sought-after car technologies in India today.",
+      content: `
+        <h1 class="text-3xl font-extrabold mt-6 mb-4 text-gray-900">India's Future Cars: Exploring EV, Hybrid, & Turbo Technologies</h1>
+        <p class="mb-4 text-lg text-gray-700">The automobile landscape is transforming rapidly. Buyers today face a complex choice between established Turbo-Petrol engines, fuel-saving Hybrids, and the zero-emission future of Electric Vehicles (EVs). Choosing the right technology is crucial, as it directly impacts your running costs, driving experience, and initial budget.</p>
+        
+        <h2 class="text-2xl font-bold mt-8 mb-4 text-blue-700">1. Performance, Efficiency, and Cost Comparison</h2>
+
+        <table class="min-w-full divide-y divide-gray-200 mt-4 mb-6 border border-gray-300">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Feature</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Turbo Petrol</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Hybrid (Strong)</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Electric Vehicle (EV)</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                <tr><td class="px-4 py-2 font-semibold">Running Cost (Per Km)</td><td class="px-4 py-2">Medium/High</td><td class="px-4 py-2">Low</td><td class="px-4 py-2">Lowest (₹1-2)</td></tr>
+                <tr><td class="px-4 py-2 font-semibold">Initial Purchase Cost</td><td class="px-4 py-2">Lowest</td><td class="px-4 py-2">Highest</td><td class="px-4 py-2">High (Subsidies applicable)</td></tr>
+                <tr><td class="px-4 py-2 font-semibold">Acceleration & Torque</td><td class="px-4 py-2">Excellent (Low-end boost)</td><td class="px-4 py-2">Smooth & Refined</td><td class="px-4 py-2">Instant (Highest)</td></tr>
+                <tr><td class="px-4 py-2 font-semibold">Maintenance</td><td class="px-4 py-2">Standard (Complex engine)</td><td class="px-4 py-2">Medium/High (Dual system)</td><td class="px-4 py-2">Lowest (Fewer moving parts)</td></tr>
+                <tr><td class="px-4 py-2 font-semibold">Long Distance Feasibility</td><td class="px-4 py-2">Excellent (Easy refueling)</td><td class="px-4 py-2">Excellent (High mileage)</td><td class="px-4 py-2">Moderate (Depends on charging infra)</td></tr>
+            </tbody>
+        </table>
+
+        <h2 class="text-2xl font-bold mt-8 mb-4 text-blue-700">2. Who Should Buy Which Technology?</h2>
+
+        <h3 class="text-xl font-semibold mt-4 mb-2">Turbo Petrol Engines (e.g., Mahindra XUV700, Hyundai Creta Turbo)</h3>
+        <ul class="list-disc pl-6 space-y-2 mb-6">
+            <li>**Best For:** Enthusiasts, drivers covering under 15,000 km annually, and those prioritizing performance, quick acceleration, and traditional driving feel.</li>
+            <li>**Key Benefit:** Max power delivery and easy, quick refueling anywhere in the country.</li>
+        </ul>
+        
+        <h3 class="text-xl font-semibold mt-4 mb-2">Strong Hybrid Vehicles (e.g., Maruti Grand Vitara Hybrid, Toyota Hycross)</h3>
+        <ul class="list-disc pl-6 space-y-2 mb-6">
+            <li>**Best For:** Individuals with high city usage (where the electric motor often takes over), those with high annual running, and buyers suffering from "range anxiety."</li>
+            <li>**Key Benefit:** Exceptional fuel economy (often 25+ kmpl in the city) without dependence on external charging infrastructure.</li>
+        </ul>
+        
+        <h3 class="text-xl font-semibold mt-4 mb-2">Electric Vehicles (EVs) (e.g., Tata Nexon EV, BMW iX)</h3>
+        <ul class="list-disc pl-6 space-y-2 mb-6">
+            <li>**Best For:** Daily commuters with fixed travel routes, those who can install a dedicated home or office charger, and early adopters prioritizing zero emissions and ultra-low running costs.</li>
+            <li>**Key Benefit:** Lowest running cost, instant torque delivery, and contributing to a sustainable future.</li>
+        </ul>
+        
+        <h2 class="text-2xl font-bold mt-8 mb-4 text-blue-700">Conclusion: Future-Proofing Your Purchase</h2>
+        <p class="mb-4">While Turbo-Petrol offers proven reliability and punchy performance, Hybrid technology provides the best middle ground by combining fantastic mileage with convenience. EVs, though still requiring investment in charging infrastructure, offer the cheapest long-term ownership. Evaluate your daily distance, access to charging points, and primary usage (city vs. highway) before deciding which next-gen technology best fits your needs.</p>
+    `,
+      image: "/news-images/news11-tech-compare.jpg", // Example Image path
+      category: "Technology",
+      date: "Dec 9, 2025", // LATEST
+      author: "Team CarBuddy"
+    },
+
+
   // 1. NEW ARTICLE: Maruti Swift Sport (ID 8)
    {
       id: 5,
-      title: "New Govt Policy: Scrappage Scheme Benefits and Process Explained",
+      title: "New Govt Policy: Scrappage Scheme Benefits and Process",
       excerpt: "The government has rolled out new incentives for vehicle scrappage. Find out how much you can save and the step-by-step process to scrap your old car.",
       content: `The Vehicle Scrappage Policy aims to phase out old, polluting vehicles (over 15 years for commercial, over 20 years for private). The new incentives make it financially attractive for owners to decommission their old vehicles.
     

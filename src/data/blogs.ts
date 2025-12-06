@@ -13,7 +13,11 @@ export interface BlogPost {
 export const blogs: BlogPost[] = [
   // 1. NEW BLOG: Fuel Types Comparison (ID 15) - Maine isse ID 14 se pehle rakha hai, kyunki iski date (Dec 03, 2025) 
   //    ID 14 (Dec 05, 2025) se thodi purani hai, lekin dono naye hain. Agar aapko date wise strict ordering chahiye, toh yeh ID 14 se neeche aana chahiye.
+
   // **NOTE: Agar aapko 14 ko 15 se pehle rakhna hai toh sequence ko manually badal sakte hain.**
+
+   
+
   {
     id: '14',
     slug: 'monsoon-driving-safety-tips',
@@ -50,65 +54,65 @@ export const blogs: BlogPost[] = [
     image: '/cars/blog-monsoon.jpg', 
     category: 'Safety',
   },
-  {
-    id: '15',
-    slug: 'petrol-diesel-cng-comparison',
-    title: 'Petrol vs Diesel vs CNG: Which Fuel Type is Best ?',
-    excerpt: 'Choosing the right fuel depends on your driving distance and budget. We compare the cost, maintenance, and performance of Petrol, Diesel, and CNG cars.',
-    content: `
-      <p>India mein car kharidte waqt sabse bada sawal hota hai: Petrol lein, Diesel lein, ya CNG? Har fuel type ke apne faayde aur nuksaan hain. Aapke liye sabse best choice aapki **daily running** aur **budget** par depend karti hai.</p>
+ {
+    id: '15',
+    slug: 'petrol-diesel-cng-comparison',
+    title: 'Petrol vs Diesel vs CNG: Which Fuel Type is Best?',
+    excerpt: 'Choosing the right fuel depends on your driving distance and budget. We compare the cost, maintenance, and performance of Petrol, Diesel, and CNG cars.',
+    content: `
+      <p>The biggest question when buying a car in India is: Should I choose Petrol, Diesel, or CNG? Each fuel type has its own advantages and disadvantages. The best choice for you ultimately depends on your **daily running distance** and your **overall budget**.</p>
 
-      <h2 class="text-2xl font-bold mt-6 mb-4">Comparison Table</h2>
-      <table class="min-w-full divide-y divide-gray-200 mt-4">
-        <thead>
-          <tr>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feature</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Petrol</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Diesel</th>
-            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CNG/LPG</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200">
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap">Initial Cost</td>
-            <td class="px-6 py-4 whitespace-nowrap">Lowest</td>
-            <td class="px-6 py-4 whitespace-nowrap">Higher (₹50k - ₹1L extra)</td>
-            <td class="px-6 py-4 whitespace-nowrap">Medium (₹60k - ₹80k extra)</td>
-          </tr>
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap">Running Cost (per km)</td>
-            <td class="px-6 py-4 whitespace-nowrap">Highest</td>
-            <td class="px-6 py-4 whitespace-nowrap">Medium/Low</td>
-            <td class="px-6 py-4 whitespace-nowrap">Lowest</td>
-          </tr>
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap">Performance</td>
-            <td class="px-6 py-4 whitespace-nowrap">Smooth, High RPM</td>
-            <td class="px-6 py-4 whitespace-nowrap">High Torque, Good Pickup</td>
-            <td class="px-6 py-4 whitespace-nowrap">Lower than Petrol/Diesel</td>
-          </tr>
-          <tr>
-            <td class="px-6 py-4 whitespace-nowrap">Maintenance Cost</td>
-            <td class="px-6 py-4 whitespace-nowrap">Medium</td>
-            <td class="px-6 py-4 whitespace-nowrap">Highest (Complex parts)</td>
-            <td class="px-6 py-4 whitespace-nowrap">Medium/High (Extra filter/kit)</td>
-          </tr>
-        </tbody>
-      </table>
+      <h2 class="text-2xl font-bold mt-6 mb-4">Comparison Table</h2>
+      <table class="min-w-full divide-y divide-gray-200 mt-4">
+        <thead>
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Feature</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Petrol</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Diesel</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">CNG/LPG</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">Initial Cost</td>
+            <td class="px-6 py-4 whitespace-nowrap">Lowest</td>
+            <td class="px-6 py-4 whitespace-nowrap">Higher (₹50k - ₹1L extra)</td>
+            <td class="px-6 py-4 whitespace-nowrap">Medium (₹60k - ₹80k extra)</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">Running Cost (per km)</td>
+            <td class="px-6 py-4 whitespace-nowrap">Highest</td>
+            <td class="px-6 py-4 whitespace-nowrap">Medium/Low</td>
+            <td class="px-6 py-4 whitespace-nowrap">Lowest</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">Performance</td>
+            <td class="px-6 py-4 whitespace-nowrap">Smooth, High RPM</td>
+            <td class="px-6 py-4 whitespace-nowrap">High Torque, Good Pickup</td>
+            <td class="px-6 py-4 whitespace-nowrap">Lower than Petrol/Diesel</td>
+          </tr>
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap">Maintenance Cost</td>
+            <td class="px-6 py-4 whitespace-nowrap">Medium</td>
+            <td class="px-6 py-4 whitespace-nowrap">Highest (Complex parts)</td>
+            <td class="px-6 py-4 whitespace-nowrap">Medium/High (Extra filter/kit)</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <h2 class="text-2xl font-bold mt-6 mb-4">When to Choose Which?</h2>
+      <h2 class="text-2xl font-bold mt-6 mb-4">When to Choose Which?</h2>
 
-      <ul class="list-disc pl-5 space-y-2 mt-4">
-        <li><strong>Choose Petrol if:</strong> Aapki daily drive **40 km se kam** hai, aapko smooth aur quiet engine chahiye, aur aapki annual running **10,000 km se kam** hai. Initial cost kam hogi.</li>
-        <li><strong>Choose Diesel if:</strong> Aapki daily drive **60 km se zyada** hai, aapko highway par zyada torque aur power chahiye, aur aapki annual running **15,000 km se zyada** hai. Running cost kam ho jayegi.</li>
-        <li><strong>Choose CNG if:</strong> Aapki daily drive **80 km se zyada** hai aur **mostly city ke andar** hi hai. Yeh sabse kam running cost deta hai, lekin boot space chala jata hai aur performance thodi kam ho jati hai.</li>
-      </ul>
-    `,
-    author: 'Rohan Gupta', 
-    date: 'Dec 03, 2025',
-    image: '/cars/blog-fuel.jpg', 
-    category: 'Guides',
-  },
+      <ul class="list-disc pl-5 space-y-2 mt-4">
+        <li><strong>Choose Petrol if:</strong> Your daily drive is **less than 40 km**, you prefer a smooth and quiet engine, and your annual running is **less than 10,000 km**. The initial cost will be lower.</li>
+        <li><strong>Choose Diesel if:</strong> Your daily drive is **more than 60 km**, you need more torque and power on the highway, and your annual running is **more than 15,000 km**. The running cost will be significantly lower.</li>
+        <li><strong>Choose CNG if:</strong> Your daily drive is **more than 80 km** and is **mostly confined to the city**. This option offers the lowest running cost, but it sacrifices boot space and results in slightly lower performance than Petrol or Diesel.</li>
+      </ul>
+    `,
+    author: 'Rohan Gupta', 
+    date: 'Dec 03, 2025',
+    image: '/cars/blog-fuel.jpg', 
+    category: 'Guides',
+},
 
   // 3. Essential Car Maintenance Tips for 2025
   {
@@ -294,23 +298,23 @@ export const blogs: BlogPost[] = [
     excerpt: 'Buying a second-hand car can be smart if you check these points. Don’t get scammed!',
     content: `
       <h2 class="text-2xl font-bold mt-6 mb-4">The Ultimate 10-Point Used Car Checklist</h2>
-      <p><strong>1. Papers Please (RC, Insurance, PUC):</strong> First, check the Registration Certificate (RC). Match the owner's name and address. Check for 'Hypothecation' (which means the car is on loan). The insurance must be valid, and the Pollution Under Control (PUC) certificate should be up-to-date.</p>
+      <p><strong>1. Papers Please (RC, Insurance, PUC):</strong> First, check the Registration Certificate (RC). Match the owner's name and address. Check for 'Hypothecation' (which means the car is on loan). The insurance must be valid, and the Pollution Under Control (PUC) certificate should be up-to-date.</p><br>
 
-      <p><strong>2. Check the Service History:</strong> Ask for the car's service booklet. Check if services were done on time. A missing service history can be a major red flag.</p>
+      <p><strong>2. Check the Service History:</strong> Ask for the car's service booklet. Check if services were done on time. A missing service history can be a major red flag.</p><br>
       
-      <p><strong>3. Exterior (Rust and Repaint):</strong> Inspect the car in broad daylight. Look for uneven panel gaps. Differences in paint shade or small bubbles (a sign of rust) are bad signs. Always check under the doors and beneath the carpet in the boot (dickey).</p>
+      <p><strong>3. Exterior (Rust and Repaint):</strong> Inspect the car in broad daylight. Look for uneven panel gaps. Differences in paint shade or small bubbles (a sign of rust) are bad signs. Always check under the doors and beneath the carpet in the boot (dickey).</p><br>
       
-      <p><strong>4. Engine Bay (Cold Start):</strong> Always 'Cold Start' the engine (one that hasn't been run for a while). Listen for any strange rattling or knocking sounds. Look for any kind of oil leaks in the engine bay.</p>
+      <p><strong>4. Engine Bay (Cold Start):</strong> Always 'Cold Start' the engine (one that hasn't been run for a while). Listen for any strange rattling or knocking sounds. Look for any kind of oil leaks in the engine bay.</p><br>
       
-      <p><strong>5. Tyre Condition:</strong> Check the tyre tread. If the tyres are worn unevenly (more on one side), it's a sign of alignment problems. Mismatched tyre brands also suggest poor maintenance.</p>
+      <p><strong>5. Tyre Condition:</strong> Check the tyre tread. If the tyres are worn unevenly (more on one side), it's a sign of alignment problems. Mismatched tyre brands also suggest poor maintenance.</p><br>
       
-      <p><strong>6. Interior and Electronics:</strong> Sit inside and test everything. Power windows, AC (both cooling and heating), wipers, all lights, infotainment system—make sure it all works. Check for rust on the seat railings, a potential sign of a flood-damaged car.</p>
+      <p><strong>6. Interior and Electronics:</strong> Sit inside and test everything. Power windows, AC (both cooling and heating), wipers, all lights, infotainment system—make sure it all works. Check for rust on the seat railings, a potential sign of a flood-damaged car.</p><br>
       
-      <p><strong>7. The All-Important Test Drive:</strong> Drive the car for at least 5-10 km at various speeds. Test the brakes (any strange noises or vibrations?). The steering should remain straight. The suspension shouldn't make a loud 'thud' sound over potholes.</p>
+      <p><strong>7. The All-Important Test Drive:</strong> Drive the car for at least 5-10 km at various speeds. Test the brakes (any strange noises or vibrations?). The steering should remain straight. The suspension shouldn't make a loud 'thud' sound over potholes.</p><br>
       
-      <p><strong>8. Identify Flood-Damaged Cars:</strong> A persistent damp or musty smell inside the car is a tell-tale sign of flood damage. Check the floor under the carpets for moisture or rust.</p>
+      <p><strong>8. Identify Flood-Damaged Cars:</strong> A persistent damp or musty smell inside the car is a tell-tale sign of flood damage. Check the floor under the carpets for moisture or rust.</p><br>
       
-      <p><strong>9. Odometer Tampering:</strong> If a car has 'very low mileage' (e.g., 20,000 km in 5 years) but the steering wheel, gear knob, and pedals are heavily worn, the meter might be tampered with. Match the kilometers with the service history.</p>
+      <p><strong>9. Odometer Tampering:</strong> If a car has 'very low mileage' (e.g., 20,000 km in 5 years) but the steering wheel, gear knob, and pedals are heavily worn, the meter might be tampered with. Match the kilometers with the service history.</p><br>
       
       <p><strong>10. Bring a Mechanic:</strong> Once you've shortlisted a car, always get it inspected by a trusted mechanic before finalizing the deal. They can catch critical issues that you might have missed.</p>
       
