@@ -3,6 +3,32 @@
 export const newLaunchCars = [
   
   
+{
+    id: 910,
+    name: "Renault New Duster",
+    slug: "renault-new-duster",
+    priceRange: "₹ 12.00 - 18.00 Lakh*",
+    location: "Expected: Jan - Mar 2026", // Unveils 26th Jan, Launches Mar 2026
+    category: "SUV",
+    imageUrls: [
+      "/cars/duster.jpg", // Assuming you have a specific image path
+      "/cars/duster-side.jpg",
+      "/cars/duster-rear.jpg",
+      "/cars/duster-interior.jpg"
+    ],
+    specs: {
+      engine: "1.3L Turbo Petrol / 1.5L Petrol",
+      power: "156 hp (Turbo)",
+      torque: "250 Nm (Turbo)",
+      transmission: "Manual/CVT/DCT (Expected)",
+      mileage: "16 kmpl (Expected)",
+      bootSpace: "475 L (Expected)",
+      groundClearance: "205 mm (Expected)"
+    },
+    features: ["ADAS", "Large Touchscreen", "Ventilated Seats (Expected)", "All-Wheel Drive (AWD) Optional"]
+  },
+
+
   {
     id: 908,
     name: "Audi A5",

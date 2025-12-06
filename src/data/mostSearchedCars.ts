@@ -4,6 +4,31 @@ export const mostSearchedCars = [
   // ==============================
   // 1. SUV CATEGORY
   // ==============================
+   
+  { 
+    id: 28, // New ID for Syros
+    name: "Kia Syros", 
+    price: "₹ 8.67 - 15.99 Lakh*", 
+    images: ["/cars/syros.jpg", "/cars/syros-side.jpg", "/cars/syros-rear.jpg", "/cars/syros-interior.jpg"], 
+    category: "SUV",
+    fuelType: "Petrol / Diesel",
+    specs: { 
+      engine: "998 cc - 1493 cc", 
+      power: "114 - 118 bhp", 
+      torque: "172 Nm - 250 Nm", 
+      transmission: "iMT/DCT/AT/MT", 
+      mileage: "18.2 kmpl (Expected)", 
+      bootSpace: "350 L", 
+      groundClearance: "190 mm" 
+    },
+    features: ["Ventilated Seats", "ADAS", "Electric Sunroof", "10.25-inch Infotainment"],
+    variants: [
+      { name: "HTK 1.2 Petrol", price: "₹ 8.67 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "HTK Plus Diesel", price: "₹ 10.74 Lakh", engine: "1.5L Diesel", transmission: "Manual" },
+      { name: "GTX Turbo DCT", price: "₹ 15.00 Lakh", engine: "1.0L Turbo", transmission: "Automatic" },
+      { name: "GTX Diesel AT", price: "₹ 15.99 Lakh", engine: "1.5L Diesel", transmission: "Automatic" }
+    ]
+  },
 
   { 
     id: 27, 

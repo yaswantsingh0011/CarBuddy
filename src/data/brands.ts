@@ -5,7 +5,7 @@ export const popularBrands = [
   { id: 2, name: "Mercedes", logo: "/brands/mercedes.png" },
   { id: 3, name: "Tata", logo: "/brands/tata.png" },
   { id: 4, name: "Hyundai", logo: "/brands/hyundai.png" },
-  { id: 5, name: "ValksWagen", logo: "/brands/valkswagen.png" },
+  { id: 5, name: "Skoda", logo: "/brands/skoda.png" },
   { id: 6, name: "Mahindra", logo: "/brands/mahindra.png" },
   { id: 7, name: "Kia", logo: "/brands/kia.png" },
   { id: 8, name: "Toyota", logo: "/brands/toyotanew.png" },
