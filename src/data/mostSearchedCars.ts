@@ -292,7 +292,28 @@ export const mostSearchedCars = [
   // ==============================
   // 2. LUXURY CATEGORY
   // ==============================
-  
+  { 
+    id: 45, // New ID for Maybach GLS
+    name: "Mercedes-Benz Maybach GLS", 
+    price: "₹ 3.17 - 3.71 Cr*", // Based on image_6e421b.jpg
+    images: ["/cars/maybach.jpg", "/cars/maybach-side.jpg", "/cars/maybach-rear.jpg", "/cars/maybach-interior.jpg"], 
+    category: "Luxury",
+    fuelType: "Petrol",
+    specs: { 
+      engine: "3982 cc (4.0L V8)", 
+      power: "550 bhp", // Based on image_6e421b.jpg
+      torque: "700 Nm", 
+      transmission: "9G-TRONIC AWD", 
+      mileage: "10 kmpl", 
+      bootSpace: "395 L", 
+      groundClearance: "200 mm" 
+    },
+    features: ["Executive Rear Seats", "E-Active Body Control", "Burmester High-End 3D Sound", "Air Balance Package"],
+    variants: [
+      { name: "Maybach 600 4MATIC", price: "₹ 3.17 Cr", engine: "4.0L Petrol", transmission: "Automatic" },
+      { name: "Maybach 600 Night Series", price: "₹ 3.71 Cr", engine: "4.0L Petrol", transmission: "Automatic" },
+    ]
+  },
   
   { 
     id: 14, 
