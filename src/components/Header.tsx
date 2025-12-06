@@ -17,7 +17,7 @@ import { newLaunchCars } from '@/data/newlaunchcars';
 import { newCarsData } from '@/data/newCarsData';
 import { usedCarsData } from '@/data/usedCarsData';
 
-const popularCities = ["New Delhi", "Gurgaon", "Mumbai", "Bangalore", "Pune", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad", "Jaipur"];
+const popularCities = ["Jaipur","New Delhi", "Gurgaon", "Mumbai", "Bangalore", "Pune", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad"];
 
 const Header: React.FC = () => {
   const router = useRouter();
