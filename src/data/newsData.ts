@@ -16,7 +16,7 @@ export const newsArticles = [
 
       **Verdict:**
       The new Dzire might be safer, but the Amaze is smoother and looks classier. If you want a no-nonsense, comfortable family sedan, the Amaze is still a top contender.`,
-      image: "/news-images/news-8.jpg",
+      image: "/news-images/news-7.jpg",
       category: "Car Launch",
       date: "Dec 12, 2025",
       author: "Vikram Singh"
@@ -36,7 +36,7 @@ export const newsArticles = [
 
       **Verdict:**
       While the price has gone up by ₹50,000, the improved refinement and slightly better mileage make the Fortuner an even more complete package. It remains the undisputed king of the segment.`,
-      image: "/news-images/news-9.jpg",
+      image: "/news-images/news-8.jpg",
       category: "Car Update",
       date: "Dec 08, 2025",
       author: "Arjun Verma"
@@ -58,7 +58,7 @@ export const newsArticles = [
 
       **Verdict:**
       If you enjoy driving, look no further. The Kylaq offers premium German feel at a Maruti price point.`,
-      image: "/news-images/news-7.jpg",
+      image: "/news-images/news-6.jpg",
       category: "Expert Review",
       date: "Dec 10, 2025",
       author: "Aditya Rao"
