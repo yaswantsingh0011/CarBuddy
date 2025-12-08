@@ -235,6 +235,222 @@ export const usedCarsData: UsedCar[] = [
     rto: "RJ14 (Jaipur)",
     engineDisplacement: "1497 cc",
     transmissionType: "Automatic"
+  },
+
+  // ==========================================
+  // ✅ NEW CARS UNDER 5 LAKH (ADDED BELOW)
+  // ==========================================
+
+  {
+    id: 8,
+    name: "Renault Kwid RXT",
+    slug: "renault-kwid-rxt-petrol-2019",
+    price: "₹ 3.85 Lakh",
+    kms: "28,000 KM",
+    modelYear: "2019",
+    fuelType: "Petrol",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: [ 
+      "/cars/Kwid-1.jpg",
+      "/cars/Kwid-2.jpg",
+      "/cars/Kwid-3.jpg",
+      "/cars/Kwid-4.jpg",
+    ],
+    image: "/cars/kwid-1.jpg",
+    sellerPhone: "9876543220",
+    specs: { engine: "0.8L SCe", power: "53 bhp", torque: "72 Nm", transmission: "5-MT", mileage: "22.3 kmpl" },
+    features: ["Touchscreen Infotainment", "Digital Instrument Cluster", "Reverse Camera"],
+    
+    // Overview Data
+    registrationYear: "Aug 2019",
+    insurance: "Comprehensive",
+    seats: "5 Seats",
+    rto: "MH12 (Pune)",
+    engineDisplacement: "799 cc",
+    transmissionType: "Manual"
+  },
+
+  {
+    id: 9,
+    name: "Maruti Alto 800 LXi",
+    slug: "maruti-alto-800-lxi-petrol-2020",
+    price: "₹ 3.10 Lakh",
+    kms: "15,500 KM",
+    modelYear: "2020",
+    fuelType: "Petrol",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: [ 
+     "/cars/Alto800-1.jpg",
+      "/cars/Alto800-2.jpg",
+      "/cars/Alto800-3.jpg",
+      "/cars/Alto800-4.jpg",
+    ],
+    image: "/cars/alto-1.jpg",
+    sellerPhone: "9876543221",
+    specs: { engine: "0.8L F8D", power: "47 bhp", torque: "69 Nm", transmission: "5-MT", mileage: "22.05 kmpl" },
+    features: ["Front Power Windows", "Power Steering", "Dual Tone Interiors"],
+    
+    // Overview Data
+    registrationYear: "Jan 2020",
+    insurance: "Third Party",
+    seats: "5 Seats",
+    rto: "RJ14 (Jaipur)",
+    engineDisplacement: "796 cc",
+    transmissionType: "Manual"
+  },
+
+  {
+    id: 10,
+    name: "Hyundai Grand i10 Magna",
+    slug: "hyundai-grand-i10-magna-petrol-2017",
+    price: "₹ 4.75 Lakh",
+    kms: "42,000 KM",
+    modelYear: "2017",
+    fuelType: "Petrol",
+    owner: "2nd Owner",
+    location: "Jaipur",
+    images: [ 
+     "/cars/i10-1.jpg",
+      "/cars/i10-2.jpg",
+      "/cars/i10-3.jpg",
+      "/cars/i10-4.jpg",
+    ],
+    image: "/cars/grandi10-1.jpg",
+    sellerPhone: "9876543222",
+    specs: { engine: "1.2L Kappa", power: "81 bhp", torque: "114 Nm", transmission: "5-MT", mileage: "18.9 kmpl" },
+    features: ["Rear AC Vents", "Steering Mounted Controls", "Fog Lamps"],
+    
+    // Overview Data
+    registrationYear: "May 2017",
+    insurance: "Comprehensive",
+    seats: "5 Seats",
+    rto: "RJ14 (Jaipur)",
+    engineDisplacement: "1197 cc",
+    transmissionType: "Manual"
+  },
+
+  {
+    id: 11,
+    name: "Tata Tiago XT",
+    slug: "tata-tiago-xt-petrol-2018",
+    price: "₹ 4.90 Lakh",
+    kms: "35,000 KM",
+    modelYear: "2018",
+    fuelType: "Petrol",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: [ 
+     "/cars/tiago-1.jpg",
+      "/cars/tiago-2.jpg",
+      "/cars/tiago-3.jpg",
+      "/cars/tiago-4.jpg",
+    ],
+    image: "/cars/tiago-1.jpg",
+    sellerPhone: "9876543223",
+    specs: { engine: "1.2L Revotron", power: "84 bhp", torque: "113 Nm", transmission: "5-MT", mileage: "23.84 kmpl" },
+    features: ["Harman Sound System", "ConnectNext App", "Multi-Drive Modes"],
+    
+    // Overview Data
+    registrationYear: "Nov 2018",
+    insurance: "Third Party",
+    seats: "5 Seats",
+    rto: "RJ14 (Jaipur)",
+    engineDisplacement: "1199 cc",
+    transmissionType: "Manual"
+  },
+
+  {
+    id: 12,
+    name: "Maruti Baleno Zeta",
+    slug: "maruti-baleno-zeta-petrol-2021",
+    price: "₹ 7.25 Lakh",
+    kms: "32,000 KM",
+    modelYear: "2021",
+    fuelType: "Petrol",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: ["/cars/baleno-1.jpg", "/cars/baleno-2.jpg", "/cars/baleno-3.jpg", "/cars/baleno-4.jpg"],
+    image: "/cars/baleno-1.jpg",
+    sellerPhone: "9876543224",
+    specs: { engine: "1.2L DualJet", power: "88 bhp", torque: "113 Nm", transmission: "5-MT", mileage: "22.35 kmpl" },
+    features: ["Push Button Start", "SmartPlay Studio", "LED Projector Headlamps"],
+    registrationYear: "Mar 2021",
+    insurance: "Zero Dep",
+    seats: "5 Seats",
+    rto: "RJ14 (Jaipur)",
+    engineDisplacement: "1197 cc",
+    transmissionType: "Manual"
+  },
+
+  {
+    id: 13,
+    name: "Honda Amaze VX CVT",
+    slug: "honda-amaze-vx-cvt-petrol-2020",
+    price: "₹ 8.50 Lakh",
+    kms: "28,500 KM",
+    modelYear: "2020",
+    fuelType: "Petrol",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: ["/cars/amaze-1.jpg", "/cars/amaze-2.jpg", "/cars/amaze-3.jpg", "/cars/amaze-4.jpg"],
+    image: "/cars/amaze-1.jpg",
+    sellerPhone: "9876543225",
+    specs: { engine: "1.2L i-VTEC", power: "89 bhp", torque: "110 Nm", transmission: "CVT", mileage: "18.3 kmpl" },
+    features: ["Paddle Shifters", "Cruise Control", "Automatic Climate Control"],
+    registrationYear: "Sept 2020",
+    insurance: "Comprehensive",
+    seats: "5 Seats",
+    rto: "RJ14 (Jaipur)",
+    engineDisplacement: "1199 cc",
+    transmissionType: "Automatic"
+  },
+
+  {
+    id: 14,
+    name: "Maruti Vitara Brezza ZDi",
+    slug: "maruti-brezza-zdi-diesel-2019",
+    price: "₹ 8.90 Lakh",
+    kms: "48,000 KM",
+    modelYear: "2019",
+    fuelType: "Diesel",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: ["/cars/brezza-1.jpg", "/cars/brezza-2.jpg", "/cars/brezza-3.jpg", "/cars/brezza-4.jpg"],
+    image: "/cars/brezza-1.jpg",
+    sellerPhone: "9876543226",
+    specs: { engine: "1.3L DDiS 200", power: "89 bhp", torque: "200 Nm", transmission: "5-MT", mileage: "24.3 kmpl" },
+    features: ["SmartPlay Infotainment", "Cruise Control", "Mood Lights"],
+    registrationYear: "June 2019",
+    insurance: "Third Party",
+    seats: "5 Seats",
+    rto: "RJ14 (Jaipur)",
+    engineDisplacement: "1248 cc",
+    transmissionType: "Manual"
+  },
+
+  {
+    id: 15,
+    name: "Hyundai Elite i20 Asta (O)",
+    slug: "hyundai-i20-asta-o-petrol-2020",
+    price: "₹ 9.15 Lakh",
+    kms: "21,000 KM",
+    modelYear: "2020",
+    fuelType: "Petrol",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: ["/cars/i20-1.jpg", "/cars/i20-2.jpg", "/cars/i20-3.jpg", "/cars/i20-4.jpg"],
+    image: "/cars/i20-1.jpg",
+    sellerPhone: "9876543227",
+    specs: { engine: "1.2L Kappa", power: "82 bhp", torque: "115 Nm", transmission: "5-MT", mileage: "20.35 kmpl" },
+    features: ["Bose Premium Sound", "Electric Sunroof", "6 Airbags"],
+    registrationYear: "Dec 2020",
+    insurance: "Comprehensive",
+    seats: "5 Seats",
+    rto: "RJ14 (Jaipur)",
+    engineDisplacement: "1197 cc",
+    transmissionType: "Manual"
   }
   
 ];

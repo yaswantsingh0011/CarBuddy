@@ -18,12 +18,14 @@ import OnRoadPriceModal from '@/components/OnRoadPriceModal';
 import EMICalculatorModal from '@/components/EMICalculatorModal';
 import VariantsTable from '@/components/VariantsTable'; 
 import UserReviews from '@/components/UserReviews'; 
-import DealersSection from '@/components/DealersSection'; // ✅ NEW IMPORT
+import DealersSection from '@/components/DealersSection';
 
 import { useLocation } from '@/context/LocationContext'; 
 
 import { 
-  FaStar, FaStarHalfAlt, FaGasPump, FaCogs, FaBolt, FaArrowRight, FaCheckCircle, FaCar, FaRoad, FaUser, FaMapMarkerAlt, FaCalendarAlt, FaInfoCircle, FaPhoneAlt, FaWhatsapp, FaChevronDown
+  FaStar, FaStarHalfAlt, FaGasPump, FaCogs, FaBolt, FaArrowRight, FaCheckCircle, 
+  FaCar, FaRoad, FaUser, FaMapMarkerAlt, FaCalendarAlt, FaInfoCircle, FaPhoneAlt, 
+  FaWhatsapp, FaChevronDown, FaTimesCircle, FaThumbsUp, FaThumbsDown, FaTachometerAlt, FaChair, FaShieldAlt
 } from 'react-icons/fa';
 
 const generateSlug = (name: string) => name.trim().toLowerCase().replace(/\s+/g, "-");
@@ -42,6 +44,7 @@ const CarDetailPage = ({ params }: PageProps) => {
   const [isOnRoadOpen, setIsOnRoadOpen] = useState(false);
   const [isEMIOpen, setIsEMIOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  
   const [activeTab, setActiveTab] = useState<'specs' | 'features' | 'reviews'>('specs');
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
 
@@ -61,14 +64,43 @@ const CarDetailPage = ({ params }: PageProps) => {
 
   if (!foundCar) return notFound();
 
+  // --- DATA EXTRACTION ---
   const isUsed = (foundCar as any).kms !== undefined; 
   const isEV = foundCar.id > 800 || (foundCar as any).category === "EV" || foundCar.name.includes("Electric") || foundCar.name.includes("EV");
   const carImages = (foundCar as any).images || (foundCar as any).imageUrls || [(foundCar as any).image] || ["/cars/placeholder.jpg"];
   const basePrice = (foundCar as any).price || (foundCar as any).priceRange;
   const displayPrice = selectedVariant ? selectedVariant.price : basePrice;
   const variants = (foundCar as any).variants || [];
-  const brandName = foundCar.name.split(" ")[0]; // ✅ Extract Brand Name
+  
+  // Pros & Cons Data
+  const pros = (foundCar as any).pros || [
+      "Stunning and aggressive design language",
+      "Feature-loaded cabin with premium materials",
+      "Powerful engine options with refined performance",
+      "Spacious interior with ample legroom"
+  ];
 
+  const cons = (foundCar as any).cons || [
+      "Fuel efficiency drops in heavy city traffic",
+      "Third-row seating is best suited for kids",
+      "Service network is still expanding in rural areas"
+  ];
+
+  // Expert Review Data
+  const defaultReview = {
+      verdict: `The ${foundCar.name} is undoubtedly one of the strongest contenders in its segment. It strikes a perfect balance between premium aesthetics and rugged performance. For buyers looking for a car that offers road presence, advanced tech features, and reliable mechanicals, this is a top recommendation.`,
+      
+      performance: `Under the hood, the ${foundCar.name} feels lively and eager. Whether you are driving in the city or cruising on the highway, the power delivery is linear. The suspension setup deserves special mention—it absorbs potholes with ease, ensuring a plush ride quality for all passengers.`,
+      
+      interior: `Step inside, and you are greeted by a cabin that feels segments above its price point. The dashboard layout is ergonomic, and the quality of materials used—soft-touch plastics and premium upholstery—adds to the luxury quotient. The infotainment system is snappy and supports seamless smartphone connectivity.`,
+      
+      safety: `Safety hasn't been compromised. With a robust build quality and a suite of active safety features including ABS, EBD, and multiple airbags, the ${foundCar.name} inspires confidence at high speeds.`
+  };
+
+  const expertReview = (foundCar as any).expertReview || defaultReview;
+
+
+  // --- SPEC NORMALIZATION ---
   let normalizedSpecs = { engine: "N/A", power: "N/A", torque: "N/A", transmission: "N/A", bootSpace: "N/A", groundClearance: "N/A", mileage: "N/A" };
   
   if (selectedVariant) {
@@ -125,7 +157,7 @@ const CarDetailPage = ({ params }: PageProps) => {
     <div className="min-h-screen bg-gray-100 py-8 font-sans">
       <div className="container mx-auto px-4 max-w-7xl">
         
-        {/* TOP SECTION */}
+        {/* TOP SECTION (Images + Price) */}
         <div className="bg-white rounded-xl shadow-sm p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
             
             {/* GALLERY */}
@@ -199,12 +231,15 @@ const CarDetailPage = ({ params }: PageProps) => {
         </div>
 
         {/* TABS SECTION */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
             <h3 className="text-xl font-bold text-gray-900 mb-6">{isUsed ? "Vehicle Details & Features" : "Detailed Key Specs & Features"}</h3>
+            
             <div className="flex border-b border-gray-200 mb-8 overflow-x-auto">
                 <button onClick={() => setActiveTab('specs')} className={`pb-3 pr-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'specs' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>{isUsed ? "Car Overview" : "Key Specifications"}</button>
                 <button onClick={() => setActiveTab('features')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'features' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>{isUsed ? "Condition & Features" : "Top Features"}</button>
-                <button onClick={() => setActiveTab('reviews')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'reviews' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>User Reviews</button>
+                
+                {/* ✅ USER REVIEWS TAB: ONLY FOR NEW CARS (!isUsed) */}
+                {!isUsed && <button onClick={() => setActiveTab('reviews')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'reviews' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>User Reviews</button>}
             </div>
 
             {activeTab === 'specs' && (
@@ -232,19 +267,116 @@ const CarDetailPage = ({ params }: PageProps) => {
                 </div>
             )}
 
-            {activeTab === 'reviews' && <UserReviews carName={foundCar.name} />}
+            {/* ✅ USER REVIEWS CONTENT: ONLY FOR NEW CARS */}
+            {!isUsed && activeTab === 'reviews' && <UserReviews carName={foundCar.name} />}
             
             <div className="mt-8 pt-4 border-t border-gray-100">
                 <button className="text-red-600 text-sm font-bold flex items-center gap-1 hover:underline">View All Specs and Features <FaArrowRight size={12} /></button>
             </div>
         </div>
 
-        {/* ✅ DEALERS SECTION (New Cars Only) */}
+        {/* DEALERS SECTION (New Cars Only) */}
         {!isUsed && (
              <DealersSection brand={foundCar.name.split(" ")[0]} />
         )}
 
-        {/* VARIANTS TABLE */}
+        {/* EXPERT REVIEW SECTION (Moved BELOW Dealers, Only New Cars) */}
+        {!isUsed && (
+            <div className="bg-white rounded-xl shadow-sm p-6 mt-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Expert Review & Verdict</h3>
+                
+                {/* PROS AND CONS SECTION */}
+                <div className="grid md:grid-cols-2 gap-6 mb-8">
+                    {/* Pros */}
+                    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-green-500">
+                        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <FaThumbsUp className="text-green-500" /> Things We Like
+                        </h3>
+                        <ul className="space-y-3">
+                            {pros.map((item: string, idx: number) => (
+                                <li key={idx} className="flex items-start gap-3">
+                                    <FaCheckCircle className="text-green-500 mt-1 flex-shrink-0" size={16} />
+                                    <span className="text-gray-700 text-sm font-medium">{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Cons */}
+                    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-red-500">
+                        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <FaThumbsDown className="text-red-500" /> Things To Improve
+                        </h3>
+                        <ul className="space-y-3">
+                            {cons.map((item: string, idx: number) => (
+                                <li key={idx} className="flex items-start gap-3">
+                                    <FaTimesCircle className="text-red-500 mt-1 flex-shrink-0" size={16} />
+                                    <span className="text-gray-700 text-sm font-medium">{item}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
+
+                {/* DETAILED VERDICT */}
+                <div className="bg-gray-50 p-6 md:p-8 rounded-lg border border-gray-100">
+                    <h4 className="text-xl font-bold text-gray-900 mb-4">CarBuddy Verdict</h4>
+                    <p className="text-gray-700 leading-relaxed text-lg mb-8 border-l-4 border-red-600 pl-4 bg-white p-4 rounded shadow-sm">
+                        {expertReview.verdict}
+                    </p>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <h5 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-3">
+                                <FaTachometerAlt className="text-red-500"/> Engine & Performance
+                            </h5>
+                            <p className="text-gray-600 text-sm leading-relaxed text-justify">
+                                {expertReview.performance}
+                            </p>
+                        </div>
+                        
+                        <div>
+                            <h5 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-3">
+                                <FaChair className="text-red-500"/> Interior & Comfort
+                            </h5>
+                            <p className="text-gray-600 text-sm leading-relaxed text-justify">
+                                {expertReview.interior}
+                            </p>
+                        </div>
+
+                        <div>
+                            <h5 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-3">
+                                <FaShieldAlt className="text-red-500"/> Safety & Build
+                            </h5>
+                            <p className="text-gray-600 text-sm leading-relaxed text-justify">
+                                {expertReview.safety}
+                            </p>
+                        </div>
+                        
+                        {/* Scorecard */}
+                        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                            <h5 className="text-sm font-bold text-gray-500 uppercase mb-4">Our Scorecard</h5>
+                            <div className="space-y-4">
+                                <div>
+                                    <div className="flex justify-between mb-1"><span className="text-xs font-bold">Performance</span><span className="text-xs font-bold text-green-600">4.5/5</span></div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{width: '90%'}}></div></div>
+                                </div>
+                                <div>
+                                    <div className="flex justify-between mb-1"><span className="text-xs font-bold">Comfort</span><span className="text-xs font-bold text-green-600">4.0/5</span></div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{width: '80%'}}></div></div>
+                                </div>
+                                <div>
+                                    <div className="flex justify-between mb-1"><span className="text-xs font-bold">Value for Money</span><span className="text-xs font-bold text-green-600">4.8/5</span></div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{width: '96%'}}></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )}
+
+        {/* VARIANTS TABLE (Only New Cars) */}
         {!isUsed && (foundCar as any).variants && (
              <div className="mt-8">
                 <VariantsTable variants={(foundCar as any).variants} carName={foundCar.name} />
