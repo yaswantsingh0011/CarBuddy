@@ -451,6 +451,106 @@ export const usedCarsData: UsedCar[] = [
     rto: "RJ14 (Jaipur)",
     engineDisplacement: "1197 cc",
     transmissionType: "Manual"
+  },
+
+  {
+    id: 16,
+    name: "Mahindra Thar LX Hard Top",
+    slug: "mahindra-thar-lx-diesel-2022",
+    price: "₹ 14.50 Lakh",
+    kms: "18,000 KM",
+    modelYear: "2022",
+    fuelType: "Diesel",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: ["/cars/thar-1.jpg", "/cars/thar-2.jpg", "/cars/thar-3.jpg", "/cars/thar-4.jpg"],
+    image: "/cars/thar-1.jpg",
+    sellerPhone: "9876543230",
+    specs: { engine: "2.2L mHawk", power: "130 bhp", torque: "300 Nm", transmission: "Automatic", mileage: "15.2 kmpl" },
+    features: ["4x4 Low Range", "Convertible Top Option", "Touchscreen Infotainment"],
+    
+    // Overview Data
+    registrationYear: "Feb 2022",
+    insurance: "Zero Dep",
+    seats: "4 Seats",
+    rto: "RJ14 (Jaipur)",
+    engineDisplacement: "2184 cc",
+    transmissionType: "Automatic"
+  },
+
+  {
+    id: 17,
+    name: "Honda City ZX CVT (5th Gen)",
+    slug: "honda-city-zx-cvt-petrol-2021",
+    price: "₹ 13.25 Lakh",
+    kms: "25,000 KM",
+    modelYear: "2021",
+    fuelType: "Petrol",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: ["/cars/city-1.jpg", "/cars/city-2.jpg", "/cars/city-3.jpg", "/cars/city-4.jpg"],
+    image: "/cars/city-1.jpg",
+    sellerPhone: "9876543231",
+    specs: { engine: "1.5L i-VTEC", power: "119 bhp", torque: "145 Nm", transmission: "CVT", mileage: "18.4 kmpl" },
+    features: ["Lane Watch Camera", "Sunroof", "Alexa Compatibility"],
+    
+    // Overview Data
+    registrationYear: "May 2021",
+    insurance: "Comprehensive",
+    seats: "5 Seats",
+    rto: "RJ45 (Jaipur)",
+    engineDisplacement: "1498 cc",
+    transmissionType: "Automatic"
+  },
+
+  {
+    id: 18,
+    name: "Jeep Compass Limited Plus",
+    slug: "jeep-compass-limited-diesel-2019",
+    price: "₹ 16.80 Lakh",
+    kms: "42,000 KM",
+    modelYear: "2019",
+    fuelType: "Diesel",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: ["/cars/compass-1.jpg", "/cars/compass-2.jpg", "/cars/compass-3.jpg", "/cars/compass-4.jpg"],
+    image: "/cars/compass-1.jpg",
+    sellerPhone: "9876543232",
+    specs: { engine: "2.0L Multijet II", power: "170 bhp", torque: "350 Nm", transmission: "6-MT", mileage: "17.1 kmpl" },
+    features: ["Panoramic Sunroof", "Dual Zone Climate Control", "Power Driver Seat"],
+    
+    // Overview Data
+    registrationYear: "Aug 2019",
+    insurance: "Comprehensive",
+    seats: "5 Seats",
+    rto: "RJ14 (Jaipur)",
+    engineDisplacement: "1956 cc",
+    transmissionType: "Manual"
+  },
+
+  {
+    id: 19,
+    name: "Toyota Innova Crysta 2.4 GX",
+    slug: "toyota-innova-crysta-gx-diesel-2018",
+    price: "₹ 18.50 Lakh",
+    kms: "65,000 KM",
+    modelYear: "2018",
+    fuelType: "Diesel",
+    owner: "1st Owner",
+    location: "Jaipur",
+    images: ["/cars/crysta-1.jpg", "/cars/crysta-2.jpg", "/cars/crysta-3.jpg", "/cars/crysta-4.jpg"],
+    image: "/cars/crysta-1.jpg",
+    sellerPhone: "9876543233",
+    specs: { engine: "2.4L Diesel", power: "148 bhp", torque: "343 Nm", transmission: "Automatic", mileage: "12.0 kmpl" },
+    features: ["Captain Seats", "Touchscreen Audio", "Cruise Control"],
+    
+    // Overview Data
+    registrationYear: "Nov 2018",
+    insurance: "Third Party",
+    seats: "7 Seats",
+    rto: "RJ14 (Jaipur)",
+    engineDisplacement: "2393 cc",
+    transmissionType: "Automatic"
   }
   
 ];
