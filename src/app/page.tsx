@@ -6,13 +6,13 @@ import Hero from '@/components/Hero';
 
 // --- COMPONENTS ---
 import UpcomingCarCard from '@/components/UpcomingCarCard';
-import ElectricCarCard from '@/components/ElectricCarCard'; 
+import ElectricCarCard from '@/components/ElectricCarCard'; // ✅ Default Import
 import MostSearchedSection from '@/components/MostSearchedSection';
 import BlogSection from '@/components/BlogSection'; 
 import BrandSection from '@/components/BrandSection'; 
 import VisualStoriesSection from '@/components/VisualStoriesSection';
 import LatestStories from '@/components/LatestStories';
-import UsedCarsSection from '@/components/UsedCarsSection'; 
+import UsedCarsSection from '@/components/UsedCarsSection'; // ✅ Used Cars Added
 
 // --- DATA IMPORTS ---
 import { newLaunchCars } from '@/data/newlaunchcars'; 
@@ -94,26 +94,19 @@ export default function Home() {
       <Hero onExploreClick={scrollToCars} />
 
       {/* 1. MOST SEARCHED CARS */}
-      {/* Reduced padding top (pt-4) */}
-      <div id="most-searched-section" className="pt-4">
+      <div id="most-searched-section" className="pt-8">
         <MostSearchedSection />
       </div>
 
       {/* 2. USED CARS SECTION */}
-      {/* No extra padding/margin here, let the component handle its own minimal spacing */}
-      <div className="-mt-8"> 
-         <UsedCarsSection />
-      </div>
+      <UsedCarsSection />
 
       {/* 3. BRAND SECTION */}
-      <div className="-mt-8">
-        <BrandSection />
-      </div>
+      <BrandSection />
 
       {/* 4. UPCOMING CARS SECTION */}
-      {/* Reduced vertical padding (py-4 instead of pt-12 pb-8) */}
-      <section id="upcoming-cars" className="container mx-auto px-4 py-4 relative">
-        <div className="text-left mb-4"> {/* Reduced margin-bottom */}
+      <section id="upcoming-cars" className="container mx-auto px-4 pt-12 pb-8 relative">
+        <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Upcoming Cars</h2>
         </div>
 
@@ -144,9 +137,8 @@ export default function Home() {
       </section>
 
       {/* 5. ELECTRIC CARS SECTION */}
-      {/* Reduced bottom padding (pb-6 instead of pb-12) */}
-      <section className="container mx-auto px-4 pb-6 relative">
-        <div className="text-left mb-4"> {/* Reduced margin-bottom */}
+      <section className="container mx-auto px-4 pb-12 relative">
+        <div className="text-left mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Electric Cars</h2>
         </div>
 
@@ -165,8 +157,9 @@ export default function Home() {
                     onClick={() => handleCardClick(car.name)}
                     className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0 cursor-pointer transition-transform hover:scale-105"
                 >
-                    <div className="h-full pointer-events-auto">
-                      <ElectricCarCard 
+                   <div className="h-full pointer-events-auto">
+                     {/* ✅ FIX: COMPARE DATA PASSED HERE */}
+                     <ElectricCarCard 
                         id={car.id || index}
                         name={car.name} 
                         priceRange={car.priceRange} 
@@ -174,14 +167,15 @@ export default function Home() {
                         
                         fuelType="Electric"
                         
+                        // Pass Specs & Features for Compare Page
                         specs={(car as any).specs}
                         features={(car as any).features}
-                        images={(car as any).images} 
+                        images={(car as any).images} // Gallery Images
                         
                         onOfferClick={() => handleGetOffers(car)}
                         onDetailClick={() => handleCardClick(car.name)} 
-                      />
-                    </div>
+                     />
+                   </div>
                 </div>
               );
             })}
@@ -194,19 +188,13 @@ export default function Home() {
       </section>
 
       {/* 6. LATEST STORIES */}
-      <div className="-mt-4">
-        <LatestStories />
-      </div>
+      <LatestStories />
 
       {/* 7. VISUAL STORIES */}
-      <div className="-mt-4">
-        <VisualStoriesSection />
-      </div>
+      <VisualStoriesSection />
 
       {/* 8. BLOG SECTION */}
-      <div className="-mt-4">
-        <BlogSection />
-      </div>
+      <BlogSection />
 
       {/* --- MODALS --- */}
       {selectedCarForBooking && <BookingForm isOpen={!!selectedCarForBooking} onClose={() => setSelectedCarForBooking(null)} car={selectedCarForBooking} />}
