@@ -16,7 +16,7 @@ export const blogs: BlogPost[] = [
 
   // **NOTE: Agar aapko 14 ko 15 se pehle rakhna hai toh sequence ko manually badal sakte hain.**
 
-   
+  
 
   {
     id: '14',
@@ -53,6 +53,41 @@ export const blogs: BlogPost[] = [
     date: 'Dec 05, 2025',
     image: '/cars/blog-monsoon.jpg', 
     category: 'Safety',
+  },
+
+   {
+    id: '16',
+    slug: 'how-to-increase-car-mileage',
+    title: '7 Ways to Increase Your Car Mileage',
+    excerpt: 'Fuel prices are rising! Learn these 7 simple yet effective driving habits and maintenance tips to squeeze maximum mileage out of every drop of fuel.',
+    content: `
+      <p>With fuel prices hitting new highs, getting the best mileage from your car is more important than ever. You don't need a new hybrid car to save fuel; often, small changes in driving habits can lead to 15-20% fuel savings.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">1. Maintain Optimal Tyre Pressure</h2>
+      <p>Under-inflated tyres increase rolling resistance, forcing the engine to work harder. Check your tyre pressure every two weeks. Keeping them inflated to the manufacturer's recommended level can improve mileage by up to 3%.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">2. Avoid Aggressive Driving</h2>
+      <p>Sudden acceleration and hard braking are the biggest enemies of fuel efficiency. Drive smoothly. Anticipate traffic stops and coast to a halt rather than braking at the last second. On highways, use Cruise Control if available.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">3. The 60-Second Idling Rule</h2>
+      <p>If you are stuck at a red light or waiting for someone for more than 60 seconds, turn off your engine. Idling consumes fuel (0.5 to 1 liter per hour) without getting you anywhere. Modern cars are designed to restart frequently without damaging the starter motor.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">4. Reduce Aerodynamic Drag</h2>
+      <p>On highways (above 80 km/h), keep your windows rolled up. Open windows create drag, acting like a parachute that slows the car down. Use the AC at a moderate setting instead; it consumes less fuel than the drag caused by open windows at high speeds.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">5. Declutter Your Boot</h2>
+      <p>Extra weight means the engine needs more fuel to move the car. Remove unnecessary items like gym kits, tools you don't use, or heavy boxes from the boot. Every 50kg of extra weight can reduce mileage by 2%.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">6. Timely Service & Air Filters</h2>
+      <p>A clogged air filter restricts airflow to the engine, causing it to burn more fuel. Replacing a dirty air filter can improve mileage by up to 10%. Stick to your service schedule strictly.</p>
+
+      <h2 class="text-2xl font-bold mt-6 mb-4">Conclusion</h2>
+      <p>Mileage isn't just about the car; it's about the driver. Adopting these habits won't just save you money at the pump; it will also extend the life of your engine and reduce emissions.</p>
+    `,
+    author: 'Vikram Singh',
+    date: 'Dec 12, 2025',
+    image: '/cars/blog-mileage.jpg',
+    category: 'Guides',
   },
  {
     id: '15',

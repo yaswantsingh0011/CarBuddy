@@ -30,6 +30,70 @@ export const electricCars = [
     ]
   },
 
+  
+
+  {
+    id: 806,
+    name: "Tata Curvv EV",
+    priceRange: "₹ 17.49 - 21.99 Lakh*",
+    images: ["/cars/curvv.jpg", "/cars/curvv-side.jpg", "/cars/curvv-rear.jpg", "/cars/curvv-interior.jpg"],
+    category: "EV",
+    fuelType: "Electric",
+    specs: {
+      engine: "45 kWh / 55 kWh Battery",
+      power: "165 bhp",
+      torque: "215 Nm",
+      transmission: "Automatic",
+      mileage: "585 km (Range)",
+      bootSpace: "500 L + Frunk",
+      groundClearance: "190 mm"
+    },
+    features: ["Coupe SUV Design", "Level 2 ADAS", "Panoramic Sunroof", "Vehicle to Load (V2L)"],
+    pros: ["Stunning & Unique Coupe Styling", "Massive 500L Boot Space", "Real-world Range of 400+ km (55kWh)"],
+    cons: ["Rear headroom is slightly compromised due to sloping roof", "Touch-sensitive AC controls can be distracting", "No spare wheel in the boot (underbody mount)"],
+    expertReview: {
+      verdict: "The Tata Curvv EV is a head-turner. It brings the 'Coupe SUV' style to the mass market. If you want a car that looks futuristic and offers great range, this is the one.",
+      performance: "The 123kW motor is punchy, doing 0-100 kmph in just 8.6 seconds. The paddle shifters for regen braking work flawlessly.",
+      interior: "The cabin feels very premium with the new 4-spoke steering wheel and ambient lighting. The 12.3-inch screen is crisp.",
+      safety: "Built on the new acti.ev platform with 5-star safety aspirations. Comes with 6 Airbags standard and ADAS Level 2."
+    },
+    variants: [
+      { name: "Creative 45", price: "₹ 17.49 Lakh", engine: "45 kWh / 502km", transmission: "Automatic" },
+      { name: "Accomplished 45", price: "₹ 18.49 Lakh", engine: "45 kWh / 502km", transmission: "Automatic" },
+      { name: "Accomplished+ 55", price: "₹ 19.99 Lakh", engine: "55 kWh / 585km", transmission: "Automatic" },
+      { name: "Empowered+ A 55", price: "₹ 21.99 Lakh", engine: "55 kWh / 585km", transmission: "Automatic" }
+    ]
+  },
+  
+  // ==============================
+  // 3. MAHINDRA XEV 9e
+  // ==============================
+  {
+    id: 802,
+    name: "Mahindra XEV 9e",
+    priceRange: "₹ 21.90 - 31.25 Lakh*",
+    images: ["/cars/xev9emain.jpg", "/cars/xev9e-side.jpg", "/cars/xev9e-rear.jpg", "/cars/xev9e-interior.jpg"],
+    category: "EV",
+    fuelType: "Electric", // ✅ Added for Badge
+    specs: {
+      engine: "79 kWh Battery",
+      power: "282 bhp",
+      torque: "380 Nm",
+      transmission: "Automatic",
+      mileage: "656 km (Range)",
+      bootSpace: "663 L",
+      groundClearance: "207 mm"
+    },
+    features: ["Triple Screen Dashboard", "16-Speaker Premium Audio", "HUD with Augmented Reality", "Multi-Zone Climate Control"],
+    // ✅ VARIANTS ADDED
+    variants: [
+      { name: "AX3", price: "₹ 21.90 Lakh", engine: "59 kWh / 450km", transmission: "Automatic" },
+      { name: "AX5", price: "₹ 23.90 Lakh", engine: "59 kWh / 450km", transmission: "Automatic" },
+      { name: "AX7", price: "₹ 26.90 Lakh", engine: "79 kWh / 656km", transmission: "Automatic" },
+      { name: "AX7 Luxury", price: "₹ 31.25 Lakh", engine: "79 kWh / 656km", transmission: "Automatic" }
+    ]
+  },
+
   // ==============================
   // 2. TATA NEXON EV
   // ==============================
@@ -56,35 +120,6 @@ export const electricCars = [
       { name: "Fearless Medium Range", price: "₹ 15.99 Lakh", engine: "30 kWh / 325km", transmission: "Automatic" },
       { name: "Fearless + Long Range", price: "₹ 16.99 Lakh", engine: "40.5 kWh / 465km", transmission: "Automatic" },
       { name: "Empowered + Long Range", price: "₹ 19.49 Lakh", engine: "40.5 kWh / 465km", transmission: "Automatic" }
-    ]
-  },
-  
-  // ==============================
-  // 3. MAHINDRA XEV 9e
-  // ==============================
-  {
-    id: 802,
-    name: "Mahindra XEV 9e",
-    priceRange: "₹ 21.90 - 31.25 Lakh*",
-    images: ["/cars/xev9e.jpg", "/cars/xev9e-side.jpg", "/cars/xev9e-rear.jpg", "/cars/xev9e-interior.jpg"],
-    category: "EV",
-    fuelType: "Electric", // ✅ Added for Badge
-    specs: {
-      engine: "79 kWh Battery",
-      power: "282 bhp",
-      torque: "380 Nm",
-      transmission: "Automatic",
-      mileage: "656 km (Range)",
-      bootSpace: "663 L",
-      groundClearance: "207 mm"
-    },
-    features: ["Triple Screen Dashboard", "16-Speaker Premium Audio", "HUD with Augmented Reality", "Multi-Zone Climate Control"],
-    // ✅ VARIANTS ADDED
-    variants: [
-      { name: "AX3", price: "₹ 21.90 Lakh", engine: "59 kWh / 450km", transmission: "Automatic" },
-      { name: "AX5", price: "₹ 23.90 Lakh", engine: "59 kWh / 450km", transmission: "Automatic" },
-      { name: "AX7", price: "₹ 26.90 Lakh", engine: "79 kWh / 656km", transmission: "Automatic" },
-      { name: "AX7 Luxury", price: "₹ 31.25 Lakh", engine: "79 kWh / 656km", transmission: "Automatic" }
     ]
   },
 

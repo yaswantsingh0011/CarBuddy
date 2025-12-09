@@ -335,30 +335,32 @@ export const mostSearchedCars = [
   // ==============================
   // 1.5 MUV CATEGORY
   // ==============================
+
   {
-    id: 30,
-    name: "Maruti Ertiga",
+    id: 33,
+    name: "Toyota Innova Hycross",
     category: "MUV",
-    price: "₹ 8.69 - 13.03 Lakh*",
-    images: ["/cars/ertiga.jpg", "/cars/ertiga-side.jpg", "/cars/ertiga-rear.jpg", "/cars/ertiga-interior.jpg"],
-    fuelType: "Petrol",
-    specs: { engine: "1.5L K15C Petrol", power: "102 bhp", torque: "136.8 Nm", transmission: "5-MT / 6-AT", mileage: "20.51 kmpl", bootSpace: "209 L", groundClearance: "185 mm" },
-    features: ["CNG Option Available", "Roof Mounted AC", "SmartPlay Pro", "Projector Headlamps"],
-    pros: ["Excellent Value for Money", "Superb CNG Mileage", "Comfortable Ride"],
-    cons: ["Not very exciting to drive", "Interior quality is average", "Long waiting periods for CNG"],
+    price: "₹ 19.77 - 30.98 Lakh*",
+    images: ["/cars/hycross.jpg", "/cars/hycross-side.jpg", "/cars/hycross-rear.jpg", "/cars/hycross-interior.jpg"],
+    fuelType: "Hybrid",
+    specs: { engine: "2.0L TNGA Hybrid", power: "183 bhp", torque: "206 Nm", transmission: "e-CVT", mileage: "23.24 kmpl", bootSpace: "300+ L", groundClearance: "185 mm" },
+    features: ["Ottoman Seats", "Panoramic Sunroof", "Toyota Safety Sense ADAS", "Powered Tailgate"],
+    pros: ["Incredible Hybrid Mileage (23 kmpl)", "Luxury Car Features", "Smooth Drive"],
+    cons: ["Interior plastic quality is not consistent", "Expensive top variants"],
     expertReview: {
-      verdict: "The sensible choice for large families. It's efficient, reliable, and comfortable.",
-      performance: "Tuned for efficiency and comfort. The 6-speed automatic makes city driving hassle-free.",
-      interior: "Practical beige interiors make it feel airy. Roof-mounted AC vents cool the cabin quickly.",
-      safety: "Comes with standard safety kit but scored 3 stars in GNCAP."
+      verdict: "The future of MPVs. It delivers diesel-like efficiency with petrol refinement. A tech marvel.",
+      performance: "Silent and smooth in city traffic. Instant torque from the electric motor.",
+      interior: "The Ottoman seats in the rear are business-class level. Very spacious.",
+      safety: "Toyota's first car in India with full ADAS suite (Toyota Safety Sense)."
     },
     variants: [
-      { name: "LXi (O)", price: "₹ 8.69 Lakh", engine: "1.5L Petrol", transmission: "Manual" },
-      { name: "VXi CNG", price: "₹ 10.78 Lakh", engine: "1.5L CNG", transmission: "Manual" },
-      { name: "ZXi AT", price: "₹ 12.38 Lakh", engine: "1.5L Petrol", transmission: "Automatic" },
-      { name: "ZXi+ AT", price: "₹ 13.03 Lakh", engine: "1.5L Petrol", transmission: "Automatic" }
+      { name: "GX 7 STR", price: "₹ 19.77 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
+      { name: "VX 7 STR Hybrid", price: "₹ 25.97 Lakh", engine: "2.0L Hybrid", transmission: "Automatic" },
+      { name: "ZX Hybrid", price: "₹ 30.30 Lakh", engine: "2.0L Hybrid", transmission: "Automatic" },
+      { name: "ZX(O) Hybrid", price: "₹ 30.98 Lakh", engine: "2.0L Hybrid", transmission: "Automatic" }
     ]
   },
+  
   {
     id: 31,
     name: "Toyota Innova Crysta",
@@ -407,30 +409,32 @@ export const mostSearchedCars = [
       { name: "X-Line Diesel AT", price: "₹ 19.45 Lakh", engine: "1.5L Diesel", transmission: "Automatic" }
     ]
   },
+
   {
-    id: 33,
-    name: "Toyota Innova Hycross",
+    id: 30,
+    name: "Maruti Ertiga",
     category: "MUV",
-    price: "₹ 19.77 - 30.98 Lakh*",
-    images: ["/cars/hycross.jpg", "/cars/hycross-side.jpg", "/cars/hycross-rear.jpg", "/cars/hycross-interior.jpg"],
-    fuelType: "Hybrid",
-    specs: { engine: "2.0L TNGA Hybrid", power: "183 bhp", torque: "206 Nm", transmission: "e-CVT", mileage: "23.24 kmpl", bootSpace: "300+ L", groundClearance: "185 mm" },
-    features: ["Ottoman Seats", "Panoramic Sunroof", "Toyota Safety Sense ADAS", "Powered Tailgate"],
-    pros: ["Incredible Hybrid Mileage (23 kmpl)", "Luxury Car Features", "Smooth Drive"],
-    cons: ["Interior plastic quality is not consistent", "Expensive top variants"],
+    price: "₹ 8.69 - 13.03 Lakh*",
+    images: ["/cars/ertiga.jpg", "/cars/ertiga-side.jpg", "/cars/ertiga-rear.jpg", "/cars/ertiga-interior.jpg"],
+    fuelType: "Petrol",
+    specs: { engine: "1.5L K15C Petrol", power: "102 bhp", torque: "136.8 Nm", transmission: "5-MT / 6-AT", mileage: "20.51 kmpl", bootSpace: "209 L", groundClearance: "185 mm" },
+    features: ["CNG Option Available", "Roof Mounted AC", "SmartPlay Pro", "Projector Headlamps"],
+    pros: ["Excellent Value for Money", "Superb CNG Mileage", "Comfortable Ride"],
+    cons: ["Not very exciting to drive", "Interior quality is average", "Long waiting periods for CNG"],
     expertReview: {
-      verdict: "The future of MPVs. It delivers diesel-like efficiency with petrol refinement. A tech marvel.",
-      performance: "Silent and smooth in city traffic. Instant torque from the electric motor.",
-      interior: "The Ottoman seats in the rear are business-class level. Very spacious.",
-      safety: "Toyota's first car in India with full ADAS suite (Toyota Safety Sense)."
+      verdict: "The sensible choice for large families. It's efficient, reliable, and comfortable.",
+      performance: "Tuned for efficiency and comfort. The 6-speed automatic makes city driving hassle-free.",
+      interior: "Practical beige interiors make it feel airy. Roof-mounted AC vents cool the cabin quickly.",
+      safety: "Comes with standard safety kit but scored 3 stars in GNCAP."
     },
     variants: [
-      { name: "GX 7 STR", price: "₹ 19.77 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
-      { name: "VX 7 STR Hybrid", price: "₹ 25.97 Lakh", engine: "2.0L Hybrid", transmission: "Automatic" },
-      { name: "ZX Hybrid", price: "₹ 30.30 Lakh", engine: "2.0L Hybrid", transmission: "Automatic" },
-      { name: "ZX(O) Hybrid", price: "₹ 30.98 Lakh", engine: "2.0L Hybrid", transmission: "Automatic" }
+      { name: "LXi (O)", price: "₹ 8.69 Lakh", engine: "1.5L Petrol", transmission: "Manual" },
+      { name: "VXi CNG", price: "₹ 10.78 Lakh", engine: "1.5L CNG", transmission: "Manual" },
+      { name: "ZXi AT", price: "₹ 12.38 Lakh", engine: "1.5L Petrol", transmission: "Automatic" },
+      { name: "ZXi+ AT", price: "₹ 13.03 Lakh", engine: "1.5L Petrol", transmission: "Automatic" }
     ]
   },
+  
 
 
   // ==============================
