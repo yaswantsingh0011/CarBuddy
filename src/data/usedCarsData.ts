@@ -301,36 +301,7 @@ export const usedCarsData: UsedCar[] = [
     transmissionType: "Manual"
   },
 
-  {
-    id: 10,
-    name: "Hyundai Grand i10 Magna",
-    slug: "hyundai-grand-i10-magna-petrol-2017",
-    price: "₹ 4.75 Lakh",
-    kms: "42,000 KM",
-    modelYear: "2017",
-    fuelType: "Petrol",
-    owner: "2nd Owner",
-    location: "Jaipur",
-    images: [ 
-     "/cars/i10-1.jpg",
-      "/cars/i10-2.jpg",
-      "/cars/i10-3.jpg",
-      "/cars/i10-4.jpg",
-    ],
-    image: "/cars/grandi10-1.jpg",
-    sellerPhone: "9876543222",
-    specs: { engine: "1.2L Kappa", power: "81 bhp", torque: "114 Nm", transmission: "5-MT", mileage: "18.9 kmpl" },
-    features: ["Rear AC Vents", "Steering Mounted Controls", "Fog Lamps"],
-    
-    // Overview Data
-    registrationYear: "May 2017",
-    insurance: "Comprehensive",
-    seats: "5 Seats",
-    rto: "RJ14 (Jaipur)",
-    engineDisplacement: "1197 cc",
-    transmissionType: "Manual"
-  },
-
+  
   {
     id: 11,
     name: "Tata Tiago XT",

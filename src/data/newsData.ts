@@ -1,6 +1,45 @@
 export const newsArticles = [
     
-  
+   {
+      id: 8,
+      title: "Toyota Fortuner Mild-Hybrid 2026: powerhouse of suv?",
+      excerpt: "The king of SUVs gets an electric boost. Toyota has silently updated the Fortuner with a 48V mild-hybrid system. Is it worth the price hike?",
+      content: `Toyota has finally updated the Fortuner with a 48-volt mild-hybrid system to improve fuel efficiency and reduce emissions. But does it dilute the raw feel of the SUV?
+
+      **Hybrid Tech Explained:**
+      The system uses a motor-generator that assists the 2.8L diesel engine during acceleration and enables smoother start-stop functionality. Toyota claims an improvement of 1-2 kmpl in city driving, which is a welcome change for Fortuner owners.
+
+      **Driving Experience:**
+      The initial lag is gone. The electric boost provides instant torque at low RPMs, making city overtakes effortless. Off-road capabilities remain untouched, and the 4x4 hardware is as robust as ever.
+
+      **Verdict:**
+      While the price has gone up by ₹50,000, the improved refinement and slightly better mileage make the Fortuner an even more complete package. It remains the undisputed king of the segment.`,
+      image: "/news-images/news-8.jpg",
+      category: "Car Update",
+      date: "Dec 08, 2025",
+      author: "Arjun Verma"
+    },
+
+    {
+      id: 9,
+      title: "New Kia Seltos 2026: The Creta Rival Gets Sharper & Smarter",
+      excerpt: "Kia is prepping the next-gen Seltos with a radical design overhaul and a potential hybrid powertrain. Can it reclaim the top spot?",
+      content: `The compact SUV segment battle is about to get intense. The 2026 Kia Seltos has been spied testing with significant updates. We break down what to expect from this Korean blockbuster.
+
+      **Design & Interiors:**
+      Adopting the 'Opposites United' design language, the new Seltos features vertically stacked LED headlamps and a bolder tiger-nose grille. Inside, the cabin gets a major upgrade with dual 12.3-inch curved screens and premium soft-touch materials, aiming for a luxury car feel.
+
+      **Hybrid Power Incoming?**
+      The biggest update could be under the hood. Reports suggest a strong-hybrid powertrain option to challenge the Grand Vitara and Hyryder. If true, this could offer 25+ kmpl mileage, fixing the only chink in the Seltos's armor—fuel efficiency.
+
+      **Verdict:**
+      With updated ADAS Level 2 features, a fresh look, and potential hybrid tech, the 2026 Seltos is shaping up to be the most complete SUV in its class. Hyundai Creta, watch out!`,
+      image: "/news-images/news-9.jpg",
+      category: "Future Launch",
+      date: "Dec 15, 2025",
+      author: "Aditya Rao"
+    },
+   
   
     {
       id: 7,
@@ -22,26 +61,7 @@ export const newsArticles = [
       author: "Vikram Singh"
     }, 
 
-  {
-      id: 8,
-      title: "Toyota Fortuner Mild-Hybrid 2026: More Mileage, Same Power?",
-      excerpt: "The king of SUVs gets an electric boost. Toyota has silently updated the Fortuner with a 48V mild-hybrid system. Is it worth the price hike?",
-      content: `Toyota has finally updated the Fortuner with a 48-volt mild-hybrid system to improve fuel efficiency and reduce emissions. But does it dilute the raw feel of the SUV?
-
-      **Hybrid Tech Explained:**
-      The system uses a motor-generator that assists the 2.8L diesel engine during acceleration and enables smoother start-stop functionality. Toyota claims an improvement of 1-2 kmpl in city driving, which is a welcome change for Fortuner owners.
-
-      **Driving Experience:**
-      The initial lag is gone. The electric boost provides instant torque at low RPMs, making city overtakes effortless. Off-road capabilities remain untouched, and the 4x4 hardware is as robust as ever.
-
-      **Verdict:**
-      While the price has gone up by ₹50,000, the improved refinement and slightly better mileage make the Fortuner an even more complete package. It remains the undisputed king of the segment.`,
-      image: "/news-images/news-8.jpg",
-      category: "Car Update",
-      date: "Dec 08, 2025",
-      author: "Arjun Verma"
-    },
-   
+ 
     
    
     {
@@ -66,7 +86,7 @@ export const newsArticles = [
 
     {
       id: 5,
-      title: "New Govt Policy: Scrappage Scheme Benefits and Process",
+      title: "New Govt Policy: Scrappage Scheme and Process",
       excerpt: "The government has rolled out new incentives for vehicle scrappage. Find out how much you can save and the step-by-step process to scrap your old car.",
       content: `The Vehicle Scrappage Policy aims to phase out old, polluting vehicles (over 15 years for commercial, over 20 years for private). The new incentives make it financially attractive for owners to decommission their old vehicles.
     
@@ -128,7 +148,7 @@ export const newsArticles = [
     
     {
       id: 2,
-      title: "Mahindra Thar ROXX Review: The Practical Off-Roader?",
+      title: "Mahindra Thar ROXX Review: The Off-Roader?",
       excerpt: "We drove the new 5-door Thar ROXX to see if it retains the legendary off-road DNA while adding family comfort.",
       content: `The Mahindra Thar has always been a lifestyle icon, but the 3-door version wasn't practical for families. Enter the Thar ROXX (5-door), which aims to solve exactly that. We spent a day with this beast to see if it’s the only car you need in your garage.
   

@@ -4,55 +4,29 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaArrowRight, FaCalendarAlt } from 'react-icons/fa';
-import { supabase } from '@/lib/supabaseClient';
-
-interface BlogPost {
-  id: number;
-  title: string;
-  created_at: string;
-  slug: string;
-  content: any;
-  featured_image_url?: string;
-  image_url?: string;
-}
+// ✅ Local Data Import kar rahe hain
+import { blogs } from '@/data/blogs'; 
 
 const BlogSection = () => {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      const { data, error } = await supabase
-        .from('posts')
-        .select('*')
-        // ✅ FIX: 'ascending: true' kar diya (Purane pehle aayenge)
-        .order('created_at', { ascending: true }) 
-        .limit(3);
+    // ✅ Logic to Sort by Date (Latest First) and Take Top 3
+    const sortedBlogs = [...blogs].sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
 
-      if (!error && data) {
-        setPosts(data);
-      }
-      setLoading(false);
-    };
-
-    fetchPosts();
+    setPosts(sortedBlogs.slice(0, 3)); // Sirf top 3 latest uthaye
+    setLoading(false);
   }, []);
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-IN', {
-      day: 'numeric', month: 'short', year: 'numeric'
-    });
+  // Excerpt (Chota description) nikalne ka simple function
+  const getExcerpt = (content: string) => {
+    // HTML tags hatane ke liye (agar content me HTML hai)
+    const strippedContent = content.replace(/<[^>]+>/g, '');
+    return strippedContent.substring(0, 100) + "...";
   };
-
-  const getExcerpt = (content: any) => {
-    if (Array.isArray(content) && content[0]?.text) {
-      return content[0].text.substring(0, 100) + "...";
-    }
-    if (typeof content === 'string') return content.substring(0, 100) + "...";
-    return "Click to read full article.";
-  };
-
-  if (!loading && posts.length === 0) return null;
 
   return (
     <section className="py-16 bg-gray-50 border-t border-gray-200">
@@ -75,31 +49,25 @@ const BlogSection = () => {
              ))
           ) : (
              posts.map((blog) => {
-                // Image Check Logic
-                const imageSrc = blog.featured_image_url || blog.image_url || "https://placehold.co/600x400?text=CarBuddy+Blog";
-
                 return (
                   <Link key={blog.id} href={`/blog/${blog.slug}`} className="group block h-full">
                     <div className="bg-white rounded-xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 h-full flex flex-col">
                       
                       <div className="relative h-52 w-full overflow-hidden bg-gray-200">
                         <Image 
-                          src={imageSrc} 
+                          src={blog.image || "https://placehold.co/600x400?text=CarBuddy+Blog"} 
                           alt={blog.title} 
                           fill 
                           className="object-cover group-hover:scale-110 transition-transform duration-500"
-                          onError={(e: any) => {
-                            e.target.src = "https://placehold.co/600x400?text=No+Image";
-                          }}
                         />
                         <div className="absolute top-4 left-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
-                          Blog
+                          {blog.category || "Blog"}
                         </div>
                       </div>
 
                       <div className="p-6 flex flex-col flex-grow">
                         <div className="flex items-center text-xs text-gray-400 mb-3">
-                          <FaCalendarAlt className="mr-2" /> {formatDate(blog.created_at)}
+                          <FaCalendarAlt className="mr-2" /> {blog.date}
                         </div>
                         
                         <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
@@ -107,7 +75,7 @@ const BlogSection = () => {
                         </h3>
                         
                         <p className="text-gray-600 text-sm line-clamp-3 mb-4 flex-grow">
-                          {getExcerpt(blog.content)}
+                          {blog.excerpt || getExcerpt(blog.content)}
                         </p>
                         
                         <span className="text-blue-600 font-semibold text-sm flex items-center mt-auto">
