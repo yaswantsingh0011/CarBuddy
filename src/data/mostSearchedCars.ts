@@ -36,6 +36,31 @@ export const mostSearchedCars = [
   },
 
   { 
+    id: 37, 
+    name: "Skoda Kushaq", 
+    price: "₹ 10.89 - 18.79 Lakh*", 
+    images: ["/cars/kushaq.jpg", "/cars/kushaq-side.jpg", "/cars/kushaq-rear.jpg", "/cars/kushaq-interior.jpg"], 
+    // Note: Kushaq is technically an SUV, but added here as requested
+    category: "SUV", 
+    fuelType: "Petrol", 
+    specs: { engine: "1.0L / 1.5L TSI", power: "114 - 148 bhp", torque: "178 - 250 Nm", transmission: "6-MT / 6-AT / 7-DSG", mileage: "19.76 kmpl", bootSpace: "385 L", groundClearance: "188 mm" }, 
+    features: ["Ventilated Front Seats", "Electric Sunroof", "10-inch Touchscreen", "6 Airbags Standard"], 
+    pros: ["5-Star Global NCAP Safety", "Explosive Performance (1.5 TSI)", "German Build Quality"], 
+    cons: ["AC Cooling issues reported", "Interior plastics could be better", "No Diesel option"], 
+    expertReview: { 
+      verdict: "The safest car in its segment. If you enjoy driving and want a solid German car, the Kushaq is hard to beat.", 
+      performance: "The 1.5L TSI is a rocket. It handles corners like a sedan despite being an SUV.", 
+      interior: "Functional and ergonomic. The ventilated seats are a blessing for Indian summers.", 
+      safety: "Scored a full 5-Star rating for both Adult and Child safety in Global NCAP." 
+    }, 
+    variants: [ 
+      { name: "Classic 1.0", price: "₹ 10.89 Lakh", engine: "1.0L TSI", transmission: "Manual" }, 
+      { name: "Signature 1.0 AT", price: "₹ 14.19 Lakh", engine: "1.0L TSI", transmission: "Automatic" }, 
+      { name: "Monte Carlo 1.5 DSG", price: "₹ 18.79 Lakh", engine: "1.5L TSI", transmission: "Automatic" } 
+    ] 
+  },
+
+  { 
     id: 27, 
     name: "Mahindra XUV700", 
     price: "₹ 13.99 - 26.99 Lakh*", 
@@ -709,6 +734,29 @@ export const mostSearchedCars = [
   // ==============================
   // 3. SEDAN CATEGORY
   // ==============================
+
+  { 
+    id: 36, 
+    name: "Toyota Camry Hybrid", 
+    price: "₹ 46.17 Lakh*", 
+    images: ["/cars/camery.jpg", "/cars/camery-side.jpg", "/cars/camery-rear.jpg", "/cars/camery-interior.jpg"], 
+    category: "Sedan", 
+    fuelType: "Hybrid", 
+    specs: { engine: "2.5L Dynamic Force Hybrid", power: "215 bhp", torque: "221 Nm", transmission: "e-CVT", mileage: "19.1 kmpl", bootSpace: "524 L", groundClearance: "160 mm" }, 
+    features: ["Rear Reclining Seats", "9 Airbags", "JBL 9-Speaker Audio", "3-Zone Climate Control"], 
+    pros: ["Business Class Rear Seat Comfort", "Silent Hybrid Drive", "Toyota Reliability"], 
+    cons: ["Dated Infotainment System", "Low Ground Clearance (Scrapes bumps)", "Expensive compared to rivals"], 
+    expertReview: { 
+      verdict: "The ultimate chauffer-driven luxury sedan under 50 Lakhs. It's silent, efficient, and incredibly comfortable.", 
+      performance: "The hybrid powertrain is buttery smooth. It's not a sports sedan, but it has plenty of power for overtakes.", 
+      interior: "Designed for the back seat passenger. The control armrest allows you to adjust AC and seats effortlessly.", 
+      safety: "9 Airbags and a solid build make it one of the safest cars in its class." 
+    }, 
+    variants: [ 
+      { name: "2.5 Hybrid", price: "₹ 46.17 Lakh", engine: "2.5L Hybrid", transmission: "Automatic" } 
+    ] 
+  },
+
   { 
     id: 9, 
     name: "Hyundai Verna", 
@@ -833,6 +881,29 @@ export const mostSearchedCars = [
       { name: "ZXi+ AMT", price: "₹ 9.64 Lakh", engine: "1.2L Petrol", transmission: "Automatic" }
     ]
   },
+
+   { 
+    id: 35, 
+    name: "Mini Cooper 3-Door", 
+    price: "₹ 42.70 - 45.50 Lakh*", 
+    images: ["/cars/minicooper.jpg", "/cars/minicooper-side.jpg", "/cars/minicooper-rear.jpg", "/cars/minicooper-interior.jpg"], 
+    category: "Hatchback", 
+    fuelType: "Petrol", 
+    specs: { engine: "2.0L TwinPower Turbo", power: "189 bhp", torque: "280 Nm", transmission: "7-Speed DCT", mileage: "16.3 kmpl", bootSpace: "211 L", groundClearance: "146 mm" }, 
+    features: ["8.8-inch Circular Display", "Go-Kart Handling", "Frameless Doors", "Harman Kardon Audio"], 
+    pros: ["Iconic Retro Design", "Thrilling Driving Dynamics", "Premium Build Quality"], 
+    cons: ["Very Stiff Ride Quality", "Tiny Rear Seats (Use as 2-seater)", "Expensive Maintenance"], 
+    expertReview: { 
+      verdict: "A lifestyle statement. You don't buy a Mini for practicality; you buy it for the smile it puts on your face.", 
+      performance: "It's a pocket rocket. The 0-100 kmph sprint takes just 6.7 seconds. Handling is razor sharp.", 
+      interior: "Quirky and premium. The toggle switches and circular lights give it a unique cockpit feel.", 
+      safety: "Built like a tank with BMW engineering standards and top-tier safety electronics." 
+    }, 
+    variants: [ 
+      { name: "S (Petrol)", price: "₹ 42.70 Lakh", engine: "2.0L Turbo", transmission: "Automatic" }, 
+      { name: "S Steptronic Sport", price: "₹ 45.50 Lakh", engine: "2.0L Turbo", transmission: "Automatic" } 
+    ] 
+  },
   { 
     id: 6, 
     name: "Tata Altroz", 
@@ -881,6 +952,33 @@ export const mostSearchedCars = [
       { name: "Asta (O)", price: "₹ 10.00 Lakh", engine: "1.2L Petrol", transmission: "Manual" }
     ]
   },
+
+ { 
+    id: 34, 
+    name: "Maruti Wagon R", 
+    price: "₹ 5.54 - 7.42 Lakh*", 
+    images: ["/cars/wagonr.jpg", "/cars/wagonr-side.jpg", "/cars/wagonr-rear.jpg", "/cars/wagonr-interior.jpg"], 
+    category: "Hatchback", 
+    fuelType: "Petrol / CNG", 
+    specs: { engine: "1.0L / 1.2L K-Series", power: "66 - 88 bhp", torque: "89 - 113 Nm", transmission: "5-MT / AMT", mileage: "24.35 kmpl (34 km/kg CNG)", bootSpace: "341 L", groundClearance: "165 mm" }, 
+    features: ["7-inch SmartPlay Studio", "Idle Start Stop (ISS)", "Steering Mounted Controls", "Dual Tone Interiors"], 
+    pros: ["Spacious 'Tall Boy' Design", "Excellent CNG Mileage", "Easy Ingress and Egress for Elders"], 
+    cons: ["Unstable at high speeds (Body Roll)", "Build quality feels light", "Tyres look too thin for the body"], 
+    expertReview: { 
+      verdict: "The quintessential family hatchback. If you want space, mileage, and low maintenance, the WagonR is unbeatable.", 
+      performance: "The 1.2L engine is peppy and fun for the city. The CNG variant is a wallet-saver.", 
+      interior: "Massive headroom and legroom. It feels much bigger from the inside than it looks outside.", 
+      safety: "Comes with standard safety kit like dual airbags and ABS, but the boxy shape isn't aerodynamic." 
+    }, 
+    variants: [ 
+      { name: "LXi 1.0", price: "₹ 5.54 Lakh", engine: "1.0L Petrol", transmission: "Manual" }, 
+      { name: "VXi 1.0 CNG", price: "₹ 6.45 Lakh", engine: "1.0L CNG", transmission: "Manual" }, 
+      { name: "ZXi 1.2", price: "₹ 6.28 Lakh", engine: "1.2L Petrol", transmission: "Manual" }, 
+      { name: "ZXi+ AMT", price: "₹ 7.42 Lakh", engine: "1.2L Petrol", transmission: "Automatic" } 
+    ] 
+  },
+
+ 
   { 
     id: 8, 
     name: "Maruti Baleno", 

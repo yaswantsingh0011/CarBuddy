@@ -66,6 +66,10 @@ const CarDetailPage = ({ params }: PageProps) => {
 
   // --- DATA EXTRACTION ---
   const isUsed = (foundCar as any).kms !== undefined; 
+  
+  // Check if Car is Upcoming
+  const isUpcoming = newLaunchCars.some((c) => (c.slug === decodedSlug) || (generateSlug(c.name) === decodedSlug));
+
   const isEV = foundCar.id > 800 || (foundCar as any).category === "EV" || foundCar.name.includes("Electric") || foundCar.name.includes("EV");
   const carImages = (foundCar as any).images || (foundCar as any).imageUrls || [(foundCar as any).image] || ["/cars/placeholder.jpg"];
   const basePrice = (foundCar as any).price || (foundCar as any).priceRange;
@@ -165,6 +169,7 @@ const CarDetailPage = ({ params }: PageProps) => {
                 <div className="relative w-full h-[300px] md:h-[400px] rounded-xl overflow-hidden border border-gray-100 mb-4 bg-gray-50 flex items-center justify-center">
                     <img src={carImages[selectedImageIndex]} alt={foundCar.name} className="w-full h-full object-contain transition-all duration-300 hover:scale-105" />
                     {isUsed && <span className="absolute top-4 left-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Used Car</span>}
+                    {isUpcoming && <span className="absolute top-4 left-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Upcoming</span>}
                 </div>
                 <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                     {carImages.map((img: string, idx: number) => (
@@ -180,12 +185,14 @@ const CarDetailPage = ({ params }: PageProps) => {
                 
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 mt-4">{foundCar.name}</h1>
                 
-                <div className="flex items-center space-x-2 mb-4 text-sm border-b border-gray-100 pb-4">
-                    <div className="flex text-yellow-400"><FaStar /><FaStar /><FaStar /><FaStar /><FaStarHalfAlt /></div>
-                    <span className="text-gray-900 font-bold">{(foundCar as any).rating || 4.5} / 5</span>
-                    <span className="text-gray-500">| {(foundCar as any).reviews || 20} Reviews</span>
-                    {(foundCar as any).location && <span className="flex items-center gap-1 text-gray-500 ml-2"><FaMapMarkerAlt className="text-red-500"/> {(foundCar as any).location}</span>}
-                </div>
+                {!isUpcoming && (
+                    <div className="flex items-center space-x-2 mb-4 text-sm border-b border-gray-100 pb-4">
+                        <div className="flex text-yellow-400"><FaStar /><FaStar /><FaStar /><FaStar /><FaStarHalfAlt /></div>
+                        <span className="text-gray-900 font-bold">{(foundCar as any).rating || 4.5} / 5</span>
+                        <span className="text-gray-500">| {(foundCar as any).reviews || 20} Reviews</span>
+                        {(foundCar as any).location && <span className="flex items-center gap-1 text-gray-500 ml-2"><FaMapMarkerAlt className="text-red-500"/> {(foundCar as any).location}</span>}
+                    </div>
+                )}
 
                 {variants.length > 0 && (
                     <div className="mb-4">
@@ -202,8 +209,8 @@ const CarDetailPage = ({ params }: PageProps) => {
 
                 <div className="mb-1"><h2 className="text-3xl font-bold text-gray-900">{displayPrice}</h2></div>
                 <div className="flex items-center gap-2 mb-6">
-                    <p className="text-xs text-gray-500">{isUsed ? "*Asking Price (Negotiable)" : "*Ex-showroom price"}</p>
-                    {!isUsed && <button onClick={handleOpenOnRoad} className="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 cursor-pointer"><FaInfoCircle /> Check On-Road Price</button>}
+                    <p className="text-xs text-gray-500">{isUsed ? "*Asking Price (Negotiable)" : isUpcoming ? "*Expected Price" : "*Ex-showroom price"}</p>
+                    {!isUsed && !isUpcoming && <button onClick={handleOpenOnRoad} className="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 cursor-pointer"><FaInfoCircle /> Check On-Road Price</button>}
                 </div>
 
                 {isUsed && (foundCar as any).sellerPhone && (
@@ -222,8 +229,16 @@ const CarDetailPage = ({ params }: PageProps) => {
                 </div>
 
                 <div className="flex gap-4 mt-4 w-full">
-                    <button onClick={handleOpenOffers} className="flex-1 py-3.5 border-2 border-red-600 text-red-600 font-bold rounded hover:bg-red-50 transition-colors uppercase text-sm tracking-wide">{isUsed ? "Check Warranty" : "Check Offers"}</button>
-                    <button onClick={handleOpenBooking} className="flex-1 py-3.5 bg-red-700 text-white font-bold rounded hover:bg-red-800 transition-colors shadow-lg shadow-red-100 uppercase text-sm tracking-wide">{isUsed ? "Contact Seller" : "Book Visit"}</button>
+                    {isUpcoming ? (
+                        <button className="w-full py-3.5 bg-orange-600 text-white font-bold rounded hover:bg-orange-700 transition-colors uppercase text-sm tracking-wide">
+                            Set Launch Alert
+                        </button>
+                    ) : (
+                        <>
+                            <button onClick={handleOpenOffers} className="flex-1 py-3.5 border-2 border-red-600 text-red-600 font-bold rounded hover:bg-red-50 transition-colors uppercase text-sm tracking-wide">{isUsed ? "Check Warranty" : "Check Offers"}</button>
+                            <button onClick={handleOpenBooking} className="flex-1 py-3.5 bg-red-700 text-white font-bold rounded hover:bg-red-800 transition-colors shadow-lg shadow-red-100 uppercase text-sm tracking-wide">{isUsed ? "Contact Seller" : "Book Visit"}</button>
+                        </>
+                    )}
                 </div>
                 
                 {isUsed && <button onClick={handleWhatsApp} className="w-full mt-3 border border-green-500 text-green-600 font-bold py-3 rounded hover:bg-green-50 transition flex items-center justify-center gap-2"><FaWhatsapp size={20} /> Chat with Seller</button>}
@@ -238,8 +253,7 @@ const CarDetailPage = ({ params }: PageProps) => {
                 <button onClick={() => setActiveTab('specs')} className={`pb-3 pr-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'specs' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>{isUsed ? "Car Overview" : "Key Specifications"}</button>
                 <button onClick={() => setActiveTab('features')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'features' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>{isUsed ? "Condition & Features" : "Top Features"}</button>
                 
-                {/* ✅ USER REVIEWS TAB: ONLY FOR NEW CARS (!isUsed) */}
-                {!isUsed && <button onClick={() => setActiveTab('reviews')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'reviews' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>User Reviews</button>}
+                {!isUsed && !isUpcoming && <button onClick={() => setActiveTab('reviews')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'reviews' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>User Reviews</button>}
             </div>
 
             {activeTab === 'specs' && (
@@ -267,8 +281,7 @@ const CarDetailPage = ({ params }: PageProps) => {
                 </div>
             )}
 
-            {/* ✅ USER REVIEWS CONTENT: ONLY FOR NEW CARS */}
-            {!isUsed && activeTab === 'reviews' && <UserReviews carName={foundCar.name} />}
+            {!isUsed && !isUpcoming && activeTab === 'reviews' && <UserReviews carName={foundCar.name} />}
             
             <div className="mt-8 pt-4 border-t border-gray-100">
                 <button className="text-red-600 text-sm font-bold flex items-center gap-1 hover:underline">View All Specs and Features <FaArrowRight size={12} /></button>
@@ -280,8 +293,15 @@ const CarDetailPage = ({ params }: PageProps) => {
              <DealersSection brand={foundCar.name.split(" ")[0]} />
         )}
 
-        {/* EXPERT REVIEW SECTION (Moved BELOW Dealers, Only New Cars) */}
-        {!isUsed && (
+        {/* ✅ VARIANTS TABLE (Moved Below Dealers) */}
+        {!isUsed && !isUpcoming && (foundCar as any).variants && (
+             <div className="mt-8 mb-8">
+                <VariantsTable variants={(foundCar as any).variants} carName={foundCar.name} />
+             </div>
+        )}
+
+        {/* EXPERT REVIEW SECTION (Bottom) */}
+        {!isUsed && !isUpcoming && (
             <div className="bg-white rounded-xl shadow-sm p-6 mt-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Expert Review & Verdict</h3>
                 
@@ -374,13 +394,6 @@ const CarDetailPage = ({ params }: PageProps) => {
                     </div>
                 </div>
             </div>
-        )}
-
-        {/* VARIANTS TABLE (Only New Cars) */}
-        {!isUsed && (foundCar as any).variants && (
-             <div className="mt-8">
-                <VariantsTable variants={(foundCar as any).variants} carName={foundCar.name} />
-             </div>
         )}
 
         {/* MODALS */}
