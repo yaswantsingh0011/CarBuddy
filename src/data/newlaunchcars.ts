@@ -4,8 +4,8 @@ export const newLaunchCars = [
   
   {
     id: 909,
-    name: "Kia Seltos",
-    slug: "kia-seltos",
+    name: "Kia Seltos 2026",
+    slug: "kia-seltos-2026",
     priceRange: "₹ 12.50 - 22.00 Lakh*",
     location: "Expected: Feb 2026",
     category: "SUV",
