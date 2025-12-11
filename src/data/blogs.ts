@@ -11,17 +11,11 @@ export interface BlogPost {
 }
 
 export const blogs: BlogPost[] = [
-  // 1. NEW BLOG: Fuel Types Comparison (ID 15) - Maine isse ID 14 se pehle rakha hai, kyunki iski date (Dec 03, 2025) 
-  //    ID 14 (Dec 05, 2025) se thodi purani hai, lekin dono naye hain. Agar aapko date wise strict ordering chahiye, toh yeh ID 14 se neeche aana chahiye.
-
-  // **NOTE: Agar aapko 14 ko 15 se pehle rakhna hai toh sequence ko manually badal sakte hain.**
-
   
-
   {
     id: '14',
     slug: 'monsoon-driving-safety-tips',
-    title: 'Driving Safety Tips: How to Drive Safely in Monsoon',
+    title: 'Safety Tips: How to Drive Safely in Monsoon',
     excerpt: 'Monsoon driving requires extra caution. Learn how to prevent hydroplaning, maintain visibility, and manage unexpected breakdowns during heavy rains.',
     content: `
       <p>Monsoon driving requires extra caution on Indian roads. Heavy rainfall brings poor visibility, slippery surfaces, and unexpected waterlogging. Follow these essential tips to keep yourself and your vehicle safe this season.</p>

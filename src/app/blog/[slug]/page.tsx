@@ -27,8 +27,8 @@ export default async function BlogPostPage({ params }: Props) {
 
   // Sidebar Data Logic
   const latestPosts = [...blogs].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                               .filter(p => p.id !== blog.id) // Current post ko hata diya
-                               .slice(0, 4); // Top 4 posts
+                                .filter(p => p.id !== blog.id) // Current post ko hata diya
+                                .slice(0, 6); // Top 4 posts
   
   const categories = Array.from(new Set(blogs.map(b => b.category)));
   
@@ -45,9 +45,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="lg:w-2/3">
             <article className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
               
-              <Link href="/blog" className="inline-flex items-center text-sm text-gray-500 hover:text-blue-600 mb-6">
-                ← Back to Blog
-              </Link>
+              {/* ❌ "Back to Blog" Button Removed From Here */}
 
               <header className="mb-8">
                 <span className="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full mb-4 inline-block">
