@@ -149,12 +149,6 @@ const UsedCarsSection = () => {
         </div>
       )}
 
-      {/* VIEW ALL LINK */}
-      <div className="mt-8 text-right">
-            <Link href="/used-cars" className="inline-flex items-center gap-2 text-blue-600 font-bold hover:underline text-sm">
-                View All Inventory <FaChevronRight size={12} />
-            </Link>
-      </div>
 
       {/* OFFERS MODAL */}
       {offerCar && (

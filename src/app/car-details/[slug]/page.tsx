@@ -2,7 +2,7 @@
 
 import React, { useState, use, useEffect } from 'react';
 import { notFound } from 'next/navigation';
-import Link from 'next/link'; // ✅ IMPORT ADDED FOR FAST NAVIGATION
+import Link from 'next/link';
 
 // 1. IMPORT ALL DATA FILES
 import { mostSearchedCars } from '@/data/mostSearchedCars';
@@ -45,12 +45,13 @@ const CarDetailPage = ({ params }: PageProps) => {
   const [isOnRoadOpen, setIsOnRoadOpen] = useState(false);
   const [isEMIOpen, setIsEMIOpen] = useState(false);
   
-  // Image & Color Logic
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [activeImage, setActiveImage] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<any>(null);
   
-  const [activeTab, setActiveTab] = useState<'specs' | 'features' | 'reviews'>('specs');
+  // Tabs State
+  const [activeTab, setActiveTab] = useState<'specs' | 'features' | 'dealers' | 'variants' | 'expert_review' | 'reviews'>('specs');
+  
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
 
   // Find Car Logic
@@ -61,13 +62,11 @@ const CarDetailPage = ({ params }: PageProps) => {
     newCarsData.find((c) => (c.slug === decodedSlug) || (generateSlug(c.name) === decodedSlug)) ||
     usedCarsData.find((c) => (c.slug === decodedSlug) || (generateSlug(c.name) === decodedSlug));
 
-  // Initialize Variant & Image
   useEffect(() => {
     if (foundCar) {
         if ((foundCar as any).variants && (foundCar as any).variants.length > 0) {
             setSelectedVariant((foundCar as any).variants[0]); 
         }
-        // Set Default Image
         const initialImages = (foundCar as any).images || (foundCar as any).imageUrls || [(foundCar as any).image] || ["/cars/placeholder.jpg"];
         setActiveImage(initialImages[0]);
     }
@@ -86,18 +85,14 @@ const CarDetailPage = ({ params }: PageProps) => {
   const displayPrice = selectedVariant ? selectedVariant.price : basePrice;
   const variants = (foundCar as any).variants || [];
 
-  // ✅ SIMILAR CARS LOGIC
   const allCarsMaster = [...mostSearchedCars, ...newCarsData, ...electricCars, ...newLaunchCars];
-  
   const similarCars = allCarsMaster
     .filter((c) => {
-        // Logic: Same Category but NOT current car
         const isSameCategory = (c as any).category && (foundCar as any).category && (c as any).category === (foundCar as any).category;
         const isNotCurrent = c.id !== foundCar.id;
         return isSameCategory && isNotCurrent;
     })
     .slice(0, 4); 
-
 
   // Handlers
   const handleThumbnailClick = (img: string, idx: number) => {
@@ -112,30 +107,28 @@ const CarDetailPage = ({ params }: PageProps) => {
     setSelectedImageIndex(-1); 
   };
 
-  // Static Data
   const pros = (foundCar as any).pros || [
-      "Stunning and aggressive design language",
-      "Feature-loaded cabin with premium materials",
-      "Powerful engine options with refined performance",
-      "Spacious interior with ample legroom"
+      "Stunning design language",
+      "Feature-loaded cabin",
+      "Powerful engine options",
+      "Spacious interior"
   ];
 
   const cons = (foundCar as any).cons || [
-      "Fuel efficiency drops in heavy city traffic",
-      "Third-row seating is best suited for kids",
-      "Service network is still expanding in rural areas"
+      "Fuel efficiency drops in city",
+      "Third-row is tight",
+      "Service network expanding"
   ];
 
   const defaultReview = {
-      verdict: `The ${foundCar.name} is undoubtedly one of the strongest contenders in its segment. It strikes a perfect balance between premium aesthetics and rugged performance.`,
-      performance: `Under the hood, the ${foundCar.name} feels lively and eager. Whether you are driving in the city or cruising on the highway, the power delivery is linear.`,
-      interior: `Step inside, and you are greeted by a cabin that feels segments above its price point. The dashboard layout is ergonomic, and the quality of materials used adds to the luxury quotient.`,
-      safety: `Safety hasn't been compromised. With a robust build quality and a suite of active safety features including ABS, EBD, and multiple airbags, it inspires confidence.`
+      verdict: `The ${foundCar.name} is one of the strongest contenders in its segment, balancing aesthetics and performance.`,
+      performance: `Under the hood, the ${foundCar.name} feels lively. Power delivery is linear and highway cruising is effortless.`,
+      interior: `The cabin feels segments above its price point with premium materials and ergonomic layout.`,
+      safety: `Robust build quality with essential active safety features inspires confidence.`
   };
 
   const expertReview = (foundCar as any).expertReview || defaultReview;
 
-  // Spec Normalization
   let normalizedSpecs = { engine: "N/A", power: "N/A", torque: "N/A", transmission: "N/A", bootSpace: "N/A", groundClearance: "N/A", mileage: "N/A" };
   
   if (selectedVariant) {
@@ -194,62 +187,34 @@ const CarDetailPage = ({ params }: PageProps) => {
         
         {/* TOP SECTION */}
         <div className="bg-white rounded-xl shadow-sm p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
-            
-            {/* GALLERY & COLOR CHANGER */}
             <div>
                 <div className="relative w-full h-[300px] md:h-[400px] rounded-xl overflow-hidden border border-gray-100 mb-4 bg-gray-50 flex items-center justify-center">
-                    <img 
-                      src={activeImage || carImages[0]} 
-                      alt={foundCar.name} 
-                      className="w-full h-full object-contain transition-all duration-500 ease-in-out hover:scale-105" 
-                    />
+                    <img src={activeImage || carImages[0]} alt={foundCar.name} className="w-full h-full object-contain transition-all duration-500 ease-in-out hover:scale-105" />
                     {isUsed && <span className="absolute top-4 left-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Used Car</span>}
                     {isUpcoming && <span className="absolute top-4 left-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Upcoming</span>}
-                    {selectedColor && (
-                        <div className="absolute bottom-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">
-                            Color: {selectedColor.name}
-                        </div>
-                    )}
+                    {selectedColor && <div className="absolute bottom-4 bg-black/70 text-white text-xs px-3 py-1 rounded-full backdrop-blur-sm">Color: {selectedColor.name}</div>}
                 </div>
-
-                {/* Color Selector */}
                 {carColors.length > 0 && (
                     <div className="mb-4">
                         <p className="text-xs font-bold text-gray-500 uppercase mb-2">Available Colors</p>
                         <div className="flex gap-3">
                             {carColors.map((color: any, idx: number) => (
-                                <button
-                                    key={idx}
-                                    onClick={() => handleColorClick(color)}
-                                    className={`w-8 h-8 rounded-full border-2 shadow-sm transition-transform hover:scale-110 
-                                      ${selectedColor?.name === color.name ? 'ring-2 ring-offset-1 ring-blue-500 scale-110' : 'border-gray-200'}`}
-                                    style={{ backgroundColor: color.hex }}
-                                    title={color.name}
-                                />
+                                <button key={idx} onClick={() => handleColorClick(color)} className={`w-8 h-8 rounded-full border-2 shadow-sm transition-transform hover:scale-110 ${selectedColor?.name === color.name ? 'ring-2 ring-offset-1 ring-blue-500 scale-110' : 'border-gray-200'}`} style={{ backgroundColor: color.hex }} title={color.name} />
                             ))}
                         </div>
                     </div>
                 )}
-
-                {/* Thumbnails */}
                 <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
                     {carImages.map((img: string, idx: number) => (
-                        <div 
-                           key={idx} 
-                           onClick={() => handleThumbnailClick(img, idx)} 
-                           className={`relative w-20 h-16 md:w-24 md:h-20 flex-shrink-0 rounded-lg overflow-hidden cursor-pointer border-2 transition-all 
-                           ${selectedImageIndex === idx ? 'border-blue-600 ring-2 ring-blue-100' : 'border-transparent opacity-70 hover:opacity-100'}`}
-                        >
+                        <div key={idx} onClick={() => handleThumbnailClick(img, idx)} className={`relative w-20 h-16 md:w-24 md:h-20 flex-shrink-0 rounded-lg overflow-hidden cursor-pointer border-2 transition-all ${selectedImageIndex === idx ? 'border-blue-600 ring-2 ring-blue-100' : 'border-transparent opacity-70 hover:opacity-100'}`}>
                             <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
                         </div>
                     ))}
                 </div>
             </div>
 
-            {/* INFO */}
             <div className="flex flex-col h-full"> 
                 <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 mt-4">{foundCar.name}</h1>
-                
                 {!isUpcoming && (
                     <div className="flex items-center space-x-2 mb-4 text-sm border-b border-gray-100 pb-4">
                         <div className="flex text-yellow-400"><FaStar /><FaStar /><FaStar /><FaStar /><FaStarHalfAlt /></div>
@@ -257,7 +222,6 @@ const CarDetailPage = ({ params }: PageProps) => {
                         <span className="text-gray-500">| {(foundCar as any).reviews || 20} Reviews</span>
                     </div>
                 )}
-
                 {variants.length > 0 && (
                     <div className="mb-4">
                         <label className="text-xs font-bold text-gray-500 uppercase mb-1 block">Select Variant</label>
@@ -270,20 +234,11 @@ const CarDetailPage = ({ params }: PageProps) => {
                         </div>
                     </div>
                 )}
-
                 <div className="mb-1"><h2 className="text-3xl font-bold text-gray-900">{displayPrice}</h2></div>
                 <div className="flex items-center gap-2 mb-6">
                     <p className="text-xs text-gray-500">{isUsed ? "*Asking Price (Negotiable)" : isUpcoming ? "*Expected Price" : "*Ex-showroom price"}</p>
                     {!isUsed && !isUpcoming && <button onClick={handleOpenOnRoad} className="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 cursor-pointer"><FaInfoCircle /> Check On-Road Price</button>}
                 </div>
-
-                {isUsed && (foundCar as any).sellerPhone && (
-                      <div className="bg-blue-50 border border-blue-100 p-3 rounded-lg mb-4 flex items-center justify-between">
-                        <div><p className="text-xs text-gray-500 font-bold uppercase">Seller Contact</p><p className="text-blue-700 font-bold text-lg">{(foundCar as any).sellerPhone}</p></div>
-                        <a href={`tel:${(foundCar as any).sellerPhone}`} className="bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-blue-700 flex items-center gap-2"><FaPhoneAlt size={12} /> Call Now</a>
-                      </div>
-                )}
-
                 <div className="bg-green-50 rounded-lg p-4 border border-green-100 mb-6">
                     <div className="flex justify-between items-center mb-2"><span className="text-gray-700 font-medium">Estimated EMI:</span><span onClick={handleOpenEMI} className="text-blue-700 font-bold text-sm cursor-pointer hover:underline">Check Eligibility</span></div>
                     <div className="text-sm text-gray-600 space-y-1">
@@ -291,12 +246,9 @@ const CarDetailPage = ({ params }: PageProps) => {
                         <div className="flex items-center gap-2"><FaCheckCircle className="text-green-500 text-xs"/> <span className="text-xs">{isUsed ? "Certified & Inspected" : "Premium Comfort & Safety"}</span></div>
                     </div>
                 </div>
-
                 <div className="flex gap-4 mt-4 w-full">
                     {isUpcoming ? (
-                        <button className="w-full py-3.5 bg-orange-600 text-white font-bold rounded hover:bg-orange-700 transition-colors uppercase text-sm tracking-wide">
-                            Set Launch Alert
-                        </button>
+                        <button className="w-full py-3.5 bg-orange-600 text-white font-bold rounded hover:bg-orange-700 transition-colors uppercase text-sm tracking-wide">Set Launch Alert</button>
                     ) : (
                         <>
                             <button onClick={handleOpenOffers} className="flex-1 py-3.5 border-2 border-red-600 text-red-600 font-bold rounded hover:bg-red-50 transition-colors uppercase text-sm tracking-wide">{isUsed ? "Check Warranty" : "Check Offers"}</button>
@@ -304,24 +256,32 @@ const CarDetailPage = ({ params }: PageProps) => {
                         </>
                     )}
                 </div>
-                
                 {isUsed && <button onClick={handleWhatsApp} className="w-full mt-3 border border-green-500 text-green-600 font-bold py-3 rounded hover:bg-green-50 transition flex items-center justify-center gap-2"><FaWhatsapp size={20} /> Chat with Seller</button>}
             </div>
         </div>
 
-        {/* TABS SECTION */}
+        {/* ✅ MAIN TABS SECTION */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-            <h3 className="text-xl font-bold text-gray-900 mb-6">{isUsed ? "Vehicle Details & Features" : "Detailed Key Specs & Features"}</h3>
-            
-            <div className="flex border-b border-gray-200 mb-8 overflow-x-auto">
-                <button onClick={() => setActiveTab('specs')} className={`pb-3 pr-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'specs' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>{isUsed ? "Car Overview" : "Key Specifications"}</button>
-                <button onClick={() => setActiveTab('features')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'features' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>{isUsed ? "Condition & Features" : "Top Features"}</button>
-                {!isUsed && !isUpcoming && <button onClick={() => setActiveTab('reviews')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'reviews' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>User Reviews</button>}
+            <div className="flex border-b border-gray-200 mb-8 overflow-x-auto no-scrollbar">
+                <button onClick={() => setActiveTab('specs')} className={`pb-3 pr-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'specs' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Overview</button>
+                <button onClick={() => setActiveTab('features')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'features' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Features</button>
+                
+                {/* Dynamic Tabs */}
+                {!isUsed && !isUpcoming && (
+                  <>
+                    <button onClick={() => setActiveTab('variants')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'variants' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Variants</button>
+                    <button onClick={() => setActiveTab('dealers')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'dealers' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Dealers</button>
+                    <button onClick={() => setActiveTab('expert_review')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'expert_review' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Review</button>
+                    <button onClick={() => setActiveTab('reviews')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'reviews' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>User Reviews</button>
+                  </>
+                )}
             </div>
 
+            {/* TAB CONTENT: SPECS */}
             {activeTab === 'specs' && (
-                isUsed ? (<CarOverviewGrid car={foundCar} />) : (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-8 gap-x-4 animate-fadeIn">
+                <div className="animate-fadeIn">
+                   {isUsed ? (<CarOverviewGrid car={foundCar} />) : (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-8 gap-x-4">
                         <SpecItem icon={isEV ? <FaBolt/> : <FaGasPump/>} label={isEV ? "Battery" : "Engine"} value={normalizedSpecs.engine} />
                         <SpecItem icon={<FaBolt/>} label="Power" value={normalizedSpecs.power} />
                         <SpecItem icon={<FaCogs/>} label="Transmission" value={normalizedSpecs.transmission} />
@@ -330,9 +290,11 @@ const CarDetailPage = ({ params }: PageProps) => {
                         <SpecItem icon={<FaCar/>} label="Boot Space" value={normalizedSpecs.bootSpace} />
                         <SpecItem icon={<FaCar/>} label="Ground Clearance" value={normalizedSpecs.groundClearance} />
                     </div>
-                )
+                   )}
+                </div>
             )}
 
+            {/* ✅ TAB CONTENT: FEATURES (Restored to Old Style) */}
             {activeTab === 'features' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fadeIn">
                     {features.map((feat: string, index: number) => (
@@ -344,92 +306,57 @@ const CarDetailPage = ({ params }: PageProps) => {
                 </div>
             )}
 
+            {/* TAB CONTENT: VARIANTS */}
+            {activeTab === 'variants' && (foundCar as any).variants && (
+                <div className="animate-fadeIn">
+                   <VariantsTable variants={(foundCar as any).variants} carName={foundCar.name} />
+                </div>
+            )}
+
+            {/* TAB CONTENT: DEALERS */}
+            {activeTab === 'dealers' && !isUsed && (
+                <div className="animate-fadeIn">
+                    <DealersSection brand={foundCar.name.split(" ")[0]} />
+                </div>
+            )}
+
+            {/* TAB CONTENT: EXPERT REVIEW */}
+            {activeTab === 'expert_review' && (
+                <div className="animate-fadeIn">
+                   <div className="grid md:grid-cols-2 gap-6 mb-8">
+                        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-green-500">
+                            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><FaThumbsUp className="text-green-500" /> Things We Like</h3>
+                            <ul className="space-y-3">
+                                {pros.map((item: string, idx: number) => (
+                                    <li key={idx} className="flex items-start gap-3"><FaCheckCircle className="text-green-500 mt-1 flex-shrink-0" size={16} /><span className="text-gray-700 text-sm font-medium">{item}</span></li>
+                                ))}
+                            </ul>
+                        </div>
+                        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-red-500">
+                            <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><FaThumbsDown className="text-red-500" /> Things To Improve</h3>
+                            <ul className="space-y-3">
+                                {cons.map((item: string, idx: number) => (
+                                    <li key={idx} className="flex items-start gap-3"><FaTimesCircle className="text-red-500 mt-1 flex-shrink-0" size={16} /><span className="text-gray-700 text-sm font-medium">{item}</span></li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="bg-gray-50 p-6 md:p-8 rounded-lg border border-gray-100">
+                        <h4 className="text-xl font-bold text-gray-900 mb-4">CarBuddy Verdict</h4>
+                        <p className="text-gray-700 leading-relaxed text-lg mb-8 border-l-4 border-red-600 pl-4 bg-white p-4 rounded shadow-sm">{expertReview.verdict}</p>
+                        <div className="grid md:grid-cols-2 gap-8">
+                            <div><h5 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-3"><FaTachometerAlt className="text-red-500"/> Performance</h5><p className="text-gray-600 text-sm">{expertReview.performance}</p></div>
+                            <div><h5 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-3"><FaChair className="text-red-500"/> Interior</h5><p className="text-gray-600 text-sm">{expertReview.interior}</p></div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* TAB CONTENT: REVIEWS */}
             {!isUsed && !isUpcoming && activeTab === 'reviews' && <UserReviews carName={foundCar.name} />}
-            
-            <div className="mt-8 pt-4 border-t border-gray-100">
-                <button className="text-red-600 text-sm font-bold flex items-center gap-1 hover:underline">View All Specs and Features <FaArrowRight size={12} /></button>
-            </div>
         </div>
 
-        {/* DEALERS */}
-        {!isUsed && (
-             <DealersSection brand={foundCar.name.split(" ")[0]} />
-        )}
-
-        {/* VARIANTS */}
-        {!isUsed && !isUpcoming && (foundCar as any).variants && (
-             <div className="mt-8 mb-8">
-                <VariantsTable variants={(foundCar as any).variants} carName={foundCar.name} />
-             </div>
-        )}
-
-        {/* EXPERT REVIEW */}
-        {!isUsed && !isUpcoming && (
-            <div className="bg-white rounded-xl shadow-sm p-6 mt-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Expert Review & Verdict</h3>
-                
-                <div className="grid md:grid-cols-2 gap-6 mb-8">
-                    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-green-500">
-                        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><FaThumbsUp className="text-green-500" /> Things We Like</h3>
-                        <ul className="space-y-3">
-                            {pros.map((item: string, idx: number) => (
-                                <li key={idx} className="flex items-start gap-3"><FaCheckCircle className="text-green-500 mt-1 flex-shrink-0" size={16} /><span className="text-gray-700 text-sm font-medium">{item}</span></li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 border-t-4 border-t-red-500">
-                        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"><FaThumbsDown className="text-red-500" /> Things To Improve</h3>
-                        <ul className="space-y-3">
-                            {cons.map((item: string, idx: number) => (
-                                <li key={idx} className="flex items-start gap-3"><FaTimesCircle className="text-red-500 mt-1 flex-shrink-0" size={16} /><span className="text-gray-700 text-sm font-medium">{item}</span></li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
-                <div className="bg-gray-50 p-6 md:p-8 rounded-lg border border-gray-100">
-                    <h4 className="text-xl font-bold text-gray-900 mb-4">CarBuddy Verdict</h4>
-                    <p className="text-gray-700 leading-relaxed text-lg mb-8 border-l-4 border-red-600 pl-4 bg-white p-4 rounded shadow-sm">{expertReview.verdict}</p>
-                    
-                    <div className="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <h5 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-3"><FaTachometerAlt className="text-red-500"/> Engine & Performance</h5>
-                            <p className="text-gray-600 text-sm leading-relaxed text-justify">{expertReview.performance}</p>
-                        </div>
-                        <div>
-                            <h5 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-3"><FaChair className="text-red-500"/> Interior & Comfort</h5>
-                            <p className="text-gray-600 text-sm leading-relaxed text-justify">{expertReview.interior}</p>
-                        </div>
-                         <div>
-                            <h5 className="flex items-center gap-2 text-lg font-bold text-gray-900 mb-3"><FaShieldAlt className="text-red-500"/> Safety & Build</h5>
-                            <p className="text-gray-600 text-sm leading-relaxed text-justify">{expertReview.safety}</p>
-                        </div>
-                        
-                        {/* Scorecard */}
-                        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-                            <h5 className="text-sm font-bold text-gray-500 uppercase mb-4">Our Scorecard</h5>
-                            <div className="space-y-4">
-                                <div>
-                                    <div className="flex justify-between mb-1"><span className="text-xs font-bold">Performance</span><span className="text-xs font-bold text-green-600">4.5/5</span></div>
-                                    <div className="w-full bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{width: '90%'}}></div></div>
-                                </div>
-                                <div>
-                                    <div className="flex justify-between mb-1"><span className="text-xs font-bold">Comfort</span><span className="text-xs font-bold text-green-600">4.0/5</span></div>
-                                    <div className="w-full bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{width: '80%'}}></div></div>
-                                </div>
-                                <div>
-                                    <div className="flex justify-between mb-1"><span className="text-xs font-bold">Value for Money</span><span className="text-xs font-bold text-green-600">4.8/5</span></div>
-                                    <div className="w-full bg-gray-200 rounded-full h-2"><div className="bg-green-500 h-2 rounded-full" style={{width: '96%'}}></div></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )}
-
-        {/* ✅ SIMILAR CARS SECTION (URL UPDATED to /car-details/) */}
+        {/* SIMILAR CARS SECTION */}
         {!isUsed && similarCars.length > 0 && (
             <div className="mt-12 mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Similar Cars / Rivals</h3>
@@ -437,18 +364,12 @@ const CarDetailPage = ({ params }: PageProps) => {
                     {similarCars.map((car, idx) => (
                         <Link href={`/car-details/${(car as any).slug || generateSlug(car.name)}`} key={idx} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow block group">
                             <div className="h-40 relative bg-gray-50 flex items-center justify-center">
-                                <img 
-                                    src={(car as any).image || (car as any).images?.[0] || "/cars/placeholder.jpg"} 
-                                    alt={car.name} 
-                                    className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300" 
-                                />
+                                <img src={(car as any).image || (car as any).images?.[0] || "/cars/placeholder.jpg"} alt={car.name} className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300" />
                             </div>
                             <div className="p-4">
                                 <h4 className="font-bold text-gray-900 mb-1 truncate">{car.name}</h4>
                                 <p className="text-red-600 font-bold text-sm">{(car as any).price || (car as any).priceRange}</p>
-                                <button className="mt-3 w-full border border-blue-600 text-blue-600 font-bold text-xs py-2 rounded hover:bg-blue-50 transition-colors">
-                                    View Details
-                                </button>
+                                <button className="mt-3 w-full border border-blue-600 text-blue-600 font-bold text-xs py-2 rounded hover:bg-blue-50 transition-colors">View Details</button>
                             </div>
                         </Link>
                     ))}

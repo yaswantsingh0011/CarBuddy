@@ -12,7 +12,7 @@ interface HeroProps {
 const heroImages = [
   "/cars/octaviars.jpg",
   "/cars/carnival.jpg",
-  "/cars/harrier.jpg"
+  "/cars/xuv700.jpg"
 ];
 
 const Hero: React.FC<HeroProps> = ({ onExploreClick }) => {
