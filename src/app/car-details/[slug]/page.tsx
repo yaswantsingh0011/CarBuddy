@@ -26,10 +26,23 @@ import { useLocation } from '@/context/LocationContext';
 import { 
   FaStar, FaStarHalfAlt, FaGasPump, FaCogs, FaBolt, FaArrowRight, FaCheckCircle, 
   FaCar, FaRoad, FaUser, FaMapMarkerAlt, FaCalendarAlt, FaInfoCircle, FaPhoneAlt, 
-  FaWhatsapp, FaChevronDown, FaTimesCircle, FaThumbsUp, FaThumbsDown, FaTachometerAlt, FaChair, FaShieldAlt
+  FaWhatsapp, FaChevronDown, FaTimesCircle, FaThumbsUp, FaThumbsDown, FaTachometerAlt, FaChair, FaShieldAlt,
+  FaSun, FaMusic, FaFan, FaVideo 
 } from 'react-icons/fa';
 
 const generateSlug = (name: string) => name.trim().toLowerCase().replace(/\s+/g, "-");
+
+// Helper for Feature Icons
+const getFeatureIcon = (feature: string) => {
+  const lower = feature.toLowerCase();
+  if (lower.includes("airbag") || lower.includes("adas") || lower.includes("safety") || lower.includes("abs")) return <FaShieldAlt />;
+  if (lower.includes("sunroof")) return <FaSun />;
+  if (lower.includes("music") || lower.includes("speaker") || lower.includes("infotainment") || lower.includes("bluetooth")) return <FaMusic />;
+  if (lower.includes("seat") || lower.includes("leather") || lower.includes("ventilated")) return <FaChair />;
+  if (lower.includes("ac") || lower.includes("climate") || lower.includes("fan")) return <FaFan />;
+  if (lower.includes("camera") || lower.includes("sensor")) return <FaVideo />;
+  return <FaCheckCircle />;
+};
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -49,8 +62,8 @@ const CarDetailPage = ({ params }: PageProps) => {
   const [activeImage, setActiveImage] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<any>(null);
   
-  // Tabs State
-  const [activeTab, setActiveTab] = useState<'specs' | 'features' | 'dealers' | 'variants' | 'expert_review' | 'reviews'>('specs');
+  // ✅ UPDATED TABS STATE (Removed 'dealers' and 'reviews' from here)
+  const [activeTab, setActiveTab] = useState<'specs' | 'features' | 'variants' | 'expert_review'>('specs');
   
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
 
@@ -86,6 +99,8 @@ const CarDetailPage = ({ params }: PageProps) => {
   const variants = (foundCar as any).variants || [];
 
   const allCarsMaster = [...mostSearchedCars, ...newCarsData, ...electricCars, ...newLaunchCars];
+  
+  // 1. Similar Cars Logic
   const similarCars = allCarsMaster
     .filter((c) => {
         const isSameCategory = (c as any).category && (foundCar as any).category && (c as any).category === (foundCar as any).category;
@@ -93,6 +108,16 @@ const CarDetailPage = ({ params }: PageProps) => {
         return isSameCategory && isNotCurrent;
     })
     .slice(0, 4); 
+
+  // 2. Brand Cars Logic
+  const currentBrand = foundCar.name.split(' ')[0];
+  const brandCars = allCarsMaster
+    .filter((c) => {
+        const isSameBrand = c.name.startsWith(currentBrand);
+        const isNotCurrent = c.id !== foundCar.id;
+        return isSameBrand && isNotCurrent;
+    })
+    .slice(0, 4);
 
   // Handlers
   const handleThumbnailClick = (img: string, idx: number) => {
@@ -260,19 +285,17 @@ const CarDetailPage = ({ params }: PageProps) => {
             </div>
         </div>
 
-        {/* ✅ MAIN TABS SECTION */}
+        {/* ✅ MAIN TABS SECTION (No Dealers/Reviews in Tab) */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
             <div className="flex border-b border-gray-200 mb-8 overflow-x-auto no-scrollbar">
                 <button onClick={() => setActiveTab('specs')} className={`pb-3 pr-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'specs' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Overview</button>
                 <button onClick={() => setActiveTab('features')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'features' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Features</button>
                 
-                {/* Dynamic Tabs */}
+                {/* Dynamic Tabs (Variants & Expert Review Only) */}
                 {!isUsed && !isUpcoming && (
                   <>
                     <button onClick={() => setActiveTab('variants')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'variants' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Variants</button>
-                    <button onClick={() => setActiveTab('dealers')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'dealers' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Dealers</button>
                     <button onClick={() => setActiveTab('expert_review')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'expert_review' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>Review</button>
-                    <button onClick={() => setActiveTab('reviews')} className={`pb-3 px-8 text-sm md:text-base font-bold transition-all border-b-2 whitespace-nowrap ${activeTab === 'reviews' ? 'border-red-500 text-gray-900' : 'border-transparent text-gray-400'}`}>User Reviews</button>
                   </>
                 )}
             </div>
@@ -294,7 +317,7 @@ const CarDetailPage = ({ params }: PageProps) => {
                 </div>
             )}
 
-            {/* ✅ TAB CONTENT: FEATURES (Restored to Old Style) */}
+            {/* TAB CONTENT: FEATURES (Old Style) */}
             {activeTab === 'features' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fadeIn">
                     {features.map((feat: string, index: number) => (
@@ -310,13 +333,6 @@ const CarDetailPage = ({ params }: PageProps) => {
             {activeTab === 'variants' && (foundCar as any).variants && (
                 <div className="animate-fadeIn">
                    <VariantsTable variants={(foundCar as any).variants} carName={foundCar.name} />
-                </div>
-            )}
-
-            {/* TAB CONTENT: DEALERS */}
-            {activeTab === 'dealers' && !isUsed && (
-                <div className="animate-fadeIn">
-                    <DealersSection brand={foundCar.name.split(" ")[0]} />
                 </div>
             )}
 
@@ -351,17 +367,49 @@ const CarDetailPage = ({ params }: PageProps) => {
                     </div>
                 </div>
             )}
-
-            {/* TAB CONTENT: REVIEWS */}
-            {!isUsed && !isUpcoming && activeTab === 'reviews' && <UserReviews carName={foundCar.name} />}
         </div>
 
-        {/* SIMILAR CARS SECTION */}
+        {/* ✅ DEALERS SECTION (Outside Tab) */}
+        {!isUsed && !isUpcoming && (
+            <div className="mb-8">
+                <DealersSection brand={foundCar.name.split(" ")[0]} />
+            </div>
+        )}
+
+        {/* ✅ USER REVIEWS (Outside Tab) */}
+        {!isUsed && !isUpcoming && (
+            <div className="mb-8">
+                <UserReviews carName={foundCar.name} />
+            </div>
+        )}
+
+        {/* SECTION 1: SIMILAR CARS (Category Rivals) */}
         {!isUsed && similarCars.length > 0 && (
             <div className="mt-12 mb-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6">Similar Cars / Rivals</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                     {similarCars.map((car, idx) => (
+                        <Link href={`/car-details/${(car as any).slug || generateSlug(car.name)}`} key={idx} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow block group">
+                            <div className="h-40 relative bg-gray-50 flex items-center justify-center">
+                                <img src={(car as any).image || (car as any).images?.[0] || "/cars/placeholder.jpg"} alt={car.name} className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300" />
+                            </div>
+                            <div className="p-4">
+                                <h4 className="font-bold text-gray-900 mb-1 truncate">{car.name}</h4>
+                                <p className="text-red-600 font-bold text-sm">{(car as any).price || (car as any).priceRange}</p>
+                                <button className="mt-3 w-full border border-blue-600 text-blue-600 font-bold text-xs py-2 rounded hover:bg-blue-50 transition-colors">View Details</button>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+        )}
+
+        {/* SECTION 2: TRENDING BRAND CARS */}
+        {!isUsed && brandCars.length > 0 && (
+            <div className="mt-12 mb-16">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Trending {currentBrand} Cars</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+                    {brandCars.map((car, idx) => (
                         <Link href={`/car-details/${(car as any).slug || generateSlug(car.name)}`} key={idx} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow block group">
                             <div className="h-40 relative bg-gray-50 flex items-center justify-center">
                                 <img src={(car as any).image || (car as any).images?.[0] || "/cars/placeholder.jpg"} alt={car.name} className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300" />
