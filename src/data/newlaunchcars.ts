@@ -2,32 +2,27 @@
 
 export const newLaunchCars = [
   
-  
-{
-    id: 910,
-    name: "Renault New Duster",
-    slug: "renault-new-duster",
-    priceRange: "₹ 12.00 - 18.00 Lakh*",
-    location: "Expected: Jan - Mar 2026", // Unveils 26th Jan, Launches Mar 2026
+  {
+    id: 909,
+    name: "Kia Seltos",
+    slug: "kia-seltos",
+    priceRange: "₹ 12.50 - 22.00 Lakh*",
+    location: "Expected: Feb 2026",
     category: "SUV",
     imageUrls: [
-      "/cars/duster.jpg", // Assuming you have a specific image path
-      "/cars/duster-side.jpg",
-      "/cars/duster-rear.jpg",
-      "/cars/duster-interior.jpg"
+      "/cars/newseltos.jpg", "/cars/newseltos-side.jpg", "/cars/newseltos-rear.jpg", "/cars/newseltos-interior.jpg"
     ],
     specs: {
-      engine: "1.3L Turbo Petrol / 1.5L Petrol",
-      power: "156 hp (Turbo)",
-      torque: "250 Nm (Turbo)",
-      transmission: "Manual/CVT/DCT (Expected)",
-      mileage: "16 kmpl (Expected)",
-      bootSpace: "475 L (Expected)",
-      groundClearance: "205 mm (Expected)"
+      engine: "1.5L Turbo Hybrid",
+      power: "160 hp",
+      torque: "253 Nm",
+      transmission: "7-Speed DCT",
+      mileage: "20 kmpl",
+      bootSpace: "433 L",
+      groundClearance: "190 mm"
     },
-    features: ["ADAS", "Large Touchscreen", "Ventilated Seats (Expected)", "All-Wheel Drive (AWD) Optional"]
+    features: ["ADAS Level 2.0", "Panoramic Sunroof", "Dual 10.25-inch Screens", "Ventilated Seats"]
   },
-
 
   {
     id: 908,
@@ -51,8 +46,6 @@ export const newLaunchCars = [
     features: ["Virtual Cockpit Plus", "Matrix LED Lights", "Quattro AWD", "Bang & Olufsen 3D Sound"]
   },
   
-
- 
   {
     id: 902,
     name: "Kia Carnival 2025",
@@ -96,6 +89,32 @@ export const newLaunchCars = [
     },
     features: ["Curved Display", "Shy Tech", "Crystal Controls", "Sky Lounge Roof"]
   },
+
+  {
+    id: 910,
+    name: "Renault New Duster",
+    slug: "renault-new-duster",
+    priceRange: "₹ 12.00 - 18.00 Lakh*",
+    location: "Expected: Jan - Mar 2026", // Unveils 26th Jan, Launches Mar 2026
+    category: "SUV",
+    imageUrls: [
+      "/cars/duster.jpg", // Assuming you have a specific image path
+      "/cars/duster-side.jpg",
+      "/cars/duster-rear.jpg",
+      "/cars/duster-interior.jpg"
+    ],
+    specs: {
+      engine: "1.3L Turbo Petrol / 1.5L Petrol",
+      power: "156 hp (Turbo)",
+      torque: "250 Nm (Turbo)",
+      transmission: "Manual/CVT/DCT (Expected)",
+      mileage: "16 kmpl (Expected)",
+      bootSpace: "475 L (Expected)",
+      groundClearance: "205 mm (Expected)"
+    },
+    features: ["ADAS", "Large Touchscreen", "Ventilated Seats (Expected)", "All-Wheel Drive (AWD) Optional"]
+  },
+
   
   {
     id: 901,
