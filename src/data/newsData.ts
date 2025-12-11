@@ -1,6 +1,8 @@
 export const newsArticles = [
-   
+    
+
   
+
    {
       id: 8,
       title: "Toyota Fortuner Mild-Hybrid 2026: powerhouse of suv?",
@@ -20,54 +22,6 @@ export const newsArticles = [
       date: "Dec 08, 2025",
       author: "Arjun Verma"
     },
-
-   {
-    id: 11,
-    title: "What’s The Top Speed Of Tata Sierra?",
-    excerpt: "You might not be able to generate this speed, as the model on sale will be electronically limited for safety reasons.",
-    content: `The legend is truly back, and it’s faster than anyone anticipated. In a recent high-speed durability test at the **NATRAX facility in Indore**, the upcoming Tata Sierra prototype clocked a staggering top speed of **222 kmph**, making it one of the fastest SUVs ever developed by an Indian manufacturer.
-
-    **The Powerhouse Under the Hood**
-    This speed run was conducted to test the limits of Tata’s all-new **1.5L Hyperion TGDi (Turbo-Petrol) engine**. This beast produces a massive **170 PS of power and 280 Nm of torque**. Unlike the relaxed diesel nature of the original Sierra, the 2025 iteration is built for outright performance. The engine was paired with a 7-speed DCT gearbox which shifted seamlessly even at redline RPMs.
-
-    **Why You Won't See 222 kmph on the Road**
-    While the engine is capable of crossing the double-ton mark, the production version that you buy from the showroom will be **electronically limited to 190 kmph**.
-    Tata Motors has stated that this is done for two main reasons:
-    1. **Tyre Safety:** The standard all-season tyres are rated for comfort and longevity, not sustained speeds above 200 kmph.
-    2. **Public Safety:** Given Indian road conditions, allowing a heavy SUV to reach such speeds unchecked is a safety hazard.
-
-    **Stability Like a Sedan**
-    What’s more impressive than the speed is how the Sierra handled it. Thanks to the new **Omega Arc platform**, the SUV remained glued to the tarmac. The boxy shape usually creates wind noise, but the aerodynamic tweaks—including active grille shutters and flush door handles—kept the cabin surprisingly quiet.
-
-    **Final Verdict**
-    The Sierra isn't just a nostalgia trip; it's a statement that Tata is ready to take on global giants. Even with the 190 kmph limiter, it will be faster than the Scorpio-N and the XUV700 diesel.`,
-    image: "/news/news-11.jpg",
-    category: "Performance Test",
-    date: "Dec 09, 2025",
-    author: "Manohar Sharma"
-  },
-   
-  {
-    id: 10,
-    title: "These 6 Hatchbacks Were Launched In India In 2025",
-    excerpt: "2025 did see the launch of some significant hatchback offerings, including a few premium models that redefined the segment.",
-    content: `While SUVs continued to dominate, 2025 was a surprisingly good year for hatchback lovers. Several manufacturers launched premium and performance-oriented hatches to keep the segment alive.
-
-    **The Top 6 Launches:**
-    1. **Tata Altroz Facelift:** finally got the much-needed tech upgrade with a 360-degree camera, larger screen, and 6 airbags standard.
-    2. **Citroen C3 X:** A unique crossover-hatch blend that brought SUV-like ground clearance to a hatchback form factor.
-    3. **MG 4 EV:** A proper hot-hatch in electric guise, offering rear-wheel drive fun and a 450 km range.
-    4. **New-Gen Mini Cooper:** The icon returned with a sharper design and a fully electric option that became an instant hit among luxury buyers.
-    5. **BYD Dolphin:** This premium electric hatch disrupted the market with its "Ocean Aesthetics" design and blade battery technology.
-    6. **Maruti Swift Hybrid:** Maruti quietly updated the favorite Swift with a strong hybrid system, finally delivering 35+ kmpl mileage.
-
-    These launches prove that while SUVs are king, the hatchback segment is evolving into a more premium and tech-loaded space.`,
-    image: "/news/news-10.jpg",
-    category: "Market Analysis",
-    date: "Dec 11, 2025",
-    author: "Kaushik Shrivastav"
-  },
-
 
     {
       id: 9,
