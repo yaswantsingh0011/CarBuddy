@@ -2,6 +2,142 @@ export const mostSearchedCars = [
   // ==============================
   // 1. SUV CATEGORY
   // ==============================
+  
+
+  
+  { 
+    id: 17, 
+    name: "Mahindra Scorpio-N", 
+    price: "₹ 13.60 - 24.54 Lakh*", 
+    images: ["/cars/scorpio-n.jpg", "/cars/scorpio-side.jpg", "/cars/scorpio-rear.jpg", "/cars/scorpio-interior.jpg"], 
+    category: "SUV",
+    fuelType: "Diesel",
+    specs: { engine: "2.2L mHawk Diesel", power: "172 bhp", torque: "400 Nm", transmission: "6-AT 4x4", mileage: "14 kmpl", bootSpace: "460 L", groundClearance: "187 mm" },
+    features: ["4XPLOR Terrain Mode", "Alexa Built-in", "Driver Drowsiness Detection", "6-Seater Captain Seats"],
+    pros: ["Imposing Road Presence", "Go-Anywhere 4x4 Capability", "Excellent High Speed Stability"],
+    cons: ["Limited Third Row Space", "Missing features like Ventilated Seats", "Heavy steering at low speeds"],
+    expertReview: {
+      verdict: "The 'Big Daddy' of SUVs lives up to its name. It's rugged, capable, and surprisingly sophisticated for a ladder-frame SUV.",
+      performance: "The mHawk diesel is a gem—refined and powerful. The suspension flattens bad roads with authority.",
+      interior: "A massive step up from the old Scorpio. Soft-touch materials and the Sony sound system make it feel premium.",
+      safety: "Scored 5 Stars in GNCAP. The build quality feels tank-like, providing immense confidence."
+    },
+    variants: [
+      { name: "Z2 Petrol", price: "₹ 13.60 Lakh", engine: "2.0L Petrol", transmission: "Manual" },
+      { name: "Z4 Diesel", price: "₹ 15.90 Lakh", engine: "2.2L Diesel", transmission: "Manual" },
+      { name: "Z8 Select Diesel AT", price: "₹ 19.19 Lakh", engine: "2.2L Diesel", transmission: "Automatic" },
+      { name: "Z8L Diesel 4x4 AT", price: "₹ 24.54 Lakh", engine: "2.2L Diesel", transmission: "Automatic" }
+    ]
+  },
+
+
+
+  { 
+    id: 4, 
+    name: "Toyota Fortuner Legender", 
+    price: "₹ 43.66 - 47.64 Lakh*", 
+    images: ["/cars/fortuner.jpg", "/cars/fortuner-side.jpg", "/cars/fortuner-rear.jpg", "/cars/fortuner-interior.jpg"], 
+    category: "SUV", 
+    fuelType: "Diesel",
+    specs: { 
+        engine: "2.8L Diesel", 
+        power: "201 bhp", 
+        torque: "500 Nm", 
+        transmission: "6-AT", 
+        mileage: "14.4 kmpl", 
+        bootSpace: "296 L", 
+        groundClearance: "225 mm" 
+    },
+    features: ["Dual Tone Roof", "Wireless Charger", "Kick Sensor Tailgate", "Ambient Lighting"],
+    pros: ["Unmatched Reliability & Resale Value", "Powerful 500Nm Diesel Engine", "Aggressive Styling (Legender)"],
+    cons: ["Overpriced for the features offered", "Stiff ride quality at low speeds", "Heavy steering"],
+    expertReview: {
+      verdict: "The King of SUVs. You buy a Fortuner for peace of mind, durability, and respect on the road. It's expensive but virtually indestructible.",
+      performance: "The upgraded engine with 500Nm torque makes it effortless to drive. Off-road capability is legendary.",
+      interior: "Functional and durable, but lacks the modern tech and luxury of German rivals at this price.",
+      safety: "Solid build, 7 airbags, and Toyota's reliability make it a safe bunker on wheels."
+    },
+    variants: [
+        { name: "4x2 AT", price: "₹ 43.66 Lakh", engine: "2.8L Diesel", transmission: "Automatic" },
+        { name: "4x4 AT", price: "₹ 47.64 Lakh", engine: "2.8L Diesel", transmission: "Automatic" }
+    ]
+  },
+
+  { 
+    id: 1, 
+    name: "Hyundai Venue", 
+    price: "₹ 7.90 - 15.69 Lakh*", 
+    images: ["/cars/venue.jpg", "/cars/venue-side.jpg", "/cars/venue-rear.jpg", "/cars/venue-interior.jpg"], 
+    category: "SUV",
+    fuelType: "Petrol",
+    specs: { engine: "1.2L Kappa Petrol", power: "82 bhp", torque: "114 Nm", transmission: "5-MT / 7-DCT", mileage: "17.5 kmpl", bootSpace: "350 L", groundClearance: "195 mm" },
+    features: ["Electric Sunroof", "BlueLink Connected Tech", "Reclining Rear Seats", "6 Airbags Standard"],
+    pros: ["Feature Loaded", "Easy to Drive", "Premium Interior Quality"],
+    cons: ["Rear seat legroom is limited", "Ride quality is a bit stiff at low speeds"],
+    expertReview: {
+      verdict: "A great city SUV that's easy to park and loaded with tech. Perfect for young professionals.",
+      performance: "The DCT gearbox is lightning fast. The 1.0L Turbo engine makes it a fun pocket rocket.",
+      interior: "Very ergonomic and high-quality cabin. The reclining rear seat is a nice touch for comfort.",
+      safety: "Standard 6 airbags across all variants is a welcome move by Hyundai."
+    },
+    variants: [
+      { name: "E", price: "₹ 7.94 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "S (O) Turbo", price: "₹ 10.40 Lakh", engine: "1.0L Turbo", transmission: "iMT" },
+      { name: "SX Diesel", price: "₹ 12.40 Lakh", engine: "1.5L Diesel", transmission: "Manual" },
+      { name: "SX (O) DCT", price: "₹ 13.23 Lakh", engine: "1.0L Turbo", transmission: "DCT" }
+    ]
+  },
+
+  { 
+    id: 19, 
+    name: "Tata Harrier", 
+    price: "₹ 15.49 - 26.44 Lakh*", 
+    images: ["/cars/harrier.jpg", "/cars/harrier-side.jpg", "/cars/harrier-rear.jpg", "/cars/harrier-interior.jpg"], 
+    category: "SUV",
+    fuelType: "Diesel",
+    specs: { engine: "2.0L Kryotec Diesel", power: "168 bhp", torque: "350 Nm", transmission: "6-AT", mileage: "16.8 kmpl", bootSpace: "425 L", groundClearance: "205 mm" },
+    features: ["#Dark Edition Styling", "ADAS with 12 Functions", "Panoramic Sunroof", "Welcome/Goodbye Animation"],
+    pros: ["Stunning Design & Road Presence", "Spacious & Comfortable Cabin", "Great Ride Quality"],
+    cons: ["Fit and finish issues in some areas", "No Petrol Engine Option", "Touch controls for AC are distracting"],
+    expertReview: {
+      verdict: "The Harrier is a head-turner. With the update, it has become more tech-savvy and premium. A great choice for highway touring.",
+      performance: "The Kryotec engine offers strong mid-range punch. The automatic gearbox is smooth and well-tuned.",
+      interior: "The digital instrument cluster and new infotainment screen are crisp. The #Dark edition interior looks very sporty.",
+      safety: "Built on the OMEGArc platform derived from Land Rover. It feels solid and now comes with ADAS."
+    },
+    variants: [
+      { name: "Smart", price: "₹ 15.49 Lakh", engine: "2.0L Diesel", transmission: "Manual" },
+      { name: "Pure +", price: "₹ 18.69 Lakh", engine: "2.0L Diesel", transmission: "Automatic" },
+      { name: "Adventure + A", price: "₹ 21.69 Lakh", engine: "2.0L Diesel", transmission: "Automatic" },
+      { name: "Fearless + #Dark", price: "₹ 26.44 Lakh", engine: "2.0L Diesel", transmission: "Automatic" }
+    ]
+  },
+
+  { 
+    id: 27, 
+    name: "Mahindra XUV700", 
+    price: "₹ 13.99 - 26.99 Lakh*", 
+    images: ["/cars/xuv700.jpg", "/cars/xuv700-side.jpg", "/cars/xuv700-rear.jpg", "/cars/xuv700-interior.jpg"], 
+    category: "SUV",
+    fuelType: "Diesel",
+    specs: { engine: "2.0L mStallion Turbo", power: "197 bhp", torque: "380 Nm", transmission: "6-AT / 6-MT", mileage: "13 kmpl", bootSpace: "Expandable", groundClearance: "200 mm" },
+    features: ["Skyroof", "Integrated Dual Screens", "ADAS Level 2", "Sony 3D Sound System"],
+    pros: ["Best-in-class Engine Performance", "ADAS Features work flawlessly", "Premium Dual Screen Setup"],
+    cons: ["Third row space is tight for adults", "No Auto-Dimming IRVM even in top model", "Boot space is negligible with all seats up"],
+    expertReview: {
+      verdict: "The XUV700 is the benchmark in its segment. It offers luxury car features at a mass-market price. A fantastic highway cruiser.",
+      performance: "The 2.0L Petrol is a rocket, and the Diesel offers great torque. Ride and handling are sorted, absorbing bumps easily.",
+      interior: "The dual 10.25-inch screens dominate the dashboard. The seats are supportive, and the 'Skyroof' adds a sense of luxury.",
+      safety: "With a 5-Star Global NCAP rating and Level 2 ADAS, it is one of the safest cars on Indian roads."
+    },
+    variants: [
+      { name: "MX Petrol", price: "₹ 13.99 Lakh", engine: "2.0L Turbo Petrol", transmission: "Manual" },
+      { name: "AX3 Diesel", price: "₹ 16.39 Lakh", engine: "2.2L Diesel", transmission: "Manual" },
+      { name: "AX5 Petrol AT", price: "₹ 19.49 Lakh", engine: "2.0L Turbo Petrol", transmission: "Automatic" },
+      { name: "AX7 Luxury Diesel AWD", price: "₹ 26.99 Lakh", engine: "2.2L Diesel", transmission: "Automatic" }
+    ]
+  },
+
   { 
     id: 28, 
     name: "Kia Syros", 
@@ -58,109 +194,6 @@ export const mostSearchedCars = [
       { name: "Signature 1.0 AT", price: "₹ 14.19 Lakh", engine: "1.0L TSI", transmission: "Automatic" }, 
       { name: "Monte Carlo 1.5 DSG", price: "₹ 18.79 Lakh", engine: "1.5L TSI", transmission: "Automatic" } 
     ] 
-  },
-
-  { 
-    id: 27, 
-    name: "Mahindra XUV700", 
-    price: "₹ 13.99 - 26.99 Lakh*", 
-    images: ["/cars/xuv700.jpg", "/cars/xuv700-side.jpg", "/cars/xuv700-rear.jpg", "/cars/xuv700-interior.jpg"], 
-    category: "SUV",
-    fuelType: "Diesel",
-    specs: { engine: "2.0L mStallion Turbo", power: "197 bhp", torque: "380 Nm", transmission: "6-AT / 6-MT", mileage: "13 kmpl", bootSpace: "Expandable", groundClearance: "200 mm" },
-    features: ["Skyroof", "Integrated Dual Screens", "ADAS Level 2", "Sony 3D Sound System"],
-    pros: ["Best-in-class Engine Performance", "ADAS Features work flawlessly", "Premium Dual Screen Setup"],
-    cons: ["Third row space is tight for adults", "No Auto-Dimming IRVM even in top model", "Boot space is negligible with all seats up"],
-    expertReview: {
-      verdict: "The XUV700 is the benchmark in its segment. It offers luxury car features at a mass-market price. A fantastic highway cruiser.",
-      performance: "The 2.0L Petrol is a rocket, and the Diesel offers great torque. Ride and handling are sorted, absorbing bumps easily.",
-      interior: "The dual 10.25-inch screens dominate the dashboard. The seats are supportive, and the 'Skyroof' adds a sense of luxury.",
-      safety: "With a 5-Star Global NCAP rating and Level 2 ADAS, it is one of the safest cars on Indian roads."
-    },
-    variants: [
-      { name: "MX Petrol", price: "₹ 13.99 Lakh", engine: "2.0L Turbo Petrol", transmission: "Manual" },
-      { name: "AX3 Diesel", price: "₹ 16.39 Lakh", engine: "2.2L Diesel", transmission: "Manual" },
-      { name: "AX5 Petrol AT", price: "₹ 19.49 Lakh", engine: "2.0L Turbo Petrol", transmission: "Automatic" },
-      { name: "AX7 Luxury Diesel AWD", price: "₹ 26.99 Lakh", engine: "2.2L Diesel", transmission: "Automatic" }
-    ]
-  },
-  { 
-    id: 17, 
-    name: "Mahindra Scorpio-N", 
-    price: "₹ 13.60 - 24.54 Lakh*", 
-    images: ["/cars/scorpio-n.jpg", "/cars/scorpio-side.jpg", "/cars/scorpio-rear.jpg", "/cars/scorpio-interior.jpg"], 
-    category: "SUV",
-    fuelType: "Diesel",
-    specs: { engine: "2.2L mHawk Diesel", power: "172 bhp", torque: "400 Nm", transmission: "6-AT 4x4", mileage: "14 kmpl", bootSpace: "460 L", groundClearance: "187 mm" },
-    features: ["4XPLOR Terrain Mode", "Alexa Built-in", "Driver Drowsiness Detection", "6-Seater Captain Seats"],
-    pros: ["Imposing Road Presence", "Go-Anywhere 4x4 Capability", "Excellent High Speed Stability"],
-    cons: ["Limited Third Row Space", "Missing features like Ventilated Seats", "Heavy steering at low speeds"],
-    expertReview: {
-      verdict: "The 'Big Daddy' of SUVs lives up to its name. It's rugged, capable, and surprisingly sophisticated for a ladder-frame SUV.",
-      performance: "The mHawk diesel is a gem—refined and powerful. The suspension flattens bad roads with authority.",
-      interior: "A massive step up from the old Scorpio. Soft-touch materials and the Sony sound system make it feel premium.",
-      safety: "Scored 5 Stars in GNCAP. The build quality feels tank-like, providing immense confidence."
-    },
-    variants: [
-      { name: "Z2 Petrol", price: "₹ 13.60 Lakh", engine: "2.0L Petrol", transmission: "Manual" },
-      { name: "Z4 Diesel", price: "₹ 15.90 Lakh", engine: "2.2L Diesel", transmission: "Manual" },
-      { name: "Z8 Select Diesel AT", price: "₹ 19.19 Lakh", engine: "2.2L Diesel", transmission: "Automatic" },
-      { name: "Z8L Diesel 4x4 AT", price: "₹ 24.54 Lakh", engine: "2.2L Diesel", transmission: "Automatic" }
-    ]
-  },
-  { 
-    id: 19, 
-    name: "Tata Harrier", 
-    price: "₹ 15.49 - 26.44 Lakh*", 
-    images: ["/cars/harrier.jpg", "/cars/harrier-side.jpg", "/cars/harrier-rear.jpg", "/cars/harrier-interior.jpg"], 
-    category: "SUV",
-    fuelType: "Diesel",
-    specs: { engine: "2.0L Kryotec Diesel", power: "168 bhp", torque: "350 Nm", transmission: "6-AT", mileage: "16.8 kmpl", bootSpace: "425 L", groundClearance: "205 mm" },
-    features: ["#Dark Edition Styling", "ADAS with 12 Functions", "Panoramic Sunroof", "Welcome/Goodbye Animation"],
-    pros: ["Stunning Design & Road Presence", "Spacious & Comfortable Cabin", "Great Ride Quality"],
-    cons: ["Fit and finish issues in some areas", "No Petrol Engine Option", "Touch controls for AC are distracting"],
-    expertReview: {
-      verdict: "The Harrier is a head-turner. With the update, it has become more tech-savvy and premium. A great choice for highway touring.",
-      performance: "The Kryotec engine offers strong mid-range punch. The automatic gearbox is smooth and well-tuned.",
-      interior: "The digital instrument cluster and new infotainment screen are crisp. The #Dark edition interior looks very sporty.",
-      safety: "Built on the OMEGArc platform derived from Land Rover. It feels solid and now comes with ADAS."
-    },
-    variants: [
-      { name: "Smart", price: "₹ 15.49 Lakh", engine: "2.0L Diesel", transmission: "Manual" },
-      { name: "Pure +", price: "₹ 18.69 Lakh", engine: "2.0L Diesel", transmission: "Automatic" },
-      { name: "Adventure + A", price: "₹ 21.69 Lakh", engine: "2.0L Diesel", transmission: "Automatic" },
-      { name: "Fearless + #Dark", price: "₹ 26.44 Lakh", engine: "2.0L Diesel", transmission: "Automatic" }
-    ]
-  },
-  { 
-    id: 4, 
-    name: "Toyota Fortuner Legender", 
-    price: "₹ 43.66 - 47.64 Lakh*", 
-    images: ["/cars/fortuner.jpg", "/cars/fortuner-side.jpg", "/cars/fortuner-rear.jpg", "/cars/fortuner-interior.jpg"], 
-    category: "SUV", 
-    fuelType: "Diesel",
-    specs: { 
-        engine: "2.8L Diesel", 
-        power: "201 bhp", 
-        torque: "500 Nm", 
-        transmission: "6-AT", 
-        mileage: "14.4 kmpl", 
-        bootSpace: "296 L", 
-        groundClearance: "225 mm" 
-    },
-    features: ["Dual Tone Roof", "Wireless Charger", "Kick Sensor Tailgate", "Ambient Lighting"],
-    pros: ["Unmatched Reliability & Resale Value", "Powerful 500Nm Diesel Engine", "Aggressive Styling (Legender)"],
-    cons: ["Overpriced for the features offered", "Stiff ride quality at low speeds", "Heavy steering"],
-    expertReview: {
-      verdict: "The King of SUVs. You buy a Fortuner for peace of mind, durability, and respect on the road. It's expensive but virtually indestructible.",
-      performance: "The upgraded engine with 500Nm torque makes it effortless to drive. Off-road capability is legendary.",
-      interior: "Functional and durable, but lacks the modern tech and luxury of German rivals at this price.",
-      safety: "Solid build, 7 airbags, and Toyota's reliability make it a safe bunker on wheels."
-    },
-    variants: [
-        { name: "4x2 AT", price: "₹ 43.66 Lakh", engine: "2.8L Diesel", transmission: "Automatic" },
-        { name: "4x4 AT", price: "₹ 47.64 Lakh", engine: "2.8L Diesel", transmission: "Automatic" }
-    ]
   },
   { 
     id: 16, 
@@ -234,30 +267,7 @@ export const mostSearchedCars = [
       { name: "RXZ Turbo CVT", price: "₹ 11.23 Lakh", engine: "1.0L Turbo", transmission: "CVT" }
     ]
   },
-  { 
-    id: 1, 
-    name: "Hyundai Venue", 
-    price: "₹ 7.90 - 15.69 Lakh*", 
-    images: ["/cars/venue.jpg", "/cars/venue-side.jpg", "/cars/venue-rear.jpg", "/cars/venue-interior.jpg"], 
-    category: "SUV",
-    fuelType: "Petrol",
-    specs: { engine: "1.2L Kappa Petrol", power: "82 bhp", torque: "114 Nm", transmission: "5-MT / 7-DCT", mileage: "17.5 kmpl", bootSpace: "350 L", groundClearance: "195 mm" },
-    features: ["Electric Sunroof", "BlueLink Connected Tech", "Reclining Rear Seats", "6 Airbags Standard"],
-    pros: ["Feature Loaded", "Easy to Drive", "Premium Interior Quality"],
-    cons: ["Rear seat legroom is limited", "Ride quality is a bit stiff at low speeds"],
-    expertReview: {
-      verdict: "A great city SUV that's easy to park and loaded with tech. Perfect for young professionals.",
-      performance: "The DCT gearbox is lightning fast. The 1.0L Turbo engine makes it a fun pocket rocket.",
-      interior: "Very ergonomic and high-quality cabin. The reclining rear seat is a nice touch for comfort.",
-      safety: "Standard 6 airbags across all variants is a welcome move by Hyundai."
-    },
-    variants: [
-      { name: "E", price: "₹ 7.94 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
-      { name: "S (O) Turbo", price: "₹ 10.40 Lakh", engine: "1.0L Turbo", transmission: "iMT" },
-      { name: "SX Diesel", price: "₹ 12.40 Lakh", engine: "1.5L Diesel", transmission: "Manual" },
-      { name: "SX (O) DCT", price: "₹ 13.23 Lakh", engine: "1.0L Turbo", transmission: "DCT" }
-    ]
-  },
+  
   { 
     id: 2, 
     name: "Tata Nexon", 
@@ -470,6 +480,129 @@ export const mostSearchedCars = [
       { name: "Maybach 600 Night Series", price: "₹ 3.71 Cr", engine: "4.0L Petrol", transmission: "Automatic" },
     ]
   },
+
+  {
+    id: 42, 
+    name: "Toyota Vellfire",
+    price: "₹ 1.20 - 1.32 Cr*",
+    images: ["/cars/vellfire.jpg", "/cars/vellfire-side.jpg", "/cars/vellfire-rear.jpg", "/cars/vellfire-interior.jpg"],
+    category: "Luxury",
+    fuelType: "Hybrid",
+    specs: { 
+      engine: "2.5L Hybrid Petrol", 
+      power: "190 bhp", 
+      torque: "240 Nm", 
+      transmission: "e-CVT", 
+      mileage: "19.28 kmpl", 
+      bootSpace: "Space for 6 Bags", 
+      groundClearance: "160 mm" 
+    },
+    features: ["Executive Lounge Seats", "14-inch Rear Screen", "Massage Function", "Power Sliding Doors"],
+    pros: ["Private Jet on Wheels", "Silent Hybrid Powertrain", "Toyota Reliability"],
+    cons: ["Boxy Van Styling", "Very expensive"],
+    expertReview: {
+      verdict: "The ultimate chauffeur-driven vehicle. Better than most luxury sedans for comfort.",
+      performance: "Not built for speed, but for smoothness. The hybrid system is silent.",
+      interior: "It's a living room inside. The seats recline fully flat.",
+      safety: "Loaded with safety tech and privacy curtains."
+    },
+    variants: [
+      { name: "Hi-Grade", price: "₹ 1.20 Cr", engine: "2.5L Hybrid", transmission: "Automatic" },
+      { name: "VIP Grade", price: "₹ 1.32 Cr", engine: "2.5L Hybrid", transmission: "Automatic" }
+    ]
+  },
+  { 
+    id: 23, 
+    name: "Toyota Land Cruiser", 
+    price: "₹ 2.10 Cr*", 
+    images: ["/cars/landcruiser.jpg", "/cars/landcruiser-side.jpg", "/cars/landcruiser-rear.jpg", "/cars/landcruiser-interior.jpg"], 
+    category: "Luxury",
+    fuelType: "Diesel",
+    specs: { engine: "3.3L V6 Diesel", power: "304 bhp", torque: "700 Nm", transmission: "10-Speed AT", mileage: "11 kmpl", bootSpace: "1131 L", groundClearance: "235 mm" },
+    features: ["E-KDSS Suspension", "Multi-Terrain Monitor", "JBL 14-Speaker Audio", "Fingerprint Authentication"],
+    pros: ["Legendary Durability", "Master of All Terrains", "Resale Value"],
+    cons: ["Waiting period spans years", "Price is eye-watering"],
+    expertReview: {
+      verdict: "The LC300 is a masterpiece of engineering. It will outlast its owner.",
+      performance: "The V6 Diesel is a powerhouse. It handles on-road duties surprisingly well.",
+      interior: "Functional luxury. Everything feels built to last forever.",
+      safety: "10 Airbags and advanced off-road safety systems."
+    },
+    variants: [
+      { name: "ZX Diesel", price: "₹ 2.10 Cr", engine: "3.3L Diesel", transmission: "Automatic" }
+    ]
+  },
+
+  { 
+    id: 21, 
+    name: "Land Rover Defender", 
+    price: "₹ 93.55 Lakh - 2.30 Cr*", 
+    images: ["/cars/defender.jpg", "/cars/defender-side.jpg", "/cars/defender-rear.jpg", "/cars/defender-interior.jpg"], 
+    category: "Luxury",
+    fuelType: "Diesel",
+    specs: { engine: "3.0L Diesel / 5.0L V8", power: "296 bhp", torque: "650 Nm", transmission: "8-AT", mileage: "10 kmpl", bootSpace: "857 L", groundClearance: "291 mm" },
+    features: ["ClearSight Ground View", "Air Suspension", "Wade Sensing", "Pivi Pro Infotainment"],
+    pros: ["Rugged yet Modern", "Excellent Off-road", "Spacious Cabin"],
+    cons: ["Very wide for city traffic", "Electronics can be glitchy"],
+    expertReview: {
+      verdict: "The reinvention of an icon. It's tough enough for the jungle and stylish enough for the mall.",
+      performance: "Fantastic on road and off it. The air suspension provides a carpet-like ride.",
+      interior: "Industrial chic design with exposed screws. Very practical and washable.",
+      safety: "5-Star Euro NCAP. Very tough structure."
+    },
+    variants: [
+      { name: "Defender 110 SE", price: "₹ 93.55 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
+      { name: "Defender 90 HSE", price: "₹ 97.00 Lakh", engine: "3.0L Diesel", transmission: "Automatic" },
+      { name: "Defender 130 X", price: "₹ 1.41 Cr", engine: "3.0L Petrol", transmission: "Automatic" }
+    ]
+  },
+
+  { 
+    id: 22, 
+    name: "Range Rover", 
+    price: "₹ 2.39- 4.17 Cr*", 
+    images: ["/cars/range-rover.jpg", "/cars/range-rover-side.jpg", "/cars/range-rover-rear.jpg", "/cars/range-rover-interior.jpg"], 
+    category: "Luxury",
+    fuelType: "Diesel",
+    specs: { engine: "3.0L Diesel LWB", power: "346 bhp", torque: "700 Nm", transmission: "8-AT AWD", mileage: "13 kmpl", bootSpace: "818 L", groundClearance: "219 mm" },
+    features: ["Executive Class Rear Seats", "Active Noise Cancellation", "All-Wheel Steering", "Meridian Signature Sound"],
+    pros: ["Unmatched Status", "Supreme Comfort", "Off-road Capability"],
+    cons: ["Reliability can be hit or miss", "Wait times are very long"],
+    expertReview: {
+      verdict: "The ultimate luxury SUV. It floats over roads and climbs mountains with equal ease.",
+      performance: "Effortless power. The rear-wheel steering makes it surprisingly easy to park.",
+      interior: "Minimalist but ultra-luxurious. The noise isolation is library-quiet.",
+      safety: "Built like a fortress."
+    },
+    variants: [
+      { name: "3.0L Diesel HSE LWB", price: "₹ 2.39 Cr", engine: "3.0L Diesel", transmission: "Automatic" },
+      { name: "3.0L Petrol Autobiography", price: "₹ 2.60 Cr", engine: "3.0L Petrol", transmission: "Automatic" },
+      { name: "SV LWB", price: "₹ 4.17 Cr", engine: "4.4L Petrol", transmission: "Automatic" }
+    ]
+  },
+   { 
+    id: 20, 
+    name: "Mercedes-Benz G-Class", 
+    price: "₹ 2.55 - 4.00 Cr*", 
+    images: ["/cars/g63.jpg", "/cars/g63-side.jpg", "/cars/g63-rear.jpg", "/cars/g63-interior.jpg"], 
+    category: "Luxury",
+    fuelType: "Petrol",
+    specs: { engine: "4.0L V8 Biturbo", power: "577 bhp", torque: "850 Nm", transmission: "AMG 9-Speed", mileage: "6 kmpl", bootSpace: "667 L", groundClearance: "241 mm" },
+    features: ["3 Differential Locks", "AMG Active Ride Control", "Burmester Surround Sound", "Multicontour Massage Seats"],
+    pros: ["Iconic Design", "Insane V8 Sound", "Goes Anywhere"],
+    cons: ["Aerodynamics of a brick", "Fuel economy is single digit"],
+    expertReview: {
+      verdict: "An icon. There is nothing else like the G-Wagon. It defies logic and physics.",
+      performance: "The G63 AMG is terrifyingly fast. The V8 rumble is intoxicating.",
+      interior: "Old school charm mixed with modern screens. You sit very high up.",
+      safety: "Solid build but top-heavy dynamics require care in corners."
+    },
+    variants: [
+      { name: "G 400d Adventure", price: "₹ 2.55 Cr", engine: "3.0L Diesel", transmission: "Automatic" },
+      { name: "AMG G 63", price: "₹ 4.00 Cr", engine: "4.0L V8 Petrol", transmission: "Automatic" }
+    ]
+  },
+
   
   { 
     id: 14, 
@@ -570,74 +703,7 @@ export const mostSearchedCars = [
       { name: "C 300d AMG Line", price: "₹ 69.00 Lakh", engine: "2.0L Diesel", transmission: "Automatic" }
     ]
   },
- { 
-    id: 22, 
-    name: "Range Rover", 
-    price: "₹ 2.39- 4.17 Cr*", 
-    images: ["/cars/range-rover.jpg", "/cars/range-rover-side.jpg", "/cars/range-rover-rear.jpg", "/cars/range-rover-interior.jpg"], 
-    category: "Luxury",
-    fuelType: "Diesel",
-    specs: { engine: "3.0L Diesel LWB", power: "346 bhp", torque: "700 Nm", transmission: "8-AT AWD", mileage: "13 kmpl", bootSpace: "818 L", groundClearance: "219 mm" },
-    features: ["Executive Class Rear Seats", "Active Noise Cancellation", "All-Wheel Steering", "Meridian Signature Sound"],
-    pros: ["Unmatched Status", "Supreme Comfort", "Off-road Capability"],
-    cons: ["Reliability can be hit or miss", "Wait times are very long"],
-    expertReview: {
-      verdict: "The ultimate luxury SUV. It floats over roads and climbs mountains with equal ease.",
-      performance: "Effortless power. The rear-wheel steering makes it surprisingly easy to park.",
-      interior: "Minimalist but ultra-luxurious. The noise isolation is library-quiet.",
-      safety: "Built like a fortress."
-    },
-    variants: [
-      { name: "3.0L Diesel HSE LWB", price: "₹ 2.39 Cr", engine: "3.0L Diesel", transmission: "Automatic" },
-      { name: "3.0L Petrol Autobiography", price: "₹ 2.60 Cr", engine: "3.0L Petrol", transmission: "Automatic" },
-      { name: "SV LWB", price: "₹ 4.17 Cr", engine: "4.4L Petrol", transmission: "Automatic" }
-    ]
-  },
-   { 
-    id: 20, 
-    name: "Mercedes-Benz G-Class", 
-    price: "₹ 2.55 - 4.00 Cr*", 
-    images: ["/cars/g63.jpg", "/cars/g63-side.jpg", "/cars/g63-rear.jpg", "/cars/g63-interior.jpg"], 
-    category: "Luxury",
-    fuelType: "Petrol",
-    specs: { engine: "4.0L V8 Biturbo", power: "577 bhp", torque: "850 Nm", transmission: "AMG 9-Speed", mileage: "6 kmpl", bootSpace: "667 L", groundClearance: "241 mm" },
-    features: ["3 Differential Locks", "AMG Active Ride Control", "Burmester Surround Sound", "Multicontour Massage Seats"],
-    pros: ["Iconic Design", "Insane V8 Sound", "Goes Anywhere"],
-    cons: ["Aerodynamics of a brick", "Fuel economy is single digit"],
-    expertReview: {
-      verdict: "An icon. There is nothing else like the G-Wagon. It defies logic and physics.",
-      performance: "The G63 AMG is terrifyingly fast. The V8 rumble is intoxicating.",
-      interior: "Old school charm mixed with modern screens. You sit very high up.",
-      safety: "Solid build but top-heavy dynamics require care in corners."
-    },
-    variants: [
-      { name: "G 400d Adventure", price: "₹ 2.55 Cr", engine: "3.0L Diesel", transmission: "Automatic" },
-      { name: "AMG G 63", price: "₹ 4.00 Cr", engine: "4.0L V8 Petrol", transmission: "Automatic" }
-    ]
-  },
-{ 
-    id: 21, 
-    name: "Land Rover Defender", 
-    price: "₹ 93.55 Lakh - 2.30 Cr*", 
-    images: ["/cars/defender.jpg", "/cars/defender-side.jpg", "/cars/defender-rear.jpg", "/cars/defender-interior.jpg"], 
-    category: "Luxury",
-    fuelType: "Diesel",
-    specs: { engine: "3.0L Diesel / 5.0L V8", power: "296 bhp", torque: "650 Nm", transmission: "8-AT", mileage: "10 kmpl", bootSpace: "857 L", groundClearance: "291 mm" },
-    features: ["ClearSight Ground View", "Air Suspension", "Wade Sensing", "Pivi Pro Infotainment"],
-    pros: ["Rugged yet Modern", "Excellent Off-road", "Spacious Cabin"],
-    cons: ["Very wide for city traffic", "Electronics can be glitchy"],
-    expertReview: {
-      verdict: "The reinvention of an icon. It's tough enough for the jungle and stylish enough for the mall.",
-      performance: "Fantastic on road and off it. The air suspension provides a carpet-like ride.",
-      interior: "Industrial chic design with exposed screws. Very practical and washable.",
-      safety: "5-Star Euro NCAP. Very tough structure."
-    },
-    variants: [
-      { name: "Defender 110 SE", price: "₹ 93.55 Lakh", engine: "2.0L Petrol", transmission: "Automatic" },
-      { name: "Defender 90 HSE", price: "₹ 97.00 Lakh", engine: "3.0L Diesel", transmission: "Automatic" },
-      { name: "Defender 130 X", price: "₹ 1.41 Cr", engine: "3.0L Petrol", transmission: "Automatic" }
-    ]
-  },
+ 
   { 
     id: 29, 
     name: "Jeep Wrangler", 
@@ -660,57 +726,7 @@ export const mostSearchedCars = [
       { name: "Rubicon", price: "₹ 67.65 Lakh", engine: "2.0L Petrol", transmission: "Automatic" }
     ]
   },
-  {
-    id: 42, 
-    name: "Toyota Vellfire",
-    price: "₹ 1.20 - 1.32 Cr*",
-    images: ["/cars/vellfire.jpg", "/cars/vellfire-side.jpg", "/cars/vellfire-rear.jpg", "/cars/vellfire-interior.jpg"],
-    category: "Luxury",
-    fuelType: "Hybrid",
-    specs: { 
-      engine: "2.5L Hybrid Petrol", 
-      power: "190 bhp", 
-      torque: "240 Nm", 
-      transmission: "e-CVT", 
-      mileage: "19.28 kmpl", 
-      bootSpace: "Space for 6 Bags", 
-      groundClearance: "160 mm" 
-    },
-    features: ["Executive Lounge Seats", "14-inch Rear Screen", "Massage Function", "Power Sliding Doors"],
-    pros: ["Private Jet on Wheels", "Silent Hybrid Powertrain", "Toyota Reliability"],
-    cons: ["Boxy Van Styling", "Very expensive"],
-    expertReview: {
-      verdict: "The ultimate chauffeur-driven vehicle. Better than most luxury sedans for comfort.",
-      performance: "Not built for speed, but for smoothness. The hybrid system is silent.",
-      interior: "It's a living room inside. The seats recline fully flat.",
-      safety: "Loaded with safety tech and privacy curtains."
-    },
-    variants: [
-      { name: "Hi-Grade", price: "₹ 1.20 Cr", engine: "2.5L Hybrid", transmission: "Automatic" },
-      { name: "VIP Grade", price: "₹ 1.32 Cr", engine: "2.5L Hybrid", transmission: "Automatic" }
-    ]
-  },
-  { 
-    id: 23, 
-    name: "Toyota Land Cruiser", 
-    price: "₹ 2.10 Cr*", 
-    images: ["/cars/landcruiser.jpg", "/cars/landcruiser-side.jpg", "/cars/landcruiser-rear.jpg", "/cars/landcruiser-interior.jpg"], 
-    category: "Luxury",
-    fuelType: "Diesel",
-    specs: { engine: "3.3L V6 Diesel", power: "304 bhp", torque: "700 Nm", transmission: "10-Speed AT", mileage: "11 kmpl", bootSpace: "1131 L", groundClearance: "235 mm" },
-    features: ["E-KDSS Suspension", "Multi-Terrain Monitor", "JBL 14-Speaker Audio", "Fingerprint Authentication"],
-    pros: ["Legendary Durability", "Master of All Terrains", "Resale Value"],
-    cons: ["Waiting period spans years", "Price is eye-watering"],
-    expertReview: {
-      verdict: "The LC300 is a masterpiece of engineering. It will outlast its owner.",
-      performance: "The V6 Diesel is a powerhouse. It handles on-road duties surprisingly well.",
-      interior: "Functional luxury. Everything feels built to last forever.",
-      safety: "10 Airbags and advanced off-road safety systems."
-    },
-    variants: [
-      { name: "ZX Diesel", price: "₹ 2.10 Cr", engine: "3.3L Diesel", transmission: "Automatic" }
-    ]
-  },
+  
   { 
     id: 28, 
     name: "Audi Q5", 

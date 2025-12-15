@@ -29,7 +29,7 @@ export const newLaunchCars = [
     name: "Audi A5",
     slug: "audi-a5",
     priceRange: "₹ 50.00 Lakh*",
-    location: "Expected: Dec 15, 2025",
+    location: "Expected: Jan 15, 2026",
     category: "Sedan",
     imageUrls: [
       "/cars/a5.jpg", "/cars/a5-side.jpg", "/cars/a5-rear.jpg", "/cars/a5-interior.jpg"
@@ -73,7 +73,7 @@ export const newLaunchCars = [
     name: "BMW iX 2025",
     slug: "bmw-ix-2025",
     priceRange: "₹ 1.45 Cr*",
-    location: "Expected: Dec 14, 2025",
+    location: "Expected: Jan 14, 2026",
     category: "EV",
     imageUrls: [
       "/cars/ix.jpg", "/cars/ix-side.jpg", "/cars/ix-rear.jpg", "/cars/ix-interior.jpg"
@@ -116,27 +116,7 @@ export const newLaunchCars = [
   },
 
   
-  {
-    id: 901,
-    name: "Tesla Model Y",
-    slug: "tesla-model-y",
-    priceRange: "₹ 60 - 70 Lakh*",
-    location: "Expected: Dec 15, 2025",
-    category: "SUV",
-    imageUrls: [
-      "/cars/tesla.jpg", "/cars/tesla-side.jpg", "/cars/tesla-rear.jpg", "/cars/tesla-interior.jpg"
-    ],
-    specs: {
-      engine: "75 kWh Battery",
-      power: "384 bhp",
-      torque: "510 Nm",
-      transmission: "Automatic",
-      mileage: "530 km (Range)",
-      bootSpace: "854 L",
-      groundClearance: "167 mm"
-    },
-    features: ["Autopilot Mode", "15-inch Touchscreen", "Glass Roof", "0-100 in 3.5s"]
-  },
+  
   
   {
     id: 906,
