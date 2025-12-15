@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
-    
   },
   "dependencies": {
+    "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.75.0",
     "framer-motion": "^12.23.24",
     "lucide-react": "^0.552.0",

@@ -1,25 +1,76 @@
 // src/app/contact/page.tsx
 
-"use client"; // Client component for form handling
+"use client";
 
 import React, { useState } from 'react';
-import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaWhatsapp } from 'react-icons/fa';
+import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'; 
+// Note: Ab humein yahaan se 'supabase' import karne ki zaroorat nahi hai!
+
+// Define the shape of the form data
+interface FormData {
+  full_name: string;
+  phone_number: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+const initialFormData: FormData = {
+  full_name: '',
+  phone_number: '',
+  email: '',
+  subject: 'General Inquiry',
+  message: '',
+};
 
 export default function ContactUsPage() {
-  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  // 'error' state ko bhi add kar diya hai
+  const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle'); 
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // --- Yahin woh naya logic aayega ---
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormStatus('submitting');
-    // Simulate API call
-    setTimeout(() => {
+    
+    try {
+      // Step 1: Data ko secure API route par bhejte hain
+      const response = await fetch('/api/contact', { // <--- Next.js API route ka path
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData), // FormData ko JSON format mein bhejenge
+      });
+
+      if (!response.ok) {
+        // Agar API se 400 ya 500 status aata hai (jaisa ki humne server mein set kiya tha)
+        const errorData = await response.json();
+        console.error('API Error:', errorData.message);
+        setFormStatus('error');
+        return; // Stop execution
+      }
+
+      // Step 2: Success hone par form clear aur status 'success'
       setFormStatus('success');
-    }, 2000);
+      setFormData(initialFormData); // Form fields ko reset karein
+    } catch (e) {
+      // Agar network ya koi anexpected error aata hai
+      console.error('Network or unexpected error:', e);
+      setFormStatus('error');
+    }
   };
+  // --- Naya logic yahin tak hai ---
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      
       {/* 1. HERO SECTION */}
       <div className="bg-[#1e293b] text-white py-20">
         <div className="container mx-auto px-4 max-w-5xl text-center">
@@ -33,7 +84,7 @@ export default function ContactUsPage() {
       <div className="container mx-auto px-4 py-16 max-w-6xl">
         <div className="grid lg:grid-cols-2 gap-12">
           
-          {/* 2. CONTACT INFORMATION & MAP */}
+          {/* 2. CONTACT INFORMATION & MAP (No changes) */}
           <div className="space-y-8">
             <h2 className="text-3xl font-bold text-gray-900">Get in Touch</h2>
             <p className="text-gray-600 text-lg">
@@ -99,27 +150,62 @@ export default function ContactUsPage() {
                 <p>Thank you for contacting us. Our team will get back to you within 24 hours.</p>
                 <button onClick={() => setFormStatus('idle')} className="mt-4 text-sm font-bold underline">Send another message</button>
               </div>
+            ) : formStatus === 'error' ? ( // Error message display
+               <div className="bg-red-50 border border-red-200 text-red-800 p-6 rounded-xl text-center">
+                 <h4 className="text-xl font-bold mb-2">Submission Error</h4>
+                 <p>Message could not be sent. Please check your connection or try again later.</p>
+                 <button onClick={() => setFormStatus('idle')} className="mt-4 text-sm font-bold underline">Try again</button>
+               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid md:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Your Name</label>
-                    <input type="text" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="John Doe" />
+                    <input 
+                      type="text" 
+                      name="full_name"
+                      required 
+                      value={formData.full_name}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" 
+                      placeholder="John Doe" 
+                    />
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1">Phone Number</label>
-                    <input type="tel" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="+91 9876543210" />
+                    <input 
+                      type="tel" 
+                      name="phone_number"
+                      required 
+                      value={formData.phone_number}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" 
+                      placeholder="+91 9876543210" 
+                    />
                   </div>
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
-                  <input type="email" required className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" placeholder="john@example.com" />
+                  <input 
+                    type="email" 
+                    name="email"
+                    required 
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" 
+                    placeholder="john@example.com" 
+                  />
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Subject</label>
-                  <select className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white">
+                  <select 
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white"
+                  >
                     <option>General Inquiry</option>
                     <option>Car Sales</option>
                     <option>Used Car Valuation</option>
@@ -130,7 +216,15 @@ export default function ContactUsPage() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-1">Message</label>
-                  <textarea required rows={4} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none" placeholder="How can we help you today?"></textarea>
+                  <textarea 
+                    name="message"
+                    required 
+                    rows={4} 
+                    value={formData.message}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-none" 
+                    placeholder="How can we help you today?"
+                  ></textarea>
                 </div>
 
                 <button 
