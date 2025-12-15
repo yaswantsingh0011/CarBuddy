@@ -1,27 +1,28 @@
-// src/utils/supabase-server-api.ts
-
 import { createClient } from '@supabase/supabase-js';
 
-// IMPORTANT: This uses the SECRET key (SUPABASE_SERVICE_KEY), 
-// which should NOT have the NEXT_PUBLIC_ prefix in your .env.local file.
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
+// Client ko cache karne ke liye variable
+let supabaseServerClient: any = null;
 
-if (!supabaseUrl || !supabaseServiceKey) {
-  // Agar keys set nahi hain, toh application run nahi hogi.
-  throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_KEY environment variables. Check your .env.local file.");
-}
-
-const supabaseServer = createClient(supabaseUrl, supabaseServiceKey);
-
-/**
- * Ye function database mein data daalne ka kaam karega.
- * @param tableName Target Supabase table name (e.g., 'contact_submissions').
- * @param data Data object to insert.
- */
 export async function insertFormData(tableName: string, data: Record<string, any>) {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_KEY;
+
+  // Check 1: Keys hain ya nahi (Ab ye function call hone par hi check hoga)
+  if (!supabaseUrl || !supabaseServiceKey) {
+    console.error("❌ CRITICAL ERROR: Missing Supabase Environment Variables");
+    console.error(`SUPABASE_URL Status: ${supabaseUrl ? '✅ Found' : '❌ Missing'}`);
+    console.error(`SUPABASE_SERVICE_KEY Status: ${supabaseServiceKey ? '✅ Found' : '❌ Missing'}`);
+    
+    return { status: 500, message: "Server Configuration Error: Missing API Keys" };
+  }
+
   try {
-    const { error } = await supabaseServer
+    // Check 2: Agar client pehle se nahi bana, toh ab banao (Lazy Init)
+    if (!supabaseServerClient) {
+      supabaseServerClient = createClient(supabaseUrl, supabaseServiceKey);
+    }
+
+    const { error } = await supabaseServerClient
       .from(tableName)
       .insert([data]);
 
@@ -30,8 +31,6 @@ export async function insertFormData(tableName: string, data: Record<string, any
       return { status: 500, message: `Database submission failed: ${error.message}` };
     }
 
-    // You can add more logic here, like sending an internal email notification.
-    
     return { status: 200, message: 'Form submitted successfully' };
   } catch (e) {
     console.error(`API processing error for ${tableName}:`, e);
