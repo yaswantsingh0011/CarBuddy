@@ -880,7 +880,7 @@ export const mostSearchedCars = [
   { 
     id: 5, 
     name: "Maruti Swift", 
-    price: "₹ 6.49 - 9.64 Lakh*", 
+    price: "₹ 5.79 - 10.80 Lakh*", 
     images: ["/cars/swift.jpg", "/cars/swift1-side.jpg", "/cars/swift1-rear.jpg", "/cars/swift1-interior.jpg"], 
     category: "Hatchback",
     fuelType: "Petrol",
@@ -895,10 +895,10 @@ export const mostSearchedCars = [
       safety: "Improved standard safety kit is a big step forward."
     },
     variants: [
-      { name: "LXi", price: "₹ 6.49 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
-      { name: "VXi", price: "₹ 7.29 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
-      { name: "ZXi", price: "₹ 8.29 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
-      { name: "ZXi+ AMT", price: "₹ 9.64 Lakh", engine: "1.2L Petrol", transmission: "Automatic" }
+      { name: "LXi", price: "₹ 5.79 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "VXi", price: "₹ 8.09 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "ZXi", price: "₹ 8.89 Lakh", engine: "1.2L Petrol", transmission: "Manual" },
+      { name: "ZXi+ AMT", price: "₹ 10.80 Lakh", engine: "1.2L Petrol", transmission: "Automatic" }
     ]
   },
 
