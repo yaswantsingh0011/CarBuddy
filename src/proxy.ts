@@ -1,7 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-export async function middleware(request: NextRequest) {
+// ✅ Function name badal kar 'proxy' kar diya aur 'default' export kiya
+export default async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -34,22 +35,18 @@ export async function middleware(request: NextRequest) {
   // 1. User ka session check karo
   const { data: { user } } = await supabase.auth.getUser()
 
-  // 2. Agar banda '/admin' page par jane ki koshish kar raha h
+  // 2. Admin access control
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    
-    // Agar login hi nahi h -> Login page par bhej do
     if (!user) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
 
-    // Agar login h, to check karo ki wo ADMIN h ya nahi
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .single()
 
-    // Agar Admin nahi h -> Home page par bhaga do
     if (profile?.role !== 'admin') {
       return NextResponse.redirect(new URL('/', request.url))
     }
@@ -60,6 +57,9 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    /*
+     * Next.js 16 ke liye optimal matcher pattern
+     */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 }
