@@ -1,13 +1,13 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// ✅ Iska naam 'proxy' hona chahiye aur 'default' export hona chahiye
+// ✅ Next.js 16 rule: Ise 'default' export karna zaruri hai
 export default async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: { headers: request.headers },
   })
 
-  // Environment variables check karein
+  // Supabase client initialization
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
