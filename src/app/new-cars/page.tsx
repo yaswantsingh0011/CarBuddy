@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import CarGridCard from '@/components/CarGridCard';
-import { newCarsData } from '@/data/newCarsData'; 
+import { createClient } from '@/utils/supabase/client'; // ✅ Supabase client connect kiya
 
 // --- MODALS IMPORT ---
 import BookingForm from '@/components/BookingForm'; 
@@ -12,12 +12,39 @@ import OffersModal from '@/components/OffersModal';
 import ImageModal from '@/components/ImageModal';
 
 export default function NewCarsPage() {
+  const supabase = createClient(); // ✅ Initialize Supabase
+  const [cars, setCars] = useState<any[]>([]); // ✅ State for database cars
+  const [loading, setLoading] = useState(true);
+
   const [selectedCarForBooking, setSelectedCarForBooking] = useState<any>(null);
   const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<any>(null);
   const [selectedCarForOffers, setSelectedCarForOffers] = useState<any>(null);
   const [selectedCarForImages, setSelectedCarForImages] = useState<any>(null);
   const [imageStartIndex, setImageStartIndex] = useState(0);
   const [compareList, setCompareList] = useState<number[]>([]);
+
+  // ✅ Fetch data from Supabase
+  useEffect(() => {
+    const fetchNewCars = async () => {
+      try {
+        setLoading(true);
+        // 'most_searched_cars' table ko as a new cars source use kar rahe hain
+        const { data, error } = await supabase
+          .from('most_searched_cars')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        setCars(data || []);
+      } catch (err) {
+        console.error("Error fetching new cars:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNewCars();
+  }, []);
 
   const handleBookNow = (car: any) => setSelectedCarForBooking(car);
   const handleShowFeatures = (car: any) => setSelectedCarForFeatures(car);
@@ -39,24 +66,28 @@ export default function NewCarsPage() {
     }
   };
 
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading new cars...</div>;
+  }
+
   return (
     <main className="bg-gray-50 min-h-screen pt-6 pb-24">
       <div className="container mx-auto px-4 mb-8 text-center">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">All New Cars</h1>
-        <p className="text-gray-600">Explore the latest models launching in 2025.</p>
+        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2 uppercase tracking-tight">All New Cars</h1>
+        <p className="text-gray-600 font-medium">Explore the latest models fetched directly from our database.</p>
       </div>
 
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {newCarsData.map((car, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {cars.map((car, index) => (
             <CarGridCard
               key={car.id || index} 
               name={car.name}
-              rating={car.rating}
-              reviews={car.reviews}
-              priceRange={car.priceRange}
+              rating={car.rating || 4.5}
+              reviews={car.reviews || 100}
+              priceRange={car.price_range || car.priceRange} // ✅ Database column sync
               location={car.location || "Jaipur"}
-              imageUrls={car.imageUrls}
+              imageUrls={car.image_urls || car.images || []} // ✅ Plural support
               // --- BUTTONS ACTIVATED ---
               onBookNowClick={() => handleBookNow(car)}
               onShowFeaturesClick={() => handleShowFeatures(car)}
@@ -74,7 +105,7 @@ export default function NewCarsPage() {
       {selectedCarForBooking && <BookingForm isOpen={!!selectedCarForBooking} onClose={() => setSelectedCarForBooking(null)} car={selectedCarForBooking} />}
       {selectedCarForFeatures && <FeaturesModal isOpen={!!selectedCarForFeatures} onClose={() => setSelectedCarForFeatures(null)} car={selectedCarForFeatures} />}
       {selectedCarForOffers && <OffersModal isOpen={!!selectedCarForOffers} onClose={() => setSelectedCarForOffers(null)} car={selectedCarForOffers} />}
-      {selectedCarForImages && <ImageModal isOpen={!!selectedCarForImages} onClose={() => setSelectedCarForImages(null)} imageUrls={selectedCarForImages.imageUrls} startIndex={imageStartIndex} />}
+      {selectedCarForImages && <ImageModal isOpen={!!selectedCarForImages} onClose={() => setSelectedCarForImages(null)} imageUrls={selectedCarForImages.image_urls || selectedCarForImages.images} startIndex={imageStartIndex} />}
       
       {/* COMPARE BAR */}
       {compareList.length > 0 && (
@@ -93,7 +124,6 @@ export default function NewCarsPage() {
           </div>
         </div>
       )}
-
     </main>
   );
 }
