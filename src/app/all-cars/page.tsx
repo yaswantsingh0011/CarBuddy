@@ -1,122 +1,164 @@
 "use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import CarGridCard from '@/components/CarGridCard';
+import { useState, useEffect, useMemo } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { FaFilter, FaTimes } from "react-icons/fa";
+import ElectricCarCard from "@/components/ElectricCarCard"; // आपका मौजूदा कार्ड
+import { getMostSearchedCars } from "@/lib/homeData"; // डेटा फेचिंग फंक्शन
 
-// IMPORTS: Sabhi data files
-import { newCarsData } from '@/data/newCarsData';
-import { carsData } from '@/data/cars';
-import { usedCars } from '@/data/usedCarsData';
-
-// MODALS IMPORTS
-import BookingForm from '@/components/BookingForm';
-import FeaturesModal from '@/components/FeaturesModal';
-import OffersModal from '@/components/OffersModal';
-import ImageModal from '@/components/ImageModal';
+const CATEGORIES = ["All", "SUV", "MUV", "Luxury", "Sedan", "Hatchback"];
+const FUEL_TYPES = ["Petrol", "Diesel", "Electric", "CNG"];
+const PRICE_RANGES = [
+  { label: "Under 5 Lakh", min: 0, max: 500000 },
+  { label: "5 - 10 Lakh", min: 500000, max: 1000000 },
+  { label: "10 - 20 Lakh", min: 1000000, max: 2000000 },
+  { label: "Above 20 Lakh", min: 2000000, max: 10000000 },
+];
 
 export default function AllCarsPage() {
-  // --- MERGING ALL DATA ---
-  const allVehiclesRaw = [...newCarsData, ...carsData, ...(usedCars as any[])];
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  // --- FIX 1: FILTER BAD DATA ---
-  // Ye line ensure karegi ki agar koi empty object ya bina ID wali car hai to wo remove ho jaye
-  const allVehicles = allVehiclesRaw.filter(car => car && (car.id || car.name));
+  // STATES
+  const [allCars, setAllCars] = useState<any[]>([]);
+  const [filteredCars, setFilteredCars] = useState<any[]>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // States
-  const [selectedCarForBooking, setSelectedCarForBooking] = useState<any>(null);
-  const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<any>(null);
-  const [selectedCarForOffers, setSelectedCarForOffers] = useState<any>(null);
-  const [selectedCarForImages, setSelectedCarForImages] = useState<any>(null);
-  const [imageStartIndex, setImageStartIndex] = useState(0);
-  const [compareList, setCompareList] = useState<number[]>([]);
+  // FILTERS FROM URL
+  const categoryFilter = searchParams.get("category") || "All";
+  const fuelFilter = searchParams.get("fuel") || "All";
 
-  // Handlers
-  const handleBookNow = (car: any) => setSelectedCarForBooking(car);
-  const handleShowFeatures = (car: any) => setSelectedCarForFeatures(car);
-  const handleGetOffers = (car: any) => setSelectedCarForOffers(car);
-  const handleImageClick = (car: any, index: number) => { 
-    // FIX: Ensure we pass the correct image array to modal
-    const correctImages = car.imageUrls || car.images || [];
-    setSelectedCarForImages({ ...car, imageUrls: correctImages }); 
-    setImageStartIndex(index); 
-  };
+  useEffect(() => {
+    getMostSearchedCars().then((data) => {
+      setAllCars(data);
+      setFilteredCars(data);
+    });
+  }, []);
 
-  const toggleCompare = (id: number) => {
-    if (compareList.includes(id)) setCompareList((prev) => prev.filter((carId) => carId !== id));
-    else {
-      if (compareList.length >= 4) { alert("You can only compare up to 4 cars."); return; }
-      setCompareList((prev) => [...prev, id]);
+  // FILTER LOGIC
+  useEffect(() => {
+    let result = allCars;
+
+    if (categoryFilter !== "All") {
+      result = result.filter(car => car.category?.toLowerCase() === categoryFilter.toLowerCase());
     }
+
+    if (fuelFilter !== "All") {
+      result = result.filter(car => car.fuelType?.toLowerCase() === fuelFilter.toLowerCase());
+    }
+
+    setFilteredCars(result);
+  }, [categoryFilter, fuelFilter, allCars]);
+
+  const updateFilter = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value === "All") params.delete(key);
+    else params.set(key, value);
+    router.push(`/all-cars?${params.toString()}`);
   };
 
   return (
-    <main className="bg-gray-50 min-h-screen pt-6 pb-24">
-      <div className="container mx-auto px-4 mb-8 text-center">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">All Cars Inventory</h1>
-        <p className="text-gray-600">Browse our complete collection: New, Featured, and Pre-owned.</p>
-      </div>
-
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          {allVehicles.map((car, index) => {
-            // --- FIX 2: SAFE IMAGE HANDLING ---
-            // Agar data me 'images' hai to wo use karega, agar 'imageUrls' hai to wo use karega.
-            // Agar dono nahi hain, to empty array jayega taaki crash na ho.
-            const safeImages = car.imageUrls || car.images || [];
-
-            return (
-              <CarGridCard
-                key={car.id || index} // Prefer ID over index
-                name={car.name}
-                rating={car.rating || 4.5}
-                reviews={car.reviews || 10}
-                priceRange={car.priceRange}
-                location={car.location || "Jaipur"}
-                
-                // CRITICAL FIX HERE:
-                imageUrls={safeImages} 
-
-                onBookNowClick={() => handleBookNow(car)}
-                onGetOffersClick={() => handleGetOffers(car)}
-                onImageClick={(idx) => handleImageClick(car, idx)}
-                onShowFeaturesClick={() => handleShowFeatures(car)}
-                onAddToCompare={() => toggleCompare(Number(car.id) || index)}
-                isSelectedForCompare={compareList.includes(Number(car.id) || index)}
-                compareCount={compareList.length}
-              />
-            );
-          })}
+    <div className="min-h-screen bg-gray-50 pt-20 pb-10">
+      {/* TOP HEADER SECTION (Cardekho Style) */}
+      <div className="bg-white border-b mb-8">
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-3xl font-bold text-gray-900">Best Cars in India</h1>
+          <p className="text-gray-500 mt-2">Explore {filteredCars.length} cars with latest prices, images, and features.</p>
         </div>
       </div>
 
-      {/* Modals */}
-      {selectedCarForBooking && <BookingForm isOpen={!!selectedCarForBooking} onClose={() => setSelectedCarForBooking(null)} car={selectedCarForBooking} />}
-      {selectedCarForFeatures && <FeaturesModal isOpen={!!selectedCarForFeatures} onClose={() => setSelectedCarForFeatures(null)} car={selectedCarForFeatures} />}
-      {selectedCarForOffers && <OffersModal isOpen={!!selectedCarForOffers} onClose={() => setSelectedCarForOffers(null)} car={selectedCarForOffers} />}
-      
-      {/* Image Modal needs safe images too */}
-      {selectedCarForImages && (
-        <ImageModal 
-          isOpen={!!selectedCarForImages} 
-          onClose={() => setSelectedCarForImages(null)} 
-          imageUrls={selectedCarForImages.imageUrls || []} 
-          startIndex={imageStartIndex} 
-        />
-      )}
-      
-      {compareList.length > 0 && (
-        <div className="fixed bottom-6 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:w-auto md:min-w-[400px] z-50">
-          <div className="bg-white border border-gray-200 shadow-2xl rounded-2xl p-3 md:p-4 flex justify-between items-center">
-            <div className="flex items-center space-x-3 ml-1">
-              <div className="bg-gray-900 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center text-sm shadow-md">{compareList.length}</div>
-              <div className="flex flex-col"><span className="text-sm font-bold text-gray-800 leading-tight">Cars Added</span><button onClick={() => setCompareList([])} className="text-[11px] text-red-500 font-semibold uppercase tracking-wide text-left hover:underline">Clear List</button></div>
-            </div>
-            <Link href={`/compare?cars=${compareList.join(',')}`} className="ml-4 bg-blue-600 text-white font-bold py-2 px-6 rounded-xl shadow-lg hover:bg-blue-700 flex items-center">Compare Now <span className="ml-2 text-lg">→</span></Link>
+      <div className="container mx-auto px-4 flex flex-col md:flex-row gap-8">
+        
+        {/* SIDEBAR FILTERS */}
+        <aside className={`fixed inset-0 z-50 bg-white p-6 w-72 md:relative md:block md:inset-auto md:z-0 border rounded-xl shadow-sm ${isSidebarOpen ? 'block' : 'hidden'}`}>
+          <div className="flex justify-between items-center mb-6 md:hidden">
+            <h3 className="font-bold">Filters</h3>
+            <button onClick={() => setIsSidebarOpen(false)}><FaTimes /></button>
           </div>
-        </div>
-      )}
-    </main>
+
+          <div className="space-y-8">
+            {/* Category Filter */}
+            <div>
+              <h4 className="font-semibold mb-4 text-gray-900 border-b pb-2">Category</h4>
+              <div className="space-y-2">
+                {CATEGORIES.map(cat => (
+                  <label key={cat} className="flex items-center gap-3 cursor-pointer hover:text-orange-600 transition">
+                    <input 
+                      type="radio" 
+                      name="category"
+                      className="accent-orange-600 w-4 h-4"
+                      checked={categoryFilter === cat}
+                      onChange={() => updateFilter("category", cat)}
+                    />
+                    <span className={categoryFilter === cat ? "text-orange-600 font-medium" : "text-gray-600"}>{cat}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Price Filter (UI Reference: Cardekho) */}
+            <div>
+              <h4 className="font-semibold mb-4 text-gray-900 border-b pb-2">Budget</h4>
+              <div className="grid grid-cols-1 gap-2">
+                {PRICE_RANGES.map(range => (
+                  <button 
+                    key={range.label}
+                    className="text-left text-sm py-2 px-3 rounded-md hover:bg-orange-50 hover:text-orange-600 border transition"
+                  >
+                    {range.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Fuel Type */}
+            <div>
+              <h4 className="font-semibold mb-4 text-gray-900 border-b pb-2">Fuel Type</h4>
+              <div className="flex flex-wrap gap-2">
+                {FUEL_TYPES.map(fuel => (
+                  <button 
+                    key={fuel}
+                    onClick={() => updateFilter("fuel", fuel)}
+                    className={`px-4 py-1.5 rounded-full text-xs font-medium border transition ${fuelFilter === fuel ? "bg-orange-600 text-white border-orange-600" : "bg-white text-gray-600 hover:border-orange-600"}`}
+                  >
+                    {fuel}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        {/* MAIN LISTING */}
+        <main className="flex-1">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-bold">{categoryFilter} Cars ({filteredCars.length})</h2>
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="md:hidden flex items-center gap-2 bg-white px-4 py-2 border rounded-lg"
+            >
+              <FaFilter /> Filters
+            </button>
+          </div>
+
+          {filteredCars.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredCars.map((car) => (
+                <ElectricCarCard 
+                  key={car.id} 
+                  {...car} 
+                  onDetailClick={() => router.push(`/car-details/${car.slug}`)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20 bg-white rounded-xl border">
+              <p className="text-gray-500">No cars found matching your filters.</p>
+              <button onClick={() => router.push('/all-cars')} className="text-orange-600 mt-2 font-semibold">Clear All Filters</button>
+            </div>
+          )}
+        </main>
+      </div>
+    </div>
   );
 }

@@ -8,7 +8,7 @@ const nextConfig = {
     ignoreBuildErrors: true, // Build के दौरान TypeScript errors को ignore करता है
   },
   reactStrictMode: true,
-  
+
   // ✅ Images को remote domains से allow करने के लिए
   images: {
     remotePatterns: [
@@ -18,7 +18,13 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com', // Backup के लिए (अगर कभी use करें)
+        hostname: 'images.unsplash.com', // Backup के लिए
+      },
+      // 👇 Yeh naya Supabase wala domain add kiya hai
+      {
+        protocol: 'https',
+        hostname: 'tcxrcnmxzjsrvnscifhy.supabase.co',
+        pathname: '/storage/v1/object/public/**', // Security ke liye path limit kiya
       },
     ],
   },

@@ -1,82 +1,86 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
-import { newsArticles } from '@/data/newsData';
+import Image from "next/image";
+import Link from "next/link";
+import { FaCalendarAlt } from "react-icons/fa";
 
-const LatestStories = () => {
-  // Sirf pehli 3 news dikhayenge Homepage ke liye
-  const displayedStories = newsArticles.slice(0, 3);
+interface LatestStoriesProps {
+  newsData: any[];
+}
+
+export default function LatestStories({ newsData }: LatestStoriesProps) {
+  if (!newsData || newsData.length === 0) return null;
 
   return (
-    <section className="py-12 bg-gray-50">
-      <div className="container mx-auto px-4">
-        
-        {/* Heading with "View All" button */}
-        <div className="flex justify-between items-end mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 border-l-4 border-orange-500 pl-3">
-                Latest Stories
-            </h2>
-            <Link href="/news" className="text-blue-600 font-semibold hover:underline text-sm hidden md:block">
-                View All News
-            </Link>
-        </div>
+    // CHANGE 1: Gap badhaya (gap-6 -> gap-8) taaki cards khule-khule dikhein
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {newsData.map((item: any) => {
+        const title = item.title || item.headline;
+        const image =
+          item.image_url ||
+          item.thumbnail ||
+          "/cars/placeholder.jpg";
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayedStories.map((article) => (
-            <div key={article.id} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 group flex flex-col h-full">
-              
-              {/* Image Section */}
-              <div className="relative h-48 w-full overflow-hidden">
-                <Image 
-                  src={article.image} 
-                  alt={article.title} 
-                  fill 
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-bold px-2 py-1 rounded shadow-sm">
-                  {article.category}
-                </div>
-              </div>
+        const slug = item.slug;
+        const category = item.category || "Auto News";
+        const date =
+          item.published_date ||
+          item.published_at ||
+          item.created_at;
 
-              {/* Content Section */}
-              <div className="p-5 flex flex-col flex-grow">
-                <div className="flex items-center text-gray-400 text-xs mb-3 gap-3">
-                  <span className="flex items-center gap-1"><FaCalendarAlt /> {article.date}</span>
-                </div>
-                
-                <Link href={`/news/${article.id}`} className="block mb-2">
-                    <h3 className="text-lg font-bold text-gray-800 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
-                    {article.title}
-                    </h3>
-                </Link>
-                
-                <p className="text-gray-600 text-sm line-clamp-2 mb-4 flex-grow">
-                  {article.excerpt}
-                </p>
+        if (!title || !slug) return null;
 
-                <Link href={`/news/${article.id}`} className="inline-flex items-center text-blue-600 font-semibold text-sm hover:underline mt-auto">
-                  Read Full Story <FaArrowRight className="ml-1 text-xs" />
-                </Link>
-              </div>
+        return (
+          <div
+            key={item.id || slug}
+            className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-gray-100 flex flex-col group h-full"
+          >
+            {/* CHANGE 2: Image Height badhayi (h-40 -> h-60). Ab photo badi dikhegi */}
+            <div className="relative h-60 w-full overflow-hidden">
+              <Image
+                src={image}
+                alt={title}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
 
+              {/* CHANGE 3: Badge ka font badhaya */}
+              <span className="absolute top-4 left-4 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded uppercase shadow-md">
+                {category}
+              </span>
             </div>
-          ))}
-        </div>
 
-        {/* Mobile View All Button */}
-        <div className="mt-8 text-center md:hidden">
-            <Link href="/news" className="inline-block px-6 py-2 border border-gray-300 rounded-full text-gray-700 font-semibold hover:bg-gray-100">
-                View All News
-            </Link>
-        </div>
+            <div className="p-6 flex flex-col flex-1">
+              {date && (
+                <div className="flex items-center gap-2 text-xs text-gray-500 mb-3 font-semibold uppercase">
+                  <FaCalendarAlt className="text-orange-500" />
+                  {new Date(date).toLocaleDateString()}
+                </div>
+              )}
 
-      </div>
-    </section>
+              {/* CHANGE 4: Title ka font badhaya (text-[14px] -> text-xl) */}
+              <h4 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 leading-snug group-hover:text-blue-600 min-h-[3.5rem]">
+                {title}
+              </h4>
+
+              {/* CHANGE 5: Paragraph text badhaya (text-[10px] -> text-sm) */}
+              <p className="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-5 flex-1">
+                {item.excerpt ||
+                  item.summary ||
+                  "Read the latest updates about this car launch..."}
+              </p>
+
+              <Link
+                href={`/news/${slug}`}
+                // CHANGE 6: Link text bhi thoda bada aur prominent kiya
+                className="text-blue-600 font-bold text-sm flex items-center gap-2 mt-auto border-t pt-4 group-hover:translate-x-1 transition-transform"
+              >
+                Read Story <span>→</span>
+              </Link>
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
-};
-
-export default LatestStories;
+}

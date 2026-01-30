@@ -14,7 +14,7 @@ const BrandSection = () => {
 
   return (
     <section className="py-12 bg-white">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto pt-0 ">
         
         <div className="border border-gray-200 rounded-2xl p-6 shadow-sm bg-white">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Popular Brands</h2>

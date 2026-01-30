@@ -1,172 +1,142 @@
-// src/components/ContactSellerModal.tsx
 "use client";
 
 import React, { useState } from 'react';
-import { Car } from '@/data/cars'; 
-import { UsedCar } from '@/types'; 
 import { supabase } from '@/lib/supabaseClient';
-import { FaTimes } from 'react-icons/fa';
+import { FaTimes, FaUser, FaPhone, FaEnvelope, FaMapMarkerAlt, FaCommentAlt, FaCheckCircle } from 'react-icons/fa';
 
 interface ContactSellerModalProps {
-	isOpen: boolean;
-	onClose: () => void;
-	car: Car | UsedCar; 
-}
-
-// Helper component taaki car type check ho sake
-function isUsedCar(car: Car | UsedCar): car is UsedCar {
-	return (car as UsedCar).sellerPhone !== undefined;
+    isOpen: boolean;
+    onClose: () => void;
+    car: any; 
 }
 
 const ContactSellerModal: React.FC<ContactSellerModalProps> = ({ isOpen, onClose, car }) => {
-	
-	const [formData, setFormData] = useState({
-		name: '',
-		phone: '',
-		email: '',
-		city: '',
-		message: '', 
-	});
-	
-	const [isSubmitted, setIsSubmitted] = useState(false);
-	const [isSubmitting, setIsSubmitting] = useState(false); 
-	const [submitError, setSubmitError] = useState(''); 
+    
+    const [formData, setFormData] = useState({
+        name: '',
+        phone: '',
+        email: '',
+        city: '',
+        message: `I'm interested in your ${car?.name}. Please contact me.`, 
+    });
+    
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false); 
+    const [submitError, setSubmitError] = useState(''); 
 
-	if (!isOpen) return null;
+    if (!isOpen) return null;
 
-	const handleFormResetAndClose = () => {
-		setFormData({ name: '', phone: '', email: '', city: '', message: '' });
-		setIsSubmitted(false);
-		setSubmitError('');
-		onClose();
-	};
+    const handleFormResetAndClose = () => {
+        setFormData({ name: '', phone: '', email: '', city: '', message: '' });
+        setIsSubmitted(false);
+        setSubmitError('');
+        onClose();
+    };
 
-	const handleSubmit = async (e: React.FormEvent) => {
-		e.preventDefault();
-		setIsSubmitting(true); 
-		setSubmitError(''); 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true); 
+        setSubmitError(''); 
 
-		try {
-			const { data, error } = await supabase
-				.from('seller_inquiries') // **REQUIRED: Ensure this table exists in Supabase**
-				.insert([
-					{ 
-						name: formData.name, 
-						phone: formData.phone,
-						email: formData.email,
-						city: formData.city,
-						message: formData.message, 
-						car_name: car.name, 
-					}
-				]);
+        try {
+            // ✅ Mapping strictly to your table columns
+            const { error } = await supabase
+                .from('seller_inquiries')
+                .insert([
+                    { 
+                        name: formData.name,       // Match column 'name'
+                        phone: formData.phone,     // Match column 'phone'
+                        email: formData.email,     // Match column 'email'
+                        city: formData.city,       // Match column 'city'
+                        message: formData.message, // Match column 'message'
+                        car_name: car.name,        // Match column 'car_name'
+                    }
+                ]);
 
-			if (error) {
-				console.error('Supabase error:', error);
-				// Display database error message to aid debugging
-				setSubmitError(`Submission failed. Check Console for details. Error: ${error.message}`);
-			} else {
-				console.log('Data saved:', data);
-				setIsSubmitted(true); // Success!
-			}
-		} catch (networkError) {
-			console.error('Network or client error:', networkError);
-			setSubmitError('A network error occurred. Check your connection or Supabase URL.');
-		} finally {
-			// Ensure submitting state is always reset
-			setIsSubmitting(false); 
-		}
-	};
+            if (error) {
+                setSubmitError(`Bhai error aa gaya: ${error.message}`);
+            } else {
+                setIsSubmitted(true); 
+            }
+        } catch (networkError) {
+            setSubmitError('Network error! Connection check karo bhai.');
+        } finally {
+            setIsSubmitting(false); 
+        }
+    };
 
-	// Input change ko handle karne ka function
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-		const { id, value } = e.target;
-		setFormData(prevData => ({
-			...prevData,
-			[id]: value,
-		}));
-	};
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { id, value } = e.target;
+        setFormData(prevData => ({ ...prevData, [id]: value }));
+    };
 
-	return (
-		<div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center" onClick={handleFormResetAndClose}>
-			<div className="bg-white p-8 rounded-lg max-w-lg w-full relative" onClick={(e) => e.stopPropagation()}>
-				<button onClick={handleFormResetAndClose} className="absolute top-4 right-4 text-gray-500 hover:text-gray-800">
-					<FaTimes size={20} />
-				</button>
+    return (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4" onClick={handleFormResetAndClose}>
+            <div className="bg-white rounded-[32px] max-w-md w-full relative shadow-2xl overflow-hidden animate-in zoom-in duration-300" onClick={(e) => e.stopPropagation()}>
+                
+                <button onClick={handleFormResetAndClose} className="absolute top-6 right-6 text-gray-400 hover:text-gray-900 z-10">
+                    <FaTimes size={20} />
+                </button>
 
-				{isSubmitted ? (
-					// --- SUCCESS VIEW (Phone Number ke saath) ---
-					<div>
-						<h2 className="text-2xl font-bold mb-4 text-green-600">Request Sent!</h2>
-						<p className="text-lg text-gray-800">
-							Thank you for your inquiry. Here is the seller's contact number:
-						</p>
-						
-						<div className="my-4 p-3 bg-gray-100 border border-gray-300 rounded-md text-center">
-							<p className="text-2xl font-bold text-gray-900">
-								{isUsedCar(car) ? car.sellerPhone : 'N/A'}
-							</p>
-						</div>
-						
-						<p className="text-sm text-gray-600">
-							Please mention 'CarBuddy' when you call.
-						</p>
+                {isSubmitted ? (
+                    <div className="p-10 text-center">
+                        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <FaCheckCircle className="text-green-600 text-4xl" />
+                        </div>
+                        <h2 className="text-2xl font-black text-[#0F172A] mb-2">Request Sent!</h2>
+                        <p className="text-gray-500 text-sm mb-8 font-medium">Inquiry save ho gayi hai. Seller ka number niche hai:</p>
+                        
+                        <div className="bg-blue-50 p-6 rounded-[24px] border border-blue-100 mb-8">
+                            <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2">Seller Contact</p>
+                            <p className="text-3xl font-black text-blue-700 tracking-tighter">
+                                {car.seller_phone || car.sellerPhone || '919929087878'}
+                            </p>
+                        </div>
+                        
+                        <button onClick={handleFormResetAndClose} className="w-full py-4 bg-[#0F172A] text-white font-black rounded-2xl uppercase text-xs tracking-widest shadow-lg">Done</button>
+                    </div>
+                ) : (
+                    <div className="p-8">
+                        <div className="mb-8">
+                            <h2 className="text-2xl font-black text-[#0F172A]">Contact Seller</h2>
+                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Car: {car.name}</p>
+                        </div>
 
-						<div className="flex justify-end mt-6">
-							<button 
-								type="button" 
-								onClick={handleFormResetAndClose} 
-								className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 font-semibold"
-							>
-								Close
-							</button>
-						</div>
-					</div>
-				) : (
-					// --- FORM VIEW ---
-					<>
-						<h2 className="text-2xl font-bold mb-4 text-gray-900">Contact Seller</h2>
-						<p className="text-lg mb-4 text-gray-800">Car: <span className="font-semibold">{car.name}</span></p>
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <InputGroup id="name" label="Name" icon={<FaUser/>} placeholder="Enter Name" value={formData.name} onChange={handleInputChange} />
+                            <InputGroup id="phone" label="Phone" icon={<FaPhone/>} placeholder="Enter Phone" value={formData.phone} onChange={handleInputChange} />
+                            <InputGroup id="email" label="Email" icon={<FaEnvelope/>} placeholder="Enter Email" value={formData.email} onChange={handleInputChange} />
+                            <InputGroup id="city" label="City" icon={<FaMapMarkerAlt/>} placeholder="Enter City" value={formData.city} onChange={handleInputChange} />
+                            
+                            <div className="space-y-1.5">
+                                <label className="text-[10px] font-black uppercase text-gray-400 ml-1">Message</label>
+                                <div className="relative">
+                                    <FaCommentAlt className="absolute left-4 top-4 text-gray-300 text-sm" />
+                                    <textarea id="message" rows={3} className="w-full pl-12 pr-4 py-4 bg-gray-50 rounded-2xl border-0 outline-none font-bold text-sm focus:ring-2 focus:ring-blue-100" value={formData.message} onChange={handleInputChange} />
+                                </div>
+                            </div>
 
-						<form onSubmit={handleSubmit}>
-							{/* --- Name --- */}
-							<div className="mb-4">
-								<label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
-								<input type="text" id="name" required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900" value={formData.name} onChange={handleInputChange} />
-							</div>
-							{/* --- Phone --- */}
-							<div className="mb-4">
-								<label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone</label>
-								<input type="tel" id="phone" required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900" value={formData.phone} onChange={handleInputChange} />
-							</div>
-							{/* --- Email --- */}
-							<div className="mb-4">
-								<label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-								<input type="email" id="email" required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900" value={formData.email} onChange={handleInputChange} />
-							</div>
-							{/* --- City --- */}
-							<div className="mb-4">
-								<label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>
-								<input type="text" id="city" required className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900" value={formData.city} onChange={handleInputChange} />
-							</div>
-							{/* --- Message --- */}
-							<div className="mb-4">
-								<label htmlFor="message" className="block text-sm font-medium text-gray-700">Message (Optional)</label>
-								<textarea id="message" rows={3} className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900" value={formData.message} onChange={handleInputChange} />
-							</div>
-							{submitError && (<p className="text-sm text-red-600 mb-4 font-medium">{submitError}</p>)}
-							{/* --- Buttons --- */}
-							<div className="flex justify-end space-x-4 mt-6">
-								<button type="button" onClick={handleFormResetAndClose} className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 font-semibold">Cancel</button>
-								<button type="submit" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 disabled:opacity-50 font-semibold" disabled={isSubmitting}>
-									{isSubmitting ? 'Submitting...' : 'Get Seller Number'}
-								</button>
-							</div>
-						</form>
-					</>
-				)}
-			</div>
-		</div>
-	);
+                            {submitError && (<p className="text-xs text-red-600 font-bold bg-red-50 p-3 rounded-xl">{submitError}</p>)}
+
+                            <button type="submit" className="w-full py-5 bg-red-600 text-white font-black rounded-2xl shadow-xl hover:bg-red-700 uppercase text-xs tracking-widest mt-4" disabled={isSubmitting}>
+                                {isSubmitting ? 'Submitting...' : 'Get Seller Number'}
+                            </button>
+                        </form>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
 };
+
+const InputGroup = ({ id, label, icon, placeholder, value, onChange }: any) => (
+    <div className="space-y-1.5">
+        <label htmlFor={id} className="text-[10px] font-black uppercase text-gray-400 ml-1">{label}</label>
+        <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 text-sm">{icon}</span>
+            <input type="text" id={id} required className="w-full pl-12 pr-4 py-4 bg-gray-50 rounded-2xl border-0 outline-none font-bold text-sm focus:ring-2 focus:ring-blue-100" placeholder={placeholder} value={value} onChange={onChange} />
+        </div>
+    </div>
+);
 
 export default ContactSellerModal;

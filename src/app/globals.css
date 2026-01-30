@@ -12,10 +12,23 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* Maine wo @media wala dark mode block hata diya hai */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden; /* 🔥 MAIN SCROLLBAR FIX */
+}
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 🔥 HIDE ALL HORIZONTAL SCROLLBARS */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

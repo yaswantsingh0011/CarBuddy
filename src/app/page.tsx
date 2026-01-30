@@ -1,207 +1,222 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
-import { useRouter } from 'next/navigation'; 
-import Hero from '@/components/Hero';
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
-// --- COMPONENTS ---
-import UpcomingCarCard from '@/components/UpcomingCarCard';
-import ElectricCarCard from '@/components/ElectricCarCard'; // ✅ Default Import
-import MostSearchedSection from '@/components/MostSearchedSection';
-import BlogSection from '@/components/BlogSection'; 
-import BrandSection from '@/components/BrandSection'; 
-import VisualStoriesSection from '@/components/VisualStoriesSection';
-import LatestStories from '@/components/LatestStories';
-import UsedCarsSection from '@/components/UsedCarsSection'; // ✅ Used Cars Added
+/* ---------------- COMPONENTS ---------------- */
+import Hero from "@/components/Hero";
+import MostSearchedSection from "@/components/MostSearchedSection";
+import UsedCarsSection from "@/components/UsedCarsSection";
+import BrandSection from "@/components/BrandSection";
+import UpcomingCarCard from "@/components/UpcomingCarCard";
+import ElectricCarCard from "@/components/ElectricCarCard";
+import VisualStoriesSection from "@/components/VisualStoriesSection";
+import LatestStories from "@/components/LatestStories";
+import BlogSection from "@/components/BlogSection";
+// 🔥 नया कम्पैरिजन सेक्शन इम्पोर्ट किया
+import CarComparisonSection from "@/components/CarComparisonSection";
 
-// --- DATA IMPORTS ---
-import { newLaunchCars } from '@/data/newlaunchcars'; 
-import { electricCars } from '@/data/electricCars'; 
+/* ---------------- ICONS ---------------- */
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-// --- ICONS ---
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+/* ---------------- DATA ---------------- */
+import {
+  getElectricCars,
+  getUsedCars,
+  getMostSearchedCars,
+  getUpcomingCars,
+  getBlogs,
+  getNews,
+} from "@/lib/homeData";
 
-// --- MODALS ---
-import BookingForm from '@/components/BookingForm'; 
-import FeaturesModal from '@/components/FeaturesModal';
-import OffersModal from '@/components/OffersModal'; 
-import ImageModal from '@/components/ImageModal';
-
-export default function Home() {
+export default function HomePage() {
   const router = useRouter();
 
-  // --- STATES ---
-  const [selectedCarForBooking, setSelectedCarForBooking] = useState<any>(null);
-  const [selectedCarForFeatures, setSelectedCarForFeatures] = useState<any>(null);
-  const [selectedCarForOffers, setSelectedCarForOffers] = useState<any>(null);
-  const [selectedCarForImages, setSelectedCarForImages] = useState<any>(null);
-  const [imageStartIndex, setImageStartIndex] = useState(0);
+  /* ---------------- STATE ---------------- */
+  const [electricCars, setElectricCars] = useState<any[]>([]);
+  const [usedCars, setUsedCars] = useState<any[]>([]);
+  const [mostSearchedCars, setMostSearchedCars] = useState<any[]>([]);
+  const [upcomingCars, setUpcomingCars] = useState<any[]>([]);
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [news, setNews] = useState<any[]>([]);
 
-  // --- HANDLERS ---
-  const scrollToCars = () => document.getElementById('most-searched-section')?.scrollIntoView({ behavior: 'smooth' });
+  /* ---------------- REFS ---------------- */
+  const upcomingRef = useRef<HTMLDivElement>(null);
+  const electricRef = useRef<HTMLDivElement>(null);
 
-  const handleBookNow = (car: any) => setSelectedCarForBooking(car);
-  const handleShowFeatures = (car: any) => setSelectedCarForFeatures(car);
-  
-  const handleGetOffers = (car: any) => {
-    setSelectedCarForOffers(car);
+  /* ---------------- FETCH ---------------- */
+  useEffect(() => {
+    getElectricCars().then(setElectricCars);
+    getUsedCars().then(setUsedCars);
+    getMostSearchedCars().then(setMostSearchedCars);
+    getUpcomingCars().then(setUpcomingCars);
+    getBlogs().then(setBlogs);
+    getNews().then(setNews);
+  }, []);
+
+  /* ---------------- HANDLERS ---------------- */
+  const slideLeft = (ref: any) =>
+    ref.current?.scrollBy({ left: -400, behavior: "smooth" });
+
+  const slideRight = (ref: any) =>
+    ref.current?.scrollBy({ left: 400, behavior: "smooth" });
+
+  const scrollToMostSearched = () => {
+    document
+      .getElementById("most-searched")
+      ?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleImageClick = (car: any, index: number) => { setSelectedCarForImages(car); setImageStartIndex(index); };
-  
-  const handleAlert = (carName: string) => {
-    alert(`Notification set for ${carName}! We will notify you when it launches.`);
-  };
-
-  // ✅ Navigation Handler
-  const handleCardClick = (carName: string) => {
-    const slug = carName.toLowerCase().split(" ").join("-");
-    router.push(`/car-details/${slug}`);
-  };
-
-  // --- OFFERS LOGIC ---
-  const getOffersList = (car: any) => {
-    if (!car) return [];
-    const name = car.name;
-    if (name.includes("EV") || car.category === "EV") {
-      return ["Free Home Wall Box Charger", "Zero Processing Fee on Loan", "3 Year Battery Health Checkup Free"];
-    }
-    if (["Mercedes", "BMW", "Audi", "Toyota Fortuner"].some(x => name.includes(x))) {
-      return ["5 Year Service Package Free", "Ceramic Coating @ 50% Off", "Accessories Kit Included"];
-    }
-    return ["Exchange Bonus up to ₹25,000", "Free Insurance for 1st Year", "Corporate Discount Available"];
-  };
-
-  const carForOffersModal = selectedCarForOffers 
-    ? { ...selectedCarForOffers, offers: getOffersList(selectedCarForOffers) } 
-    : null;
-
-
-  // --- SLIDER REFS ---
-  const upcomingSliderRef = useRef<HTMLDivElement>(null);
-  const electricSliderRef = useRef<HTMLDivElement>(null);
-
-  const slideUpcomingLeft = () => upcomingSliderRef.current?.scrollBy({ left: -300, behavior: 'smooth' });
-  const slideUpcomingRight = () => upcomingSliderRef.current?.scrollBy({ left: 300, behavior: 'smooth' });
-
-  const slideElectricLeft = () => electricSliderRef.current?.scrollBy({ left: -300, behavior: 'smooth' });
-  const slideElectricRight = () => electricSliderRef.current?.scrollBy({ left: 300, behavior: 'smooth' });
-
-
+  /* ---------------- JSX ---------------- */
   return (
-    <main className="bg-gray-50 min-h-screen">
-      
-      <Hero onExploreClick={scrollToCars} />
+    <main className="bg-gray-50 min-h-screen overflow-x-hidden">
+      {/* HERO SECTION */}
+      <Hero onExploreClick={scrollToMostSearched} />
 
-      {/* 1. MOST SEARCHED CARS */}
-      <div id="most-searched-section" className="pt-8">
-        <MostSearchedSection />
-      </div>
+      {/* MOST SEARCHED SECTION */}
+      <section id="most-searched" className="pt-10">
+        <MostSearchedSection cars={mostSearchedCars} />
+      </section>
 
-      {/* 2. USED CARS SECTION */}
-      <UsedCarsSection />
+      {/* USED CARS SECTION */}
+      <UsedCarsSection cars={usedCars} />
 
-      {/* 3. BRAND SECTION */}
+      {/* 🔥 CAR COMPARISON SECTION: पुरानी गाड़ियों के बाद तुलना का विकल्प */}
+      <CarComparisonSection />
+
+      {/* BRANDS SECTION */}
       <BrandSection />
 
-      {/* 4. UPCOMING CARS SECTION */}
-      <section id="upcoming-cars" className="container mx-auto px-4 pt-12 pb-8 relative">
-        <div className="text-left mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Upcoming Cars</h2>
-        </div>
+      {/* UPCOMING CARS SECTION */}
+      {upcomingCars.length > 0 && (
+        <section className="w-full px-4 md:px-8 lg:px-12 py-12 relative group">
+          <div className="mb-8">
+            <h2 className="text-3xl font-extrabold text-gray-900">
+              Upcoming Cars
+            </h2>
+            <p className="text-xs uppercase tracking-widest text-gray-400 mt-1">
+              Expected launches
+            </p>
+          </div>
 
-        <div className="relative group">
-          <button onClick={slideUpcomingLeft} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all hidden md:flex items-center justify-center">
+          <button
+            onClick={() => slideLeft(upcomingRef)}
+            className="absolute left-4 top-[60%] -translate-y-1/2 z-20 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 hidden group-hover:block"
+          >
             <FaChevronLeft size={20} />
           </button>
-          
-          <div ref={upcomingSliderRef} className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            {newLaunchCars.map((car, index) => (
-              <div key={index} className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0">
-                 <UpcomingCarCard 
-                    slug={car.slug || car.name.toLowerCase().replace(/\s+/g, "-")}
-                    name={car.name} 
-                    priceRange={car.priceRange} 
-                    launchDate={car.location || "Coming Soon"} 
-                    imageUrl={car.imageUrls ? car.imageUrls[0] : "/cars/placeholder.jpg"} 
-                    onAlertClick={() => handleAlert(car.name)} 
-                 />
+
+          <div
+            ref={upcomingRef}
+            className="flex gap-6 overflow-x-auto hide-scrollbar scroll-smooth pb-6"
+          >
+            {upcomingCars.map((car) => (
+              <div key={car.id} className="w-[360px] flex-shrink-0">
+                <UpcomingCarCard
+                  slug={car.slug}
+                  name={car.name}
+                  priceRange={car.priceRange}
+                  launchDate={car.launchDate}
+                  imageUrl={car.imageUrl}
+                  onAlertClick={() =>
+                    alert(`Notification set for ${car.name}`)
+                  }
+                />
               </div>
             ))}
           </div>
 
-          <button onClick={slideUpcomingRight} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all flex items-center justify-center">
+          <button
+            onClick={() => slideRight(upcomingRef)}
+            className="absolute right-4 top-[60%] -translate-y-1/2 z-20 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 hidden group-hover:block"
+          >
             <FaChevronRight size={20} />
           </button>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* 5. ELECTRIC CARS SECTION */}
-      <section className="container mx-auto px-4 pb-12 relative">
-        <div className="text-left mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Electric Cars</h2>
-        </div>
+      {/* ELECTRIC CARS SECTION */}
+      {electricCars.length > 0 && (
+        <section className="w-full px-4 md:px-8 lg:px-12 py-12 relative group">
+          <div className="mb-8">
+            <h2 className="text-3xl font-extrabold text-gray-900">
+              Electric Cars
+            </h2>
+            <p className="text-xs uppercase tracking-widest text-gray-400 mt-1">
+              Go electric
+            </p>
+          </div>
 
-        <div className="relative group">
-          <button onClick={slideElectricLeft} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all hidden md:flex items-center justify-center">
+          <button
+            onClick={() => slideLeft(electricRef)}
+            className="absolute left-4 top-[60%] -translate-y-1/2 z-20 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 hidden group-hover:block"
+          >
             <FaChevronLeft size={20} />
           </button>
 
-          <div ref={electricSliderRef} className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-            {electricCars.map((car, index) => {
-              const displayImage = (car as any).images ? (car as any).images[0] : (car as any).image;
-              
-              return (
-                <div 
-                    key={index} 
-                    onClick={() => handleCardClick(car.name)}
-                    className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0 cursor-pointer transition-transform hover:scale-105"
-                >
-                   <div className="h-full pointer-events-auto">
-                     {/* ✅ FIX: COMPARE DATA PASSED HERE */}
-                     <ElectricCarCard 
-                        id={car.id || index}
-                        name={car.name} 
-                        priceRange={car.priceRange} 
-                        imageUrl={displayImage || "/cars/placeholder.jpg"} 
-                        
-                        fuelType="Electric"
-                        
-                        // Pass Specs & Features for Compare Page
-                        specs={(car as any).specs}
-                        features={(car as any).features}
-                        images={(car as any).images} // Gallery Images
-                        
-                        onOfferClick={() => handleGetOffers(car)}
-                        onDetailClick={() => handleCardClick(car.name)} 
-                     />
-                   </div>
-                </div>
-              );
-            })}
+          <div
+            ref={electricRef}
+            className="flex gap-6 overflow-x-auto hide-scrollbar scroll-smooth pb-6"
+          >
+            {electricCars.map((car) => (
+              <div key={car.id} className="w-[360px] flex-shrink-0">
+                <ElectricCarCard
+                  id={car.id}
+                  name={car.name}
+                  priceRange={car.priceRange}
+                  imageUrl={car.imageUrl}
+                  fuelType="Electric"
+                  specs={car.specs}
+                  features={car.features}
+                  images={car.images}
+                  onOfferClick={() => {}}
+                  onDetailClick={() =>
+                    router.push(`/car-details/${car.slug}`)
+                  }
+                />
+              </div>
+            ))}
           </div>
 
-          <button onClick={slideElectricRight} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 transition-all flex items-center justify-center">
+          <button
+            onClick={() => slideRight(electricRef)}
+            className="absolute right-4 top-[60%] -translate-y-1/2 z-20 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 hidden group-hover:block"
+          >
             <FaChevronRight size={20} />
           </button>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* 6. LATEST STORIES */}
-      <LatestStories />
-
-      {/* 7. VISUAL STORIES */}
+      {/* VISUAL STORIES SECTION */}
       <VisualStoriesSection />
 
-      {/* 8. BLOG SECTION */}
-      <BlogSection />
+      {/* LATEST AUTO NEWS SECTION */}
+      {news.length > 0 && (
+        <section className="w-full px-4 md:px-8 lg:px-12 py-12">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-3xl font-extrabold text-gray-900">
+                Latest Auto News
+              </h2>
+              <p className="text-xs uppercase tracking-widest text-gray-400 mt-1">
+                Automobile updates & launches
+              </p>
+            </div>
 
-      {/* --- MODALS --- */}
-      {selectedCarForBooking && <BookingForm isOpen={!!selectedCarForBooking} onClose={() => setSelectedCarForBooking(null)} car={selectedCarForBooking} />}
-      {selectedCarForFeatures && <FeaturesModal isOpen={!!selectedCarForFeatures} onClose={() => setSelectedCarForFeatures(null)} car={selectedCarForFeatures} />}
-      {selectedCarForOffers && <OffersModal isOpen={!!selectedCarForOffers} onClose={() => setSelectedCarForOffers(null)} car={carForOffersModal} />}
-      {selectedCarForImages && <ImageModal isOpen={!!selectedCarForImages} onClose={() => setSelectedCarForImages(null)} imageUrls={selectedCarForImages.imageUrls} startIndex={imageStartIndex} />}
-      
+            <button
+              onClick={() => router.push("/news")}
+              className="text-sm font-semibold text-blue-600 hover:underline"
+            >
+              View All →
+            </button>
+          </div>
+
+          <LatestStories newsData={news.slice(0, 3)} />
+        </section>
+      )}
+
+      {/* BLOGS SECTION */}
+      {blogs.length > 0 && <BlogSection blogs={blogs} />}
     </main>
   );
 }

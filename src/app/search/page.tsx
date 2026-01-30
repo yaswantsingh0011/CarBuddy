@@ -1,244 +1,240 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { FaFilter, FaTimes, FaSearch } from 'react-icons/fa';
-
-// Components
+import { FaSearch, FaCar, FaSortAmountDownAlt, FaHistory } from 'react-icons/fa';
 import ElectricCarCard from '@/components/ElectricCarCard';
+import { createClient } from '@/utils/supabase/client'; 
 
-// Data Imports (Sari files import karein)
-import { mostSearchedCars } from '@/data/mostSearchedCars';
-import { electricCars } from '@/data/electricCars';
-import { newLaunchCars } from '@/data/newlaunchcars';
+// --- ✅ Price Parser: Lakh vs Crore Logic ---
+const parsePrice = (p: string) => {
+  if (!p || typeof p !== 'string') return 0;
+  const num = parseFloat(p.replace(/[^0-9.]/g, ''));
+  if (isNaN(num)) return 0;
+  
+  const lowerP = p.toLowerCase();
+  // Magnitude correction: 1 Cr = 100 Lakhs
+  if (lowerP.includes('cr') || lowerP.includes('crore')) {
+    return num * 100;
+  }
+  return num;
+};
 
-// Helper function to extract brand from name if brand key is missing
-const getBrand = (car: any) => car.brand || car.name.split(' ')[0];
-
-// Main Component Wrapper (Required for useSearchParams in Next.js)
 export default function SearchPage() {
   return (
-    <Suspense fallback={<div className="p-10 text-center">Loading Search...</div>}>
+    <Suspense fallback={<div className="p-20 text-center font-bold text-gray-500 italic">Bhai, thoda sabr karo... Search load ho raha hai.</div>}>
       <SearchContent />
     </Suspense>
   );
 }
 
 function SearchContent() {
+  const supabase = createClient();
   const searchParams = useSearchParams();
   const router = useRouter();
   
-  // URL se query nikalo (e.g. ?q=suv)
-  const query = searchParams.get('q') || ''; 
-
-  // --- STATES ---
+  const query = searchParams.get('q') || '';
   const [searchTerm, setSearchTerm] = useState(query);
-  const [filteredCars, setFilteredCars] = useState<any[]>([]);
-  
-  // Filters States
-  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
-  const [selectedFuel, setSelectedFuel] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [cars, setCars] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const suggestionRef = useRef<HTMLDivElement>(null);
 
-  // Unique Lists for Sidebar Options
-  const allCars = [...mostSearchedCars, ...electricCars, ...newLaunchCars];
-  const allBrands = Array.from(new Set(allCars.map(c => getBrand(c)))).sort();
-  const allFuelTypes = ["Petrol", "Diesel", "Electric", "Hybrid", "CNG"];
-  const allCategories = ["SUV", "Sedan", "Hatchback", "MUV", "Luxury"];
-
-  // --- FILTERING LOGIC (The Brain 🧠) ---
+  // --- 🔍 1. Suggestions Fetching Logic ---
   useEffect(() => {
-    let result = allCars;
+    const fetchSuggestions = async () => {
+      const input = searchTerm.trim();
+      if (input.length < 2) {
+        setSuggestions([]);
+        return;
+      }
 
-    // 1. Search Text Filter (Name, Brand, or Category)
-    if (searchTerm) {
-        const lowerQ = searchTerm.toLowerCase();
-        result = result.filter(car => 
-            car.name.toLowerCase().includes(lowerQ) || 
-            getBrand(car).toLowerCase().includes(lowerQ) ||
-            car.category.toLowerCase().includes(lowerQ) ||
-            (car.fuelType && car.fuelType.toLowerCase().includes(lowerQ))
-        );
-    }
+      try {
+        const prefix = `${input}%`; // Starts with query
+        const [res1, res2, res3, res4] = await Promise.all([
+          supabase.from('electric_cars').select('name').ilike('name', prefix).limit(3),
+          supabase.from('most_searched_cars').select('name').ilike('name', prefix).limit(3),
+          supabase.from('upcoming_cars').select('name').ilike('name', prefix).limit(3),
+          supabase.from('used_cars').select('name').ilike('name', prefix).limit(3),
+        ]);
 
-    // 2. Brand Sidebar Filter
-    if (selectedBrands.length > 0) {
-        result = result.filter(car => selectedBrands.includes(getBrand(car)));
-    }
+        const combined = [
+          ...(res1.data || []),
+          ...(res2.data || []),
+          ...(res3.data || []),
+          ...(res4.data || [])
+        ].map(item => item.name);
 
-    // 3. Fuel Sidebar Filter
-    if (selectedFuel.length > 0) {
-        result = result.filter(car => {
-            // Helper to normalize fuel type
-            const fType = car.fuelType || (car.category === 'EV' ? 'Electric' : 'Petrol'); 
-            return selectedFuel.some(sf => fType.includes(sf));
+        setSuggestions(Array.from(new Set(combined)).slice(0, 8)); // Unique results
+      } catch (err) {
+        console.error("Suggestion Error:", err);
+      }
+    };
+
+    const timer = setTimeout(fetchSuggestions, 300); // Debounce typing
+    return () => clearTimeout(timer);
+  }, [searchTerm, supabase]);
+
+  // Handle outside click to hide suggestions
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (suggestionRef.current && !suggestionRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  // --- 🔍 2. Full Search Results Logic ---
+  useEffect(() => {
+    const getSearchResults = async () => {
+      setLoading(true);
+      const dbQuery = `%${query.trim()}%`;
+
+      try {
+        const fetchTable = (table: string) => supabase.from(table).select('*').ilike('name', dbQuery);
+
+        const [res1, res2, res3, res4] = await Promise.all([
+          fetchTable('electric_cars'), fetchTable('most_searched_cars'),
+          fetchTable('upcoming_cars'), fetchTable('used_cars')
+        ]);
+
+        const normalize = (list: any[], type: string) => (list || []).map((item) => {
+          // --- 🔍 Image Parsing from JSON Column ---
+          let rawImg = item.images || item.image_urls || item.imageUrl || item.image;
+          let finalImg = "/cars/placeholder.jpg";
+
+          if (typeof rawImg === 'string' && rawImg.startsWith('[')) {
+            try { 
+              const parsed = JSON.parse(rawImg);
+              rawImg = Array.isArray(parsed) ? parsed[0] : rawImg;
+            } catch { }
+          } else if (Array.isArray(rawImg) && rawImg.length > 0) {
+            rawImg = rawImg[0];
+          }
+
+          if (rawImg && typeof rawImg === 'string') {
+            finalImg = (rawImg.startsWith('/') || rawImg.startsWith('http')) ? rawImg : `/cars/${rawImg}`;
+          }
+
+          const priceStr = item.price_range || item.priceRange || item.price || "Price TBD";
+
+          return {
+            id: item.id,
+            name: item.name || "New Car",
+            priceRange: priceStr,
+            imageUrl: finalImg,
+            fuelType: item.fuel_type || item.fuelType || (type === 'electric' ? 'Electric' : 'Petrol'),
+            slug: item.slug || item.id,
+            sourceTable: type,
+            priceVal: parsePrice(priceStr) // Correct sorting value
+          };
         });
-    }
 
-    // 4. Category Sidebar Filter
-    if (selectedCategory.length > 0) {
-        result = result.filter(car => selectedCategory.includes(car.category));
-    }
+        const allResults = [
+          ...normalize(res1.data, 'electric'), ...normalize(res2.data, 'popular'),
+          ...normalize(res3.data, 'upcoming'), ...normalize(res4.data, 'used'),
+        ];
 
-    // Remove Duplicates (by Name)
-    const uniqueMap = new Map();
-    result.forEach(car => uniqueMap.set(car.name, car));
-    setFilteredCars(Array.from(uniqueMap.values()));
+        const uniqueResults = Array.from(new Map(allResults.map(c => [c.name.toLowerCase(), c])).values())
+                                  .sort((a, b) => a.priceVal - b.priceVal);
+        
+        setCars(uniqueResults);
+      } finally {
+        setLoading(false);
+        setShowSuggestions(false);
+      }
+    };
 
-  }, [searchTerm, selectedBrands, selectedFuel, selectedCategory]);
+    getSearchResults();
+  }, [query, supabase]);
 
-  // Handle Search Submit from page input
-  const handleLocalSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    router.push(`/search?q=${encodeURIComponent(searchTerm)}`);
-  };
-
-  // Toggle Checkbox Logic
-  const toggleFilter = (list: string[], setList: any, value: string) => {
-    if (list.includes(value)) {
-        setList(list.filter(item => item !== value));
-    } else {
-        setList([...list, value]);
-    }
+  const onSelectSuggestion = (s: string) => {
+    setSearchTerm(s);
+    setShowSuggestions(false);
+    router.push(`/search?q=${s}`);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-8 pb-20">
-      <div className="container mx-auto px-4">
-        
-        {/* Top Search Header */}
-        <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                {query ? `Search Results for "${query}"` : "All Cars"}
-            </h1>
-            <form onSubmit={handleLocalSearch} className="flex gap-2 max-w-2xl">
-                <div className="relative flex-1">
-                    <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                    <input 
-                        type="text" 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="Search again..." 
-                        className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+    <div className="min-h-screen bg-gray-50 pb-12">
+      {/* --- Search Bar with Suggestions Dropdown --- */}
+      <div className="bg-white border-b sticky top-0 z-50 py-4 shadow-sm">
+        <div className="container mx-auto px-4 max-w-5xl relative" ref={suggestionRef}>
+          <form onSubmit={(e) => { e.preventDefault(); router.push(`/search?q=${searchTerm}`); }} className="flex gap-2">
+            <div className="relative flex-1">
+              <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input 
+                type="text" 
+                value={searchTerm}
+                onFocus={() => setShowSuggestions(true)}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search for Toyota, Fortuner, Tata..."
+                className="w-full pl-12 pr-4 py-3 bg-gray-100 border-none rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-medium text-gray-800"
+              />
+            </div>
+            <button className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg active:scale-95">
+              SEARCH
+            </button>
+          </form>
+
+          {/* --- Dropdown Box --- */}
+          {showSuggestions && (searchTerm.length > 1) && (
+            <div className="absolute left-4 right-24 top-[110%] bg-white border border-gray-100 rounded-2xl shadow-2xl overflow-hidden z-[60]">
+              {suggestions.length > 0 ? suggestions.map((s, i) => (
+                <div 
+                  key={i} 
+                  onClick={() => onSelectSuggestion(s)}
+                  className="px-6 py-4 hover:bg-blue-50 cursor-pointer flex items-center gap-3 transition-colors border-b last:border-none"
+                >
+                  <FaHistory className="text-gray-300" />
+                  <span className="font-semibold text-gray-700">{s}</span>
                 </div>
-                <button type="submit" className="bg-black text-white px-6 py-3 rounded-xl font-bold hover:bg-gray-800">
-                    Search
-                </button>
-            </form>
+              )) : (
+                <div className="px-6 py-4 text-gray-400 italic">No matches found.</div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+           <div>
+             <h2 className="text-2xl font-extrabold text-gray-900 flex items-center gap-2">
+               <FaCar className="text-blue-600" />
+               {loading ? "Searching..." : `Found ${cars.length} Matches`}
+             </h2>
+           </div>
+           {!loading && (
+             <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg border text-xs font-bold text-gray-600 shadow-sm uppercase">
+               <FaSortAmountDownAlt className="text-blue-600" /> Sorted by Price
+             </div>
+           )}
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8">
-            
-            {/* ================= SIDEBAR FILTERS ================= */}
-            <div className="w-full lg:w-1/4">
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 sticky top-4">
-                    <div className="flex items-center justify-between mb-4">
-                        <h2 className="text-lg font-bold flex items-center gap-2"><FaFilter /> Filters</h2>
-                        <button 
-                            onClick={() => {setSelectedBrands([]); setSelectedFuel([]); setSelectedCategory([]);}}
-                            className="text-xs text-red-500 font-bold hover:underline"
-                        >
-                            CLEAR ALL
-                        </button>
-                    </div>
-
-                    {/* Category Filter */}
-                    <div className="mb-6">
-                        <h3 className="font-semibold text-gray-700 mb-2 text-sm uppercase">Category</h3>
-                        <div className="space-y-2">
-                            {allCategories.map(cat => (
-                                <label key={cat} className="flex items-center gap-2 cursor-pointer">
-                                    <input 
-                                        type="checkbox" 
-                                        checked={selectedCategory.includes(cat)}
-                                        onChange={() => toggleFilter(selectedCategory, setSelectedCategory, cat)}
-                                        className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
-                                    />
-                                    <span className="text-gray-600 text-sm">{cat}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Fuel Type Filter */}
-                    <div className="mb-6">
-                        <h3 className="font-semibold text-gray-700 mb-2 text-sm uppercase">Fuel Type</h3>
-                        <div className="space-y-2">
-                            {allFuelTypes.map(fuel => (
-                                <label key={fuel} className="flex items-center gap-2 cursor-pointer">
-                                    <input 
-                                        type="checkbox" 
-                                        checked={selectedFuel.includes(fuel)}
-                                        onChange={() => toggleFilter(selectedFuel, setSelectedFuel, fuel)}
-                                        className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
-                                    />
-                                    <span className="text-gray-600 text-sm">{fuel}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Brand Filter (Scrollable) */}
-                    <div>
-                        <h3 className="font-semibold text-gray-700 mb-2 text-sm uppercase">Brands</h3>
-                        <div className="space-y-2 max-h-48 overflow-y-auto pr-2 custom-scrollbar">
-                            {allBrands.map(brand => (
-                                <label key={brand} className="flex items-center gap-2 cursor-pointer">
-                                    <input 
-                                        type="checkbox" 
-                                        checked={selectedBrands.includes(brand)}
-                                        onChange={() => toggleFilter(selectedBrands, setSelectedBrands, brand)}
-                                        className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500"
-                                    />
-                                    <span className="text-gray-600 text-sm">{brand}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            {/* ================= RESULTS GRID ================= */}
-            <div className="w-full lg:w-3/4">
-                <p className="mb-4 text-gray-500 font-medium">Found {filteredCars.length} cars matching your criteria</p>
-                
-                {filteredCars.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filteredCars.map((car, idx) => (
-                             <ElectricCarCard 
-                                key={idx}
-                                id={car.id || idx}
-                                name={car.name}
-                                priceRange={car.price || car.priceRange}
-                                imageUrl={car.images ? car.images[0] : (car.image || "/cars/placeholder.jpg")}
-                                fuelType={car.fuelType || "Petrol"}
-                                specs={car.specs}
-                                features={car.features}
-                                images={car.images}
-                                onDetailClick={() => router.push(`/car-details/${car.name.trim().toLowerCase().replace(/\s+/g, "-")}`)}
-                                onOfferClick={() => alert("Offer Clicked")} // You can connect modal here
-                             />
-                        ))}
-                    </div>
-                ) : (
-                    <div className="bg-white rounded-2xl p-10 text-center border border-dashed border-gray-300">
-                        <div className="text-4xl mb-4">🔍</div>
-                        <h3 className="text-xl font-bold text-gray-900">No Cars Found</h3>
-                        <p className="text-gray-500">Try adjusting your filters or search query.</p>
-                        <button 
-                            onClick={() => {setSearchTerm(''); setSelectedBrands([]); setSelectedFuel([]); setSelectedCategory([]);}}
-                            className="mt-4 text-blue-600 font-semibold hover:underline"
-                        >
-                            Reset All Filters
-                        </button>
-                    </div>
-                )}
-            </div>
-
-        </div>
+        {/* --- Grid Layout --- */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1,2,3,4,5,6].map(i => <div key={i} className="h-80 bg-white rounded-2xl animate-pulse border border-gray-100" />)}
+          </div>
+        ) : cars.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {cars.map((car) => (
+              <ElectricCarCard 
+                key={`${car.sourceTable}-${car.id}`}
+                {...car} 
+                onDetailClick={() => router.push(`/car-details/${car.slug}`)}
+                onOfferClick={() => {}} 
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-24 bg-white rounded-3xl border-2 border-dashed border-gray-200">
+            <p className="text-gray-900 text-xl font-bold">Bhai, is naam ki koi car nahi mili!</p>
+          </div>
+        )}
       </div>
     </div>
   );

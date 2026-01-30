@@ -1,83 +1,83 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaStar, FaRegHeart, FaHeart } from 'react-icons/fa';
-import { UsedCar } from '@/types'; 
+import { FaTag } from 'react-icons/fa'; // Offers के लिए टैग आइकॉन
 
 interface UsedCarCardProps {
-  car: UsedCar;
+  car: any;
 }
 
 const UsedCarCard: React.FC<UsedCarCardProps> = ({ car }) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
-  const carSlug = car.name ? encodeURIComponent(car.name.toLowerCase().replace(/ /g, '-')) : '#';
+  // डेटाबेस से स्लग या नाम के आधार पर लिंक बनाना
+  const carSlug = car.slug || (car.name ? encodeURIComponent(car.name.toLowerCase().replace(/ /g, '-')) : '#');
 
-  const toggleWishlist = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsWishlisted(!isWishlisted);
-  };
+  // सुरक्षित इमेज हैंडलिंग
+  const displayImage = car.image_url || car.images?.[0] || car.imageUrls?.[0] || "/cars/placeholder.jpg";
+
+  // 🔥 PRICE FIX: डबल '₹' साइन को रोकने के लिए लॉजिक
+  const rawPrice = car.price_range || car.price || "";
+  const finalPrice = rawPrice.toString().includes("₹") ? rawPrice : `₹ ${rawPrice}`;
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full group">
+    <div className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 flex flex-col h-full group">
       
-      {/* --- IMAGE SECTION --- */}
-      <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
-         <Link href={`/used-cars/${carSlug}`}>
-            <Image
-                src={car.imageUrls?.[0] || "/cars/placeholder.jpg"}
-                alt={car.name}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-            />
-         </Link>
-
-         {/* Heart Icon (Top Right) - Optional, image style doesn't strictly have it but good for UX */}
-         <button 
-            onClick={toggleWishlist}
-            className="absolute top-3 right-3 bg-white/90 p-2 rounded-full shadow-sm hover:bg-white transition-all z-10 opacity-0 group-hover:opacity-100"
-         >
-            {isWishlisted ? <FaHeart className="text-red-500 text-sm" /> : <FaRegHeart className="text-gray-600 text-sm hover:text-red-500" />}
-         </button>
-      </div>
-
-      {/* --- CONTENT SECTION --- */}
-      <div className="p-4 flex flex-col flex-grow">
-        
-        {/* Title */}
-        <Link href={`/used-cars/${carSlug}`}>
-            <h3 className="text-lg font-bold text-gray-900 line-clamp-1 hover:text-blue-600 transition-colors">
-                {car.name}
-            </h3>
+      {/* --- इमेज सेक्शन (इमेज पर फ्यूल बैज के साथ) --- */}
+      <div className="relative h-48 w-full bg-gray-50 overflow-hidden">
+        <Link href={`/car-details/${carSlug}`}>
+          <Image
+            src={displayImage}
+            alt={car.name || "Car Image"}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+          />
         </Link>
 
-        {/* Rating Row (Green Box style as per image) */}
-        <div className="flex items-center mt-2 mb-3">
-            <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded flex items-center gap-1">
-                {car.rating || 4.5} <FaStar size={10} />
-            </div>
-            <span className="text-gray-500 text-xs ml-2 font-medium">
-                ({car.reviewCount || 20} Reviews)
-            </span>
-        </div>
+        {/* ⛽ फ्यूल बैज: सफ़ेद छोटा बॉक्स */}
+        {car.fuel_type && (
+          <div className="absolute bottom-3 left-3 bg-white px-2 py-1 rounded shadow-sm text-[10px] font-bold text-gray-700 flex items-center gap-1 uppercase tracking-tighter">
+             <span className="text-blue-500 text-xs">⛽</span> {car.fuel_type}
+          </div>
+        )}
+      </div>
 
-        {/* Price Section */}
-        <div className="mt-1">
-            <p className="text-xl font-bold text-gray-900">₹ {car.price}</p>
-            <p className="text-[11px] text-gray-500 mt-0.5">*Ex-showroom price in {car.location}</p>
-        </div>
+      {/* --- कंटेंट सेक्शन --- */}
+      <div className="p-4 flex flex-col flex-grow">
+        {/* कार का नाम */}
+        <Link href={`/car-details/${carSlug}`}>
+          <h3 className="text-lg font-bold text-gray-900 line-clamp-1 hover:text-blue-600 transition-colors mb-1">
+            {car.name}
+          </h3>
+        </Link>
 
-        {/* Button Section (Outline Blue Style) */}
-        <div className="mt-auto pt-5">
-            <Link href={`/used-cars/${carSlug}`} className="block w-full">
-                <button className="w-full border border-blue-600 text-blue-600 font-bold py-2.5 rounded-lg hover:bg-blue-50 transition-colors text-sm">
-                    View Details
-                </button>
-            </Link>
-        </div>
+        {/* कीमत: सिंगल सिंबल फिक्स के साथ */}
+        <p className="text-xl font-extrabold text-gray-900 leading-tight">
+          {finalPrice}
+        </p>
 
+        {/* लोकेशन/डिस्क्लेमर टेक्स्ट */}
+        <p className="text-[11px] text-gray-500 mt-1 mb-5">
+          Avg. Ex-Showroom {car.location || 'Jaipur'}
+        </p>
+
+        {/* --- बटन्स सेक्शन (DETAILS & OFFERS - अगल-बगल) --- */}
+        <div className="flex gap-3 mt-auto">
+          {/* DETAILS बटन (आउटलाइन स्टाइल) */}
+          <Link href={`/car-details/${carSlug}`} className="flex-1">
+            <button className="w-full border-2 border-blue-600 text-blue-600 font-bold py-2 rounded-lg hover:bg-blue-50 transition-all text-xs uppercase tracking-wider">
+              DETAILS
+            </button>
+          </Link>
+
+          {/* OFFERS बटन (नीला सॉलिड स्टाइल) */}
+          <button 
+            className="flex-1 bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-700 transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm"
+            onClick={() => alert(`Offers for ${car.name}!`)}
+          >
+            <FaTag size={12} /> OFFERS
+          </button>
+        </div>
       </div>
     </div>
   );

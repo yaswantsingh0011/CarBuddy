@@ -1,97 +1,70 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
-import { useRouter } from 'next/navigation'; 
-import ElectricCarCard from './ElectricCarCard';
-import { electricCars } from '@/data/electricCars'; 
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-// ✅ 1. Modal Import kiya
-import OffersModal from './OffersModal';
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { FaChevronRight } from "react-icons/fa";
+import ElectricCarCard from "@/components/ElectricCarCard"; //
+import { supabase } from "@/lib/supabaseClient"; //
 
-const ElectricCarsSection: React.FC = () => {
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
+export default function ElectricCarsSection() {
+  const [cars, setCars] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // ✅ 2. State banayi (Ye batayega ki Modal khula hai ya nahi)
-  const [offerCar, setOfferCar] = useState<any>(null);
+  useEffect(() => {
+    async function fetchElectricCars() {
+      setLoading(true);
+      const { data } = await supabase
+        .from('cars')
+        .select('*')
+        .or('fuelType.ilike.Electric,fuel_type.ilike.Electric'); //
 
-  const slideLeft = () => sliderRef.current?.scrollBy({ left: -300, behavior: 'smooth' });
-  const slideRight = () => sliderRef.current?.scrollBy({ left: 300, behavior: 'smooth' });
+      setCars(data || []);
+      setLoading(false);
+    }
+    fetchElectricCars();
+  }, []);
 
-  // Card Click -> Detail Page navigate
-  const handleCardClick = (carName: string) => {
-    const slug = carName.toLowerCase().split(" ").join("-");
-    router.push(`/car-details/${slug}`);
-  };
-
-  // ✅ 3. Offers generate karne ka logic (EVs ke liye)
-  const getOffersList = (car: any) => {
-    return [
-      "Free Home Wall Box Charger",
-      "Zero Processing Fee on Loan",
-      "3 Year Battery Health Checkup Free",
-      "Complimentary Roadside Assistance"
-    ];
-  };
-
-  // Modal ke liye data prepare karna
-  const carForModal = offerCar ? { ...offerCar, offers: getOffersList(offerCar) } : null;
+  // 🔥 1. सिर्फ 5 कारें दिखाने का सख्त लॉजिक
+  const displayCars = cars.slice(0, 5);
 
   return (
-    <section className="container mx-auto px-4 py-12 bg-gray-50">
-      <div className="flex justify-between items-end mb-6">
-        <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Latest Electric Cars</h2>
-            <p className="text-gray-500 mt-1">Drive into the future with these top EVs</p>
-        </div>
-      </div>
-
-      <div className="relative group">
-        <button onClick={slideLeft} className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 hidden md:flex items-center justify-center">
-            <FaChevronLeft size={20} />
-        </button>
-
-        <div 
-          ref={sliderRef} 
-          className="flex overflow-x-auto space-x-6 pb-4 scrollbar-hide scroll-smooth" 
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {electricCars.map((car) => (
-            <div 
-                key={car.id} 
-                // Pure Card par click -> Detail Page
-                onClick={() => handleCardClick(car.name)}
-                className="min-w-[85%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[24%] flex-shrink-0 cursor-pointer transition-transform hover:scale-105"
-            >
-               <div className="h-full pointer-events-auto">
-                   <ElectricCarCard 
-                      name={car.name} 
-                      priceRange={car.priceRange} 
-                      imageUrl={car.image} 
-                      // ✅ 4. MAIN FIX: Yahan hum 'setOfferCar' call kar rahe hain
-                      onOfferClick={() => setOfferCar(car)} 
-                   />
-               </div>
-            </div>
-          ))}
+    <section className="w-full bg-white py-12">
+      <div className="container mx-auto px-4">
+        
+        {/* --- 🔥 2. हेडर: Title Left और View All Right --- */}
+        <div className="flex flex-row justify-between items-center mb-10 w-full border-b border-gray-100 pb-4">
+          
+          {/* बाईं तरफ का हिस्सा */}
+          <div className="flex flex-col">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight">
+              Electric Cars
+            </h2>
+            <p className="text-[10px] md:text-xs text-blue-600 font-bold uppercase tracking-widest mt-1">
+              Go Electric • Sustainable
+            </p>
+          </div>
+          
+          {/* दाईं तरफ का 'View All' बटन */}
+          <Link 
+            href="/electric-cars"
+            className="flex items-center gap-2 bg-blue-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-xl font-bold text-[10px] md:text-xs uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg active:scale-95 whitespace-nowrap"
+          >
+            View All Cars <FaChevronRight size={10} />
+          </Link>
         </div>
 
-        <button onClick={slideRight} className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white text-gray-800 p-3 rounded-full shadow-lg border border-gray-200 hover:bg-gray-100 flex items-center justify-center">
-            <FaChevronRight size={20} />
-        </button>
+        {/* --- 3. ग्रिड: 5 कॉलम लेआउट --- */}
+        {loading ? (
+          <div className="py-20 text-center text-gray-400 font-bold italic">Loading EV Inventory...</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {displayCars.map((car) => (
+              <ElectricCarCard key={car.id} car={car} />
+            ))}
+          </div>
+        )}
+
       </div>
-
-      {/* ✅ 5. Modal Render (Agar offerCar null nahi hai tabhi dikhega) */}
-      {offerCar && (
-        <OffersModal 
-            isOpen={!!offerCar}
-            onClose={() => setOfferCar(null)}
-            car={carForModal}
-        />
-      )}
-
     </section>
   );
-};
-
-export default ElectricCarsSection;
+}
