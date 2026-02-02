@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+// ✅ FIXED: Correct Import
+import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
 // ✅ Icon wapas add kiya
 import { FaPlus, FaEllipsisV, FaTrash, FaEdit, FaExternalLinkAlt } from "react-icons/fa";
 
 export default function BlogsPage() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
+  
   const [blogs, setBlogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);

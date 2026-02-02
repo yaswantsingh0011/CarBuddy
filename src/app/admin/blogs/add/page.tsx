@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+// ✅ FIXED: Correct Import
+import { supabase } from "@/lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import { FaArrowLeft, FaCloudUploadAlt, FaSave, FaTrash } from "react-icons/fa";
 import Image from "next/image";
 
 export default function AddBlogPage() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
+  
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);

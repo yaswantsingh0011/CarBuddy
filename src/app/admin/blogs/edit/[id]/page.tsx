@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+// ✅ FIXED: Correct Import
+import { supabase } from "@/lib/supabaseClient";
 import { useRouter, useParams } from "next/navigation";
 import { FaArrowLeft, FaCloudUploadAlt, FaSave, FaTrash } from "react-icons/fa";
 import Image from "next/image";
 
 export default function EditBlogPage() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
+  
   const router = useRouter();
   const params = useParams();
   const blogId = params.id;
@@ -45,7 +47,7 @@ export default function EditBlogPage() {
       setLoading(false);
     };
     fetchBlogData();
-  }, [blogId, supabase]);
+  }, [blogId]);
 
   // ✅ Missing function wapas add kar diya
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +66,10 @@ export default function EditBlogPage() {
       let finalImageUrl = formData.image_url;
       if (imageFile) {
         const fileName = `${Date.now()}-${imageFile.name.replace(/\s/g, "-")}`;
-        await supabase.storage.from("blog_images").upload(fileName, imageFile);
+        const { error: uploadError } = await supabase.storage.from("blog_images").upload(fileName, imageFile);
+        
+        if (uploadError) throw uploadError;
+        
         const { data } = supabase.storage.from("blog_images").getPublicUrl(fileName);
         finalImageUrl = data.publicUrl;
       }

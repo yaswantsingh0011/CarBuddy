@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+// ✅ FIXED: Correct Import
+import { supabase } from "@/lib/supabaseClient";
 import { useRouter, useParams } from "next/navigation";
 import { FaArrowLeft, FaSave, FaCloudUploadAlt, FaTrash } from "react-icons/fa";
 import Image from "next/image";
 
 export default function EditNewsPage() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
+  
   const router = useRouter();
   const params = useParams();
   const newsId = params.id;
@@ -45,7 +47,7 @@ export default function EditNewsPage() {
       setLoading(false);
     };
     fetchNewsData();
-  }, [newsId, supabase]);
+  }, [newsId]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
