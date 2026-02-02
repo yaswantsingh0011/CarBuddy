@@ -3,11 +3,13 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { createClient } from '@/utils/supabase/client';
+// ✅ FIXED: Correct Import
+import { supabase } from '@/lib/supabaseClient';
 import { FaEllipsisV, FaPlus } from 'react-icons/fa';
 
 export default function VisualStoriesAdminPage() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
+  
   const [stories, setStories] = useState<any[]>([]);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 

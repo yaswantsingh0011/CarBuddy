@@ -1,13 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+// ✅ FIXED: Correct Import
+import { supabase } from "@/lib/supabaseClient";
 import Image from "next/image";
 import Link from "next/link";
 import { FaCalendarAlt, FaUser, FaSearch, FaArrowRight, FaFacebookF, FaInstagram } from "react-icons/fa";
 
 export default function PublicBlogsPage() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
+  
   const [allBlogs, setAllBlogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
@@ -48,7 +50,7 @@ export default function PublicBlogsPage() {
     };
 
     fetchBlogs();
-  }, [supabase]);
+  }, []);
 
   const filteredBlogs = allBlogs.filter(blog => {
     const matchesSearch = blog.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -206,5 +208,4 @@ export default function PublicBlogsPage() {
       </div>
     </main>
   );
-}   
-
+}
