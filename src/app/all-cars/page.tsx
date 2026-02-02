@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { FaFilter, FaTimes } from "react-icons/fa";
-import ElectricCarCard from "@/components/ElectricCarCard"; // आपका मौजूदा कार्ड
-import { getMostSearchedCars } from "@/lib/homeData"; // डेटा फेचिंग फंक्शन
+import ElectricCarCard from "@/components/ElectricCarCard";
+import { getMostSearchedCars } from "@/lib/homeData";
 
 const CATEGORIES = ["All", "SUV", "MUV", "Luxury", "Sedan", "Hatchback"];
 const FUEL_TYPES = ["Petrol", "Diesel", "Electric", "CNG"];
@@ -15,16 +15,15 @@ const PRICE_RANGES = [
   { label: "Above 20 Lakh", min: 2000000, max: 10000000 },
 ];
 
-export default function AllCarsPage() {
+// --- MAIN CONTENT COMPONENT ---
+function AllCarsList() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // STATES
   const [allCars, setAllCars] = useState<any[]>([]);
   const [filteredCars, setFilteredCars] = useState<any[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // FILTERS FROM URL
   const categoryFilter = searchParams.get("category") || "All";
   const fuelFilter = searchParams.get("fuel") || "All";
 
@@ -35,18 +34,14 @@ export default function AllCarsPage() {
     });
   }, []);
 
-  // FILTER LOGIC
   useEffect(() => {
     let result = allCars;
-
     if (categoryFilter !== "All") {
       result = result.filter(car => car.category?.toLowerCase() === categoryFilter.toLowerCase());
     }
-
     if (fuelFilter !== "All") {
       result = result.filter(car => car.fuelType?.toLowerCase() === fuelFilter.toLowerCase());
     }
-
     setFilteredCars(result);
   }, [categoryFilter, fuelFilter, allCars]);
 
@@ -59,7 +54,6 @@ export default function AllCarsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20 pb-10">
-      {/* TOP HEADER SECTION (Cardekho Style) */}
       <div className="bg-white border-b mb-8">
         <div className="container mx-auto px-4 py-8">
           <h1 className="text-3xl font-bold text-gray-900">Best Cars in India</h1>
@@ -68,8 +62,6 @@ export default function AllCarsPage() {
       </div>
 
       <div className="container mx-auto px-4 flex flex-col md:flex-row gap-8">
-        
-        {/* SIDEBAR FILTERS */}
         <aside className={`fixed inset-0 z-50 bg-white p-6 w-72 md:relative md:block md:inset-auto md:z-0 border rounded-xl shadow-sm ${isSidebarOpen ? 'block' : 'hidden'}`}>
           <div className="flex justify-between items-center mb-6 md:hidden">
             <h3 className="font-bold">Filters</h3>
@@ -77,7 +69,6 @@ export default function AllCarsPage() {
           </div>
 
           <div className="space-y-8">
-            {/* Category Filter */}
             <div>
               <h4 className="font-semibold mb-4 text-gray-900 border-b pb-2">Category</h4>
               <div className="space-y-2">
@@ -96,7 +87,6 @@ export default function AllCarsPage() {
               </div>
             </div>
 
-            {/* Price Filter (UI Reference: Cardekho) */}
             <div>
               <h4 className="font-semibold mb-4 text-gray-900 border-b pb-2">Budget</h4>
               <div className="grid grid-cols-1 gap-2">
@@ -111,7 +101,6 @@ export default function AllCarsPage() {
               </div>
             </div>
 
-            {/* Fuel Type */}
             <div>
               <h4 className="font-semibold mb-4 text-gray-900 border-b pb-2">Fuel Type</h4>
               <div className="flex flex-wrap gap-2">
@@ -129,7 +118,6 @@ export default function AllCarsPage() {
           </div>
         </aside>
 
-        {/* MAIN LISTING */}
         <main className="flex-1">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-bold">{categoryFilter} Cars ({filteredCars.length})</h2>
@@ -160,5 +148,18 @@ export default function AllCarsPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+// --- WRAPPER WITH SUSPENSE (This fixes the Vercel Error) ---
+export default function AllCarsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg animate-pulse text-gray-500">Loading Car Inventory...</p>
+      </div>
+    }>
+      <AllCarsList />
+    </Suspense>
   );
 }
