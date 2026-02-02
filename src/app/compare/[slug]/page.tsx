@@ -3,14 +3,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { createClient } from "@/utils/supabase/client";
+// ✅ FIXED: Correct Import
+import { supabase } from "@/lib/supabaseClient";
 import { ChevronLeft, Scale } from "lucide-react"; // Icons ke liye
 
 export default function ComparisonPage() {
   const params = useParams();
   const router = useRouter();
   const slug = params?.slug as string;
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
   
   const [car1, setCar1] = useState<any>(null);
   const [car2, setCar2] = useState<any>(null);
@@ -53,7 +54,7 @@ export default function ComparisonPage() {
     }
 
     fetchComparisonData();
-  }, [slug, supabase]);
+  }, [slug]);
 
   if (loading) return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-4">
@@ -144,7 +145,7 @@ export default function ComparisonPage() {
                     <th className="p-6 text-base font-extrabold text-gray-900">{car2.name}</th>
                 </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
+                <tbody className="divide-y divide-gray-5">
                 {[
                     { label: "Fuel Type", v1: car1.fuel_type, v2: car2.fuel_type },
                     { label: "Engine Capacity", v1: car1.specs?.engine, v2: car2.specs?.engine },

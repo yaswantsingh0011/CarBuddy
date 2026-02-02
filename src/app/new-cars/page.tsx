@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import CarGridCard from '@/components/CarGridCard';
-import { createClient } from '@/utils/supabase/client'; // ✅ Supabase client connect kiya
+// ✅ FIXED: Correct Import
+import { supabase } from '@/lib/supabaseClient'; 
 
 // --- MODALS IMPORT ---
 import BookingForm from '@/components/BookingForm'; 
@@ -12,7 +13,8 @@ import OffersModal from '@/components/OffersModal';
 import ImageModal from '@/components/ImageModal';
 
 export default function NewCarsPage() {
-  const supabase = createClient(); // ✅ Initialize Supabase
+  // ❌ Removed: const supabase = createClient();
+  
   const [cars, setCars] = useState<any[]>([]); // ✅ State for database cars
   const [loading, setLoading] = useState(true);
 

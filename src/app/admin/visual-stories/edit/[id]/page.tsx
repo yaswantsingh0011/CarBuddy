@@ -3,10 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { createClient } from '@/utils/supabase/client';
+// ✅ FIXED: Correct Import
+import { supabase } from '@/lib/supabaseClient';
 
 export default function EditVisualStoryPage() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
+  
   const router = useRouter();
   const params = useParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;

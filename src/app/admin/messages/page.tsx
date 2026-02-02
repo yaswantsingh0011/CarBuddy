@@ -1,10 +1,10 @@
-import { createClient } from '@/utils/supabase/server';
+import { supabase } from '@/lib/supabaseClient'; // ✅ FIXED: Correct Import
 import { FaEnvelope, FaUser, FaCalendarAlt, FaReply } from 'react-icons/fa';
 
 export const revalidate = 0; // Taaki har baar naya data aaye (Real-time feel)
 
 export default async function MessagesPage() {
-  const supabase = await createClient();
+  // ❌ Removed: const supabase = await createClient();
 
   // 1. Database se messages fetch karo (Latest pehle)
   const { data: messages, error } = await supabase

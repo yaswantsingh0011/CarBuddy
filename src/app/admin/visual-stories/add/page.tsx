@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
+// ✅ FIXED: Correct Import
+import { supabase } from '@/lib/supabaseClient';
 
 export default function AddVisualStoryPage() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
   const router = useRouter();
 
   const [title, setTitle] = useState('');

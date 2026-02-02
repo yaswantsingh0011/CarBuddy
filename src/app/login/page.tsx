@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
+// ✅ FIXED: Sahi file import ki
+import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
@@ -10,7 +11,8 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const router = useRouter();
-  const supabase = createClient();
+  
+  // ❌ Removed: const supabase = createClient();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

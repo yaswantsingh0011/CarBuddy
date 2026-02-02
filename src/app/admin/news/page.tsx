@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+// ✅ FIXED: Correct Import
+import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
 import { FaPlus, FaEllipsisV, FaTrash, FaEdit, FaExternalLinkAlt } from "react-icons/fa";
 
 // ❌ Purana static import hata diya (Ab file delete kar paoge)
 
 export default function AdminNewsPage() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
+  
   const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [openMenuId, setOpenMenuId] = useState<string | number | null>(null);

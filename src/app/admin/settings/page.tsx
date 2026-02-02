@@ -1,11 +1,13 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { createClient } from '@/utils/supabase/client';
+// ✅ FIXED: Correct Import
+import { supabase } from '@/lib/supabaseClient';
 import { FaSave, FaGlobe, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 
 export default function WebsiteSettings() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
+  
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   
@@ -87,10 +89,10 @@ export default function WebsiteSettings() {
             />
           </div>
           <div>
-             <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-              <FaEnvelope className="text-orange-500"/> Contact Email
-             </label>
-             <input 
+              <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
+               <FaEnvelope className="text-orange-500"/> Contact Email
+              </label>
+              <input 
               type="email" 
               value={formData.contact_email}
               onChange={(e) => setFormData({...formData, contact_email: e.target.value})}
@@ -113,10 +115,10 @@ export default function WebsiteSettings() {
             />
           </div>
           <div>
-             <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
-              <FaMapMarkerAlt className="text-red-500"/> Office Address
-             </label>
-             <input 
+              <label className="block text-sm font-bold text-gray-700 mb-2 flex items-center gap-2">
+               <FaMapMarkerAlt className="text-red-500"/> Office Address
+              </label>
+              <input 
               type="text" 
               value={formData.address}
               onChange={(e) => setFormData({...formData, address: e.target.value})}
