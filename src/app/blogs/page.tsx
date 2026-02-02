@@ -206,4 +206,5 @@ export default function PublicBlogsPage() {
       </div>
     </main>
   );
-}
+}   
+
