@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client'; 
+// ✅ FIXED: Correct Import
+import { supabase } from '@/lib/supabaseClient'; 
 import UsedCarCard from '@/components/UsedCarCard'; 
-// ✅ FaTimes ko FaXmark se replace kiya (fa6 support)
 import { FaFilter, FaXmark, FaCarRear } from 'react-icons/fa6'; 
 
 const FUEL_TYPES = ["Petrol", "Diesel", "Electric", "CNG"];
@@ -19,7 +19,7 @@ const BUDGET_RANGES = [
 function UsedCarsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
 
   const [cars, setCars] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,7 +42,7 @@ function UsedCarsContent() {
       }
     }
     fetchUsedCars();
-  }, [supabase]);
+  }, []);
 
   const filteredCars = useMemo(() => {
     return cars.filter((car) => {
@@ -59,7 +59,6 @@ function UsedCarsContent() {
         <aside className={`fixed inset-0 z-[60] bg-white p-6 w-72 md:relative md:block ${isSidebarOpen ? 'block' : 'hidden'}`}>
           <div className="flex justify-between items-center mb-8 md:hidden">
             <h3 className="font-black text-red-600">Filters</h3>
-            {/* ✅ FaXmark use kiya yahan */}
             <button onClick={() => setIsSidebarOpen(false)}><FaXmark /></button>
           </div>
           {/* Filters content... */}

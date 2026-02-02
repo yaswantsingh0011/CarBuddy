@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+// ✅ FIXED: Sahi file import ki
+import { supabase } from "@/lib/supabaseClient";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function AutomotiveNewsPage() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient(); 
+
   const [news, setNews] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,7 +27,7 @@ export default function AutomotiveNewsPage() {
       setLoading(false);
     };
     fetchNews();
-  }, [supabase]);
+  }, []); // supabase dependency ki zarurat nahi ab
 
   // Featured News (Pehli news badi wali)
   const featuredNews = news[0];

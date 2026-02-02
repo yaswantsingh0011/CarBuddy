@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client'; // ✅ Supabase Client connect kiya
+// ✅ FIXED: Correct Import
+import { supabase } from '@/lib/supabaseClient';
 import Image from 'next/image';
 import BookingForm from '@/components/BookingForm'; 
 import ContactSellerModal from '@/components/ContactSellerModal';
@@ -16,7 +17,7 @@ const CheckIcon = () => (
 export default function UsedCarDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
-  const supabase = createClient(); // ✅ Initialize Supabase
+  // ❌ Removed: const supabase = createClient();
   
   const [car, setCar] = useState<any>(null);
   const [loading, setLoading] = useState(true);

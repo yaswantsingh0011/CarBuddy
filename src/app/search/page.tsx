@@ -4,7 +4,8 @@ import React, { useState, useEffect, Suspense, useRef } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { FaSearch, FaCar, FaSortAmountDownAlt, FaHistory } from 'react-icons/fa';
 import ElectricCarCard from '@/components/ElectricCarCard';
-import { createClient } from '@/utils/supabase/client'; 
+// ✅ FIXED: Sahi file import ki
+import { supabase } from '@/lib/supabaseClient'; 
 
 // --- ✅ Price Parser: Lakh vs Crore Logic ---
 const parsePrice = (p: string) => {
@@ -29,7 +30,8 @@ export default function SearchPage() {
 }
 
 function SearchContent() {
-  const supabase = createClient();
+  // ❌ Removed: const supabase = createClient();
+  
   const searchParams = useSearchParams();
   const router = useRouter();
   
@@ -74,7 +76,7 @@ function SearchContent() {
 
     const timer = setTimeout(fetchSuggestions, 300); // Debounce typing
     return () => clearTimeout(timer);
-  }, [searchTerm, supabase]);
+  }, [searchTerm]); // supabase dependency hatayi
 
   // Handle outside click to hide suggestions
   useEffect(() => {
@@ -139,7 +141,7 @@ function SearchContent() {
         ];
 
         const uniqueResults = Array.from(new Map(allResults.map(c => [c.name.toLowerCase(), c])).values())
-                                  .sort((a, b) => a.priceVal - b.priceVal);
+                                          .sort((a, b) => a.priceVal - b.priceVal);
         
         setCars(uniqueResults);
       } finally {
@@ -149,7 +151,7 @@ function SearchContent() {
     };
 
     getSearchResults();
-  }, [query, supabase]);
+  }, [query]);
 
   const onSelectSuggestion = (s: string) => {
     setSearchTerm(s);

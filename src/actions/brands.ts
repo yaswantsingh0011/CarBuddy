@@ -1,6 +1,7 @@
 'use server';
 
-import { createClient } from '@/utils/supabase/server';
+// ✅ FIXED: Sahi file import ki
+import { supabase } from '@/lib/supabaseClient';
 
 /* ---------- utils ---------- */
 function slugify(text: string) {
@@ -13,8 +14,8 @@ function slugify(text: string) {
 
 /* ---------- ADD BRAND ---------- */
 export async function addBrand(formData: FormData) {
-  const supabase = await createClient();
-
+  // ❌ Removed: const supabase = await createClient();
+  
   const name = formData.get('name') as string;
   const file = formData.get('logo') as File;
 
@@ -45,7 +46,7 @@ export async function addBrand(formData: FormData) {
 
 /* ---------- UPDATE BRAND ---------- */
 export async function updateBrand(formData: FormData) {
-  const supabase = await createClient();
+  // ❌ Removed: const supabase = await createClient();
 
   const id = formData.get('id') as string;
   const name = formData.get('name') as string;
@@ -84,7 +85,8 @@ export async function updateBrand(formData: FormData) {
 
 /* ---------- DELETE BRAND (SOFT) ---------- */
 export async function deleteBrand(formData: FormData) {
-  const supabase = await createClient();
+  // ❌ Removed: const supabase = await createClient();
+
   const id = formData.get('id') as string;
   if (!id) return;
 
