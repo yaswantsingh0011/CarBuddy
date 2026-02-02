@@ -1,13 +1,16 @@
 // Final Clean Footer (Updated Full Width)
 import React from 'react';
 import Link from 'next/link';
-import { createClient } from '@/utils/supabase/server'; 
+// ✅ FIXED: Naya import use kiya hai
+import { supabase } from '@/lib/supabaseClient'; 
 import { Award, ShoppingCart, Tag, GitCompare, MapPin, Phone, Mail } from 'lucide-react'; 
 import { FaFacebookF, FaYoutube, FaInstagram, FaApple, FaGooglePlay } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6'; 
 
 const Footer = async () => {
-  const supabase = await createClient();
+  // ❌ Removed: const supabase = await createClient(); (Ab direct imported wala use hoga)
+  
+  // Data fetching
   const { data: settings } = await supabase.from('site_settings').select('*').single();
 
   const siteName = settings?.site_name || "CarBuddy";

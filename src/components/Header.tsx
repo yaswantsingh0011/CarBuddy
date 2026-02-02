@@ -6,7 +6,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { FaCar, FaRegUser, FaChevronDown, FaBars, FaTimes, FaSearch, FaRegHeart, FaMapMarkerAlt, FaSignOutAlt } from 'react-icons/fa'; 
 import AuthModal from './AuthModal';
-import { createClient } from '@/utils/supabase/client'; // Supabase logic switch
+// ✅ FIXED: Sahi file import ki hai (utils hata diya)
+import { supabase } from '@/lib/supabaseClient'; 
 import { Session } from '@supabase/supabase-js';
 import { useLocation } from '@/context/LocationContext'; 
 
@@ -14,8 +15,9 @@ const popularCities = ["Jaipur","New Delhi", "Gurgaon", "Mumbai", "Bangalore", "
 
 const Header: React.FC = () => {
   const router = useRouter();
-  const supabase = createClient(); // Switch to dynamic client
   
+  // ❌ Removed: const supabase = createClient(); (Is line ki ab zarurat nahi hai)
+
   // Context & States
   const { city, setCity } = useLocation(); 
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -38,7 +40,7 @@ const Header: React.FC = () => {
     supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSession(session));
     return () => subscription.unsubscribe();
-  }, [supabase]);
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -104,7 +106,7 @@ const Header: React.FC = () => {
 
     const timeoutId = setTimeout(() => searchSupabase(), 300); // Debounce typing
     return () => clearTimeout(timeoutId);
-  }, [query, searchCategory, supabase]);
+  }, [query, searchCategory]);
 
   const handleSearchSubmit = (e?: React.FormEvent | React.KeyboardEvent) => {
     if (e) e.preventDefault();
