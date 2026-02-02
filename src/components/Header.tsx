@@ -148,7 +148,7 @@ const Header: React.FC = () => {
             <nav className="hidden lg:flex items-center space-x-8 font-bold text-gray-700 text-sm uppercase tracking-wide h-full">
                 <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
                 <Link href="/news" className="hover:text-blue-600 transition-colors">News</Link>
-                <Link href="/blog" className="hover:text-blue-600 transition-colors">Blogs</Link>
+                <Link href="/blogs" className="hover:text-blue-600 transition-colors">Blogs</Link>
             </nav>
 
             {/* --- DESKTOP SEARCH BAR --- */}
