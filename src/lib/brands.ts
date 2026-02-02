@@ -1,8 +1,10 @@
-import { createClient } from '@/utils/supabase/server';
+// ✅ FIXED: Sahi file import ki hai
+import { supabase } from '@/lib/supabaseClient';
 
 export async function getActiveBrands() {
-  const supabase = await createClient();
-
+  // ❌ Removed: const supabase = await createClient();
+  
+  // Ab direct imported supabase object use hoga
   const { data, error } = await supabase
     .from('brands')
     .select('*')
