@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { supabase } from '@/lib/supabaseClient'; // आपके प्रोजेक्ट का सुपबेस क्लाइंट
-import ElectricCarCard from '@/components/ElectricCarCard'; // आपका नया कार्ड
+import { supabase } from '@/lib/supabaseClient';
+import ElectricCarCard from '@/components/ElectricCarCard';
 import { FaFilter, FaTimes } from 'react-icons/fa';
 
-// बजट रेंज (इलेक्ट्रिक कारों के हिसाब से)
 const BUDGET_RANGES = [
   { label: "Under 10 Lakh", min: 0, max: 10 },
   { label: "10 - 20 Lakh", min: 10, max: 20 },
@@ -15,7 +14,8 @@ const BUDGET_RANGES = [
   { label: "Above 50 Lakh", min: 50, max: 999 },
 ];
 
-export default function ElectricCarsListingPage() {
+// --- INTERNAL COMPONENT (Logic yahan hai) ---
+function ElectricCarsList() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -23,15 +23,13 @@ export default function ElectricCarsListingPage() {
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // URL से फ़िल्टर पढ़ना
   const budgetFilter = searchParams.get("budget") || "All";
 
-  // 1. SUPABASE से डेटा लाना (सिर्फ Electric कारें)
   useEffect(() => {
     async function fetchAllElectric() {
       setLoading(true);
       const { data, error } = await supabase
-        .from('cars') // अगर टेबल का नाम 'used_cars' है तो यहाँ बदल लें
+        .from('cars')
         .select('*')
         .ilike('fuelType', 'Electric');
 
@@ -45,26 +43,21 @@ export default function ElectricCarsListingPage() {
     fetchAllElectric();
   }, []);
 
-  // 2. कीमत निकालने वाला लॉजिक
   const getMinPrice = (priceVal: any) => {
     if (!priceVal) return 0;
     const match = priceVal.toString().replace(/,/g, '').match(/(\d+\.?\d*)/);
     return match ? parseFloat(match[0]) : 0;
   };
 
-  // 3. मास्टर फ़िल्टर लॉजिक
   const filteredCars = useMemo(() => {
     return cars.filter((car) => {
       if (budgetFilter === "All" || budgetFilter === "all") return true;
-      
       const range = BUDGET_RANGES.find(r => r.label === budgetFilter);
       const price = getMinPrice(car.price || car.priceRange);
-      
       return range ? (price >= range.min && price <= range.max) : true;
     });
   }, [cars, budgetFilter]);
 
-  // URL अपडेट करने वाला फंक्शन
   const updateFilter = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
     if (value === "All") params.delete("budget");
@@ -76,7 +69,6 @@ export default function ElectricCarsListingPage() {
     <main className="bg-gray-50 min-h-screen pt-20 pb-12">
       <div className="container mx-auto px-4 flex flex-col md:flex-row gap-8">
         
-        {/* --- SIDEBAR FILTER (Price Base) --- */}
         <aside className={`fixed inset-0 z-50 bg-white p-6 w-72 md:relative md:block md:inset-auto md:z-0 border rounded-xl shadow-sm ${isSidebarOpen ? 'block' : 'hidden'}`}>
           <div className="flex justify-between items-center mb-6 md:hidden">
             <h3 className="font-bold text-blue-600">Filters</h3>
@@ -103,7 +95,6 @@ export default function ElectricCarsListingPage() {
           </div>
         </aside>
 
-        {/* --- LISTING AREA --- */}
         <div className="flex-1">
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-900">
@@ -136,5 +127,21 @@ export default function ElectricCarsListingPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+// --- MAIN EXPORT WITH SUSPENSE (Vercel Fix) ---
+export default function ElectricCarsListingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 font-medium">Loading Electric Cars...</p>
+        </div>
+      </div>
+    }>
+      <ElectricCarsList />
+    </Suspense>
   );
 }
