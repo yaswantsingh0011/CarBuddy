@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { createClient } from "@/utils/supabase/server"; // ✅ Server client use karein
+// ✅ FIXED: Sahi file import ki hai
+import { supabase } from "@/lib/supabaseClient";
 
 // 1. PageProps definition
 type PageProps = {
@@ -11,7 +12,7 @@ type PageProps = {
 
 // 2. Component ko async rakhein taaki database fetch ho sake
 export default async function Page(props: PageProps) {
-  const supabase = await createClient(); // ✅ Supabase initialize
+  // ❌ Removed: const supabase = await createClient();
   
   // Next.js 15+ mein params ko await karna zaruri hai
   const { slug } = await props.params;
