@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { createClient } from '@/utils/supabase/server';
+// ✅ FIXED: Correct Import
+import { supabase } from '@/lib/supabaseClient';
 import { redirect } from 'next/navigation';
 import {
   FaHome,
@@ -19,11 +20,12 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = await createClient();
+  // ❌ Removed: const supabase = await createClient();
 
   async function signOut() {
     'use server';
-    const supabase = await createClient();
+    // ❌ Removed: const supabase = await createClient();
+    
     await supabase.auth.signOut();
     redirect('/login');
   }
