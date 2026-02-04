@@ -1,283 +1,84 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
-import EMICalculatorModal from "@/components/EMICalculatorModal";
+import React, { useState } from 'react';
+import { FaTimes } from 'react-icons/fa';
 
-const TABLE_MAP: Record<string, string> = {
-  most_searched: "most_searched_cars",
-  used: "used_cars",
-  upcoming: "upcoming_cars",
-  electric: "electric_cars",
-};
+interface EMICalculatorModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  price: string | number;
+  city?: string;
+  carName?: string;
+}
 
-export default function CarDetailsPage() {
-  const params = useParams();
-  const searchParams = useSearchParams();
+const EMICalculatorModal: React.FC<EMICalculatorModalProps> = ({ isOpen, onClose, price, carName }) => {
+  const [tenure, setTenure] = useState(5);
+  const [interestRate, setInterestRate] = useState(9.5);
+  const [downPaymentPercent, setDownPaymentPercent] = useState(20);
 
-  const slug = params.slug as string;
-  const from = searchParams.get("from") ?? "most_searched";
-  const tableName = TABLE_MAP[from] ?? "most_searched_cars";
+  if (!isOpen) return null;
 
-  const [car, setCar] = useState<any>(null);
-  const [activeImage, setActiveImage] = useState("");
-  const [selectedVariant, setSelectedVariant] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  // Price Parsing Logic (Same as OnRoadModal)
+  const parsePrice = (priceStr: string | number) => {
+    if (typeof priceStr === 'number') return priceStr;
+    if (!priceStr) return 0;
+    const matches = priceStr.toString().match(/(\d+\.?\d*)/);
+    if (!matches) return 0;
+    const value = parseFloat(matches[0]);
+    const lowerPrice = priceStr.toString().toLowerCase();
+    if (lowerPrice.includes("cr") || lowerPrice.includes("crore")) return value * 10000000;
+    return value * 100000;
+  };
 
-  // MODAL STATES
-  const [showEMI, setShowEMI] = useState(false);
-  const [showOnRoad, setShowOnRoad] = useState(false);
-  const [showBookVisit, setShowBookVisit] = useState(false);
+  const exShowroom = parsePrice(price);
+  const onRoadEst = Math.round(exShowroom * 1.15); // Approx On Road
+  const downPaymentAmount = Math.round(onRoadEst * (downPaymentPercent / 100));
+  const loanAmount = onRoadEst - downPaymentAmount;
 
-  useEffect(() => {
-    async function fetchCar() {
-      const { data } = await supabase
-        .from(tableName)
-        .select("*")
-        .ilike("slug", slug.trim())
-        .limit(1)
-        .maybeSingle();
+  const calculateEMI = () => {
+    const principal = loanAmount;
+    const ratePerMonth = (interestRate / 100) / 12;
+    const months = tenure * 12;
+    if (principal <= 0) return 0;
+    const emi = (principal * ratePerMonth * Math.pow(1 + ratePerMonth, months)) / (Math.pow(1 + ratePerMonth, months) - 1);
+    return Math.round(emi);
+  };
 
-      if (data) {
-        setCar(data);
-        setActiveImage(data.images?.[0]);
-        setSelectedVariant(data.variants?.[0]);
-      }
-
-      setLoading(false);
-    }
-
-    fetchCar();
-  }, [slug, tableName]);
-
-  if (loading) {
-    return <div className="p-10 text-center">Loading...</div>;
-  }
-
-  if (!car) {
-    return (
-      <div className="p-10 text-center text-red-500 text-xl">
-        Car not found
-      </div>
-    );
-  }
+  const monthlyEMI = calculateEMI();
+  const fmt = (n: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n);
 
   return (
-    <>
-      <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
+    <div className="fixed inset-0 z-[150] flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
+      <div className="bg-white w-full sm:max-w-xl sm:rounded-[3rem] rounded-t-[3rem] overflow-hidden shadow-2xl relative h-[95vh] sm:h-auto flex flex-col text-gray-900 border border-gray-100">
+        <div className="bg-[#121a2a] text-white p-8 flex justify-between items-center shrink-0">
+          <div><h2 className="text-2xl font-black tracking-tight">EMI Calculator</h2>{carName && <p className="text-blue-400 text-[10px] font-black uppercase mt-1 tracking-widest">{carName}</p>}</div>
+          <button onClick={onClose} className="bg-white/10 p-3 rounded-full hover:bg-white/20 transition-all"><FaTimes /></button>
+        </div>
+        
+        <div className="p-8 space-y-8 overflow-y-auto flex-1 scrollbar-hide">
+          <div className="bg-gray-50 p-6 rounded-3xl flex justify-between items-center border border-gray-100 shadow-inner">
+            <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Est. On-Road Price</span>
+            <span className="text-xl font-black text-gray-900">{fmt(onRoadEst)}</span>
+          </div>
 
-        {/* ================= HERO ================= */}
-        <section className="grid lg:grid-cols-2 gap-10 bg-white rounded-2xl p-8 shadow">
-
-          {/* IMAGE GALLERY */}
           <div>
-            <img
-              src={activeImage}
-              alt={car.name}
-              className="w-full rounded-xl mb-4"
-            />
-
-            <div className="flex gap-3">
-              {car.images?.map((img: string) => (
-                <img
-                  key={img}
-                  src={img}
-                  onClick={() => setActiveImage(img)}
-                  className={`w-20 h-14 rounded cursor-pointer border ${
-                    activeImage === img
-                      ? "border-blue-600"
-                      : "border-gray-300"
-                  }`}
-                />
-              ))}
-            </div>
+            <div className="flex justify-between mb-2 items-end"><label className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em]">Loan Tenure</label><span className="text-blue-600 font-black text-xl">{tenure} <span className="text-xs opacity-50">Years</span></span></div>
+            <input type="range" min="1" max="7" step="1" value={tenure} onChange={(e)=>setTenure(Number(e.target.value))} className="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-blue-600"/>
           </div>
 
-          {/* RIGHT INFO */}
           <div>
-            <h1 className="text-3xl font-bold">{car.name}</h1>
-            <p className="text-gray-500">{car.brand}</p>
-
-            {/* Rating */}
-            <div className="flex items-center gap-2 mt-2">
-              ⭐⭐⭐⭐☆{" "}
-              <span className="text-sm text-gray-500">
-                4.5 / 5 | 20 Reviews
-              </span>
-            </div>
-
-            {/* Variant Selector */}
-            <div className="mt-4">
-              <label className="text-sm font-medium">SELECT VARIANT</label>
-              <select
-                className="w-full border rounded-lg p-3 mt-1"
-                value={selectedVariant?.name}
-                onChange={(e) =>
-                  setSelectedVariant(
-                    car.variants.find(
-                      (v: any) => v.name === e.target.value
-                    )
-                  )
-                }
-              >
-                {car.variants.map((v: any) => (
-                  <option key={v.name} value={v.name}>
-                    {v.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Price */}
-            <p className="text-3xl font-bold mt-4">
-              {selectedVariant?.price}
-            </p>
-
-            <button
-              onClick={() => setShowOnRoad(true)}
-              className="text-blue-600 text-sm hover:underline"
-            >
-              Check On-Road Price
-            </button>
-
-            {/* EMI BOX */}
-            <div className="bg-green-50 border border-green-200 rounded-xl p-4 mt-4">
-              <p className="font-semibold">Estimated EMI</p>
-              <ul className="text-sm text-gray-600 mt-2 space-y-1">
-                <li>✔ Powerful Performance</li>
-                <li>✔ Premium Comfort & Safety</li>
-              </ul>
-              <button
-                onClick={() => setShowEMI(true)}
-                className="text-blue-600 mt-2 text-sm"
-              >
-                Check Eligibility
-              </button>
-            </div>
-
-            {/* CTA */}
-            <div className="flex gap-4 mt-6">
-              <button
-                onClick={() => setShowEMI(true)}
-                className="border border-red-600 text-red-600 px-6 py-3 rounded-lg"
-              >
-                EMI Calculator
-              </button>
-              <button
-                onClick={() => setShowBookVisit(true)}
-                className="bg-red-600 text-white px-6 py-3 rounded-lg"
-              >
-                BOOK VISIT
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* ================= OVERVIEW ================= */}
-        <section className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Overview</h2>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {Object.entries(car.specs).map(([key, value]) => (
-              <div key={key} className="border rounded-lg p-4">
-                <p className="text-xs text-gray-500 uppercase">
-                  {key.replace(/_/g, " ")}
-                </p>
-                <p className="font-semibold">{String(value)}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ================= FEATURES ================= */}
-        <section className="bg-white rounded-xl shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Features</h2>
-          <ul className="grid md:grid-cols-2 gap-3">
-            {car.features.map((f: string) => (
-              <li key={f} className="flex items-center gap-2">
-                <span className="text-green-600">✔</span> {f}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        {/* ================= PROS & CONS ================= */}
-        <section className="grid md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl shadow p-6">
-            <h3 className="font-semibold mb-3">Pros</h3>
-            <ul className="list-disc pl-5 space-y-2">
-              {car.pros.map((p: string) => (
-                <li key={p}>{p}</li>
-              ))}
-            </ul>
+            <div className="flex justify-between mb-2 items-end"><label className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em]">Down Payment ({downPaymentPercent}%)</label><span className="text-green-600 font-black text-xl">{fmt(downPaymentAmount)}</span></div>
+            <input type="range" min="10" max="80" step="5" value={downPaymentPercent} onChange={(e)=>setDownPaymentPercent(Number(e.target.value))} className="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-green-600"/>
           </div>
 
-          <div className="bg-white rounded-xl shadow p-6">
-            <h3 className="font-semibold mb-3">Cons</h3>
-            <ul className="list-disc pl-5 space-y-2">
-              {car.cons.map((c: string) => (
-                <li key={c}>{c}</li>
-              ))}
-            </ul>
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100 flex flex-col items-center gap-1 shadow-sm">
+            <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.4em] mb-2">Estimated Monthly EMI</p>
+            <p className="text-5xl font-black text-gray-900 tracking-tighter">{fmt(monthlyEMI)}</p>
           </div>
-        </section>
-
-        {/* ================= EXPERT REVIEW ================= */}
-        <section className="bg-white rounded-xl shadow p-6">
-          <h3 className="font-semibold mb-2">Expert Review</h3>
-          <p className="text-gray-600">{car.expert_review?.safety}</p>
-        </section>
+        </div>
       </div>
-
-      {/* ================= MODALS ================= */}
-
-      {/* EMI MODAL */}
-      <EMICalculatorModal
-        isOpen={showEMI}
-        onClose={() => setShowEMI(false)}
-        price={selectedVariant?.price}
-        city="Jaipur"
-      />
-
-      {/* ON ROAD PRICE MODAL */}
-      {showOnRoad && (
-        <div className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-xl max-w-md w-full">
-            <h2 className="font-bold text-lg mb-2">On-Road Price</h2>
-            <p className="text-gray-600">
-              Approx on-road price for {car.name} in Jaipur
-            </p>
-            <p className="text-2xl font-bold mt-3">
-              {(selectedVariant?.price ?? "").replace("*", "")} (approx)
-            </p>
-            <button
-              onClick={() => setShowOnRoad(false)}
-              className="mt-4 text-blue-600"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* BOOK VISIT MODAL */}
-      {showBookVisit && (
-        <div className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-xl max-w-md w-full">
-            <h2 className="font-bold text-lg mb-2">Book Visit</h2>
-            <p className="text-gray-600 mb-3">
-              {car.name} – {selectedVariant?.name}
-            </p>
-            <button
-              onClick={() => setShowBookVisit(false)}
-              className="bg-red-600 text-white px-6 py-3 rounded-lg w-full"
-            >
-              Confirm Visit
-            </button>
-          </div>
-        </div>
-      )}
-    </>
+    </div>
   );
-}
+};
+
+export default EMICalculatorModal;

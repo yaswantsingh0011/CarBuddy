@@ -8,6 +8,10 @@ import {
   FaStar, FaCheckCircle, FaInfoCircle, FaTimes, FaCalendarAlt, FaUser, FaShieldAlt, FaMapMarkerAlt, FaWhatsapp 
 } from 'react-icons/fa';
 
+// Import your Modals
+import OnRoadPriceModal from "@/components/OnRoadPriceModal";
+import EMICalculatorModal from "@/components/EMICalculatorModal";
+
 const TABLES = ["most_searched_cars", "used_cars", "upcoming_cars", "electric_cars"] as const;
 
 export default function CarDetailsPage() {
@@ -20,13 +24,16 @@ export default function CarDetailsPage() {
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  // States for Modals
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showPriceModal, setShowPriceModal] = useState(false);
   const [showEmiModal, setShowEmiModal] = useState(false);
 
+  // ✅ FIX: Ab ye function bas '₹' hatayega. Unit (Lakh/Cr) ko touch nahi karega.
   const formatPrice = (p: any) => {
     if (!p) return "";
-    return p.toString().replace(/[₹\s,*]/g, '').replace(/Lakh/gi, '').trim();
+    // Sirf '₹' aur comma hatao, text (Lakh/Cr) rehne do
+    return p.toString().replace(/[₹]/g, '').trim(); 
   };
 
   useEffect(() => {
@@ -98,7 +105,8 @@ export default function CarDetailsPage() {
                   )}
 
                   <div className="px-2">
-                    <span className="text-4xl font-black leading-none tracking-tighter">₹ {formatPrice(currentPrice)} Lakh</span>
+                    {/* ✅ FIX: Yahan se hardcoded 'Lakh' hata diya hai */}
+                    <span className="text-4xl font-black leading-none tracking-tighter">₹ {formatPrice(currentPrice)}</span>
                     <p className="text-[10px] text-gray-400 font-bold mt-1 uppercase tracking-widest">{isUsedCar ? "*Asking Price (Negotiable)" : "*Ex-showroom price"}</p>
                     {!isUsedCar && (
                       <div onClick={() => setShowPriceModal(true)} className="flex items-center gap-1 text-blue-600 text-[11px] font-black cursor-pointer hover:underline mt-2 uppercase tracking-wide">
@@ -186,7 +194,7 @@ export default function CarDetailsPage() {
                 )}
 
                 {activeTab === "variants" && !isUsedCar && (
-                   <div className="space-y-6">
+                    <div className="space-y-6">
                       <div className="flex items-center justify-between mb-8">
                         <h3 className="text-2xl font-black tracking-tight">Available Variants</h3>
                         <span className="text-[10px] bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-black uppercase">{car.variants?.length || 0} Options</span>
@@ -199,19 +207,19 @@ export default function CarDetailsPage() {
                               <tr key={idx} className="group hover:bg-blue-50/30 transition-colors">
                                 <td className="p-6 font-black text-gray-900">{v.name}<br/><span className="text-[10px] text-blue-600 uppercase font-black tracking-widest">{car.fuel_type}</span></td>
                                 <td className="p-6 text-xs font-bold text-gray-600">{v.specs || `${v.engine} • ${v.transmission}`}</td>
-                                <td className="p-6 font-black text-gray-900">₹ {formatPrice(v.price)} Lakh</td>
+                                {/* ✅ FIX: Yahan se bhi hardcoded 'Lakh' hata diya hai */}
+                                <td className="p-6 font-black text-gray-900">₹ {formatPrice(v.price)}</td>
                                 <td className="p-6 text-right"><button className="px-6 py-2.5 bg-white border border-gray-200 text-gray-900 rounded-full text-[10px] font-black uppercase hover:bg-gray-900 hover:text-white transition-all shadow-sm">View More</button></td>
                               </tr>
                             ))}
                           </tbody>
                         </table>
                       </div>
-                   </div>
+                    </div>
                 )}
 
-                {/* 🔥 NEW REVIEW TAB: Pros & Cons Integrated */}
                 {activeTab === "review" && (
-                   <div className="space-y-12 animate-in fade-in slide-in-from-bottom-5 duration-700">
+                    <div className="space-y-12 animate-in fade-in slide-in-from-bottom-5 duration-700">
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-gray-100 pb-10">
                         <div>
                           <h3 className="text-3xl font-black text-gray-900 tracking-tight">Expert Verdict</h3>
@@ -268,16 +276,34 @@ export default function CarDetailsPage() {
                         </div>
                         <FaStar className="absolute -right-10 -bottom-10 text-white/5 rotate-12" size={240} />
                       </div>
-                   </div>
+                    </div>
                 )}
              </div>
         </div>
       </div>
 
-      {/* MODALS */}
-      {showPriceModal && <InlineOnRoadModal isOpen={showPriceModal} onClose={() => setShowPriceModal(false)} carName={car.name} price={currentPrice} onOpenEMI={() => { setShowPriceModal(false); setShowEmiModal(true); }} onOpenBooking={() => { setShowPriceModal(false); setShowBookingModal(true); }} />}
+      {/* MODALS - REPLACED WITH NEW COMPONENTS */}
+      <OnRoadPriceModal 
+        isOpen={showPriceModal} 
+        onClose={() => setShowPriceModal(false)} 
+        carName={car.name} 
+        price={currentPrice} 
+        city="Jaipur" 
+        onOpenEMI={() => { setShowPriceModal(false); setShowEmiModal(true); }}
+        onOpenBooking={() => { setShowPriceModal(false); setShowBookingModal(true); }}
+        onOpenOffers={() => {}} 
+      />
+
+      <EMICalculatorModal
+        isOpen={showEmiModal}
+        onClose={() => setShowEmiModal(false)}
+        price={currentPrice}
+        carName={car.name}
+        city="Jaipur"
+      />
+
       {showBookingModal && <InlineBookingModal isOpen={showBookingModal} onClose={() => setShowBookingModal(false)} car={car} />}
-      {showEmiModal && <InlineEMICalculator isOpen={showEmiModal} onClose={() => setShowEmiModal(false)} price={currentPrice} carName={car.name} />}
+      
     </div>
   );
 }
@@ -289,7 +315,7 @@ function UsedCarSpecItem({ icon, label, value }: any) {
     <div className="flex items-center justify-between py-6 border-b border-gray-50 last:border-0 group">
       <div className="flex items-center gap-5">
         <span className="text-gray-400 p-3 bg-gray-50 rounded-2xl group-hover:bg-blue-50 group-hover:text-blue-500 transition-all">{icon}</span>
-        <span className="text-[11px] font-black text-gray-400 uppercase tracking-widest">{label}</span>
+        <span className="text-gray-400 font-bold text-[10px] uppercase tracking-widest">{label}</span>
       </div>
       <span className="text-sm font-black text-gray-900">{value}</span>
     </div>
@@ -306,129 +332,6 @@ function OverviewItem({ icon, label, value }: any) {
       <p className="text-xl font-black text-gray-900 leading-tight tracking-tight">{value}</p>
     </div>
   );
-}
-
-function InlineOnRoadModal({ isOpen, onClose, carName, price, onOpenEMI, onOpenBooking }: any) {
-    const parsePrice = (p: any) => {
-        if(!p) return 0;
-        const cleanStr = p.toString().replace(/[₹\s,]/g, '').replace(/Lakh/gi, '').trim();
-        return parseFloat(cleanStr) * 100000;
-    }
-    const exShowroom = parsePrice(price);
-    const rto = Math.round(exShowroom * 0.12); 
-    const insurance = Math.round(exShowroom * 0.045);
-    const other = 8500;
-    const total = exShowroom + rto + insurance + other;
-    const fmt = (n: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n);
-
-    return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-            <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden relative text-gray-900 border border-gray-100">
-                <div className="p-8 border-b flex justify-between items-center bg-gray-50/50">
-                  <div>
-                    <h2 className="text-2xl font-black tracking-tight">{carName}</h2>
-                    <p className="text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">On-Road Est. Breakdown</p>
-                  </div>
-                  <button onClick={onClose} className="bg-white p-3 rounded-full shadow-sm text-gray-400 hover:text-red-500 transition-all"><FaTimes size={18}/></button>
-                </div>
-                <div className="p-8 space-y-5">
-                    <div className="flex justify-between text-sm font-bold text-gray-500"><span>Ex-Showroom Price</span><span className="text-gray-900">{fmt(exShowroom)}</span></div>
-                    <div className="flex justify-between text-sm font-bold text-gray-500"><span>RTO / Registration</span><span className="text-gray-900">{fmt(rto)}</span></div>
-                    <div className="flex justify-between text-sm font-bold text-gray-500 border-b border-gray-100 pb-5"><span>Insurance (Comprehensive)</span><span className="text-gray-900">{fmt(insurance)}</span></div>
-                    <div className="bg-gradient-to-br from-blue-600 to-blue-800 text-white p-8 rounded-3xl flex flex-col items-center gap-1 shadow-xl">
-                        <span className="font-black text-[10px] uppercase tracking-[0.3em] opacity-70">Total On-Road Price</span>
-                        <span className="text-4xl font-black tracking-tighter">{fmt(total)}</span>
-                    </div>
-                </div>
-                <div className="p-8 grid grid-cols-2 gap-4">
-                    <button onClick={onOpenEMI} className="py-4 border-2 border-gray-100 text-gray-900 font-black rounded-2xl text-[10px] uppercase tracking-widest hover:bg-gray-50 transition-all">Check EMI</button>
-                    <button onClick={onOpenBooking} className="py-4 bg-red-600 text-white font-black rounded-2xl text-[10px] uppercase tracking-widest hover:bg-red-700 shadow-xl shadow-red-200 transition-all">Book Visit</button>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-function InlineEMICalculator({ isOpen, onClose, price, carName }: any) {
-    const [tenure, setTenure] = useState(5);
-    const [interestRate, setInterestRate] = useState(9.5);
-    const [downPaymentPercent, setDownPaymentPercent] = useState(20);
-    
-    if(!isOpen) return null;
-
-    const parsePrice = (p: any) => {
-        if (!p) return 0;
-        const cleanStr = p.toString().replace(/[₹\s,]/g, '').replace(/Lakh/gi, '').trim();
-        return parseFloat(cleanStr) * 100000;
-    };
-
-    const exShowroom = parsePrice(price);
-    const onRoadEst = Math.round(exShowroom * 1.15); 
-    const downPaymentAmount = Math.round(onRoadEst * (downPaymentPercent / 100));
-    const loanAmount = onRoadEst - downPaymentAmount;
-
-    const calculateEMI = () => {
-        const principal = loanAmount;
-        const ratePerMonth = (interestRate / 100) / 12;
-        const months = tenure * 12;
-        if (principal <= 0) return 0;
-        const emi = (principal * ratePerMonth * Math.pow(1 + ratePerMonth, months)) / (Math.pow(1 + ratePerMonth, months) - 1);
-        return Math.round(emi);
-    };
-
-    const monthlyEMI = calculateEMI();
-    const fmt = (n: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(n);
-
-    return (
-        <div className="fixed inset-0 z-[150] flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-md animate-in fade-in duration-300">
-            <div className="bg-white w-full sm:max-w-xl sm:rounded-[3rem] rounded-t-[3rem] overflow-hidden shadow-2xl relative h-[95vh] sm:h-auto flex flex-col text-gray-900 border border-gray-100">
-                <div className="bg-[#121a2a] text-white p-8 flex justify-between items-center shrink-0">
-                    <div><h2 className="text-2xl font-black tracking-tight">EMI Calculator</h2><p className="text-blue-400 text-[10px] font-black uppercase mt-1 tracking-widest">{carName}</p></div>
-                    <button onClick={onClose} className="bg-white/10 p-3 rounded-full hover:bg-white/20 transition-all"><FaTimes /></button>
-                </div>
-                
-                <div className="p-8 space-y-10 overflow-y-auto flex-1 scrollbar-hide">
-                    <div className="bg-gray-50 p-6 rounded-3xl flex justify-between items-center border border-gray-100 shadow-inner">
-                        <span className="text-[10px] font-black uppercase text-gray-400 tracking-widest">Est. On-Road Price</span>
-                        <span className="text-xl font-black text-gray-900">{fmt(onRoadEst)}</span>
-                    </div>
-
-                    <div>
-                        <div className="flex justify-between mb-4 items-end">
-                            <label className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em]">Loan Tenure</label>
-                            <span className="text-blue-600 font-black text-xl">{tenure} <span className="text-xs opacity-50">Years</span></span>
-                        </div>
-                        <input type="range" min="1" max="7" step="1" value={tenure} onChange={(e)=>setTenure(Number(e.target.value))} className="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-blue-600"/>
-                    </div>
-
-                    <div>
-                        <div className="flex justify-between mb-4 items-end">
-                            <label className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em]">Down Payment ({downPaymentPercent}%)</label>
-                            <span className="text-green-600 font-black text-xl">{fmt(downPaymentAmount)}</span>
-                        </div>
-                        <input type="range" min="10" max="80" step="5" value={downPaymentPercent} onChange={(e)=>setDownPaymentPercent(Number(e.target.value))} className="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-green-600"/>
-                    </div>
-
-                    <div>
-                        <div className="flex justify-between mb-4 items-end">
-                            <label className="text-[10px] font-black uppercase text-gray-400 tracking-[0.2em]">Interest Rate</label>
-                            <span className="text-gray-900 font-black text-xl">{interestRate}%</span>
-                        </div>
-                        <input type="range" min="7" max="18" step="0.1" value={interestRate} onChange={(e)=>setInterestRate(Number(e.target.value))} className="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-gray-900"/>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-3xl border border-blue-100 flex flex-col items-center gap-1 shadow-sm">
-                        <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.4em] mb-2">Estimated Monthly EMI</p>
-                        <p className="text-5xl font-black text-gray-900 tracking-tighter">{fmt(monthlyEMI)}</p>
-                    </div>
-                </div>
-
-                <div className="p-8 border-t bg-white shrink-0">
-                    <button className="w-full bg-blue-600 text-white py-5 rounded-2xl font-black uppercase text-xs shadow-xl shadow-blue-100 hover:bg-blue-700 transition-all tracking-[0.3em]">Check Finance Eligibility</button>
-                </div>
-            </div>
-        </div>
-    );
 }
 
 function InlineBookingModal({ isOpen, onClose, car }: any) {

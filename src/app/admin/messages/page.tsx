@@ -1,83 +1,142 @@
-import { supabase } from '@/lib/supabaseClient'; // ✅ FIXED: Correct Import
-import { FaEnvelope, FaUser, FaCalendarAlt, FaReply } from 'react-icons/fa';
+import { supabase } from '@/lib/supabaseClient';
+import { 
+  FaEnvelope, 
+  FaCalendarAlt, 
+  FaReply, 
+  FaCar, 
+  FaCommentDots, 
+  FaHandshake, 
+  FaUser 
+} from 'react-icons/fa';
 
-export const revalidate = 0; // Taaki har baar naya data aaye (Real-time feel)
+// Cache bypass karne ke liye
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function MessagesPage() {
-  // ❌ Removed: const supabase = await createClient();
+  
+  // 1. Chaaron tables se parallel data fetch karna
+  const [testDriveRes, contactRes, feedbackRes, partnerRes] = await Promise.all([
+    supabase.from('test_drives').select('*'),
+    supabase.from('contact_submissions').select('*'),
+    supabase.from('feedback').select('*'),
+    supabase.from('partner_inquiries').select('*'),
+  ]);
 
-  // 1. Database se messages fetch karo (Latest pehle)
-  const { data: messages, error } = await supabase
-    .from('contact_submissions')
-    .select('*')
-    .order('created_at', { ascending: false });
+  // 2. Data ko combine karna aur source identify karna
+  const allMessages = [
+    ...(testDriveRes.data || []).map(m => ({ 
+      ...m, 
+      source: 'Test Drive', 
+      icon: <FaCar className="text-orange-500" />,
+      color: 'bg-orange-50 text-orange-600 border-orange-100' 
+    })),
+    ...(contactRes.data || []).map(m => ({ 
+      ...m, 
+      source: 'Contact Us', 
+      icon: <FaEnvelope className="text-blue-500" />,
+      color: 'bg-blue-50 text-blue-600 border-blue-100' 
+    })),
+    ...(feedbackRes.data || []).map(m => ({ 
+      ...m, 
+      source: 'Feedback', 
+      icon: <FaCommentDots className="text-green-500" />,
+      color: 'bg-green-50 text-green-600 border-green-100' 
+    })),
+    ...(partnerRes.data || []).map(m => ({ 
+      ...m, 
+      source: 'Partnership', 
+      icon: <FaHandshake className="text-purple-500" />,
+      color: 'bg-purple-50 text-purple-600 border-purple-100' 
+    })),
+  ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
-  if (error) {
-    return <div className="p-8 text-red-500">Error loading messages: {error.message}</div>;
+  // Error logging
+  if (testDriveRes.error || contactRes.error || feedbackRes.error || partnerRes.error) {
+    console.error("Database Fetch Error:", { testDriveRes: testDriveRes.error, contactRes: contactRes.error });
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="flex items-center justify-between mb-8">
+    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in duration-500">
+      
+      {/* Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-            <h1 className="text-3xl font-bold text-gray-800">User Messages</h1>
-            <p className="text-gray-500 mt-1">Check what your users are saying.</p>
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Unified Inbox</h1>
+          <p className="text-slate-500 font-medium">Monitoring all 4 inquiry channels in real-time.</p>
         </div>
-        <div className="bg-blue-50 text-blue-700 px-4 py-2 rounded-lg font-bold border border-blue-100">
-            Total: {messages?.length || 0}
+        <div className="flex gap-3">
+          <div className="bg-white border border-slate-200 px-6 py-3 rounded-2xl shadow-sm">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Total Inquiries</p>
+            <p className="text-2xl font-black text-slate-800">{allMessages.length}</p>
+          </div>
         </div>
       </div>
 
-      {/* Agar koi message nahi hai */}
-      {messages?.length === 0 ? (
-        <div className="bg-white p-12 text-center rounded-xl border border-dashed border-gray-300">
-            <FaEnvelope className="mx-auto text-4xl text-gray-300 mb-4" />
-            <h3 className="text-xl font-bold text-gray-700">No Messages Yet</h3>
-            <p className="text-gray-500">Wait for users to contact you.</p>
+      {/* Main List */}
+      {allMessages.length === 0 ? (
+        <div className="bg-white py-24 text-center rounded-[2.5rem] border-2 border-dashed border-slate-200">
+          <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <FaEnvelope className="text-slate-200 text-3xl" />
+          </div>
+          <h3 className="text-xl font-bold text-slate-700">Abhi tak koi message nahi hai</h3>
+          <p className="text-slate-400 mt-2 max-w-sm mx-auto text-sm">Jab bhi koi user form bharega, wo automatically yahan reflect hoga.</p>
         </div>
       ) : (
-        <div className="grid gap-6">
-          {messages?.map((msg) => (
-            <div key={msg.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
+        <div className="grid gap-6 pb-12">
+          {allMessages.map((msg, index) => (
+            <div key={index} className="group bg-white border border-slate-200 rounded-[2rem] p-6 hover:shadow-2xl hover:shadow-slate-200/60 transition-all duration-500 relative">
               
-              {/* Header: Name, Email, Date */}
-              <div className="flex flex-col md:flex-row md:items-center justify-between border-b pb-4 mb-4 gap-4">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-slate-900 text-white rounded-full flex items-center justify-center font-bold">
-                        {msg.full_name?.charAt(0).toUpperCase()}
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-gray-800">{msg.full_name}</h3>
-                        <p className="text-sm text-blue-600 flex items-center gap-2">
-                             {msg.email} 
-                             <span className="text-gray-400">•</span> 
-                             {msg.phone_number}
-                        </p>
-                    </div>
+              {/* Source Badge */}
+              <div className={`absolute top-6 right-6 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-tighter border ${msg.color} flex items-center gap-2`}>
+                {msg.icon} {msg.source}
+              </div>
+
+              <div className="flex flex-col md:flex-row gap-8">
+                {/* User Info & Avatar */}
+                <div className="flex items-start gap-4 min-w-[240px]">
+                  <div className="w-14 h-14 bg-slate-900 text-white rounded-[1.2rem] flex items-center justify-center font-bold text-xl shadow-lg shrink-0">
+                    {(msg.full_name || msg.name || 'U').charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-800 text-lg leading-tight group-hover:text-blue-600 transition-colors">
+                      {msg.full_name || msg.name || 'Anonymous User'}
+                    </h4>
+                    <p className="text-sm text-slate-500 font-medium mt-1 truncate max-w-[180px]">{msg.email}</p>
+                    <p className="text-xs text-blue-500 font-bold mt-1 tracking-tight">{msg.phone_number || msg.phone || 'No Phone'}</p>
+                  </div>
                 </div>
-                <div className="text-sm text-gray-500 flex items-center gap-2 bg-gray-50 px-3 py-1 rounded">
+
+                {/* Message Content */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-3 text-[11px] font-bold text-slate-400">
                     <FaCalendarAlt />
                     {new Date(msg.created_at).toLocaleDateString('en-IN', {
-                        day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                      day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
                     })}
+                  </div>
+                  
+                  <div className="bg-slate-50/80 rounded-[1.5rem] p-5 border border-slate-100 group-hover:bg-white group-hover:border-blue-100 transition-all">
+                    {msg.subject && (
+                      <p className="text-[10px] font-black text-blue-600 uppercase mb-2 tracking-widest italic">
+                        Subject: {msg.subject}
+                      </p>
+                    )}
+                    <p className="text-slate-600 text-sm leading-relaxed font-medium italic">
+                      "{msg.message || msg.content || 'No message content provided.'}"
+                    </p>
+                  </div>
+
+                  <div className="mt-4 flex justify-end gap-3 opacity-0 group-hover:opacity-100 transition-all transform translate-y-2 group-hover:translate-y-0">
+                    <a 
+                      href={`mailto:${msg.email}`} 
+                      className="flex items-center gap-2 text-xs font-bold text-slate-600 border border-slate-200 px-5 py-2.5 rounded-xl hover:bg-slate-900 hover:text-white transition-all shadow-sm"
+                    >
+                      <FaReply /> Reply Now
+                    </a>
+                  </div>
                 </div>
               </div>
-
-              {/* Body: Subject & Message */}
-              <div>
-                <h4 className="font-bold text-gray-900 mb-2">Subject: {msg.subject}</h4>
-                <p className="text-gray-600 leading-relaxed bg-gray-50 p-4 rounded-lg border border-gray-100">
-                    {msg.message}
-                </p>
-              </div>
-
-              {/* Footer: Action Buttons (Abhi sirf dikhawa hai) */}
-              <div className="mt-4 flex justify-end">
-                <a href={`mailto:${msg.email}`} className="flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-800 border border-blue-200 px-4 py-2 rounded-lg hover:bg-blue-50 transition">
-                    <FaReply /> Reply via Email
-                </a>
-              </div>
-
             </div>
           ))}
         </div>
