@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { FaPlus, FaEdit, FaTrash, FaImage, FaEllipsisV, FaExternalLinkAlt, FaBolt } from 'react-icons/fa';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function ElectricCarsList() {
   const [cars, setCars] = useState<any[]>([]);
@@ -75,7 +76,7 @@ export default function ElectricCarsList() {
                   <div className="flex items-center gap-4">
                     <div className="w-20 h-14 bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 relative">
                       {car.image_urls?.[0] ? (
-                        <img src={car.image_urls[0]} alt={car.name} className="w-full h-full object-cover" />
+                        <Image src={car.image_urls[0]} alt={car.name} fill className="object-cover" sizes="80px" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-gray-300"><FaImage size={20}/></div>
                       )}

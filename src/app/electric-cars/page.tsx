@@ -28,14 +28,15 @@ function ElectricCarsList() {
   useEffect(() => {
     async function fetchAllElectric() {
       setLoading(true);
+      // ✅ CHANGE 1: Table ka naam 'electric_cars' kar diya hai
       const { data, error } = await supabase
-        .from('cars')
-        .select('*')
-        .ilike('fuelType', 'Electric');
+        .from('electric_cars') 
+        .select('*');
 
       if (error) {
         console.error("Error fetching electric cars:", error.message);
       } else {
+        console.log("Fetched Cars Data:", data); // 👈 Console mein check karne ke liye
         setCars(data || []);
       }
       setLoading(false);
@@ -53,7 +54,7 @@ function ElectricCarsList() {
     return cars.filter((car) => {
       if (budgetFilter === "All" || budgetFilter === "all") return true;
       const range = BUDGET_RANGES.find(r => r.label === budgetFilter);
-      const price = getMinPrice(car.price || car.priceRange);
+      const price = getMinPrice(car.price || car.priceRange || car.price_range); // ✅ Added price_range check
       return range ? (price >= range.min && price <= range.max) : true;
     });
   }, [cars, budgetFilter]);
@@ -113,7 +114,9 @@ function ElectricCarsList() {
                 <ElectricCarCard 
                   key={car.id} 
                   {...car} 
-                  imageUrl={car.image_url || car.images?.[0] || car.imageUrls?.[0]}
+                  // ✅ CHANGE 2: Saare image formats ko support karne ke liye
+                  imageUrl={car.image_urls?.[0] || car.image_url || car.images?.[0]} 
+                  priceRange={car.price_range || car.priceRange} // Pass correct price field
                   onDetailClick={() => router.push(`/car-details/${car.slug}`)}
                 />
               ))}

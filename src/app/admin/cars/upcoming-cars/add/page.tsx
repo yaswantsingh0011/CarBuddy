@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import { FaArrowLeft, FaCar, FaCloudUploadAlt, FaTrash, FaCheckCircle, FaInfoCircle } from 'react-icons/fa';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function AddUpcomingCar() {
   const router = useRouter();
@@ -143,7 +144,7 @@ export default function AddUpcomingCar() {
                 
                 {previews.map((src, i) => (
                   <div key={i} className="relative aspect-[4/3] rounded-[32px] overflow-hidden border-4 border-white shadow-sm">
-                    <img src={src} className="w-full h-full object-cover" />
+                    <Image src={src} alt="" fill className="object-cover" sizes="(max-width: 768px) 50vw, 300px" />
                     <button type="button" onClick={() => {
                         setPreviews(previews.filter((_, idx) => idx !== i));
                         setImages(images.filter((_, idx) => idx !== i));

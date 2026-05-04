@@ -1,282 +1,196 @@
 "use client";
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { supabase } from '@/lib/supabaseClient';
+import { ArrowLeft, Save, Car, Wrench, Star, Image as ImageIcon, Upload, X, Loader2, Plus, ListTree } from 'lucide-react';
+import NextImage from 'next/image';
 
-import React, { useEffect, useState } from "react";
-import { useRouter, useParams } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
-import {
-  ArrowLeft,
-  Save,
-  Car,
-  Wrench,
-  Star,
-  Image as ImageIcon,
-  Upload,
-  X,
-  Loader2,
-  Plus,
-  ListTree,
-} from "lucide-react";
-
-export default function EditCarPage() {
+export default function AddCarPage() {
   const router = useRouter();
-  const { id } = useParams();
-
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [activeTab, setActiveTab] = useState("basic");
+  const [activeTab, setActiveTab] = useState('basic');
 
-  const [formData, setFormData] = useState<any>({
-    name: "",
-    brand: "",
-    price: "",
-    category: "SUV",
-    fuelType: "",
-    launchDate: "",
-    images: ["", "", "", ""],
-    specs: {
-      engine: "",
-      power: "",
-      torque: "",
-      transmission: "",
-      mileage: "",
-      bootSpace: "",
-      groundClearance: "",
-    },
-    variants: [{ name: "", price: "", engine: "", transmission: "" }],
-    features: "",
-    pros: "",
-    cons: "",
+  const [formData, setFormData] = useState({
+    name: '', brand: '', price: '', category: 'SUV', fuelType: '', section: 'most-searched',
+    launchDate: new Date().toISOString().split('T')[0],
+    images: ['', '', '', ''],
+    specs: { engine: '', power: '', torque: '', transmission: '', mileage: '', bootSpace: '', groundClearance: '' },
+    variants: [{ name: '', price: '', engine: '', transmission: '' }], 
+    features: '', pros: '', cons: ''
   });
 
-  // ================= FETCH DATA =================
-  useEffect(() => {
-    if (!id) return;
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    const fileName = `${Math.random()}.${file.name.split('.').pop()}`;
+    const filePath = `cars/${fileName}`;
+    const { error: uploadError } = await supabase.storage.from('car-images').upload(filePath, file);
+    if (uploadError) { alert(uploadError.message); setUploading(false); return; }
+    const { data } = supabase.storage.from('car-images').getPublicUrl(filePath);
+    if (data) {
+      const newImages = [...formData.images];
+      newImages[index] = data.publicUrl;
+      setFormData({ ...formData, images: newImages });
+    }
+    setUploading(false);
+  };
 
-    const fetchCar = async () => {
-      const { data, error } = await supabase
-        .from("most_searched_cars")
-        .select("*")
-        .eq("id", id)
-        .single();
+  const addVariant = () => {
+    setFormData({ ...formData, variants: [...formData.variants, { name: '', price: '', engine: '', transmission: '' }] });
+  };
 
-      if (error) {
-        alert(error.message);
-        return;
-      }
+  const removeVariant = (index: number) => {
+    setFormData({ ...formData, variants: formData.variants.filter((_, i) => i !== index) });
+  };
 
-      setFormData({
-        name: data.name || "",
-        brand: data.brand || "",
-        price: data.price || "",
-        category: data.category || "SUV",
-        fuelType: data.fuel_type || "",
-        launchDate: data.created_at
-          ? new Date(data.created_at).toISOString().split("T")[0]
-          : "",
-        images: data.images?.length ? data.images : ["", "", "", ""],
-        specs: data.specs || {},
-        variants: data.variants?.length
-          ? data.variants
-          : [{ name: "", price: "", engine: "", transmission: "" }],
-        features: Array.isArray(data.features)
-          ? data.features.join(", ")
-          : "",
-        pros: Array.isArray(data.pros) ? data.pros.join(", ") : "",
-        cons: Array.isArray(data.cons) ? data.cons.join(", ") : "",
-      });
+  const handleVariantChange = (index: number, field: string, value: string) => {
+    const newVariants = [...formData.variants];
+    (newVariants[index] as any)[field] = value;
+    setFormData({ ...formData, variants: newVariants });
+  };
 
-      setLoading(false);
-    };
-
-    fetchCar();
-  }, [id]);
-
-  // ================= HANDLERS =================
   const handleInputChange = (e: any, section?: string, field?: string) => {
     const { name, value } = e.target;
     if (section && field) {
-      setFormData((prev: any) => ({
-        ...prev,
-        [section]: { ...prev[section], [field]: value },
-      }));
+      setFormData((prev: any) => ({ ...prev, [section]: { ...prev[section], [field]: value } }));
     } else {
-      setFormData((prev: any) => ({ ...prev, [name]: value }));
+      setFormData(prev => ({ ...prev, [name]: value }));
     }
   };
 
-  const handleVariantChange = (i: number, key: string, value: string) => {
-    const v = [...formData.variants];
-    v[i][key] = value;
-    setFormData({ ...formData, variants: v });
-  };
-
-  const addVariant = () =>
-    setFormData({
-      ...formData,
-      variants: [...formData.variants, { name: "", price: "", engine: "", transmission: "" }],
-    });
-
-  const removeVariant = (i: number) =>
-    setFormData({
-      ...formData,
-      variants: formData.variants.filter((_: any, idx: number) => idx !== i),
-    });
-
-  const handleSubmit = async () => {
-    setSaving(true);
-
-    const payload = {
-      name: formData.name,
-      brand: formData.brand,
-      price: formData.price,
-      category: formData.category,
-      fuel_type: formData.fuelType,
-      images: formData.images.filter((i: string) => i),
-      specs: formData.specs,
-      variants: formData.variants,
-      features: formData.features.split(",").map((i: string) => i.trim()),
-      pros: formData.pros.split(",").map((i: string) => i.trim()),
-      cons: formData.cons.split(",").map((i: string) => i.trim()),
-      created_at: formData.launchDate,
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name) return alert("Car Name toh dalo bhai!");
+    setLoading(true);
+    const finalData = {
+      name: formData.name, brand: formData.brand, price: formData.price, category: formData.category,
+      fuel_type: formData.fuelType, section: formData.section,
+      images: formData.images.filter(img => img !== ''),
+      specs: formData.specs, variants: formData.variants,
+      features: formData.features.split(',').map(item => item.trim()).filter(i => i !== ""),
+      pros: formData.pros.split(',').map(item => item.trim()).filter(i => i !== ""),
+      cons: formData.cons.split(',').map(item => item.trim()).filter(i => i !== ""),
+      created_at: formData.launchDate
     };
-
-    const { error } = await supabase
-      .from("most_searched_cars")
-      .update(payload)
-      .eq("id", id);
-
+    const { error } = await supabase.from('most_searched_cars').insert([finalData]);
     if (error) alert(error.message);
-    else {
-      alert("Car Updated Successfully");
-      router.push("/admin/cars/most-searched");
-    }
-
-    setSaving(false);
+    else { alert("Car Added!"); router.push('/admin/cars/most-searched'); }
+    setLoading(false);
   };
 
-  if (loading)
-    return (
-      <div className="min-h-screen flex items-center justify-center text-gray-400 font-bold">
-        Loading...
-      </div>
-    );
-
-  // ================= UI =================
   return (
-    <div className="min-h-screen bg-gray-50 p-10 text-black">
-      <div className="max-w-5xl mx-auto">
-        <div className="flex justify-between mb-8">
-          <button onClick={() => router.back()} className="flex items-center gap-2 text-gray-500">
-            <ArrowLeft size={18} /> Back
-          </button>
-          <button
-            onClick={handleSubmit}
-            disabled={saving}
-            className="bg-black text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2"
-          >
-            <Save size={18} /> {saving ? "Saving..." : "Save"}
-          </button>
+    <div className="min-h-screen bg-gray-50 p-10 font-sans text-black">
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-between items-center mb-8">
+          <button onClick={() => router.back()} className="text-gray-400 font-bold uppercase text-xs flex items-center gap-2 transition-colors hover:text-black"><ArrowLeft size={18} /> Back</button>
+          <button onClick={handleSubmit} disabled={loading || uploading} className="bg-[#0F172A] text-white px-8 py-3.5 rounded-2xl font-bold flex items-center gap-2 hover:shadow-xl transition-all"><Save size={20} /> {loading ? 'Saving...' : 'Publish Car'}</button>
         </div>
-
-        <h1 className="text-4xl font-black mb-8">Edit {formData.name}</h1>
-
-        {/* TABS */}
-        <div className="flex gap-3 bg-white p-2 rounded-2xl mb-8">
+        <h1 className="text-4xl font-black text-[#0F172A] mb-10 tracking-tight">Add New Car</h1>
+        
+        <div className="flex gap-3 mb-8 bg-white p-2 rounded-[24px] shadow-sm border border-gray-100 overflow-x-auto">
           {[
-            { id: "basic", label: "Basic Info", icon: <Car size={16} /> },
-            { id: "images", label: "Gallery", icon: <ImageIcon size={16} /> },
-            { id: "variants", label: "Variants", icon: <ListTree size={16} /> },
-            { id: "specs", label: "Technical", icon: <Wrench size={16} /> },
-            { id: "extra", label: "Features", icon: <Star size={16} /> },
-          ].map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setActiveTab(t.id)}
-              className={`px-5 py-3 rounded-xl font-bold flex items-center gap-2 ${
-                activeTab === t.id ? "bg-black text-white" : "text-gray-400"
-              }`}
-            >
-              {t.icon} {t.label}
-            </button>
+            { id: 'basic', label: 'Basic Info', icon: <Car size={18}/> },
+            { id: 'images', label: 'Gallery', icon: <ImageIcon size={18}/> },
+            { id: 'variants', label: 'Variants', icon: <ListTree size={18}/> },
+            { id: 'specs', label: 'Technical', icon: <Wrench size={18}/> },
+            { id: 'extra', label: 'Features', icon: <Star size={18}/> }
+          ].map(tab => (
+            <button key={tab.id} type="button" onClick={() => setActiveTab(tab.id)} className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all whitespace-nowrap ${activeTab === tab.id ? 'bg-[#0F172A] text-white shadow-md' : 'text-gray-400 hover:bg-gray-50'}`}>{tab.icon} {tab.label}</button>
           ))}
         </div>
 
-        {/* CONTENT */}
-        <div className="bg-white p-10 rounded-3xl min-h-[400px]">
-
-          {activeTab === "basic" && (
-            <div className="grid grid-cols-2 gap-6">
-              <Input label="Car Name" name="name" value={formData.name} onChange={handleInputChange} />
-              <Input label="Brand" name="brand" value={formData.brand} onChange={handleInputChange} />
-              <Input label="Price" name="price" value={formData.price} onChange={handleInputChange} />
-              <Input label="Fuel Type" name="fuelType" value={formData.fuelType} onChange={handleInputChange} />
+        <div className="bg-white p-10 rounded-[40px] shadow-sm border border-gray-100 min-h-[450px]">
+          {activeTab === 'basic' && (
+            <div className="grid grid-cols-2 gap-8 animate-in fade-in duration-500">
+              <Input label="Car Name" name="name" placeholder="e.g. Hyundai Exter" onChange={handleInputChange} />
+              <Input label="Brand" name="brand" placeholder="e.g. Hyundai" onChange={handleInputChange} />
+              <Input label="Price Range" name="price" placeholder="₹ 6.13 - 10.28 Lakh*" onChange={handleInputChange} />
+              <Input label="Fuel Type" name="fuelType" placeholder="Petrol / Diesel" onChange={handleInputChange} />
+              <Input label="Publish Date" name="launchDate" type="date" value={formData.launchDate} onChange={handleInputChange} />
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-black uppercase text-gray-400 ml-1 tracking-widest">Category</label>
+                <select name="category" onChange={handleInputChange} className="p-4 bg-gray-50 rounded-2xl border-0 font-bold outline-none"><option>SUV</option><option>MUV</option><option>Sedan</option><option>Luxury</option><option>Hatchback</option></select>
+              </div>
             </div>
           )}
 
-          {activeTab === "images" && (
-            <div className="grid grid-cols-2 gap-6">
-              {formData.images.map((img: string, i: number) => (
-                <div key={i} className="h-40 border rounded-xl flex items-center justify-center">
-                  {img ? <img src={img} className="h-full object-cover rounded-xl" /> : "No Image"}
+          {activeTab === 'images' && (
+            <div className="grid grid-cols-2 gap-6 animate-in fade-in duration-500">
+              {formData.images.map((url, idx) => (
+                <div key={idx} className="flex flex-col gap-2">
+                  <label className="text-[10px] font-black uppercase text-gray-400 ml-1">Photo {idx + 1}</label>
+                  <div className="relative group h-40">
+                    {url ? (
+                      <div className="w-full h-full bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 relative">
+                        <NextImage src={url} alt="" fill className="object-cover" sizes="(max-width: 768px) 50vw, 200px" />
+                        <button type="button" onClick={() => { const n = [...formData.images]; n[idx] = ''; setFormData({...formData, images: n}); }} className="absolute top-2 right-2 p-1.5 bg-white rounded-full text-red-500 shadow-md opacity-0 group-hover:opacity-100 transition-opacity"><X size={14}/></button>
+                      </div>
+                    ) : (
+                      <label className="w-full h-full bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-100 transition-all">
+                        {uploading ? <Loader2 className="animate-spin text-gray-400" /> : <Upload className="text-gray-400" />}
+                        <span className="text-[10px] font-bold mt-2 text-gray-400 uppercase">Upload</span>
+                        <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, idx)} />
+                      </label>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
           )}
 
-          {activeTab === "variants" && (
-            <div className="space-y-4">
-              {formData.variants.map((v: any, i: number) => (
-                <div key={i} className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-xl">
-                  <input value={v.name} onChange={(e) => handleVariantChange(i, "name", e.target.value)} placeholder="Variant" />
-                  <input value={v.price} onChange={(e) => handleVariantChange(i, "price", e.target.value)} placeholder="Price" />
+          {activeTab === 'variants' && (
+            <div className="space-y-6 animate-in fade-in duration-500">
+              <div className="flex justify-between items-center">
+                <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest">Car Variants</p>
+                <button type="button" onClick={addVariant} className="flex items-center gap-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-100 transition-all"><Plus size={14} /> Add Variant</button>
+              </div>
+              {formData.variants.map((variant, idx) => (
+                <div key={idx} className="bg-gray-50 p-6 rounded-[24px] relative border border-gray-100 grid grid-cols-2 gap-4">
+                  <button type="button" onClick={() => removeVariant(idx)} className="absolute -top-2 -right-2 p-1.5 bg-red-100 text-red-600 rounded-full hover:bg-red-200 shadow-sm"><X size={14}/></button>
+                  <input placeholder="Variant Name" className="bg-white p-3 rounded-xl border-0 text-sm font-bold outline-none text-black" value={variant.name} onChange={(e) => handleVariantChange(idx, 'name', e.target.value)} />
+                  <input placeholder="Price" className="bg-white p-3 rounded-xl border-0 text-sm font-bold outline-none text-black" value={variant.price} onChange={(e) => handleVariantChange(idx, 'price', e.target.value)} />
+                  <input placeholder="Engine" className="bg-white p-3 rounded-xl border-0 text-sm font-bold outline-none text-black" value={variant.engine} onChange={(e) => handleVariantChange(idx, 'engine', e.target.value)} />
+                  <input placeholder="Transmission" className="bg-white p-3 rounded-xl border-0 text-sm font-bold outline-none text-black" value={variant.transmission} onChange={(e) => handleVariantChange(idx, 'transmission', e.target.value)} />
                 </div>
               ))}
-              <button onClick={addVariant} className="text-blue-600 font-bold">
-                + Add Variant
-              </button>
             </div>
           )}
 
-          {activeTab === "specs" && (
-            <div className="grid grid-cols-2 gap-6">
-              {Object.keys(formData.specs).map((k) => (
-                <Input
-                  key={k}
-                  label={k}
-                  value={formData.specs[k]}
-                  onChange={(e: any) => handleInputChange(e, "specs", k)}
-                />
+          {activeTab === 'specs' && (
+            <div className="grid grid-cols-2 gap-6 animate-in fade-in duration-500">
+              {Object.keys(formData.specs).map((key) => (
+                <Input key={key} label={key.replace(/([A-Z])/g, ' $1')} placeholder={`Enter ${key}`} value={(formData.specs as any)[key]} onChange={(e:any) => handleInputChange(e, 'specs', key)} />
               ))}
             </div>
           )}
 
-          {activeTab === "extra" && (
-            <div className="space-y-6">
-              <Textarea label="Features" name="features" value={formData.features} onChange={handleInputChange} />
-              <Textarea label="Pros" name="pros" value={formData.pros} onChange={handleInputChange} />
-              <Textarea label="Cons" name="cons" value={formData.cons} onChange={handleInputChange} />
+          {activeTab === 'extra' && (
+            <div className="space-y-8 animate-in fade-in duration-500">
+              <Textarea label="Features (Comma separated)" name="features" placeholder="Sunroof, Dashcam, 6 Airbags..." onChange={handleInputChange} />
+              <div className="grid grid-cols-2 gap-6">
+                <Textarea label="Pros" name="pros" placeholder="Smooth engine..." onChange={handleInputChange} bg="bg-green-50/50" />
+                <Textarea label="Cons" name="cons" placeholder="Boxy rear design..." onChange={handleInputChange} bg="bg-red-50/50" />
+              </div>
             </div>
           )}
-
         </div>
       </div>
     </div>
   );
 }
 
-/* ========= SMALL COMPONENTS ========= */
-
 const Input = ({ label, ...props }: any) => (
-  <div>
-    <label className="text-xs font-bold text-gray-400">{label}</label>
-    <input {...props} className="w-full p-4 rounded-xl bg-gray-50 font-bold" />
+  <div className="flex flex-col gap-2">
+    <label className="text-[10px] font-black uppercase text-gray-400 ml-1 tracking-widest">{label}</label>
+    <input {...props} className="p-4 bg-gray-50 rounded-2xl border-0 focus:ring-2 focus:ring-blue-100 outline-none font-bold transition-all text-black" />
   </div>
 );
 
-const Textarea = ({ label, ...props }: any) => (
-  <div>
-    <label className="text-xs font-bold text-gray-400">{label}</label>
-    <textarea {...props} rows={3} className="w-full p-4 rounded-xl bg-gray-50 font-bold" />
+const Textarea = ({ label, bg = "bg-gray-50", ...props }: any) => (
+  <div className="flex flex-col gap-2">
+    <label className="text-[10px] font-black uppercase text-gray-400 ml-1 tracking-widest">{label}</label>
+    <textarea {...props} rows={3} className={`p-4 ${bg} rounded-2xl border-0 outline-none font-bold transition-all text-black`} />
   </div>
 );

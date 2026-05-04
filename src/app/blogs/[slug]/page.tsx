@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-// ✅ FIXED: Sahi file import ki
-import { supabase } from '@/lib/supabaseClient'; 
+import { createServerSupabaseClient } from '@/lib/supabaseServer';
 import type { Metadata } from 'next';
 
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
 // ✅ 1. SEO Metadata (Database se)
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  // ❌ Removed: const supabase = await createClient();
+  const supabase = createServerSupabaseClient();
   
   const { data: blog } = await supabase
     .from('blogs')
@@ -31,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  // ❌ Removed: const supabase = await createClient();
+  const supabase = createServerSupabaseClient();
 
   // ✅ 2. Current Blog Fetch Karo
   const { data: blog } = await supabase

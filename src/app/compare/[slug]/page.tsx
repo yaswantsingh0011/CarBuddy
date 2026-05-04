@@ -148,7 +148,7 @@ export default function ComparisonPage() {
                 <tbody className="divide-y divide-gray-5">
                 {[
                     { label: "Fuel Type", v1: car1.fuel_type, v2: car2.fuel_type },
-                    { label: "Engine Capacity", v1: car1.specs?.engine, v2: car2.specs?.engine },
+                    { label: "Engine", v1: car1.specs?.engine, v2: car2.specs?.engine },
                     { label: "Max Power", v1: car1.specs?.power, v2: car2.specs?.power },
                     { label: "Mileage (ARAI)", v1: car1.specs?.mileage, v2: car2.specs?.mileage },
                     { label: "Transmission", v1: car1.specs?.transmission, v2: car2.specs?.transmission },

@@ -1,222 +1,73 @@
-"use client";
+// ✅ SERVER COMPONENT — No "use client"
+import { createServerSupabaseClient } from "@/lib/supabaseServer";
+import HomeClient from "./HomeClient";
 
-import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
+async function getData() {
+  const supabase = createServerSupabaseClient();
 
-/* ---------------- COMPONENTS ---------------- */
-import Hero from "@/components/Hero";
-import MostSearchedSection from "@/components/MostSearchedSection";
-import UsedCarsSection from "@/components/UsedCarsSection";
-import BrandSection from "@/components/BrandSection";
-import UpcomingCarCard from "@/components/UpcomingCarCard";
-import ElectricCarCard from "@/components/ElectricCarCard";
-import VisualStoriesSection from "@/components/VisualStoriesSection";
-import LatestStories from "@/components/LatestStories";
-import BlogSection from "@/components/BlogSection";
-// 🔥 नया कम्पैरिजन सेक्शन इम्पोर्ट किया
-import CarComparisonSection from "@/components/CarComparisonSection";
+  const [electric, used, mostSearched, upcoming, blogs, news] = await Promise.all([
+    supabase.from("electric_cars").select("*").order("created_at", { ascending: false }),
+    supabase.from("used_cars").select("*").order("created_at", { ascending: false }),
+    supabase.from("most_searched_cars").select("*").order("created_at", { ascending: false }),
+    supabase.from("upcoming_cars").select("*").order("created_at", { ascending: false }),
+    supabase.from("blogs").select("*").order("published_date", { ascending: false }),
+    supabase.from("news").select("*").order("published_date", { ascending: false }),
+  ]);
 
-/* ---------------- ICONS ---------------- */
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-
-/* ---------------- DATA ---------------- */
-import {
-  getElectricCars,
-  getUsedCars,
-  getMostSearchedCars,
-  getUpcomingCars,
-  getBlogs,
-  getNews,
-} from "@/lib/homeData";
-
-export default function HomePage() {
-  const router = useRouter();
-
-  /* ---------------- STATE ---------------- */
-  const [electricCars, setElectricCars] = useState<any[]>([]);
-  const [usedCars, setUsedCars] = useState<any[]>([]);
-  const [mostSearchedCars, setMostSearchedCars] = useState<any[]>([]);
-  const [upcomingCars, setUpcomingCars] = useState<any[]>([]);
-  const [blogs, setBlogs] = useState<any[]>([]);
-  const [news, setNews] = useState<any[]>([]);
-
-  /* ---------------- REFS ---------------- */
-  const upcomingRef = useRef<HTMLDivElement>(null);
-  const electricRef = useRef<HTMLDivElement>(null);
-
-  /* ---------------- FETCH ---------------- */
-  useEffect(() => {
-    getElectricCars().then(setElectricCars);
-    getUsedCars().then(setUsedCars);
-    getMostSearchedCars().then(setMostSearchedCars);
-    getUpcomingCars().then(setUpcomingCars);
-    getBlogs().then(setBlogs);
-    getNews().then(setNews);
-  }, []);
-
-  /* ---------------- HANDLERS ---------------- */
-  const slideLeft = (ref: any) =>
-    ref.current?.scrollBy({ left: -400, behavior: "smooth" });
-
-  const slideRight = (ref: any) =>
-    ref.current?.scrollBy({ left: 400, behavior: "smooth" });
-
-  const scrollToMostSearched = () => {
-    document
-      .getElementById("most-searched")
-      ?.scrollIntoView({ behavior: "smooth" });
+  const pickFirstImage = (row: any): string => {
+    const arr = row?.image_urls || row?.images || row?.imageUrls || row?.image_url || row?.imageUrl || [];
+    if (typeof arr === "string") return arr.trim() ? arr : "/cars/placeholder.jpg";
+    if (Array.isArray(arr) && arr.length > 0) {
+      const first = String(arr[0] ?? "").trim();
+      return first ? first : "/cars/placeholder.jpg";
+    }
+    return "/cars/placeholder.jpg";
   };
 
-  /* ---------------- JSX ---------------- */
-  return (
-    <main className="bg-gray-50 min-h-screen overflow-x-hidden">
-      {/* HERO SECTION */}
-      <Hero onExploreClick={scrollToMostSearched} />
+  const safeText = (v: any, fallback = "") =>
+    typeof v === "string" && v.trim() ? v : fallback;
 
-      {/* MOST SEARCHED SECTION */}
-      <section id="most-searched" className="pt-10">
-        <MostSearchedSection cars={mostSearchedCars} />
-      </section>
+  return {
+    electricCars: (electric.data || []).map((row: any) => ({
+      id: row.id, name: row.name, slug: row.slug,
+      priceRange: safeText(row.price_range, "Price on Request"),
+      imageUrl: pickFirstImage(row),
+      images: row.image_urls || row.images || [],
+      fuelType: safeText(row.fuel_type, "Electric"),
+      specs: row.specs || {}, features: row.features || [],
+    })),
+    usedCars: (used.data || []).map((row: any) => ({
+      id: row.id, name: row.name, slug: row.slug,
+      priceRange: safeText(row.price, "Price on Request"),
+      brand: row.brand || "", kms: row.kms || "",
+      model_year: row.model_year || "", fuel_type: row.fuel_type || "",
+      owner: row.owner || "", location: row.location || "",
+      imageUrl: pickFirstImage(row), images: row.images || [],
+    })),
+    mostSearchedCars: (mostSearched.data || []).map((row: any) => ({
+      id: row.id, name: row.name, brand: row.brand, slug: row.slug || "",
+      priceRange: safeText(row.price, safeText(row.price_range, "Price on Request")),
+      category: row.category || "", fuelType: row.fuel_type || "",
+      imageUrl: pickFirstImage(row), images: row.images || [],
+      specs: row.specs || {}, features: row.features || [],
+    })),
+    upcomingCars: (upcoming.data || []).map((row: any) => ({
+      id: row.id, name: row.name, slug: row.slug,
+      priceRange: safeText(row.price_range, "Price on Request"),
+      launchDate: safeText(row.location, "Expected Soon"),
+      imageUrl: pickFirstImage(row),
+    })),
+    blogs: blogs.data || [],
+    news: news.data || [],
+  };
+}
 
-      {/* USED CARS SECTION */}
-      <UsedCarsSection cars={usedCars} />
+export const metadata = {
+  title: "CarBuddy — Find Your Next Car | New, Used & Electric Cars",
+  description: "India's trusted car marketplace. Compare new cars, buy used cars, explore electric vehicles. Best deals on CarBuddy.",
+};
 
-      {/* 🔥 CAR COMPARISON SECTION: पुरानी गाड़ियों के बाद तुलना का विकल्प */}
-      <CarComparisonSection />
-
-      {/* BRANDS SECTION */}
-      <BrandSection />
-
-      {/* UPCOMING CARS SECTION */}
-      {upcomingCars.length > 0 && (
-        <section className="w-full px-4 md:px-8 lg:px-12 py-12 relative group">
-          <div className="mb-8">
-            <h2 className="text-3xl font-extrabold text-gray-900">
-              Upcoming Cars
-            </h2>
-            <p className="text-xs uppercase tracking-widest text-gray-400 mt-1">
-              Expected launches
-            </p>
-          </div>
-
-          <button
-            onClick={() => slideLeft(upcomingRef)}
-            className="absolute left-4 top-[60%] -translate-y-1/2 z-20 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 hidden group-hover:block"
-          >
-            <FaChevronLeft size={20} />
-          </button>
-
-          <div
-            ref={upcomingRef}
-            className="flex gap-6 overflow-x-auto hide-scrollbar scroll-smooth pb-6"
-          >
-            {upcomingCars.map((car) => (
-              <div key={car.id} className="w-[360px] flex-shrink-0">
-                <UpcomingCarCard
-                  slug={car.slug}
-                  name={car.name}
-                  priceRange={car.priceRange}
-                  launchDate={car.launchDate}
-                  imageUrl={car.imageUrl}
-                  onAlertClick={() =>
-                    alert(`Notification set for ${car.name}`)
-                  }
-                />
-              </div>
-            ))}
-          </div>
-
-          <button
-            onClick={() => slideRight(upcomingRef)}
-            className="absolute right-4 top-[60%] -translate-y-1/2 z-20 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 hidden group-hover:block"
-          >
-            <FaChevronRight size={20} />
-          </button>
-        </section>
-      )}
-
-      {/* ELECTRIC CARS SECTION */}
-      {electricCars.length > 0 && (
-        <section className="w-full px-4 md:px-8 lg:px-12 py-12 relative group">
-          <div className="mb-8">
-            <h2 className="text-3xl font-extrabold text-gray-900">
-              Electric Cars
-            </h2>
-            <p className="text-xs uppercase tracking-widest text-gray-400 mt-1">
-              Go electric
-            </p>
-          </div>
-
-          <button
-            onClick={() => slideLeft(electricRef)}
-            className="absolute left-4 top-[60%] -translate-y-1/2 z-20 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 hidden group-hover:block"
-          >
-            <FaChevronLeft size={20} />
-          </button>
-
-          <div
-            ref={electricRef}
-            className="flex gap-6 overflow-x-auto hide-scrollbar scroll-smooth pb-6"
-          >
-            {electricCars.map((car) => (
-              <div key={car.id} className="w-[360px] flex-shrink-0">
-                <ElectricCarCard
-                  id={car.id}
-                  name={car.name}
-                  priceRange={car.priceRange}
-                  imageUrl={car.imageUrl}
-                  fuelType="Electric"
-                  specs={car.specs}
-                  features={car.features}
-                  images={car.images}
-                  onOfferClick={() => {}}
-                  onDetailClick={() =>
-                    router.push(`/car-details/${car.slug}`)
-                  }
-                />
-              </div>
-            ))}
-          </div>
-
-          <button
-            onClick={() => slideRight(electricRef)}
-            className="absolute right-4 top-[60%] -translate-y-1/2 z-20 bg-white p-3 rounded-full shadow-lg hover:bg-gray-100 hidden group-hover:block"
-          >
-            <FaChevronRight size={20} />
-          </button>
-        </section>
-      )}
-
-      {/* VISUAL STORIES SECTION */}
-      <VisualStoriesSection />
-
-      {/* LATEST AUTO NEWS SECTION */}
-      {news.length > 0 && (
-        <section className="w-full px-4 md:px-8 lg:px-12 py-12">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-3xl font-extrabold text-gray-900">
-                Latest Auto News
-              </h2>
-              <p className="text-xs uppercase tracking-widest text-gray-400 mt-1">
-                Automobile updates & launches
-              </p>
-            </div>
-
-            <button
-              onClick={() => router.push("/news")}
-              className="text-sm font-semibold text-blue-600 hover:underline"
-            >
-              View All →
-            </button>
-          </div>
-
-          <LatestStories newsData={news.slice(0, 3)} />
-        </section>
-      )}
-
-      {/* BLOGS SECTION */}
-      {blogs.length > 0 && <BlogSection blogs={blogs} />}
-    </main>
-  );
+export default async function HomePage() {
+  const data = await getData();
+  return <HomeClient {...data} />;
 }

@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import { FaArrowLeft, FaCar, FaCloudUploadAlt, FaTrash, FaSave, FaInfoCircle } from 'react-icons/fa';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function EditUpcomingCar({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -153,8 +154,8 @@ export default function EditUpcomingCar({ params }: { params: Promise<{ id: stri
                 {/* Existing Images */}
                 {existingImages.map((src, i) => (
                   <div key={`exist-${i}`} className="relative aspect-[4/3] rounded-[32px] overflow-hidden border-4 border-white shadow-sm group">
-                    <img src={src} className="w-full h-full object-cover" />
-                    <button type="button" onClick={() => setExistingImages(existingImages.filter((_, idx) => idx !== i))} className="absolute top-3 right-3 p-2 bg-red-500 text-white rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Image src={src} alt="" fill className="object-cover" sizes="(max-width: 768px) 50vw, 200px" />
+                    <button type="button" onClick={() => setExistingImages(existingImages.filter((_, idx) => idx !== i))} className="absolute top-3 right-3 p-2 bg-red-500 text-white rounded-xl opacity-0 group-hover:opacity-100 transition-opacity z-10">
                       <FaTrash size={12}/>
                     </button>
                   </div>
@@ -162,7 +163,7 @@ export default function EditUpcomingCar({ params }: { params: Promise<{ id: stri
                 {/* New Previews */}
                 {previews.map((src, i) => (
                   <div key={`new-${i}`} className="relative aspect-[4/3] rounded-[32px] overflow-hidden border-4 border-blue-100 shadow-sm">
-                    <img src={src} className="w-full h-full object-cover" />
+                    <Image src={src} alt="" fill className="object-cover" sizes="(max-width: 768px) 50vw, 200px" />
                     <div className="absolute top-2 left-2 bg-blue-500 text-white text-[8px] px-2 py-1 rounded-full font-black uppercase">New</div>
                   </div>
                 ))}

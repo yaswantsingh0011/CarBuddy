@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import { ArrowLeft, Save, Car, Wrench, Star, Image as ImageIcon, Upload, X, Loader2, Plus, ListTree } from 'lucide-react';
+import NextImage from 'next/image';
 
 export default function AddCarPage() {
   const router = useRouter();
@@ -123,7 +124,7 @@ export default function AddCarPage() {
                   <div className="relative group h-40">
                     {url ? (
                       <div className="w-full h-full bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 relative">
-                        <img src={url} className="w-full h-full object-cover" alt="" />
+                        <NextImage src={url} alt="" fill className="object-cover" sizes="(max-width: 768px) 50vw, 200px" />
                         <button type="button" onClick={() => { const n = [...formData.images]; n[idx] = ''; setFormData({...formData, images: n}); }} className="absolute top-2 right-2 p-1.5 bg-white rounded-full text-red-500 shadow-md opacity-0 group-hover:opacity-100 transition-opacity"><X size={14}/></button>
                       </div>
                     ) : (

@@ -1,7 +1,7 @@
 'use server';
 
-// ✅ FIXED: Sahi file import ki
-import { supabase } from '@/lib/supabaseClient';
+// ✅ FIXED: Server action mein server client use hoga, browser client nahi
+import { createServerSupabaseClient } from '@/lib/supabaseServer';
 
 /* ---------- utils ---------- */
 function slugify(text: string) {
@@ -14,8 +14,8 @@ function slugify(text: string) {
 
 /* ---------- ADD BRAND ---------- */
 export async function addBrand(formData: FormData) {
-  // ❌ Removed: const supabase = await createClient();
-  
+  const supabase = createServerSupabaseClient();
+
   const name = formData.get('name') as string;
   const file = formData.get('logo') as File;
 
@@ -46,7 +46,7 @@ export async function addBrand(formData: FormData) {
 
 /* ---------- UPDATE BRAND ---------- */
 export async function updateBrand(formData: FormData) {
-  // ❌ Removed: const supabase = await createClient();
+  const supabase = createServerSupabaseClient();
 
   const id = formData.get('id') as string;
   const name = formData.get('name') as string;
@@ -85,7 +85,7 @@ export async function updateBrand(formData: FormData) {
 
 /* ---------- DELETE BRAND (SOFT) ---------- */
 export async function deleteBrand(formData: FormData) {
-  // ❌ Removed: const supabase = await createClient();
+  const supabase = createServerSupabaseClient();
 
   const id = formData.get('id') as string;
   if (!id) return;

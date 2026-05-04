@@ -1,17 +1,24 @@
 // Final Clean Footer (Updated Full Width)
 import React from 'react';
 import Link from 'next/link';
-// ✅ FIXED: Naya import use kiya hai
-import { supabase } from '@/lib/supabaseClient'; 
+// ✅ FIXED: Server-side client use karo
+import { createServerSupabaseClient } from '@/lib/supabaseServer';
 import { Award, ShoppingCart, Tag, GitCompare, MapPin, Phone, Mail } from 'lucide-react'; 
 import { FaFacebookF, FaYoutube, FaInstagram, FaApple, FaGooglePlay } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6'; 
 
 const Footer = async () => {
-  // ❌ Removed: const supabase = await createClient(); (Ab direct imported wala use hoga)
+  // ✅ FIXED: Server-side client banao
+  const supabase = createServerSupabaseClient();
   
-  // Data fetching
-  const { data: settings } = await supabase.from('site_settings').select('*').single();
+  // ✅ FIXED: Error handling add ki — footer crash nahi karega
+  let settings = null;
+  try {
+    const { data } = await supabase.from('site_settings').select('*').single();
+    settings = data;
+  } catch (error) {
+    console.error('Footer: site_settings fetch failed:', error);
+  }
 
   const siteName = settings?.site_name || "CarBuddy";
   const contactEmail = settings?.contact_email || "support@carbuddy.com";
@@ -20,11 +27,9 @@ const Footer = async () => {
 
   return (
     <footer className="bg-white border-t border-gray-100 text-gray-700">
-      {/* CHANGE: max-w-[1200px] hata diya, w-full aur padding badha di */}
       <div className="w-full px-4 md:px-8 lg:px-12 py-14">
 
         {/* TOP GRID */}
-        {/* CHANGE: Gap badhaya gap-16 taaki items khule-khule dikhein */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16">
 
           {/* 1. ABOUT CARBUDDY */}

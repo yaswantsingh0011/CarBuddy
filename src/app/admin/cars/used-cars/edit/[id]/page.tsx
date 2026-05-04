@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import { ArrowLeft, Save, Car, Wrench, Image as ImageIcon, Upload, X, Loader2, Gauge } from 'lucide-react';
+import NextImage from 'next/image';
 
 export default function EditUsedCarPage() {
   const router = useRouter();
@@ -161,8 +162,8 @@ export default function EditUsedCarPage() {
                 <div key={idx} className="relative group h-48 bg-gray-50 rounded-[30px] border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden">
                   {img ? (
                     <>
-                      <img src={img} className="w-full h-full object-cover" alt="" />
-                      <button onClick={() => { const n = [...formData.images]; n[idx] = ''; setFormData({...formData, images: n}); }} className="absolute top-4 right-4 p-2 bg-red-500 text-white rounded-xl shadow-lg"><X size={16}/></button>
+                      <div className="relative w-full h-full"><NextImage src={img} alt="" fill className="object-cover" sizes="(max-width: 768px) 50vw, 300px" /></div>
+                      <button onClick={() => { const n = [...formData.images]; n[idx] = ''; setFormData({...formData, images: n}); }} className="absolute top-4 right-4 p-2 bg-red-500 text-white rounded-xl shadow-lg z-10"><X size={16}/></button>
                     </>
                   ) : (
                     <label className="cursor-pointer flex flex-col items-center gap-2">

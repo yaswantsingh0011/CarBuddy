@@ -1,10 +1,8 @@
-// ✅ FIXED: Sahi file import ki hai
-import { supabase } from '@/lib/supabaseClient';
+// ✅ FIXED: Server-side utility — server client use hoga
+import { createServerSupabaseClient } from '@/lib/supabaseServer';
 
 export async function getActiveBrands() {
-  // ❌ Removed: const supabase = await createClient();
-  
-  // Ab direct imported supabase object use hoga
+  const supabase = createServerSupabaseClient();
   const { data, error } = await supabase
     .from('brands')
     .select('*')

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { MoreVertical, Plus, Edit, Trash, Eye, Zap, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabaseClient';
 
 export default function UsedCarsListing() {
@@ -67,7 +68,9 @@ export default function UsedCarsListing() {
                 <div className="flex items-center gap-10 flex-1">
                   <span className="text-[#0F172A] font-black text-2xl opacity-10 group-hover:opacity-40 w-10">{String(index + 1).padStart(2, '0')}</span>
                   <div className="flex items-center gap-6">
-                    <img src={car.images?.[0] || "/cars/placeholder.jpg"} className="w-24 h-16 rounded-[18px] object-cover border border-gray-100 shadow-sm" />
+                    <div className="relative w-24 h-16 rounded-[18px] overflow-hidden border border-gray-100 shadow-sm">
+                      <Image src={car.images?.[0] || "/cars/placeholder.jpg"} alt={car.name} fill className="object-cover" sizes="96px" />
+                    </div>
                     <div>
                       <h3 className="font-bold text-[#0F172A] text-xl">{car.name}</h3>
                       <div className="flex gap-2 items-center mt-1.5 text-[10px] font-black uppercase text-gray-500">

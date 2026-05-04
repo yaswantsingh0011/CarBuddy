@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-// ✅ FIXED: Sahi file import ki hai
-import { supabase } from '@/lib/supabaseClient';
+import { createServerSupabaseClient } from '@/lib/supabaseServer';
 import type { Metadata } from 'next';
 import { FaCalendarAlt, FaUser, FaArrowLeft, FaCheckCircle, FaShareAlt } from 'react-icons/fa';
 
@@ -13,9 +12,7 @@ interface Props {
 // ✅ SEO Metadata
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  
-  // ❌ Removed: const supabase = await createClient();
-  // Ab direct imported supabase use hoga
+  const supabase = createServerSupabaseClient();
   const { data: news } = await supabase.from('news').select('title, excerpt, image_url').eq('slug', slug).single();
   
   if (!news) return { title: 'News Not Found' };
@@ -28,8 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function NewsDetailPage({ params }: Props) {
   const { slug } = await params;
-  
-  // ❌ Removed: const supabase = await createClient();
+  const supabase = createServerSupabaseClient();
 
   // News fetch karo database se slug use karke
   const { data: news, error } = await supabase.from('news').select('*').eq('slug', slug).single();
