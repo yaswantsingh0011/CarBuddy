@@ -1,36 +1,54 @@
 @import "tailwindcss";
+
+/* ✅ Tailwind v4 dark mode — class strategy */
+@variant dark (&:where(.dark, .dark *));
+
+/* ===== LIGHT MODE (default) ===== */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #111827;
+  --card-bg: #f9fafb;
+  --card-border: #e5e7eb;
+  --header-bg: #ffffff;
+  --header-border: #e5e7eb;
+  --input-bg: #f3f4f6;
+  --input-border: #d1d5db;
+  --muted: #6b7280;
+  --accent: #2563eb;
 }
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+/* ===== DARK MODE ===== */
+:root.dark {
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --header-bg: #0f172a;
+  --header-border: #1e293b;
+  --input-bg: #1e293b;
+  --input-border: #334155;
+  --muted: #94a3b8;
+  --accent: #3b82f6;
 }
-html,
-body {
+
+html, body {
   max-width: 100%;
   overflow-x: hidden;
 }
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
 }
-/* 🔥 HIDE ALL HORIZONTAL SCROLLBARS */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-/* ✅ FIXED: hide-scrollbar alias add kiya */
+
+/* ===== SCROLLBAR HIDE ===== */
+.no-scrollbar::-webkit-scrollbar,
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+.no-scrollbar,
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
