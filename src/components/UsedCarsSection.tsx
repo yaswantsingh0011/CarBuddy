@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import ElectricCarCard from "./ElectricCarCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { supabase } from "@/lib/supabaseClient"; // ✅ Supabase import
+import { supabase } from "@/lib/supabaseClient";
 
 const PRICE_TABS = [
   { label: "CarBuddy Used Cars", key: "all" },
@@ -18,7 +18,6 @@ const PRICE_TABS = [
 
 function parsePrice(price?: string) {
   if (!price) return 0;
-  // Handle both "5.5 Lakh" and "550000" formats
   const match = price.replace(/,/g, "").match(/([\d.]+)/);
   return match ? parseFloat(match[1]) : 0;
 }
@@ -27,9 +26,33 @@ export default function UsedCarsSection({ cars: staticCars }: { cars: any[] }) {
   const router = useRouter();
   const sliderRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState("all");
-  const [dbCars, setDbCars] = useState<any[]>([]); // ✅ State for Supabase cars
+  const [dbCars, setDbCars] = useState<any[]>([]);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // ✅ Fetching user listed cars from Supabase
+  // ✅ Detect touch device
+  useEffect(() => {
+    setIsMobile("ontouchstart" in window || navigator.maxTouchPoints > 0);
+  }, []);
+
+  // ✅ Track scroll for arrow disable/enable
+  const updateScrollState = () => {
+    const el = sliderRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 10);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
+  };
+
+  useEffect(() => {
+    const el = sliderRef.current;
+    if (!el) return;
+    updateScrollState();
+    el.addEventListener("scroll", updateScrollState, { passive: true });
+    return () => el.removeEventListener("scroll", updateScrollState);
+  }, [activeTab]);
+
+  // Supabase fetch — same as before
   useEffect(() => {
     const fetchUserCars = async () => {
       const { data, error } = await supabase
@@ -42,13 +65,13 @@ export default function UsedCarsSection({ cars: staticCars }: { cars: any[] }) {
         const formatted = data.map((car) => ({
           id: car.id,
           name: `${car.brand} ${car.model}`,
-          slug: car.id, // User cars use ID as slug
+          slug: car.id,
           priceRange: `${(car.price / 100000).toFixed(2)} Lakh`,
           imageUrl: car.images?.[0] || "/cars/placeholder.jpg",
           fuelType: car.fuel_type,
           specs: `${car.km_driven.toLocaleString()} km • ${car.transmission}`,
           features: [car.location, "User Listed"],
-          isUserCar: true
+          isUserCar: true,
         }));
         setDbCars(formatted);
       }
@@ -56,19 +79,16 @@ export default function UsedCarsSection({ cars: staticCars }: { cars: any[] }) {
     fetchUserCars();
   }, []);
 
-  // ✅ Merge Static and DB Cars
   const allCars = [...dbCars, ...staticCars];
 
   const slideLeft = () =>
     sliderRef.current?.scrollBy({ left: -320, behavior: "smooth" });
-
   const slideRight = () =>
     sliderRef.current?.scrollBy({ left: 320, behavior: "smooth" });
 
   const handleCardClick = (car: any) => {
     if (car.isUserCar) {
-      // User listed cars ke liye alag detail page route agar banaya hai toh
-      router.push(`/marketplace/${car.id}`); 
+      router.push(`/marketplace/${car.id}`);
     } else {
       router.push(`/car-details/${car.slug}`);
     }
@@ -76,7 +96,6 @@ export default function UsedCarsSection({ cars: staticCars }: { cars: any[] }) {
 
   const filteredCars = allCars.filter((car) => {
     const price = parsePrice(car.priceRange);
-
     switch (activeTab) {
       case "under5": return price > 0 && price < 5;
       case "5to10": return price >= 5 && price < 10;
@@ -89,6 +108,12 @@ export default function UsedCarsSection({ cars: staticCars }: { cars: any[] }) {
 
   const displayCars = activeTab === "all" ? filteredCars.slice(0, 10) : filteredCars;
 
+  // ✅ Mobile pe hamesha visible, desktop pe hidden md:flex
+  const arrowBase = "absolute top-[65%] z-10 bg-white p-3 rounded-full shadow transition-all border hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed items-center justify-center";
+  const arrowClass = isMobile
+    ? `${arrowBase} flex`
+    : `${arrowBase} hidden md:flex`;
+
   return (
     <section className="container mx-auto px-4 pt-12 relative group">
       <div className="flex justify-between items-end mb-4">
@@ -96,7 +121,7 @@ export default function UsedCarsSection({ cars: staticCars }: { cars: any[] }) {
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Featured Used Cars</h2>
           <p className="text-sm text-gray-500 mt-1">Verified pre-owned cars for you</p>
         </div>
-        <Link 
+        <Link
           href={`/used-cars?budget=${activeTab}`}
           className="text-sm font-bold text-blue-600 hover:text-blue-800 hover:underline flex items-center gap-1 transition-colors"
         >
@@ -104,6 +129,7 @@ export default function UsedCarsSection({ cars: staticCars }: { cars: any[] }) {
         </Link>
       </div>
 
+      {/* Price Tabs */}
       <div className="flex gap-6 text-sm font-medium border-b border-gray-200 mb-6 overflow-x-auto no-scrollbar">
         {PRICE_TABS.map((tab) => (
           <button
@@ -114,13 +140,24 @@ export default function UsedCarsSection({ cars: staticCars }: { cars: any[] }) {
             }`}
           >
             {tab.label}
-            {activeTab === tab.key && <span className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-red-600" />}
+            {activeTab === tab.key && (
+              <span className="absolute left-0 -bottom-[1px] w-full h-[2px] bg-red-600" />
+            )}
           </button>
         ))}
       </div>
 
-      <button onClick={slideLeft} className="absolute left-0 top-[65%] z-10 bg-white p-3 rounded-full shadow hidden md:flex hover:bg-gray-100 transition-all border"><FaChevronLeft /></button>
+      {/* ✅ Left Arrow */}
+      <button
+        onClick={slideLeft}
+        disabled={!canScrollLeft}
+        aria-label="Scroll left"
+        className={`${arrowClass} left-0`}
+      >
+        <FaChevronLeft />
+      </button>
 
+      {/* Cards */}
       <div ref={sliderRef} className="flex overflow-x-auto space-x-6 pb-4 scroll-smooth no-scrollbar">
         {displayCars.map((car) => (
           <div
@@ -129,12 +166,12 @@ export default function UsedCarsSection({ cars: staticCars }: { cars: any[] }) {
             onClick={() => handleCardClick(car)}
           >
             <div className="relative">
-               {car.isUserCar && (
-                 <span className="absolute top-2 right-2 z-10 bg-green-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold shadow-sm">
-                   USER LISTED
-                 </span>
-               )}
-               <ElectricCarCard
+              {car.isUserCar && (
+                <span className="absolute top-2 right-2 z-10 bg-green-600 text-white text-[10px] px-2 py-0.5 rounded-full font-bold shadow-sm">
+                  USER LISTED
+                </span>
+              )}
+              <ElectricCarCard
                 id={car.id}
                 name={car.name}
                 priceRange={car.priceRange}
@@ -150,11 +187,21 @@ export default function UsedCarsSection({ cars: staticCars }: { cars: any[] }) {
         ))}
 
         {displayCars.length === 0 && (
-          <div className="w-full text-center py-10 text-gray-400">No used cars found in this budget.</div>
+          <div className="w-full text-center py-10 text-gray-400">
+            No used cars found in this budget.
+          </div>
         )}
       </div>
 
-      <button onClick={slideRight} className="absolute right-0 top-[65%] z-10 bg-white p-3 rounded-full shadow hover:bg-gray-100 transition-all border"><FaChevronRight /></button>
+      {/* ✅ Right Arrow */}
+      <button
+        onClick={slideRight}
+        disabled={!canScrollRight}
+        aria-label="Scroll right"
+        className={`${arrowClass} right-0`}
+      >
+        <FaChevronRight />
+      </button>
     </section>
   );
 }
